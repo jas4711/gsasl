@@ -1,37 +1,37 @@
-# Traditional Chinese translation for gsasl.
-# Copyright (C) 2004, 05, 06 Free Software Foundation, Inc.
+# Hungarian translation for gsasl.
+# Copyright (C) 2014 Free Software Foundation, Inc.
 # This file is distributed under the same license as the gsasl package.
-# Meng Jie <zuxyhere@eastday.com>, 2004, 05.
-# Wei-Lun Chao <bluebat@member.fsf.org>, 2006, 2013.
 #
+# Balázs Úr <urbalazs@gmail.com>, 2014.
 msgid ""
 msgstr ""
 "Project-Id-Version: gsasl 1.7.4\n"
 "Report-Msgid-Bugs-To: bug-gsasl@gnu.org\n"
 "POT-Creation-Date: 2012-05-16 00:55+0200\n"
-"PO-Revision-Date: 2013-02-12 23:45+0800\n"
-"Last-Translator: Wei-Lun Chao <bluebat@member.fsf.org>\n"
-"Language-Team: Chinese (traditional) <zh-l10n@linux.org.tw>\n"
-"Language: zh_TW\n"
+"PO-Revision-Date: 2014-06-26 22:51+0200\n"
+"Last-Translator: Balázs Úr <urbalazs@gmail.com>\n"
+"Language-Team: Hungarian <translation-team-hu@lists.sourceforge.net>\n"
+"Language: hu\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Plural-Forms: nplurals=1; plural=0;\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+"X-Generator: Lokalize 1.5\n"
 
 #: src/imap.c:76 src/smtp.c:79
 #, c-format
 msgid "Chose SASL mechanisms:\n"
-msgstr "選擇 SASL 機制：\n"
+msgstr "SASL mechanizmus választása:\n"
 
 #: src/imap.c:106 src/smtp.c:113 src/gsasl.c:206
 #, c-format
 msgid "Using mechanism:\n"
-msgstr "使用機制：\n"
+msgstr "Mechanizmus használata:\n"
 
 #: src/imap.c:180
 #, c-format
 msgid "error: server did not return a token\n"
-msgstr "錯誤：伺服器並未回傳字組\n"
+msgstr "hiba: a kiszolgáló nem adott vissza tokent\n"
 
 #: src/smtp.c:192
 #, c-format
@@ -39,230 +39,230 @@ msgid ""
 "error: could not parse server data:\n"
 "%s\n"
 msgstr ""
-"錯誤：無法剖析伺服器資料：\n"
+"hiba: nem sikerült feldolgozni a kiszolgáló adatait:\n"
 "%s\n"
 
 #: src/gsasl.c:178
 #, c-format
 msgid "Choose SASL mechanism:\n"
-msgstr "選擇 SASL 機制：\n"
+msgstr "SASL mechanizmus kiválasztása:\n"
 
 #: src/gsasl.c:187
 #, c-format
 msgid "Input list of SASL mechanisms supported by server:\n"
-msgstr "輸入伺服器所支援的 SASL 機制清單：\n"
+msgstr "A kiszolgáló által támogatott SASL mechanizmusok bemeneti listája:\n"
 
 #: src/gsasl.c:223
 #, c-format
 msgid "Output from server:\n"
-msgstr "伺服器的輸出：\n"
+msgstr "Kimenet a kiszolgálóról:\n"
 
 #: src/gsasl.c:225
 #, c-format
 msgid "Output from client:\n"
-msgstr "客戶端的輸出：\n"
+msgstr "Kimenet a kliensről:\n"
 
 #: src/gsasl.c:272
 #, c-format
 msgid "Try `%s --help' for more information.\n"
-msgstr "嘗試 %s --help 以獲得更多資訊。\n"
+msgstr "További információkért próbálja a(z) „%s --help” parancsot.\n"
 
 #: src/gsasl.c:327
 #, c-format
 msgid "missing argument"
-msgstr "缺少引數"
+msgstr "hiányzó argumentum"
 
 #: src/gsasl.c:334
 #, c-format
 msgid "need both --x509-cert-file and --x509-key-file"
-msgstr "既需要 --x509-cert-file 也需要 --x509-key-file"
+msgstr "a --x509-cert-file és a --x509-key-file is szükséges"
 
 #: src/gsasl.c:338
 #, c-format
 msgid "cannot use both --starttls and --no-starttls"
-msgstr "不能同時使用 --starttls 和 --no-starttls"
+msgstr "nem használható együtt a --starttls és a --no-starttls"
 
 #: src/gsasl.c:341
 #, c-format
 msgid "cannot use both --smtp and --imap"
-msgstr "不能同時使用 --smtp 和 --imap"
+msgstr "nem használható együtt a --smtp és a --imap"
 
 #: src/gsasl.c:407
 #, c-format
 msgid "initialization failure: %s"
-msgstr "初始化失敗：%s"
+msgstr "előkészítési hiba: %s"
 
 #: src/gsasl.c:422
 #, c-format
 msgid "error listing mechanisms: %s"
-msgstr "列出機制時發生錯誤：%s"
+msgstr "hiba a mechanizmusok listázásakor: %s"
 
 #: src/gsasl.c:429
 #, c-format
 msgid "This client supports the following mechanisms:\n"
-msgstr "這個客戶端支援以下機制：\n"
+msgstr "Ez a kliens a következő mechanizmusokat támogatja:\n"
 
 #: src/gsasl.c:432
 #, c-format
 msgid "This server supports the following mechanisms:\n"
-msgstr "這個伺服器支援以下機制：\n"
+msgstr "Ez a kiszolgáló a következő mechanizmusokat támogatja:\n"
 
 #: src/gsasl.c:494
 #, c-format
 msgid "GnuTLS global initialization failed: %s"
-msgstr "GnuTLS 全域初始化失敗：%s"
+msgstr "a GnuTLS globális előkészítése nem sikerült: %s"
 
 #: src/gsasl.c:499
 #, c-format
 msgid "GnuTLS initialization failed: %s"
-msgstr "GnuTLS 初始化失敗：%s"
+msgstr "a GnuTLS előkészítése nem sikerült: %s"
 
 #: src/gsasl.c:504
 #, c-format
 msgid "setting GnuTLS defaults failed: %s"
-msgstr "設定 GnuTLS 預設值失敗：%s"
+msgstr "a GnuTLS alapértelmezések beállítása nem sikerült: %s"
 
 #: src/gsasl.c:510
 #, c-format
 msgid "allocating anonymous GnuTLS credential: %s"
-msgstr "配置匿名 GnuTLS 憑據：%s"
+msgstr "névtelen GnuTLS hitelesítési adatok lefoglalása: %s"
 
 #: src/gsasl.c:515
 #, c-format
 msgid "setting anonymous GnuTLS credential: %s"
-msgstr "設定匿名 GnuTLS 憑據：%s"
+msgstr "névtelen GnuTLS hitelesítési adatok beállítása: %s"
 
 #: src/gsasl.c:520
 #, c-format
 msgid "allocating X.509 GnuTLS credential: %s"
-msgstr "配置 X.509 GnuTLS 憑據：%s"
+msgstr "X.509 GnuTLS hitelesítési adatok lefoglalása: %s"
 
 #: src/gsasl.c:528
 #, c-format
 msgid "loading X.509 GnuTLS credential: %s"
-msgstr "載入 X.509 GnuTLS 憑據：%s"
+msgstr "X.509 GnuTLS hitelesítési adatok betöltése: %s"
 
 #: src/gsasl.c:536
 #, c-format
 msgid "no X.509 CAs found: %s"
-msgstr "找不到 X.509 CA：%s"
+msgstr "X.509 CA-k nem találhatók: %s"
 
 #: src/gsasl.c:539
 #, c-format
 msgid "no X.509 CAs found"
-msgstr "找不到 X.509 CA"
+msgstr "X.509 CA-k nem találhatók"
 
 #: src/gsasl.c:545
 #, c-format
 msgid "setting X.509 GnuTLS credential: %s"
-msgstr "設定 X.509 GnuTLS 憑據：%s"
+msgstr "X.509 GnuTLS hitelesítési adatok beállítása: %s"
 
 #: src/gsasl.c:556
 #, c-format
 msgid "setting GnuTLS cipher priority (%s): %s\n"
-msgstr "設定 GnuTLS 密碼優先權 (%s)：%s\n"
+msgstr "GnuTLS titkosító prioritás (%s) beállítása: %s\n"
 
 #: src/gsasl.c:568
 #, c-format
 msgid "GnuTLS handshake failed: %s"
-msgstr "GnuTLS 交握失敗：%s"
+msgstr "a GnuTLS kézfogás nem sikerült: %s"
 
 #: src/gsasl.c:577
 #, c-format
 msgid "verifying peer certificate: %s"
-msgstr "驗證節點憑證：%s"
+msgstr "a partner tanúsítványának ellenőrzése: %s"
 
 #: src/gsasl.c:581
 #, c-format
 msgid "server certificate is not trusted"
-msgstr "伺服器憑證不可信"
+msgstr "a kiszolgáló tanúsítványa nem megbízható"
 
 #: src/gsasl.c:585
 #, c-format
 msgid "server certificate hasn't got a known issuer"
-msgstr "伺服器憑證發行者不明"
+msgstr "a kiszolgáló tanúsítványának nincs ismert kibocsátója"
 
 #: src/gsasl.c:588
 #, c-format
 msgid "server certificate has been revoked"
-msgstr "伺服器憑證已被吊銷"
+msgstr "a kiszolgáló tanúsítványát visszavonták"
 
 #: src/gsasl.c:592
 #, c-format
 msgid "could not verify server certificate (rc=%d)"
-msgstr "無法驗證伺服器憑證(rc=%d)"
+msgstr "nem sikerült ellenőrizni a kiszolgáló tanúsítványát (rc=%d)"
 
 #: src/gsasl.c:603
 #, c-format
 msgid "getting channel binding failed: %s"
-msgstr "提取頻道繫結失敗：%s"
+msgstr "a csatornakötés beszerzése nem sikerült: %s"
 
 #: src/gsasl.c:633
 #, c-format
 msgid "Cannot find mechanism...\n"
-msgstr "找不到機制…\n"
+msgstr "Nem található a mechanizmus…\n"
 
 #: src/gsasl.c:650
 #, c-format
 msgid "mechanism unavailable: %s"
-msgstr "機制無法使用：%s"
+msgstr "a mechanizmus nem érhető el: %s"
 
 #: src/gsasl.c:678
 #, c-format
 msgid "Enter base64 authentication data from client (press RET if none):\n"
-msgstr "輸入客戶端傳送之 base64 編碼的應用程式資料(如果沒有，請按輸入鍵)：\n"
+msgstr "Adja meg a base64 hitelesítési adatokat a kliensről (ha nincs, nyomjon ENTER-t):\n"
 
 #: src/gsasl.c:681
 #, c-format
 msgid "Enter base64 authentication data from server (press RET if none):\n"
-msgstr "輸入伺服器傳送之 base64 編碼的應用程式資料(如果沒有，請按輸入鍵)：\n"
+msgstr "Adja meg a base64 hitelesítési adatokat a kiszolgálóról (ha nincs, nyomjon ENTER-t):\n"
 
 #: src/gsasl.c:691
 #, c-format
 msgid "server error"
-msgstr "伺服器錯誤"
+msgstr "kiszolgálóhiba"
 
 #: src/gsasl.c:699
 #, c-format
 msgid "mechanism error: %s"
-msgstr "機制錯誤：%s"
+msgstr "mechanizmushiba: %s"
 
 #: src/gsasl.c:705
 #, c-format
 msgid "Server authentication finished (client trusted)...\n"
-msgstr "伺服器認證完成(客戶端可信)…\n"
+msgstr "A kiszolgáló hitelesítése befejeződött (a kliens megbízható)…\n"
 
 #: src/gsasl.c:708
 #, c-format
 msgid "Client authentication finished (server trusted)...\n"
-msgstr "客戶端認證完成(伺服器可信)…\n"
+msgstr "A kliens hitelesítése befejeződött (a kiszolgáló megbízható)…\n"
 
 #: src/gsasl.c:733
 #, c-format
 msgid "Enter application data (EOF to finish):\n"
-msgstr "輸入應用程式資料(用 EOF 結束輸入)：\n"
+msgstr "Adja meg az alkalmazás adatait (fájl vége a befejezéshez):\n"
 
 #: src/gsasl.c:804
 #, c-format
 msgid "Base64 encoded application data to send:\n"
-msgstr "要傳送之 Base64 編碼的應用程式資料：\n"
+msgstr "A küldendő base64 kódolású alkalmazás adatok:\n"
 
 #: src/gsasl.c:850
 #, c-format
 msgid "SASL record too large: %zu\n"
-msgstr "SASL 記錄太大：%zu\n"
+msgstr "A SASL rekord túl nagy: %zu\n"
 
 #: src/gsasl.c:874
 #, c-format
 msgid "encoding error: %s"
-msgstr "編碼錯誤：%s"
+msgstr "kódolási hiba: %s"
 
 #: src/gsasl.c:879
 #, c-format
 msgid "Session finished...\n"
-msgstr "作業階段結束…\n"
+msgstr "A munkamenet befejeződött…\n"
 
 #: src/gsasl.c:895
 #, c-format
 msgid "terminating GnuTLS session failed: %s"
-msgstr "終止 GnuTLS 作業階段失敗：%s"
+msgstr "a GnuTLS munkamenet megszakítása nem sikerült: %s"
