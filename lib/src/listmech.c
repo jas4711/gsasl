@@ -1,5 +1,5 @@
 /* listmech.c --- List active client and server mechanisms.
- * Copyright (C) 2002-2012 Simon Josefsson
+ * Copyright (C) 2002-2014 Simon Josefsson
  *
  * This file is part of GNU SASL Library.
  *

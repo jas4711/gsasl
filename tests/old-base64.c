@@ -1,5 +1,5 @@
 /* old-base64.c --- Test the base64 functions, using old callback API.
- * Copyright (C) 2002-2012 Simon Josefsson
+ * Copyright (C) 2002-2014 Simon Josefsson
  *
  * This file is part of GNU SASL.
  *

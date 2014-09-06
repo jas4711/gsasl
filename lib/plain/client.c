@@ -1,5 +1,5 @@
 /* client.c --- SASL mechanism PLAIN as defined in RFC 2595, client side.
- * Copyright (C) 2002-2012 Simon Josefsson
+ * Copyright (C) 2002-2014 Simon Josefsson
  *
  * This file is part of GNU SASL Library.
  *

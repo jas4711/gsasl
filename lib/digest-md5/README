@@ -1,5 +1,5 @@
 DIGEST-MD5 README -- Notes on the implementation
-Copyright (C) 2004-2012 Simon Josefsson
+Copyright (C) 2004-2014 Simon Josefsson
 See the end for copying conditions.
 
 This directory hold an implementation of DIGEST-MD5.
