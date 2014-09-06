@@ -43,12 +43,14 @@ AC_CONFIG_HEADERS([config.h])
 # Checks for programs.
 AC_PROG_CC
 gl_EARLY
+m4_pattern_allow([AM_PROG_AR])
+AM_PROG_AR
 AC_LIBTOOL_WIN32_DLL
 AC_PROG_LIBTOOL
 
 # Internationalization.
 AM_GNU_GETTEXT([external])
-AM_GNU_GETTEXT_VERSION([0.18.1])
+AM_GNU_GETTEXT_VERSION([0.19.2])
 
 # ANONYMOUS
 AC_ARG_ENABLE(anonymous,
