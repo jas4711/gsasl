@@ -510,6 +510,7 @@ lib/anonymous/mechinfo.o
 lib/anonymous/server.lo
 lib/anonymous/server.o
 lib/autom4te.cache/
+lib/build-aux/ar-lib
 lib/build-aux/compile
 lib/build-aux/config.guess
 lib/build-aux/config.sub
@@ -518,6 +519,7 @@ lib/build-aux/install-sh
 lib/build-aux/ltmain.sh
 lib/build-aux/mdate-sh
 lib/build-aux/missing
+lib/build-aux/test-driver
 lib/build-aux/texinfo.tex
 lib/config.h
 lib/config.h.in
@@ -763,6 +765,7 @@ lib/login/mechinfo.o
 lib/login/server.lo
 lib/login/server.o
 lib/m4/codeset.m4
+lib/m4/extern-inline.m4
 lib/m4/fcntl-o.m4
 lib/m4/gettext.m4
 lib/m4/glibc2.m4
@@ -944,6 +947,7 @@ lib/tests/test-error
 lib/tests/test-error.o
 libtool
 m4/codeset.m4
+m4/extern-inline.m4
 m4/fcntl-o.m4
 m4/gettext.m4
 m4/glibc2.m4
@@ -1078,7 +1082,7 @@ windows/gsasl-*-x86.zip.sig
 windows/inst-x64/
 windows/inst-x86-kfw322/
 windows/inst-x86/
-windows/kfw322x86/
 windows/kfw322sdkx86/
+windows/kfw322x86/
 windows/src/
 windows/tmp/
