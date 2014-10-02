@@ -303,7 +303,7 @@ sub dump_section {
 #  parameters => %parameter descriptions
 #  sectionlist => @list of sections
 #  sections => %descriont descriptions
-#  
+#
 
 sub just_highlight {
     my $contents = join "\n", @_;
@@ -1062,7 +1062,7 @@ foreach $file (@ARGV) {
 
 		$state = 0;
 	    }
-    
+
 	}
     }
 
