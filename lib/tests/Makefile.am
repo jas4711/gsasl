@@ -25,3 +25,5 @@ LDADD = $(LTLIBINTL)
 
 TESTS = test-error
 check_PROGRAMS = test-error
+
+LOG_COMPILER=$(VALGRIND)
