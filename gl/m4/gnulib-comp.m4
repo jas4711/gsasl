@@ -1,5 +1,5 @@
 # DO NOT EDIT! GENERATED AUTOMATICALLY!
-# Copyright (C) 2002-2014 Free Software Foundation, Inc.
+# Copyright (C) 2002-2015 Free Software Foundation, Inc.
 #
 # This file is free software; you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
@@ -45,6 +45,7 @@ AC_DEFUN([gl_EARLY],
   # Code from module alloca-opt-tests:
   # Code from module arpa_inet:
   # Code from module arpa_inet-tests:
+  # Code from module assure:
   # Code from module autobuild:
   AB_INIT
   # Code from module binary-io:
@@ -137,6 +138,8 @@ AC_DEFUN([gl_EARLY],
   # Code from module inttypes:
   # Code from module inttypes-incomplete:
   # Code from module inttypes-tests:
+  # Code from module langinfo:
+  # Code from module langinfo-tests:
   # Code from module largefile:
   AC_REQUIRE([AC_SYS_LARGEFILE])
   # Code from module localcharset:
@@ -558,8 +561,8 @@ AC_SUBST([LTALLOCA])
     SYS_IOCTL_H_HAVE_WINSOCK2_H_AND_USE_SOCKETS=1
   fi
   gl_SYS_SOCKET_MODULE_INDICATOR([socket])
-  gl_SOCKETLIB
-  gl_SOCKETS
+  AC_REQUIRE([gl_SOCKETLIB])
+  AC_REQUIRE([gl_SOCKETS])
   gl_TYPE_SOCKLEN_T
   gt_TYPE_SSIZE_T
   gl_STDALIGN_H
@@ -594,7 +597,7 @@ AC_SUBST([LTALLOCA])
   gl_STRING_MODULE_INDICATOR([strtok_r])
   gl_HEADER_SYS_SELECT
   AC_PROG_MKDIR_P
-  gl_HEADER_SYS_SOCKET
+  AC_REQUIRE([gl_HEADER_SYS_SOCKET])
   AC_PROG_MKDIR_P
   gl_HEADER_SYS_STAT_H
   AC_PROG_MKDIR_P
@@ -606,12 +609,12 @@ AC_SUBST([LTALLOCA])
   AC_PROG_MKDIR_P
   gl_HEADER_TIME_H
   gl_UNISTD_H
-  gl_LIBUNISTRING_LIBHEADER([0.9.2], [unistr.h])
+  gl_LIBUNISTRING_LIBHEADER([0.9.4], [unistr.h])
   gl_MODULE_INDICATOR([unistr/u8-mbtoucr])
   gl_LIBUNISTRING_MODULE([0.9], [unistr/u8-mbtoucr])
   gl_MODULE_INDICATOR([unistr/u8-uctomb])
   gl_LIBUNISTRING_MODULE([0.9], [unistr/u8-uctomb])
-  gl_LIBUNISTRING_LIBHEADER([0.9], [unitypes.h])
+  gl_LIBUNISTRING_LIBHEADER([0.9.4], [unitypes.h])
   gl_VALGRIND_TESTS
   gl_FUNC_VASNPRINTF
   gl_FUNC_VASPRINTF
@@ -717,6 +720,7 @@ changequote([, ])dnl
   AC_C_BIGENDIAN
   gl_INTTYPES_H
   gl_INTTYPES_INCOMPLETE
+  gl_LANGINFO_H
   gl_LOCALE_H
   AC_CHECK_FUNCS_ONCE([newlocale])
   gl_LOCALENAME
@@ -938,11 +942,13 @@ AC_DEFUN([gl_FILE_LIST], [
   build-aux/vc-list-files
   doc/fdl-1.3.texi
   doc/gendocs_template
+  doc/gendocs_template_min
   lib/alloca.c
   lib/alloca.in.h
   lib/arpa_inet.in.h
   lib/asnprintf.c
   lib/asprintf.c
+  lib/assure.h
   lib/c-ctype.c
   lib/c-ctype.h
   lib/c-strcase.h
@@ -1124,6 +1130,7 @@ AC_DEFUN([gl_FILE_LIST], [
   m4/inttypes-pri.m4
   m4/inttypes.m4
   m4/inttypes_h.m4
+  m4/langinfo_h.m4
   m4/largefile.m4
   m4/lcmessage.m4
   m4/lib-ld.m4
@@ -1275,6 +1282,7 @@ AC_DEFUN([gl_FILE_LIST], [
   tests/test-init.sh
   tests/test-intprops.c
   tests/test-inttypes.c
+  tests/test-langinfo.c
   tests/test-locale.c
   tests/test-localename.c
   tests/test-lock.c
@@ -1382,6 +1390,7 @@ AC_DEFUN([gl_FILE_LIST], [
   tests=lib/ignore-value.h
   tests=lib/inet_pton.c
   tests=lib/inttypes.in.h
+  tests=lib/langinfo.in.h
   tests=lib/locale.in.h
   tests=lib/localename.c
   tests=lib/localename.h
