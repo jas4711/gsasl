@@ -78,8 +78,8 @@ Appendices
 
 Indices
 
-* Concept Index::               Index of concepts and programs.
 * Function and Data Index::     Index of functions, variables and data types.
+* Concept Index::               Index of concepts and programs.
 @end menu
 
 @c **********************************************************
