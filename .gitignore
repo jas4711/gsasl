@@ -965,7 +965,10 @@ lib/tests/.deps/
 lib/tests/Makefile
 lib/tests/Makefile.in
 lib/tests/test-error
+lib/tests/test-error.log
 lib/tests/test-error.o
+lib/tests/test-error.trs
+lib/tests/test-suite.log
 libtool
 m4/codeset.m4
 m4/extern-inline.m4
