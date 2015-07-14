@@ -1,6 +1,6 @@
 dnl Process this file with autoconf to produce a configure script.
 
-# Copyright (C) 2002-2014 Simon Josefsson
+# Copyright (C) 2002-2015 Simon Josefsson
 #
 # This file is part of GNU SASL.
 #

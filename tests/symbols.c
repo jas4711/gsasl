@@ -1,5 +1,5 @@
 /* symbols.c --- Test if all exported symbols are available.
- * Copyright (C) 2010-2014 Simon Josefsson
+ * Copyright (C) 2010-2015 Simon Josefsson
  *
  * This file is part of GNU SASL.
  *

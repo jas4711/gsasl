@@ -1,5 +1,5 @@
 /* openid20.c --- Test the OPENID20 mechanism.
- * Copyright (C) 2010-2014 Simon Josefsson
+ * Copyright (C) 2010-2015 Simon Josefsson
  *
  * This file is part of GNU SASL.
  *
