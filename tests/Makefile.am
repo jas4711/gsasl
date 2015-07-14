@@ -29,7 +29,7 @@ EXTRA_DIST = libgsasl.supp gssapi.key gssapi.tkt shishi.conf
 noinst_LTLIBRARIES = libutils.la
 libutils_la_SOURCES = utils.h utils.c
 
-TESTS_ENVIRONMENT = \
+AM_TESTS_ENVIRONMENT = \
 	SHISHI_KEYS=$(srcdir)/gssapi.key \
 	SHISHI_TICKETS=$(srcdir)/gssapi.tkt \
 	SHISHI_CONFIG=$(srcdir)/shishi.conf \
@@ -38,8 +38,10 @@ TESTS_ENVIRONMENT = \
 	THREADSAFETY_FILES=`ls $(top_srcdir)/lib/*/*.c | $(GREP) -v -e lib/gl/vasnprintf.c -e lib/gl/getdelim.c` \
 	MD5FILE=$(srcdir)/cram-md5.pwd \
 	EGREP="$(EGREP)" \
-	GNUGSS=`if grep 'HAVE_LIBGSS 1' ../lib/config.h > /dev/null; then echo yes; else echo no; fi` \
-	$(VALGRIND)
+	GNUGSS=`if grep 'HAVE_LIBGSS 1' ../lib/config.h > /dev/null; then echo yes; else echo no; fi`; \
+	export SHISHI_KEYS SHISHI_TICKETS SHISHI_CONFIG SHISHI_HOME SHISHI_USER THREADSAFETY_FILES MD5FILE EGREP GNUGSS;
+
+LOG_COMPILER=$(VALGRIND)
 
 ctests = external cram-md5 digest-md5 md5file name errors suggest	\
 	simple crypto scram scramplus symbols readnz gssapi gs2-krb5	\
