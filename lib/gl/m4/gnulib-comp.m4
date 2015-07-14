@@ -144,6 +144,7 @@ AC_DEFUN([gl_EARLY],
   # Code from module unistd:
   # Code from module unistd-tests:
   # Code from module useless-if-before-free:
+  # Code from module valgrind-tests:
   # Code from module vasnprintf:
   # Code from module vasnprintf-tests:
   # Code from module vasprintf:
@@ -288,6 +289,7 @@ AC_DEFUN([gl_INIT],
   gl_SYS_TYPES_H
   AC_PROG_MKDIR_P
   gl_UNISTD_H
+  gl_VALGRIND_TESTS
   gl_FUNC_VASNPRINTF
   gl_FUNC_VASPRINTF
   gl_STDIO_MODULE_INDICATOR([vasprintf])
@@ -373,6 +375,7 @@ changequote([, ])dnl
   gl_FUNC_MMAP_ANON
   AC_CHECK_HEADERS_ONCE([sys/mman.h])
   AC_CHECK_FUNCS_ONCE([mprotect])
+  gl_VALGRIND_TESTS
   m4_popdef([gl_MODULE_INDICATOR_CONDITION])
   m4_ifval(gltests_LIBSOURCES_LIST, [
     m4_syscmd([test ! -d ]m4_defn([gltests_LIBSOURCES_DIR])[ ||
@@ -616,6 +619,7 @@ AC_DEFUN([gl_FILE_LIST], [
   m4/threadlib.m4
   m4/uintmax_t.m4
   m4/unistd_h.m4
+  m4/valgrind-tests.m4
   m4/vasnprintf.m4
   m4/vasprintf.m4
   m4/visibility.m4
