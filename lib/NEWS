@@ -16,6 +16,8 @@ GSASL_NO_CALLBACK on both.  Please update code to use GSASL_AUTHZID
 instead of GSASL_AUTHID, in case we remove the backwards compatibility
 code.  Reported by Amon Ott.
 
+** i18n: Updated translations.
+
 ** API and ABI modifications.
 No changes since last version.
 
