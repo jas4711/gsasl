@@ -82,12 +82,12 @@ _gsasl_login_server_step (Gsasl_session * sctx,
       if (input_len == 0)
 	return GSASL_MECHANISM_PARSE_ERROR;
 
-      state->username = malloc (input_len + 1);
+      state->username = strndup (input, input_len);
       if (state->username == NULL)
 	return GSASL_MALLOC_ERROR;
 
-      memcpy (state->username, input, input_len);
-      state->username[input_len] = '\0';
+      if (input_len != strlen (state->username))
+	return GSASL_MECHANISM_PARSE_ERROR;
 
       *output = strdup (CHALLENGE_PASSWORD);
       if (!*output)
@@ -102,12 +102,9 @@ _gsasl_login_server_step (Gsasl_session * sctx,
       if (input_len == 0)
 	return GSASL_MECHANISM_PARSE_ERROR;
 
-      state->password = malloc (input_len + 1);
+      state->password = strndup (input, input_len);
       if (state->password == NULL)
 	return GSASL_MALLOC_ERROR;
-
-      memcpy (state->password, input, input_len);
-      state->password[input_len] = '\0';
 
       if (input_len != strlen (state->password))
 	return GSASL_MECHANISM_PARSE_ERROR;
