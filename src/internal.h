@@ -1,5 +1,5 @@
 /* internal.h --- internal header file for gsasl
- * Copyright (C) 2002-2015 Simon Josefsson
+ * Copyright (C) 2002-2017 Simon Josefsson
  *
  * This file is part of GNU SASL.
  *

@@ -1,5 +1,5 @@
 /* init.c --- Entry point for libgsasl.
- * Copyright (C) 2002-2015 Simon Josefsson
+ * Copyright (C) 2002-2017 Simon Josefsson
  *
  * This file is part of GNU SASL Library.
  *

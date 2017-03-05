@@ -1,5 +1,5 @@
 /* openid20.h --- Prototypes for OPENID20.
- * Copyright (C) 2011-2015 Simon Josefsson
+ * Copyright (C) 2011-2017 Simon Josefsson
  *
  * This file is part of GNU SASL Library.
  *

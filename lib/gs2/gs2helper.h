@@ -1,5 +1,5 @@
 /* gs2helper.h --- GS2 helper functions common to client and server.
- * Copyright (C) 2010-2015 Simon Josefsson
+ * Copyright (C) 2010-2017 Simon Josefsson
  *
  * This file is part of GNU SASL Library.
  *

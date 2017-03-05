@@ -1,4 +1,4 @@
-# Copyright (C) 2002-2015 Simon Josefsson
+# Copyright (C) 2002-2017 Simon Josefsson
 #
 # This file is part of GNU SASL.
 #
@@ -364,7 +364,7 @@ doit:
 			-pkg-name "$(PACKAGE_NAME)" \
 			-includefuncprefix \
 			-seeinfo $(PACKAGE) -verbatimcopying \
-			-copyright "2002-2015 Simon Josefsson" \
+			-copyright "2002-2017 Simon Josefsson" \
 			-function $$i \
 			$(GDOC_SRC) > man/$$i.3 && \
 		$(srcdir)/gdoc -texinfo -function $$i \

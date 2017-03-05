@@ -1,7 +1,7 @@
 <?php # -*- mode: php -*-
 
 // gsasl-openid20-rp.php --- OpenID RP for smtp-server-openid20.c.
-// Copyright (C) 2012-2015 Simon Josefsson
+// Copyright (C) 2012-2017 Simon Josefsson
 //
 // This file is part of GNU SASL.
 //

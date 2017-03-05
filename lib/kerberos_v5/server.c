@@ -1,5 +1,5 @@
 /* server.c --- Experimental SASL mechanism KERBEROS_V5, server side.
- * Copyright (C) 2003-2015 Simon Josefsson
+ * Copyright (C) 2003-2017 Simon Josefsson
  *
  * This file is part of GNU SASL Library.
  *

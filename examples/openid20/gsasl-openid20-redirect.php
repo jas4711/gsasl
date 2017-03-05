@@ -2,7 +2,7 @@
 <?php # -*- mode: php -*-
 
 // gsasl-openid20-redirect.php --- OpenID redirector helper.
-// Copyright (C) 2012-2015 Simon Josefsson
+// Copyright (C) 2012-2017 Simon Josefsson
 //
 // This file is part of GNU SASL.
 //
