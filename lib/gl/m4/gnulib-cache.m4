@@ -59,7 +59,7 @@ gl_MODULES([
 ])
 gl_AVOID([vc-list-files-tests])
 gl_SOURCE_BASE([gl])
-gl_M4_BASE([gl/m4])
+gl_M4_BASE([lib/gl/m4])
 gl_PO_BASE([])
 gl_DOC_BASE([doc])
 gl_TESTS_BASE([gltests])
