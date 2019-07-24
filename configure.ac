@@ -1,6 +1,6 @@
 dnl Process this file with autoconf to produce a configure script.
 
-# Copyright (C) 2002-2017 Simon Josefsson
+# Copyright (C) 2002-2019 Simon Josefsson
 #
 # This file is part of GNU SASL.
 #
@@ -17,7 +17,7 @@ dnl Process this file with autoconf to produce a configure script.
 # You should have received a copy of the GNU General Public License
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-AC_PREREQ(2.61)
+AC_PREREQ(2.63)
 AC_INIT([GNU SASL], [1.8.1], [bug-gsasl@gnu.org], [gsasl])
 AC_CONFIG_AUX_DIR([lib/build-aux])
 AC_CONFIG_MACRO_DIR([m4])
