@@ -30,7 +30,7 @@
 # gnulib-tool --import --local-dir=gl/override \
 #  --lib=libgl \
 #  --source-base=gl \
-#  --m4-base=gl/m4 \
+#  --m4-base=m4 \
 #  --doc-base=doc \
 #  --tests-base=gltests \
 #  --aux-dir=lib/build-aux \
@@ -113,7 +113,7 @@ gl_MODULES([
 ])
 gl_AVOID([poll-tests select-tests update-copyright-tests])
 gl_SOURCE_BASE([gl])
-gl_M4_BASE([gl/m4])
+gl_M4_BASE([m4])
 gl_PO_BASE([])
 gl_DOC_BASE([doc])
 gl_TESTS_BASE([gltests])

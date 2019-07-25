@@ -49,10 +49,8 @@ autoreconf:
 	for f in po/*.po.in lib/po/*.po.in; do \
 		cp $$f `echo $$f | sed 's/.in//'`; \
 	done
-	mv $(_build-aux)/config.rpath $(_build-aux)/config.rpath-
 	touch ChangeLog lib/ChangeLog
-	test -f ./configure || autoreconf --install
-	mv $(_build-aux)/config.rpath- $(_build-aux)/config.rpath
+	test -f ./configure || AUTOPOINT=true autoreconf --install
 
 update-po:
 	$(MAKE) -C lib refresh-po PACKAGE=libgsasl
@@ -68,8 +66,10 @@ bootstrap: autoreconf
 	./configure $(CFGFLAGS)
 
 glimport:
-	gnulib-tool --m4-base gl/m4 --add-import
-	cd lib && gnulib-tool --m4-base gl/m4 --add-import
+	autopoint --force
+	cd lib && autopoint --force
+	gnulib-tool --add-import
+	cd lib && gnulib-tool --add-import
 
 review-diff:
 	git diff `git describe --abbrev=0`.. \

@@ -25,7 +25,7 @@
 # gnulib-tool --import --local-dir=gl/override \
 #  --lib=libgl \
 #  --source-base=gl \
-#  --m4-base=gl/m4 \
+#  --m4-base=m4 \
 #  --doc-base=doc \
 #  --tests-base=gltests \
 #  --aux-dir=lib/build-aux \
@@ -85,7 +85,6 @@ CLEANFILES =
 DISTCLEANFILES =
 MAINTAINERCLEANFILES =
 # No GNU Make output.
-EXTRA_DIST += m4/gnulib-cache.m4
 
 AM_CPPFLAGS =
 AM_CFLAGS =
