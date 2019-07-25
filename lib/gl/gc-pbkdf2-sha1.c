@@ -1,5 +1,5 @@
 /* gc-pbkdf2-sha1.c --- Password-Based Key Derivation Function a'la PKCS#5
-   Copyright (C) 2002-2006, 2009-2015 Free Software Foundation, Inc.
+   Copyright (C) 2002-2006, 2009-2019 Free Software Foundation, Inc.
 
    This program is free software; you can redistribute it and/or modify
    it under the terms of the GNU Lesser General Public License as published by
@@ -12,7 +12,7 @@
    GNU Lesser General Public License for more details.
 
    You should have received a copy of the GNU Lesser General Public License
-   along with this program; if not, see <http://www.gnu.org/licenses/>.  */
+   along with this program; if not, see <https://www.gnu.org/licenses/>.  */
 
 /* Written by Simon Josefsson. */
 

@@ -1,4 +1,4 @@
-# Copyright (C) 2002-2015 Free Software Foundation, Inc.
+# Copyright (C) 2002-2019 Free Software Foundation, Inc.
 #
 # This file is free software; you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
@@ -11,7 +11,7 @@
 # GNU General Public License for more details.
 #
 # You should have received a copy of the GNU General Public License
-# along with this file.  If not, see <http://www.gnu.org/licenses/>.
+# along with this file.  If not, see <https://www.gnu.org/licenses/>.
 #
 # As a special exception to the GNU General Public License,
 # this file may be distributed as part of a program that
@@ -27,7 +27,44 @@
 
 
 # Specification in the form of a command-line invocation:
-#   gnulib-tool --import --dir=. --local-dir=gl/override --lib=libgl --source-base=gl --m4-base=gl/m4 --doc-base=doc --tests-base=gltests --aux-dir=build-aux --with-tests --avoid=vc-list-files-tests --lgpl=2 --no-conditional-dependencies --libtool --macro-prefix=gl --no-vc-files base64 c-ctype crypto/gc crypto/gc-hmac-md5 crypto/gc-hmac-sha1 crypto/gc-md5 crypto/gc-pbkdf2-sha1 crypto/gc-random crypto/gc-sha1 getline gettext gss-extra lib-msvc-compat lib-symbol-versions lib-symbol-visibility maintainer-makefile memmem memxor minmax strndup strnlen strverscmp valgrind-tests vasprintf
+# gnulib-tool --import --local-dir=gl/override \
+#  --lib=libgl \
+#  --source-base=gl \
+#  --m4-base=gl/m4 \
+#  --doc-base=doc \
+#  --tests-base=gltests \
+#  --aux-dir=build-aux \
+#  --with-tests \
+#  --lgpl=2 \
+#  --no-conditional-dependencies \
+#  --libtool \
+#  --macro-prefix=gl \
+#  --no-vc-files \
+#  --avoid=vc-list-files-tests \
+#  base64 \
+#  c-ctype \
+#  crypto/gc \
+#  crypto/gc-hmac-md5 \
+#  crypto/gc-hmac-sha1 \
+#  crypto/gc-md5 \
+#  crypto/gc-pbkdf2-sha1 \
+#  crypto/gc-random \
+#  crypto/gc-sha1 \
+#  getline \
+#  gettext \
+#  gss-extra \
+#  lib-msvc-compat \
+#  lib-symbol-versions \
+#  lib-symbol-visibility \
+#  maintainer-makefile \
+#  memmem \
+#  memxor \
+#  minmax \
+#  strndup \
+#  strnlen \
+#  strverscmp \
+#  valgrind-tests \
+#  vasprintf
 
 # Specification in the form of a few gnulib-tool.m4 macro invocations:
 gl_LOCAL_DIR([gl/override])
@@ -59,7 +96,7 @@ gl_MODULES([
 ])
 gl_AVOID([vc-list-files-tests])
 gl_SOURCE_BASE([gl])
-gl_M4_BASE([lib/gl/m4])
+gl_M4_BASE([gl/m4])
 gl_PO_BASE([])
 gl_DOC_BASE([doc])
 gl_TESTS_BASE([gltests])

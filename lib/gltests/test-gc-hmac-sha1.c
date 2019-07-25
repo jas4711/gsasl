@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2005, 2010-2015 Free Software Foundation, Inc.
+ * Copyright (C) 2005, 2010-2019 Free Software Foundation, Inc.
  * Written by Simon Josefsson
  *
  * This program is free software; you can redistribute it and/or modify
@@ -13,13 +13,14 @@
  * GNU General Public License for more details.
  *
  * You should have received a copy of the GNU General Public License
- * along with this program; if not, see <http://www.gnu.org/licenses/>.  */
+ * along with this program; if not, see <https://www.gnu.org/licenses/>.  */
 
 #include <config.h>
 
+#include "gc.h"
+
 #include <stdio.h>
 #include <string.h>
-#include "gc.h"
 
 int
 main (int argc, char *argv[])
