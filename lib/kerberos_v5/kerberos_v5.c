@@ -1,5 +1,5 @@
 /* kerberos_v5.c --- Implementation of experimental SASL mechanism KERBEROS_V5.
- * Copyright (C) 2003-2017 Simon Josefsson
+ * Copyright (C) 2003-2019 Simon Josefsson
  *
  * This file is part of GNU SASL Library.
  *

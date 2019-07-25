@@ -1,5 +1,5 @@
 /* gsasl-saml20-request.c --- Generate SAML Request, for smtp-server-saml20.
- * Copyright (C) 2012-2017 Simon Josefsson
+ * Copyright (C) 2012-2019 Simon Josefsson
  *
  * This file is part of GNU SASL.
  *

@@ -1,5 +1,5 @@
 /* free.h --- Free allocated data in DIGEST-MD5 token structures.
- * Copyright (C) 2004-2017 Simon Josefsson
+ * Copyright (C) 2004-2019 Simon Josefsson
  *
  * This file is part of GNU SASL Library.
  *

@@ -1,5 +1,5 @@
 /* tokens.c --- Free allocated data in SCRAM tokens.
- * Copyright (C) 2009-2017 Simon Josefsson
+ * Copyright (C) 2009-2019 Simon Josefsson
  *
  * This file is part of GNU SASL Library.
  *

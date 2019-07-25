@@ -1,4 +1,4 @@
-# Copyright (C) 2010-2017 Simon Josefsson
+# Copyright (C) 2010-2019 Simon Josefsson
 #
 # This file is part of GNU SASL Library.
 #

@@ -1,5 +1,5 @@
 /* print-errors.c --- Print error codes.
- * Copyright (C) 2002-2017 Simon Josefsson
+ * Copyright (C) 2002-2019 Simon Josefsson
  *
  * This file is part of GNU SASL.
  *

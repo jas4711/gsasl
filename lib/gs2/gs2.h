@@ -1,5 +1,5 @@
 /* gs2.h --- Prototypes for SASL mechanism GS2.
- * Copyright (C) 2006-2017 Simon Josefsson
+ * Copyright (C) 2006-2019 Simon Josefsson
  *
  * This file is part of GNU SASL Library.
  *

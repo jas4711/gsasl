@@ -1,5 +1,5 @@
 /* crypto.c --- Test the crypto related SASL functions.
- * Copyright (C) 2009-2017 Simon Josefsson
+ * Copyright (C) 2009-2019 Simon Josefsson
  *
  * This file is part of GNU SASL.
  *
