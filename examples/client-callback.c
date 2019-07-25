@@ -101,7 +101,7 @@ callback (Gsasl * ctx, Gsasl_session * sctx, Gsasl_property prop)
 
   /* Get user info from user. */
 
-  printf ("Callback invoked, for property %d.\n", prop);
+  printf ("Callback invoked, for property %u.\n", prop);
 
   switch (prop)
     {

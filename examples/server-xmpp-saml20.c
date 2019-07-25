@@ -175,7 +175,7 @@ callback (Gsasl * ctx, Gsasl_session * sctx, Gsasl_property prop)
       break;
 
     default:
-      printf ("Unknown property %d!  Don't worry.\n", prop);
+      printf ("Unknown property %u!  Don't worry.\n", prop);
       break;
     }
 

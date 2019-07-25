@@ -589,7 +589,7 @@ main (int argc, char *argv[])
 
 	  if (status != 0)
 	    error (EXIT_FAILURE, 0,
-		   _("could not verify server certificate (rc=%d)"), status);
+		   _("could not verify server certificate (rc=%u)"), status);
 	}
 
 #if HAVE_GNUTLS_SESSION_CHANNEL_BINDING

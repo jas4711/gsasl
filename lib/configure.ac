@@ -370,6 +370,7 @@ AM_CONDITIONAL(OBSOLETE, test "$obsolete" = "yes")
 
 # For gnulib stuff in gl/ which may modify gssapi_impl, see gl/m4/gss-extra.m4.
 gl_INIT
+AC_DEFINE([GNULIB_NO_VLA], 1, [Disable VLA usage in gettext.h.])
 
 # Disable GSSAPI/GS2 if we can't find GSS-API implementation
 if test "$gssapi_impl" = "no"; then

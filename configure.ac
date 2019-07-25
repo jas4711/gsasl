@@ -90,6 +90,7 @@ GTK_DOC_CHECK(1.1)
 
 # For gnulib stuff in gl/.
 gl_INIT
+AC_DEFINE([GNULIB_NO_VLA], 1, [Disable VLA usage in gettext.h.])
 AM_CONDITIONAL(WINDOWS, test "$gl_cv_func_wsastartup" = "yes")
 
 # Check for Lasso.  For examples/saml20/.  Disabled by default on Windows.

@@ -241,7 +241,7 @@ callback (Gsasl * ctx, Gsasl_session * sctx, Gsasl_property prop)
 
     default:
       fprintf (stderr,
-	       "warning: mechanism requested unsupported property `%d'\n",
+	       "warning: mechanism requested unsupported property `%u'\n",
 	       prop);
       break;
     }
