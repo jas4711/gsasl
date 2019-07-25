@@ -16,6 +16,13 @@ GSASL_NO_CALLBACK on both.  Please update code to use GSASL_AUTHZID
 instead of GSASL_AUTHID, in case we remove the backwards compatibility
 code.  Reported by Amon Ott.
 
+** libgsasl: gsasl_md5, gsasl_hmac_md5, gsasl_sha1, gsasl_hmac_sha1 API fix.
+The final output variable used to be 'char *out[16]' and
+'char *out[20]' respectively, however this triggered bug in the gdoc
+automated documentation generator script so the types are now
+'char *out[]'.  This should not require any changes in any application
+using the library.
+
 ** i18n: Updated translations.
 
 ** API and ABI modifications.
