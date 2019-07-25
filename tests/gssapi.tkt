@@ -1,21 +1,21 @@
 name:NULL  type:SEQUENCE
   name:pvno  type:INTEGER  value:0x05
   name:msg-type  type:INTEGER  value:0x0b
-  name:crealm  type:GENERALSTRING  value:4a4f53454653534f4e2e4f5247
+  name:crealm  type:GENERALSTRING  value:JOSEFSSON.ORG
   name:cname  type:SEQUENCE
     name:name-type  type:INTEGER  value:0x00
     name:name-string  type:SEQ_OF
       name:NULL  type:GENERALSTRING
-      name:?1  type:GENERALSTRING  value:6a6173
+      name:?1  type:GENERALSTRING  value:jas
   name:ticket  type:SEQUENCE
     name:tkt-vno  type:INTEGER  value:0x05
-    name:realm  type:GENERALSTRING  value:4a4f53454653534f4e2e4f5247
+    name:realm  type:GENERALSTRING  value:JOSEFSSON.ORG
     name:sname  type:SEQUENCE
       name:name-type  type:INTEGER  value:0x01
       name:name-string  type:SEQ_OF
         name:NULL  type:GENERALSTRING
-        name:?1  type:GENERALSTRING  value:6b7262746774
-        name:?2  type:GENERALSTRING  value:4a4f53454653534f4e2e4f5247
+        name:?1  type:GENERALSTRING  value:krbtgt
+        name:?2  type:GENERALSTRING  value:JOSEFSSON.ORG
     name:enc-part  type:SEQUENCE
       name:etype  type:INTEGER  value:0x03
       name:cipher  type:OCT_STR  value:2cfc45fc973b8a8f8dc9dbdba1e5b7fc6d1c6d7929abb91ddac6c6dc5a96eafdbf38d24b2e4e8847215b2d47c771310b6f2ccf6ad4d2a961d37f466810c6f66941e776bdfeaa712a78b346de634efb3e524c36877bf9e393c615f052cf6dadd256304894b93a77d891a7fa738c636146c35fa379b7c4bc9fbde7224bd45d992ab9c5ac3c041419872beaec83c6fa1e95
@@ -42,18 +42,18 @@ name:NULL  type:SEQUENCE
   name:last-req  type:SEQ_OF
     name:NULL  type:SEQUENCE
       name:lr-type  type:INTEGER
-      name:lr-value  type:TIME
+      name:lr-value  type:GENERALIZED_TIME
   name:nonce  type:INTEGER  value:0x0c418523
   name:flags  type:BIT_STR  value(32):00400000
-  name:authtime  type:TIME  value:20040711155558Z
-  name:endtime  type:TIME  value:20240711155558Z
-  name:srealm  type:GENERALSTRING  value:4a4f53454653534f4e2e4f5247
+  name:authtime  type:GENERALIZED_TIME  value:20040711155558Z
+  name:endtime  type:GENERALIZED_TIME  value:20240711155558Z
+  name:srealm  type:GENERALSTRING  value:JOSEFSSON.ORG
   name:sname  type:SEQUENCE
     name:name-type  type:INTEGER  value:0x01
     name:name-string  type:SEQ_OF
       name:NULL  type:GENERALSTRING
-      name:?1  type:GENERALSTRING  value:6b7262746774
-      name:?2  type:GENERALSTRING  value:4a4f53454653534f4e2e4f5247
+      name:?1  type:GENERALSTRING  value:krbtgt
+      name:?2  type:GENERALSTRING  value:JOSEFSSON.ORG
 -----BEGIN SHISHI EncKDCRepPart-----
 eYGIMIGFoBMwEaADAgEDoQoECNY+gIz+f2Q9oQIwAKIGAgQMQYUjpAcDBQAAQAAA
 pREYDzIwMDQwNzExMTU1NTU4WqcRGA8yMDI0MDcxMTE1NTU1OFqpDxsNSk9TRUZT
@@ -62,13 +62,13 @@ U09OLk9SR6oiMCCgAwIBAaEZMBcbBmtyYnRndBsNSk9TRUZTU09OLk9SRw==
 
 name:NULL  type:SEQUENCE
   name:tkt-vno  type:INTEGER  value:0x05
-  name:realm  type:GENERALSTRING  value:4a4f53454653534f4e2e4f5247
+  name:realm  type:GENERALSTRING  value:JOSEFSSON.ORG
   name:sname  type:SEQUENCE
     name:name-type  type:INTEGER  value:0x01
     name:name-string  type:SEQ_OF
       name:NULL  type:GENERALSTRING
-      name:?1  type:GENERALSTRING  value:6b7262746774
-      name:?2  type:GENERALSTRING  value:4a4f53454653534f4e2e4f5247
+      name:?1  type:GENERALSTRING  value:krbtgt
+      name:?2  type:GENERALSTRING  value:JOSEFSSON.ORG
   name:enc-part  type:SEQUENCE
     name:etype  type:INTEGER  value:0x03
     name:cipher  type:OCT_STR  value:2cfc45fc973b8a8f8dc9dbdba1e5b7fc6d1c6d7929abb91ddac6c6dc5a96eafdbf38d24b2e4e8847215b2d47c771310b6f2ccf6ad4d2a961d37f466810c6f66941e776bdfeaa712a78b346de634efb3e524c36877bf9e393c615f052cf6dadd256304894b93a77d891a7fa738c636146c35fa379b7c4bc9fbde7224bd45d992ab9c5ac3c041419872beaec83c6fa1e95
@@ -85,21 +85,21 @@ RsNfo3m3xLyfveciS9RdmSq5xaw8BBQZhyvq7IPG+h6V
 name:NULL  type:SEQUENCE
   name:pvno  type:INTEGER  value:0x05
   name:msg-type  type:INTEGER  value:0x0d
-  name:crealm  type:GENERALSTRING  value:4a4f53454653534f4e2e4f5247
+  name:crealm  type:GENERALSTRING  value:JOSEFSSON.ORG
   name:cname  type:SEQUENCE
     name:name-type  type:INTEGER  value:0x00
     name:name-string  type:SEQ_OF
       name:NULL  type:GENERALSTRING
-      name:?1  type:GENERALSTRING  value:6a6173
+      name:?1  type:GENERALSTRING  value:jas
   name:ticket  type:SEQUENCE
     name:tkt-vno  type:INTEGER  value:0x05
-    name:realm  type:GENERALSTRING  value:4a4f53454653534f4e2e4f5247
+    name:realm  type:GENERALSTRING  value:JOSEFSSON.ORG
     name:sname  type:SEQUENCE
       name:name-type  type:INTEGER  value:0x01
       name:name-string  type:SEQ_OF
         name:NULL  type:GENERALSTRING
-        name:?1  type:GENERALSTRING  value:686f7374
-        name:?2  type:GENERALSTRING  value:6c617474652e6a6f73656673736f6e2e6f7267
+        name:?1  type:GENERALSTRING  value:host
+        name:?2  type:GENERALSTRING  value:latte.josefsson.org
     name:enc-part  type:SEQUENCE
       name:etype  type:INTEGER  value:0x03
       name:cipher  type:OCT_STR  value:80f8af4800aecb22c4852cc25cad377332375c7365f4eca15a99c1c13ff785be023e7d0315bd53d2937541aada9b672c62b1df632d33cb85de83e7e7efa2f0fa6551dcab98ac0a910fdb916ea816554fb9aed666133a58984be22d37da46d98252b883a0acee17d8c98c097428866a0906a1dc70c1909eb511618fdadf8c435c39ec154a564a1a2b7508051c663ca8a5
@@ -126,18 +126,18 @@ name:NULL  type:SEQUENCE
   name:last-req  type:SEQ_OF
     name:NULL  type:SEQUENCE
       name:lr-type  type:INTEGER
-      name:lr-value  type:TIME
+      name:lr-value  type:GENERALIZED_TIME
   name:nonce  type:INTEGER  value:0x22cc41a9
   name:flags  type:BIT_STR  value(32):00000000
-  name:authtime  type:TIME  value:20040711155559Z
-  name:endtime  type:TIME  value:20240711155558Z
-  name:srealm  type:GENERALSTRING  value:4a4f53454653534f4e2e4f5247
+  name:authtime  type:GENERALIZED_TIME  value:20040711155559Z
+  name:endtime  type:GENERALIZED_TIME  value:20240711155558Z
+  name:srealm  type:GENERALSTRING  value:JOSEFSSON.ORG
   name:sname  type:SEQUENCE
     name:name-type  type:INTEGER  value:0x01
     name:name-string  type:SEQ_OF
       name:NULL  type:GENERALSTRING
-      name:?1  type:GENERALSTRING  value:686f7374
-      name:?2  type:GENERALSTRING  value:6c617474652e6a6f73656673736f6e2e6f7267
+      name:?1  type:GENERALSTRING  value:host
+      name:?2  type:GENERALSTRING  value:latte.josefsson.org
 -----BEGIN SHISHI EncKDCRepPart-----
 eYGMMIGJoBMwEaADAgEDoQoECDdwXRxUqEaDoQIwAKIGAgQizEGppAcDBQAAAAAA
 pREYDzIwMDQwNzExMTU1NTU5WqcRGA8yMDI0MDcxMTE1NTU1OFqpDxsNSk9TRUZT
@@ -146,13 +146,13 @@ U09OLk9SR6omMCSgAwIBAaEdMBsbBGhvc3QbE2xhdHRlLmpvc2Vmc3Nvbi5vcmc=
 
 name:NULL  type:SEQUENCE
   name:tkt-vno  type:INTEGER  value:0x05
-  name:realm  type:GENERALSTRING  value:4a4f53454653534f4e2e4f5247
+  name:realm  type:GENERALSTRING  value:JOSEFSSON.ORG
   name:sname  type:SEQUENCE
     name:name-type  type:INTEGER  value:0x01
     name:name-string  type:SEQ_OF
       name:NULL  type:GENERALSTRING
-      name:?1  type:GENERALSTRING  value:686f7374
-      name:?2  type:GENERALSTRING  value:6c617474652e6a6f73656673736f6e2e6f7267
+      name:?1  type:GENERALSTRING  value:host
+      name:?2  type:GENERALSTRING  value:latte.josefsson.org
   name:enc-part  type:SEQUENCE
     name:etype  type:INTEGER  value:0x03
     name:cipher  type:OCT_STR  value:80f8af4800aecb22c4852cc25cad377332375c7365f4eca15a99c1c13ff785be023e7d0315bd53d2937541aada9b672c62b1df632d33cb85de83e7e7efa2f0fa6551dcab98ac0a910fdb916ea816554fb9aed666133a58984be22d37da46d98252b883a0acee17d8c98c097428866a0906a1dc70c1909eb511618fdadf8c435c39ec154a564a1a2b7508051c663ca8a5
