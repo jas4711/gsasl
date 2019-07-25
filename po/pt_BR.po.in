@@ -1,40 +1,39 @@
-# Swedish translations for gsasl package
-# Copyright (C) 2002, 2006, 2009, 2010, 2017, 2018 Free Software Foundation, Inc.
+# Brazilian Portuguese translations for gsasl package
+# Traduções em português brasileiro para o pacote gsasl.
+# Copyright (C) 2018 Free Software Foundation, Inc.
+# Copyright (C) 2018 Simon Josefsson
 # This file is distributed under the same license as the gsasl package.
-# Simon Josefsson <simon@josefsson.org>, 2002.
-# Daniel Nylander <po@danielnylander.se>, 2006, 2009, 2010.
-# Sebastian Rasmussen <sebras@gmail.com>, 2017, 2018.
-#
+# Rafael Fontenelle <rafaelff@gnome.org>, 2018.
 msgid ""
 msgstr ""
 "Project-Id-Version: gsasl 1.7.4\n"
 "Report-Msgid-Bugs-To: bug-gsasl@gnu.org\n"
 "POT-Creation-Date: 2012-05-16 00:55+0200\n"
-"PO-Revision-Date: 2018-07-27 11:24+0800\n"
-"Last-Translator: Sebastian Rasmussen <sebras@gmail.com>\n"
-"Language-Team: Swedish <tp-sv@listor.tp-sv.se>\n"
-"Language: sv\n"
+"PO-Revision-Date: 2018-04-22 07:01-0300\n"
+"Last-Translator: Rafael Fontenelle <rafaelff@gnome.org>\n"
+"Language-Team: Brazilian Portuguese <ldpbr-translation@lists.sourceforge.net>\n"
+"Language: pt_BR\n"
 "MIME-Version: 1.0\n"
-"Content-Type: text/plain; charset=utf-8\n"
+"Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "X-Bugs: Report translation errors to the Language-Team address.\n"
-"Plural-Forms: nplurals=2; plural=(n != 1);\n"
-"X-Generator: Poedit 2.0.9\n"
+"Plural-Forms: nplurals=2; plural=(n > 1);\n"
+"X-Generator: Virtaal 1.0.0-beta1\n"
 
 #: src/imap.c:76 src/smtp.c:79
 #, c-format
 msgid "Chose SASL mechanisms:\n"
-msgstr "Valde SASL-mekanismer:\n"
+msgstr "Escolha os mecanismos SASL:\n"
 
 #: src/imap.c:106 src/smtp.c:113 src/gsasl.c:206
 #, c-format
 msgid "Using mechanism:\n"
-msgstr "Använder mekanism:\n"
+msgstr "Usando o mecanismo:\n"
 
 #: src/imap.c:180
 #, c-format
 msgid "error: server did not return a token\n"
-msgstr "fel: server returnerade inte en symbol\n"
+msgstr "erro: o servidor não retornou um token\n"
 
 #: src/smtp.c:192
 #, c-format
@@ -42,257 +41,230 @@ msgid ""
 "error: could not parse server data:\n"
 "%s\n"
 msgstr ""
-"fel: kunde inte tolka serverdata:\n"
+"erro: não foi possível analisar dados do servidor:\n"
 "%s\n"
 
 #: src/gsasl.c:178
 #, c-format
 msgid "Choose SASL mechanism:\n"
-msgstr "Välj SASL-mekanism:\n"
+msgstr "Escolha o mecanismo SASL:\n"
 
 #: src/gsasl.c:187
 #, c-format
 msgid "Input list of SASL mechanisms supported by server:\n"
-msgstr "Mata in lista på de SASL-mekanismer som stöds av servern:\n"
+msgstr "Lista de entrada dos mecanismos SASL aceitos pelo servidor:\n"
 
 #: src/gsasl.c:223
 #, c-format
 msgid "Output from server:\n"
-msgstr "Utdata från server:\n"
+msgstr "Saída do servidor:\n"
 
 #: src/gsasl.c:225
 #, c-format
 msgid "Output from client:\n"
-msgstr "Utdata från klient:\n"
+msgstr "Saída de cliente:\n"
 
 #: src/gsasl.c:272
 #, c-format
 msgid "Try `%s --help' for more information.\n"
-msgstr "Prova ”%s --help” för mer information.\n"
+msgstr "Tente \"%s --help\" para obter mais informações.\n"
 
 #: src/gsasl.c:327
 #, c-format
 msgid "missing argument"
-msgstr "argument saknas"
+msgstr "faltando argumento"
 
 #: src/gsasl.c:334
 #, c-format
 msgid "need both --x509-cert-file and --x509-key-file"
-msgstr "behöver både --x509-cert-file och --x509-key-file"
+msgstr "é necessário --x509-cert-file e --x509-key-file"
 
 #: src/gsasl.c:338
 #, c-format
 msgid "cannot use both --starttls and --no-starttls"
-msgstr "kan inte använda både --starttls och --no-starttls"
+msgstr "não é possível usar --starttls com --no-starttls"
 
 #: src/gsasl.c:341
 #, c-format
 msgid "cannot use both --smtp and --imap"
-msgstr "kan inte använda både --smtp och --imap"
+msgstr "não é possível usar --smtp com --imap"
 
 #: src/gsasl.c:407
 #, c-format
 msgid "initialization failure: %s"
-msgstr "initieringsfel: %s"
+msgstr "falha ao inicializar: %s"
 
 #: src/gsasl.c:422
 #, c-format
 msgid "error listing mechanisms: %s"
-msgstr "fel vid listning av mekanismer: %s"
+msgstr "erro ao listar os mecanismos: %s"
 
 #: src/gsasl.c:429
 #, c-format
 msgid "This client supports the following mechanisms:\n"
-msgstr "Den här klienten stöder följande mekanismer:\n"
+msgstr "Esse cliente oferece suporte aos seguintes mecanismos:\n"
 
 #: src/gsasl.c:432
 #, c-format
 msgid "This server supports the following mechanisms:\n"
-msgstr "Den här servern stöder följande mekanismer:\n"
+msgstr "Esse servidor oferece suporte aos seguintes mecanismos:\n"
 
 #: src/gsasl.c:494
 #, c-format
 msgid "GnuTLS global initialization failed: %s"
-msgstr "GnuTLS globalt initieringsfel: %s"
+msgstr "a inicialização global de GnuTLS falhou: %s"
 
 #: src/gsasl.c:499
 #, c-format
 msgid "GnuTLS initialization failed: %s"
-msgstr "GnuTLS initieringsfel: %s"
+msgstr "a inicialização de GnuTLS falhou: %s"
 
 #: src/gsasl.c:504
 #, c-format
 msgid "setting GnuTLS defaults failed: %s"
-msgstr "inställning av GnuTLS förvalda värden misslyckades: %s"
+msgstr "a configuração de padrões do GnuTLS falhou: %s"
 
 #: src/gsasl.c:510
 #, c-format
 msgid "allocating anonymous GnuTLS credential: %s"
-msgstr "allokerar anonym GnuTLS-behörighet: %s"
+msgstr "alocando credencial anônima de GnuTLS: %s"
 
 #: src/gsasl.c:515
 #, c-format
 msgid "setting anonymous GnuTLS credential: %s"
-msgstr "ställer in anonym GnuTLS-behörighet: %s"
+msgstr "configurando credencial anônima de GnuTLS: %s"
 
 #: src/gsasl.c:520
 #, c-format
 msgid "allocating X.509 GnuTLS credential: %s"
-msgstr "allokerar X.509 GnuTLS-behörighet: %s"
+msgstr "alocando credencial X.509 de GnuTLS: %s"
 
 #: src/gsasl.c:528
 #, c-format
 msgid "loading X.509 GnuTLS credential: %s"
-msgstr "läser in X.509 GnuTLS-behörighet: %s"
+msgstr "carregando credencial X.509 de GnuTLS: %s"
 
 #: src/gsasl.c:536
 #, c-format
 msgid "no X.509 CAs found: %s"
-msgstr "inga X.509 CA hittades: %s"
+msgstr "nenhuma AC X.509 localizada: %s"
 
 #: src/gsasl.c:539
 #, c-format
 msgid "no X.509 CAs found"
-msgstr "inga X.509 CA hittades"
+msgstr "nenhuma AC X.509 localizada"
 
 #: src/gsasl.c:545
 #, c-format
 msgid "setting X.509 GnuTLS credential: %s"
-msgstr "ställer in X.509 GnuTLS-behörighet: %s"
+msgstr "configurando credencial X.509 de GnuTLS: %s"
 
 #: src/gsasl.c:556
 #, c-format
 msgid "setting GnuTLS cipher priority (%s): %s\n"
-msgstr "ställer in prioritet för GnuTLS-chiffer (%s): %s\n"
+msgstr "configurando prioridade de cifra de GnuTLS (%s): %s\n"
 
 #: src/gsasl.c:568
 #, c-format
 msgid "GnuTLS handshake failed: %s"
-msgstr "GnuTLS handskakning misslyckades: %s"
+msgstr "negociação de GnuTLS falhou: %s"
 
 #: src/gsasl.c:577
 #, c-format
 msgid "verifying peer certificate: %s"
-msgstr "validerar motpartscertifikat: %s"
+msgstr "verificando o certificado do par: %s"
 
 #: src/gsasl.c:581
 #, c-format
 msgid "server certificate is not trusted"
-msgstr "servercertifikat är ej pålitligt"
+msgstr "o certificado do servidor não é confiável"
 
 #: src/gsasl.c:585
 #, c-format
 msgid "server certificate hasn't got a known issuer"
-msgstr "servercertifikat har inte en känd utgivare"
+msgstr "o certificado do servidor não tem um emissor conhecido"
 
 #: src/gsasl.c:588
 #, c-format
 msgid "server certificate has been revoked"
-msgstr "servercertifikat har återkallats"
+msgstr "o certificado do servidor foi revogado"
 
 #: src/gsasl.c:592
 #, c-format
 msgid "could not verify server certificate (rc=%d)"
-msgstr "kunde inte validera servercertifikat (rc=%d)"
+msgstr "não foi possível verificar o certificado do servidor (rc=%d)"
 
 #: src/gsasl.c:603
 #, c-format
 msgid "getting channel binding failed: %s"
-msgstr "hämtning av kanalbindning misslyckades: %s"
+msgstr "a obtenção de associação de canal falhou: %s"
 
 #: src/gsasl.c:633
 #, c-format
 msgid "Cannot find mechanism...\n"
-msgstr "Kan inte hitta mekanism...\n"
+msgstr "Não foi possível localizar o mecanismo...\n"
 
 #: src/gsasl.c:650
 #, c-format
 msgid "mechanism unavailable: %s"
-msgstr "mekanism ej tillgänglig: %s"
+msgstr "mecanismo não disponível: %s"
 
 #: src/gsasl.c:678
 #, c-format
 msgid "Enter base64 authentication data from client (press RET if none):\n"
-msgstr "Mata in base64-autentiseringsdata från klient (finns inget data, tryck RETUR):\n"
+msgstr "Insira dados de autenticação base64 do cliente (pressione Enter para nenhum):\n"
 
 #: src/gsasl.c:681
 #, c-format
 msgid "Enter base64 authentication data from server (press RET if none):\n"
-msgstr "Mata in base64 autentiseringsdata från server (finns inget data, tryck RETUR):\n"
+msgstr "Insira dados de autenticação base64 do servidor (pressione Enter para nenhum):\n"
 
 #: src/gsasl.c:691
 #, c-format
 msgid "server error"
-msgstr "serverfel"
+msgstr "erro no servidor"
 
 #: src/gsasl.c:699
 #, c-format
 msgid "mechanism error: %s"
-msgstr "mekanismfel: %s"
+msgstr "erro de mecanismo: %s"
 
 #: src/gsasl.c:705
 #, c-format
 msgid "Server authentication finished (client trusted)...\n"
-msgstr "Serverautentisering avslutad (klient verifierad)...\n"
+msgstr "Autenticação do servidor finalizada (cliente confiável)...\n"
 
 #: src/gsasl.c:708
 #, c-format
 msgid "Client authentication finished (server trusted)...\n"
-msgstr "Klientautentisering avslutat (server verifierad)...\n"
+msgstr "Autenticação do cliente finalizada (servidor confiável)...\n"
 
 #: src/gsasl.c:733
 #, c-format
 msgid "Enter application data (EOF to finish):\n"
-msgstr "Mata in applikationsdata (EOF för att avsluta):\n"
+msgstr "Insira dados de aplicativo (EOF para finalizar):\n"
 
 #: src/gsasl.c:804
 #, c-format
 msgid "Base64 encoded application data to send:\n"
-msgstr "Base64-kodad applikationsdata att skicka:\n"
+msgstr "Dados de aplicativo codificados em Base64 para enviar:\n"
 
 #: src/gsasl.c:850
 #, c-format
 msgid "SASL record too large: %zu\n"
-msgstr "SASL-posten är för stor: %zu\n"
+msgstr "registro SASL grande demais: %zu\n"
 
 #: src/gsasl.c:874
 #, c-format
 msgid "encoding error: %s"
-msgstr "kodningsfel: %s"
+msgstr "erro de codificação: %s"
 
 #: src/gsasl.c:879
 #, c-format
 msgid "Session finished...\n"
-msgstr "Session avslutad...\n"
+msgstr "Sessão finalizada...\n"
 
 #: src/gsasl.c:895
 #, c-format
 msgid "terminating GnuTLS session failed: %s"
-msgstr "terminering av GnuTLS-session misslyckades: %s"
-
-#~ msgid ""
-#~ "error: Server did not return expected SASL data (it must begin with '+ '):\n"
-#~ "%s\n"
-#~ msgstr ""
-#~ "fel: Servern returnerade inte förväntat SASL-data (det måste börja med \"+ \"):\n"
-#~ "%s\n"
-
-#~ msgid ""
-#~ "error: Server did not return expected SASL data (it must begin with '334 '):\n"
-#~ "%s\n"
-#~ msgstr ""
-#~ "fel: Servern returnerade inte förväntat SASL-data (det måste börja med \"334 \"):\n"
-#~ "%s\n"
-
-#~ msgid "Cannot initialize Windows sockets."
-#~ msgstr "Kan inte initiera Windows-uttag."
-
-#~ msgid ""
-#~ "missing argument\n"
-#~ "Try `%s --help' for more information."
-#~ msgstr ""
-#~ "saknar argument\n"
-#~ "Försök med \"%s --help\" för mer information."
-
-#~ msgid "Libgsasl error (%d): %s\n"
-#~ msgstr "Libgsasl fel (%d): %s\n"
+msgstr "Terminação de sessão GnuTLS falhou: %s"
