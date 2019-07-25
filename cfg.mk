@@ -66,6 +66,7 @@ bootstrap: autoreconf
 	./configure $(CFGFLAGS)
 
 glimport:
+	gtkdocize --copy
 	autopoint --force
 	cd lib && autopoint --force
 	gnulib-tool --add-import
