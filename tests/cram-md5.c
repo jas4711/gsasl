@@ -55,7 +55,7 @@ callback (Gsasl * ctx, Gsasl_session * sctx, Gsasl_property prop)
       break;
 
     default:
-      fail ("Unknown callback property %d\n", prop);
+      fail ("Unknown callback property %u\n", prop);
       break;
     }
 

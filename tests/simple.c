@@ -258,7 +258,7 @@ cb (Gsasl * ctx, Gsasl_session * sctx, Gsasl_property prop)
       break;
 
     default:
-      printf ("Unknown property %d\n", prop);
+      printf ("Unknown property %u\n", prop);
       break;
     }
 

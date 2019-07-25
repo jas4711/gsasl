@@ -84,7 +84,7 @@ client_callback (Gsasl * ctx, Gsasl_session * sctx, Gsasl_property prop)
       break;
 
     default:
-      fail ("Unknown client callback property %d\n", prop);
+      fail ("Unknown client callback property %u\n", prop);
       break;
     }
 
@@ -115,7 +115,7 @@ server_callback (Gsasl * ctx, Gsasl_session * sctx, Gsasl_property prop)
       break;
 
     default:
-      fail ("Unknown server callback property %d\n", prop);
+      fail ("Unknown server callback property %u\n", prop);
       break;
     }
 
