@@ -51,7 +51,7 @@
 #  crypto/gc-random \
 #  crypto/gc-sha1 \
 #  getline \
-#  gettext \
+#  gettext-h \
 #  gss-extra \
 #  lib-msvc-compat \
 #  lib-symbol-versions \
@@ -79,7 +79,7 @@ gl_MODULES([
   crypto/gc-random
   crypto/gc-sha1
   getline
-  gettext
+  gettext-h
   gss-extra
   lib-msvc-compat
   lib-symbol-versions

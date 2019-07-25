@@ -46,7 +46,7 @@
 #  crypto/gc-random \
 #  crypto/gc-sha1 \
 #  getline \
-#  gettext \
+#  gettext-h \
 #  gss-extra \
 #  lib-msvc-compat \
 #  lib-symbol-versions \
@@ -380,23 +380,6 @@ EXTRA_DIST += getline.c
 EXTRA_libgl_la_SOURCES += getline.c
 
 ## end   gnulib module getline
-
-## begin gnulib module gettext
-
-# If your project uses "gettextize --intl" to put a source-code
-# copy of libintl into the package, every Makefile.am needs
-# -I$(top_builddir)/intl, so that <libintl.h> can be found in this directory.
-# Here's one way to do this:
-#AM_CPPFLAGS += -I$(top_builddir)/intl
-# This option has no effect when the user disables NLS (because then
-# the intl directory contains no libintl.h file).  This option is not
-# enabled by default because the intl directory might not exist if
-# your project does not use "gettext --intl", and some compilers
-# complain about -I options applied to nonexistent directories.
-
-EXTRA_DIST += $(top_srcdir)/build-aux/config.rpath
-
-## end   gnulib module gettext
 
 ## begin gnulib module gettext-h
 

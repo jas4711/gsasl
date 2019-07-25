@@ -152,7 +152,6 @@ AC_DEFUN([gl_EARLY],
   # Code from module getpagesize:
   # Code from module getrusage:
   # Code from module getrusage-tests:
-  # Code from module gettext:
   # Code from module gettext-h:
   # Code from module gettimeofday:
   # Code from module gettimeofday-tests:
@@ -447,8 +446,6 @@ AC_DEFUN([gl_INIT],
     gl_PREREQ_GETLINE
   fi
   gl_STDIO_MODULE_INDICATOR([getline])
-  dnl you must add AM_GNU_GETTEXT([external]) or similar to configure.ac.
-  AM_GNU_GETTEXT_VERSION([0.20])
   AC_SUBST([LIBINTL])
   AC_SUBST([LTLIBINTL])
   # Autoconf 2.61a.99 and earlier don't support linking a file only
@@ -1166,17 +1163,13 @@ AC_DEFUN([gl_FILE_LIST], [
   m4/getline.m4
   m4/getpagesize.m4
   m4/getrusage.m4
-  m4/gettext.m4
   m4/gettimeofday.m4
   m4/gl-openssl.m4
   m4/gnulib-common.m4
   m4/gss-extra.m4
   m4/host-cpu-c-abi.m4
-  m4/iconv.m4
   m4/include_next.m4
   m4/inet_pton.m4
-  m4/intl-thread-locale.m4
-  m4/intlmacosx.m4
   m4/intmax_t.m4
   m4/inttypes-pri.m4
   m4/inttypes.m4
@@ -1210,16 +1203,13 @@ AC_DEFUN([gl_FILE_LIST], [
   m4/multiarch.m4
   m4/nanosleep.m4
   m4/netinet_in_h.m4
-  m4/nls.m4
   m4/off_t.m4
   m4/open-cloexec.m4
   m4/open.m4
   m4/pathmax.m4
   m4/perror.m4
   m4/pipe.m4
-  m4/po.m4
   m4/printf.m4
-  m4/progtest.m4
   m4/pthread-thread.m4
   m4/pthread_h.m4
   m4/pthread_rwlock_rdlock.m4
