@@ -205,7 +205,7 @@ binaries:
 source:
 	git tag -s -m $(VERSION) $(tag)
 
-release-check: syntax-check i18n tarball binaries cyclo-copy gendoc-copy gtkdoc-copy doxygen-copy coverage-my coverage-copy clang clang-copy
+release-check: syntax-check i18n tarball cyclo-copy gendoc-copy gtkdoc-copy doxygen-copy coverage-my coverage-copy clang clang-copy
 
 release-upload-www: cyclo-upload gendoc-upload gtkdoc-upload doxygen-upload coverage-upload clang-upload
 
