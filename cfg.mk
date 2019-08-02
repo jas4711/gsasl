@@ -82,7 +82,7 @@ glimport:
 review-diff:
 	git diff `git describe --abbrev=0`.. \
 	| grep -v -e ^index -e '^diff --git' \
-	| filterdiff -p 1 -x 'gl/*' -x 'gltests/*' -x 'lib/build-aux/*' -x 'lib/gl*' -x 'lib/gltests/*' -x 'po/*' -x 'lib/po/*' -x 'maint.mk' -x 'lib/maint.mk' -x '.gitignore' -x '.x-sc*' -x ChangeLog -x GNUmakefile -x ABOUT-NLS \
+	| filterdiff -p 1 -x 'gl/*' -x 'm4/*' -x 'gltests/*' -x 'lib/build-aux/*' -x 'lib/gl*' -x 'lib/m4/*' -x 'lib/gltests/*' -x 'po/*' -x 'lib/po/*' -x 'maint.mk' -x 'lib/maint.mk' -x '.gitignore' -x '.x-sc*' -x ChangeLog -x GNUmakefile -x ABOUT-NLS -x lib/ABOUT-NLS \
 	| less
 
 # Release
