@@ -251,6 +251,10 @@ _gsasl_gssapi_server_step (Gsasl_session * sctx,
       gsasl_property_set_raw (sctx, GSASL_GSSAPI_DISPLAY_NAME,
 			      client_name.value, client_name.length);
 
+      maj_stat = gss_release_buffer (&min_stat, &client_name);
+      if (GSS_ERROR (maj_stat))
+	return GSASL_GSSAPI_RELEASE_BUFFER_ERROR;
+
       maj_stat = gss_release_buffer (&min_stat, &bufdesc2);
       if (GSS_ERROR (maj_stat))
 	return GSASL_GSSAPI_RELEASE_BUFFER_ERROR;
