@@ -214,8 +214,7 @@ site = ftp.gnu.org
 release-upload-ftp:
 	$(_build-aux)/gnupload --to $(site):$(PACKAGE) $(distdir).tar.gz
 	cd lib && ../$(_build-aux)/gnupload --to $(site):$(PACKAGE) lib$(distdir).tar.gz
-	cd windows && ../$(_build-aux)/gnupload --to $(site):$(PACKAGE) gsasl-*.zip
-	cp -v $(distdir).tar.gz* lib/lib$(distdir).tar.gz* windows/gsasl-*.zip* ../releases/$(PACKAGE)/
+	cp -v $(distdir).tar.gz* lib/lib$(distdir).tar.gz* ../releases/$(PACKAGE)/
 	git push
 	git push --tags
 
