@@ -206,3 +206,23 @@
    fun:gss_acquire_cred
    fun:_gsasl_gssapi_server_start
 }
+
+{
+   gsasl-mit-krb5-gss2
+   Memcheck:Leak
+   match-leak-kinds: definite
+   fun:malloc
+   fun:krb5int_setspecific
+   obj:/usr/lib/x86_64-linux-gnu/libgssapi_krb5.so.2.2
+   obj:/usr/lib/x86_64-linux-gnu/libgssapi_krb5.so.2.2
+   obj:/usr/lib/x86_64-linux-gnu/libgssapi_krb5.so.2.2
+   obj:/usr/lib/x86_64-linux-gnu/libgssapi_krb5.so.2.2
+   obj:/usr/lib/x86_64-linux-gnu/libgssapi_krb5.so.2.2
+   fun:gss_add_cred_from
+   fun:gss_acquire_cred_from
+   fun:gss_acquire_cred
+   fun:_gsasl_gssapi_server_start
+   fun:setup
+   fun:start
+   fun:gsasl_server_start
+}
