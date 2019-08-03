@@ -1542,7 +1542,7 @@ available, the client will ask for the @code{GSASL_PASSWORD} property
 instead.
 
 @item @code{GSASL_SCRAM_ITER}
-@item @code{GSASL_SCRAM_ITER}
+@item @code{GSASL_SCRAM_SALT}
 
 @cindex iteration count
 @cindex salt
