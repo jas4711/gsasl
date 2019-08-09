@@ -34,6 +34,7 @@ Currently there is some support for the following mechanisms:
   - SECURID (RFC 2808)
   - DIGEST-MD5 (RFC 2831)
   - SCRAM-SHA-1 and SCRAM-SHA-1-PLUS (RFC 5802)
+  - SCRAM-SHA-256 and SCRAM-SHA-256-PLUS (RFC 7677)
   - GS2-KRB5 (RFC 5801, no CB, requires GSS, Heimdal, or MIT Kerberos)
   - SAML20 (RFC 6595)
   - OPENID20 (RFC 6616)

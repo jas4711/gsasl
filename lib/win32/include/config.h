@@ -62,6 +62,7 @@
 #define USE_SECURID 1
 #define USE_SERVER 1
 #define USE_SCRAM_SHA1 1
+#define USE_SCRAM_SHA256 1
 
 #define GSASL_NO_OBSOLETE 1
 

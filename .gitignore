@@ -1760,6 +1760,10 @@ tests/saml20.log
 tests/saml20.o
 tests/saml20.trs
 tests/scram
+tests/scram-sha256
+tests/scram-sha256.log
+tests/scram-sha256.o
+tests/scram-sha256.trs
 tests/scram.log
 tests/scram.o
 tests/scram.trs

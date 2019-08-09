@@ -25,6 +25,8 @@
 
 #include <gsasl.h>
 
+#ifdef USE_SCRAM_SHA1
+
 #define GSASL_SCRAM_SHA1_NAME "SCRAM-SHA-1"
 #define GSASL_SCRAM_SHA1_PLUS_NAME "SCRAM-SHA-1-PLUS"
 
@@ -40,7 +42,7 @@ int
 _gsasl_scram_sha1_client_step (Gsasl_session * sctx,
 			       void *mech_data,
 			       const char *input, size_t input_len,
-			       char **output, size_t * output_len);
+			       char **output, size_t *output_len);
 
 void _gsasl_scram_sha1_client_finish (Gsasl_session * sctx, void *mech_data);
 
@@ -55,8 +57,52 @@ _gsasl_scram_sha1_server_step (Gsasl_session * sctx,
 			       void *mech_data,
 			       const char *input,
 			       size_t input_len,
-			       char **output, size_t * output_len);
+			       char **output, size_t *output_len);
 
 void _gsasl_scram_sha1_server_finish (Gsasl_session * sctx, void *mech_data);
+
+#endif
+
+#ifdef USE_SCRAM_SHA256
+
+#define GSASL_SCRAM_SHA256_NAME "SCRAM-SHA-256"
+#define GSASL_SCRAM_SHA256_PLUS_NAME "SCRAM-SHA-256-PLUS"
+
+extern Gsasl_mechanism gsasl_scram_sha256_mechanism;
+extern Gsasl_mechanism gsasl_scram_sha256_plus_mechanism;
+
+int _gsasl_scram_sha256_client_start (Gsasl_session * sctx, void **mech_data);
+
+int
+_gsasl_scram_sha256_plus_client_start (Gsasl_session * sctx,
+				       void **mech_data);
+
+int
+_gsasl_scram_sha256_client_step (Gsasl_session * sctx,
+				 void *mech_data,
+				 const char *input, size_t input_len,
+				 char **output, size_t *output_len);
+
+void _gsasl_scram_sha256_client_finish (Gsasl_session * sctx,
+					void *mech_data);
+
+
+int _gsasl_scram_sha256_server_start (Gsasl_session * sctx, void **mech_data);
+
+int
+_gsasl_scram_sha256_plus_server_start (Gsasl_session * sctx,
+				       void **mech_data);
+
+int
+_gsasl_scram_sha256_server_step (Gsasl_session * sctx,
+				 void *mech_data,
+				 const char *input,
+				 size_t input_len,
+				 char **output, size_t *output_len);
+
+void _gsasl_scram_sha256_server_finish (Gsasl_session * sctx,
+					void *mech_data);
+
+#endif
 
 #endif /* SCRAM_H */

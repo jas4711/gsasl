@@ -166,7 +166,18 @@ fi
 AC_MSG_CHECKING([if SCRAM-SHA-1 should be used])
 AC_MSG_RESULT($scram_sha1)
 
-AM_CONDITIONAL(SCRAM, test "$scram_sha1" != "no")
+# SCRAM-SHA-256
+AC_ARG_ENABLE(scram-sha256,
+  AS_HELP_STRING([--enable-scram-sha256], [use the SCRAM-SHA-256 mechanism]),
+  scram_sha256=$enableval)
+if test "$scram_sha256" != "no" ; then
+  scram_sha256=yes
+  AC_DEFINE(USE_SCRAM_SHA256, 1, [Define to 256 if you want SCRAM-SHA-256.])
+fi
+AC_MSG_CHECKING([if SCRAM-SHA-256 should be used])
+AC_MSG_RESULT($scram_sha256)
+
+AM_CONDITIONAL(SCRAM, test "$scram_sha1$scram_sha256" != "nono")
 
 # SAML20
 AC_ARG_ENABLE(saml20,
@@ -459,6 +470,7 @@ AC_MSG_NOTICE([summary of library build options:
   CRAM-MD5:           $cram_md5
   DIGEST-MD5:         $digest_md5
   SCRAM-SHA-1:        $scram_sha1
+  SCRAM-SHA-256:      $scram_sha256
   SAML20:             $saml20
   OPENID20:           $openid20
   GS2:                $gs2
