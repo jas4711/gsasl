@@ -186,6 +186,8 @@ gl/localcharset.o
 gl/locale.h
 gl/mbrtowc.lo
 gl/mbrtowc.o
+gl/mbtowc-lock.lo
+gl/mbtowc-lock.o
 gl/netdb.h
 gl/poll.h
 gl/printf-args.lo
