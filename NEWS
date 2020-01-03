@@ -8,6 +8,8 @@ SASL.  That include the manual, the command line tool, and self tests.
 
 * Version 1.9.0 (unreleased) [beta]
 
+** Client and server support for SCRAM-SHA-256 and SCRAM-SHA-256-PLUS.
+
 ** gsasl: If PORT argument is "587" or "submission", SMTP mode is used.
 Further, unrecognized PORT arguments will now on raise an error to
 specify --smtp or --imap.
