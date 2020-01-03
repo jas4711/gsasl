@@ -1,5 +1,5 @@
 /* Convert multibyte character to wide character.
-   Copyright (C) 1999-2002, 2005-2019 Free Software Foundation, Inc.
+   Copyright (C) 1999-2002, 2005-2020 Free Software Foundation, Inc.
    Written by Bruno Haible <bruno@clisp.org>, 2008.
 
    This program is free software: you can redistribute it and/or modify
@@ -20,7 +20,7 @@
 /* Specification.  */
 #include <wchar.h>
 
-#if C_LOCALE_MAYBE_EILSEQ
+#if MBRTOWC_IN_C_LOCALE_MAYBE_EILSEQ
 # include "hard-locale.h"
 # include <locale.h>
 #endif
@@ -29,12 +29,35 @@
 /* Implement mbrtowc() on top of mbtowc().  */
 
 # include <errno.h>
+# include <stdint.h>
 # include <stdlib.h>
+
+# if defined _WIN32 && !defined __CYGWIN__
+
+#  define WIN32_LEAN_AND_MEAN  /* avoid including junk */
+#  include <windows.h>
+
+# elif HAVE_PTHREAD_API
+
+#  include <pthread.h>
+#  if HAVE_THREADS_H && HAVE_WEAK_SYMBOLS
+#   include <threads.h>
+#   pragma weak thrd_exit
+#   define c11_threads_in_use() (thrd_exit != NULL)
+#  else
+#   define c11_threads_in_use() 0
+#  endif
+
+# elif HAVE_THREADS_H
+
+#  include <threads.h>
+
+# endif
 
 # include "localcharset.h"
 # include "streq.h"
 # include "verify.h"
-# include "glthread/lock.h"
+# include "mbtowc-lock.h"
 
 # ifndef FALLTHROUGH
 #  if __GNUC__ < 7
@@ -92,12 +115,7 @@ locale_enc_cached (void)
 #  define locale_enc_cached locale_enc
 # endif
 
-/* This lock protects the internal state of mbtowc against multiple simultaneous
-   calls of mbrtowc.  */
-gl_lock_define_initialized(static, mbtowc_lock)
-
 verify (sizeof (mbstate_t) >= 4);
-
 static char internal_state[4];
 
 size_t
@@ -214,12 +232,17 @@ mbrtowc (wchar_t *pwc, const char *s, size_t n, mbstate_t *ps)
 
                             if ((c3 ^ 0x80) < 0x40)
                               {
-                                if (pwc != NULL)
-                                  *pwc = ((unsigned int) (c & 0x0f) << 12)
-                                         | ((unsigned int) (c2 ^ 0x80) << 6)
-                                         | (unsigned int) (c3 ^ 0x80);
-                                res = 3;
-                                goto success;
+                                unsigned int wc
+                                  = (((unsigned int) (c & 0x0f) << 12)
+                                     | ((unsigned int) (c2 ^ 0x80) << 6)
+                                     | (unsigned int) (c3 ^ 0x80));
+                                if (wc <= WCHAR_MAX)
+                                  {
+                                    if (pwc != NULL)
+                                      *pwc = wc;
+                                    res = 3;
+                                    goto success;
+                                  }
                               }
                           }
                       }
@@ -253,13 +276,19 @@ mbrtowc (wchar_t *pwc, const char *s, size_t n, mbstate_t *ps)
 
                                     if ((c4 ^ 0x80) < 0x40)
                                       {
-                                        if (pwc != NULL)
-                                          *pwc = ((unsigned int) (c & 0x07) << 18)
-                                                 | ((unsigned int) (c2 ^ 0x80) << 12)
-                                                 | ((unsigned int) (c3 ^ 0x80) << 6)
-                                                 | (unsigned int) (c4 ^ 0x80);
-                                        res = 4;
-                                        goto success;
+                                        unsigned int wc
+                                          = (((unsigned int) (c & 0x07) << 18)
+                                             | ((unsigned int) (c2 ^ 0x80)
+                                                << 12)
+                                             | ((unsigned int) (c3 ^ 0x80) << 6)
+                                             | (unsigned int) (c4 ^ 0x80));
+                                        if (wc <= WCHAR_MAX)
+                                          {
+                                            if (pwc != NULL)
+                                              *pwc = wc;
+                                            res = 4;
+                                            goto success;
+                                          }
                                       }
                                   }
                               }
@@ -274,16 +303,7 @@ mbrtowc (wchar_t *pwc, const char *s, size_t n, mbstate_t *ps)
       {
         /* The hidden internal state of mbtowc would make this function not
            multi-thread safe.  Achieve multi-thread safety through a lock.  */
-        gl_lock_lock (mbtowc_lock);
-
-        /* Put the hidden internal state of mbtowc into its initial state.
-           This is needed at least with glibc, uClibc, and MSVC CRT.
-           See <https://sourceware.org/bugzilla/show_bug.cgi?id=9674>.  */
-        mbtowc (NULL, NULL, 0);
-
-        res = mbtowc (pwc, p, m);
-
-        gl_lock_unlock (mbtowc_lock);
+        res = mbtowc_with_lock (pwc, p, m);
 
         if (res >= 0)
           {
@@ -512,14 +532,20 @@ rpl_mbrtowc (wchar_t *pwc, const char *s, size_t n, mbstate_t *ps)
   }
 # endif
 
+# if MBRTOWC_STORES_INCOMPLETE_BUG
+  ret = mbrtowc (&wc, s, n, ps);
+  if (ret < (size_t) -2 && pwc != NULL)
+    *pwc = wc;
+# else
   ret = mbrtowc (pwc, s, n, ps);
+# endif
 
 # if MBRTOWC_NUL_RETVAL_BUG
   if (ret < (size_t) -2 && !*pwc)
     return 0;
 # endif
 
-# if C_LOCALE_MAYBE_EILSEQ
+# if MBRTOWC_IN_C_LOCALE_MAYBE_EILSEQ
   if ((size_t) -2 <= ret && n != 0 && ! hard_locale (LC_CTYPE))
     {
       unsigned char uc = *s;

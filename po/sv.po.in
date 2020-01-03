@@ -1,16 +1,16 @@
 # Swedish translations for gsasl package
-# Copyright (C) 2002, 2006, 2009, 2010, 2017, 2018 Free Software Foundation, Inc.
+# Copyright (C) 2002, 2006, 2009, 2010, 2017, 2018, 2019 Free Software Foundation, Inc.
 # This file is distributed under the same license as the gsasl package.
 # Simon Josefsson <simon@josefsson.org>, 2002.
 # Daniel Nylander <po@danielnylander.se>, 2006, 2009, 2010.
-# Sebastian Rasmussen <sebras@gmail.com>, 2017, 2018.
+# Sebastian Rasmussen <sebras@gmail.com>, 2017, 2018, 2019.
 #
 msgid ""
 msgstr ""
-"Project-Id-Version: gsasl 1.7.4\n"
+"Project-Id-Version: gsasl 1.8.1\n"
 "Report-Msgid-Bugs-To: bug-gsasl@gnu.org\n"
-"POT-Creation-Date: 2012-05-16 00:55+0200\n"
-"PO-Revision-Date: 2018-07-27 11:24+0800\n"
+"POT-Creation-Date: 2019-08-02 13:30+0200\n"
+"PO-Revision-Date: 2019-08-03 21:19+0200\n"
 "Last-Translator: Sebastian Rasmussen <sebras@gmail.com>\n"
 "Language-Team: Swedish <tp-sv@listor.tp-sv.se>\n"
 "Language: sv\n"
@@ -19,7 +19,7 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "X-Bugs: Report translation errors to the Language-Team address.\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
-"X-Generator: Poedit 2.0.9\n"
+"X-Generator: Poedit 2.2.1\n"
 
 #: src/imap.c:76 src/smtp.c:79
 #, c-format
@@ -31,10 +31,10 @@ msgstr "Valde SASL-mekanismer:\n"
 msgid "Using mechanism:\n"
 msgstr "Använder mekanism:\n"
 
-#: src/imap.c:180
+#: src/imap.c:186
 #, c-format
-msgid "error: server did not return a token\n"
-msgstr "fel: server returnerade inte en symbol\n"
+msgid "warning: server did not return a token\n"
+msgstr "varning: server returnerade inte en symbol\n"
 
 #: src/smtp.c:192
 #, c-format
@@ -192,8 +192,8 @@ msgstr "servercertifikat har återkallats"
 
 #: src/gsasl.c:592
 #, c-format
-msgid "could not verify server certificate (rc=%d)"
-msgstr "kunde inte validera servercertifikat (rc=%d)"
+msgid "could not verify server certificate (rc=%u)"
+msgstr "kunde inte validera servercertifikat (rc=%u)"
 
 #: src/gsasl.c:603
 #, c-format

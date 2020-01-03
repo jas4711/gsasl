@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2005, 2010-2019 Free Software Foundation, Inc.
+ * Copyright (C) 2005, 2010-2020 Free Software Foundation, Inc.
  * Written by Simon Josefsson
  *
  * This program is free software; you can redistribute it and/or modify
@@ -52,11 +52,11 @@ main (int argc, char *argv[])
     if (memcmp (out, expect, 20) != 0)
       {
         size_t i;
-        printf ("sha1 mismatch. expected:\n");
-        for (i = 0; i < 16; i++)
+        printf ("sha1 test1 mismatch. expected:\n");
+        for (i = 0; i < 20; i++)
           printf ("%02x ", expect[i] & 0xFF);
         printf ("\ncomputed:\n");
-        for (i = 0; i < 16; i++)
+        for (i = 0; i < 20; i++)
           printf ("%02x ", out[i] & 0xFF);
         printf ("\n");
         return 1;
@@ -72,11 +72,11 @@ main (int argc, char *argv[])
     if (memcmp (out, expect, 20) != 0)
       {
         size_t i;
-        printf ("sha1' mismatch. expected:\n");
-        for (i = 0; i < 16; i++)
+        printf ("sha1 test2 mismatch. expected:\n");
+        for (i = 0; i < 20; i++)
           printf ("%02x ", expect[i] & 0xFF);
         printf ("\ncomputed:\n");
-        for (i = 0; i < 16; i++)
+        for (i = 0; i < 20; i++)
           printf ("%02x ", out[i] & 0xFF);
         printf ("\n");
         return 1;
@@ -107,7 +107,7 @@ main (int argc, char *argv[])
     if (memcmp (p, expect, 20) != 0)
       {
         size_t i;
-        printf ("sha1 1 mismatch. expected:\n");
+        printf ("sha1 test3 mismatch. expected:\n");
         for (i = 0; i < 20; i++)
           printf ("%02x ", expect[i] & 0xFF);
         printf ("\ncomputed:\n");

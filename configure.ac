@@ -1,6 +1,6 @@
 dnl Process this file with autoconf to produce a configure script.
 
-# Copyright (C) 2002-2019 Simon Josefsson
+# Copyright (C) 2002-2020 Simon Josefsson
 #
 # This file is part of GNU SASL.
 #
@@ -40,7 +40,7 @@ AM_MISSING_PROG(EPSTOPDF, epstopdf, $missing_dir)
 
 # Internationalization.
 AM_GNU_GETTEXT([external])
-AM_GNU_GETTEXT_VERSION([0.19.2])
+AM_GNU_GETTEXT_VERSION([0.19.8])
 
 # Checks for header files.
 AC_CHECK_HEADERS(pwd.h)

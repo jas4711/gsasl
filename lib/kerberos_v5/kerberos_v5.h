@@ -1,5 +1,5 @@
 /* kerberos_v5.h --- Prototypes for experimental SASL mechanism KERBEROS_V5.
- * Copyright (C) 2003-2019 Simon Josefsson
+ * Copyright (C) 2003-2020 Simon Josefsson
  *
  * This file is part of GNU SASL Library.
  *

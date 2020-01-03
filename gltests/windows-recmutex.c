@@ -1,5 +1,5 @@
-/* Plain mutexes (native Windows implementation).
-   Copyright (C) 2005-2019 Free Software Foundation, Inc.
+/* Plain recursive mutexes (native Windows implementation).
+   Copyright (C) 2005-2020 Free Software Foundation, Inc.
 
    This program is free software; you can redistribute it and/or modify
    it under the terms of the GNU General Public License as published by
@@ -20,25 +20,27 @@
 #include <config.h>
 
 /* Specification.  */
-#include "windows-mutex.h"
+#include "windows-recmutex.h"
 
 #include <errno.h>
 
 void
-glwthread_mutex_init (glwthread_mutex_t *mutex)
+glwthread_recmutex_init (glwthread_recmutex_t *mutex)
 {
+  mutex->owner = 0;
+  mutex->depth = 0;
   InitializeCriticalSection (&mutex->lock);
   mutex->guard.done = 1;
 }
 
 int
-glwthread_mutex_lock (glwthread_mutex_t *mutex)
+glwthread_recmutex_lock (glwthread_recmutex_t *mutex)
 {
   if (!mutex->guard.done)
     {
       if (InterlockedIncrement (&mutex->guard.started) == 0)
         /* This thread is the first one to need this mutex.  Initialize it.  */
-        glwthread_mutex_init (mutex);
+        glwthread_recmutex_init (mutex);
       else
         {
           /* Don't let mutex->guard.started grow and wrap around.  */
@@ -49,18 +51,30 @@ glwthread_mutex_lock (glwthread_mutex_t *mutex)
             Sleep (0);
         }
     }
-  EnterCriticalSection (&mutex->lock);
+  {
+    DWORD self = GetCurrentThreadId ();
+    if (mutex->owner != self)
+      {
+        EnterCriticalSection (&mutex->lock);
+        mutex->owner = self;
+      }
+    if (++(mutex->depth) == 0) /* wraparound? */
+      {
+        mutex->depth--;
+        return EAGAIN;
+      }
+  }
   return 0;
 }
 
 int
-glwthread_mutex_trylock (glwthread_mutex_t *mutex)
+glwthread_recmutex_trylock (glwthread_recmutex_t *mutex)
 {
   if (!mutex->guard.done)
     {
       if (InterlockedIncrement (&mutex->guard.started) == 0)
         /* This thread is the first one to need this mutex.  Initialize it.  */
-        glwthread_mutex_init (mutex);
+        glwthread_recmutex_init (mutex);
       else
         {
           /* Don't let mutex->guard.started grow and wrap around.  */
@@ -70,25 +84,43 @@ glwthread_mutex_trylock (glwthread_mutex_t *mutex)
           return EBUSY;
         }
     }
-  if (!TryEnterCriticalSection (&mutex->lock))
+  {
+    DWORD self = GetCurrentThreadId ();
+    if (mutex->owner != self)
+      {
+        if (!TryEnterCriticalSection (&mutex->lock))
+          return EBUSY;
+        mutex->owner = self;
+      }
+    if (++(mutex->depth) == 0) /* wraparound? */
+      {
+        mutex->depth--;
+        return EAGAIN;
+      }
+  }
+  return 0;
+}
+
+int
+glwthread_recmutex_unlock (glwthread_recmutex_t *mutex)
+{
+  if (mutex->owner != GetCurrentThreadId ())
+    return EPERM;
+  if (mutex->depth == 0)
+    return EINVAL;
+  if (--(mutex->depth) == 0)
+    {
+      mutex->owner = 0;
+      LeaveCriticalSection (&mutex->lock);
+    }
+  return 0;
+}
+
+int
+glwthread_recmutex_destroy (glwthread_recmutex_t *mutex)
+{
+  if (mutex->owner != 0)
     return EBUSY;
-  return 0;
-}
-
-int
-glwthread_mutex_unlock (glwthread_mutex_t *mutex)
-{
-  if (!mutex->guard.done)
-    return EINVAL;
-  LeaveCriticalSection (&mutex->lock);
-  return 0;
-}
-
-int
-glwthread_mutex_destroy (glwthread_mutex_t *mutex)
-{
-  if (!mutex->guard.done)
-    return EINVAL;
   DeleteCriticalSection (&mutex->lock);
   mutex->guard.done = 0;
   return 0;

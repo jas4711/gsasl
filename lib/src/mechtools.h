@@ -1,5 +1,5 @@
 /* mechtools.h --- Helper functions available for use by any mechanism.
- * Copyright (C) 2010-2019 Simon Josefsson
+ * Copyright (C) 2010-2020 Simon Josefsson
  *
  * This file is part of GNU SASL Library.
  *
@@ -37,5 +37,9 @@ extern int _gsasl_gs2_generate_header (bool nonstd, char cbflag,
 				       const char *authzid, size_t extralen,
 				       const char *extra, char **gs2h,
 				       size_t * gs2hlen);
+
+extern int _gsasl_sha256 (const char *in, size_t inlen, char *out[]);
+extern int _gsasl_hmac_sha256 (const char *key, size_t keylen,
+			       const char *in, size_t inlen, char *outhash[]);
 
 #endif

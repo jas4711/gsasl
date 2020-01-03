@@ -1,5 +1,5 @@
 /* Creating and controlling POSIX threads.
-   Copyright (C) 2010-2019 Free Software Foundation, Inc.
+   Copyright (C) 2010-2020 Free Software Foundation, Inc.
 
    This program is free software; you can redistribute it and/or modify
    it under the terms of the GNU General Public License as published by
@@ -39,7 +39,7 @@ pthread_attr_init (pthread_attr_t *attr)
 }
 
 int
-pthread_attr_getdetachstate (pthread_attr_t *attr, int *detachstatep)
+pthread_attr_getdetachstate (const pthread_attr_t *attr, int *detachstatep)
 {
   *detachstatep = *attr & (PTHREAD_CREATE_JOINABLE | PTHREAD_CREATE_DETACHED);
   return 0;

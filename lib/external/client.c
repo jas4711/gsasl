@@ -1,5 +1,5 @@
 /* client.c --- EXTERNAL mechanism as defined in RFC 2222, client side.
- * Copyright (C) 2002-2019 Simon Josefsson
+ * Copyright (C) 2002-2020 Simon Josefsson
  *
  * This file is part of GNU SASL Library.
  *

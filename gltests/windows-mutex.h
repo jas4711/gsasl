@@ -1,5 +1,5 @@
-/* Once-only control (native Windows implementation).
-   Copyright (C) 2005-2019 Free Software Foundation, Inc.
+/* Plain mutexes (native Windows implementation).
+   Copyright (C) 2005-2020 Free Software Foundation, Inc.
 
    This program is free software; you can redistribute it and/or modify
    it under the terms of the GNU General Public License as published by
@@ -17,31 +17,35 @@
 /* Written by Bruno Haible <bruno@clisp.org>, 2005.
    Based on GCC's gthr-win32.h.  */
 
-#ifndef _WINDOWS_ONCE_H
-#define _WINDOWS_ONCE_H
+#ifndef _WINDOWS_MUTEX_H
+#define _WINDOWS_MUTEX_H
 
 #define WIN32_LEAN_AND_MEAN  /* avoid including junk */
 #include <windows.h>
 
+#include "windows-initguard.h"
+
 typedef struct
         {
-          volatile int inited;
-          volatile LONG started;
+          glwthread_initguard_t guard; /* protects the initialization */
           CRITICAL_SECTION lock;
         }
-        glwthread_once_t;
+        glwthread_mutex_t;
 
-#define GLWTHREAD_ONCE_INIT { -1, -1 }
+#define GLWTHREAD_MUTEX_INIT { GLWTHREAD_INITGUARD_INIT }
 
 #ifdef __cplusplus
 extern "C" {
 #endif
 
-extern void glwthread_once (glwthread_once_t *once_control,
-                            void (*initfunction) (void));
+extern void glwthread_mutex_init (glwthread_mutex_t *mutex);
+extern int glwthread_mutex_lock (glwthread_mutex_t *mutex);
+extern int glwthread_mutex_trylock (glwthread_mutex_t *mutex);
+extern int glwthread_mutex_unlock (glwthread_mutex_t *mutex);
+extern int glwthread_mutex_destroy (glwthread_mutex_t *mutex);
 
 #ifdef __cplusplus
 }
 #endif
 
-#endif /* _WINDOWS_ONCE_H */
+#endif /* _WINDOWS_MUTEX_H */

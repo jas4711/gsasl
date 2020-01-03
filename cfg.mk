@@ -1,4 +1,4 @@
-# Copyright (C) 2006-2019 Simon Josefsson
+# Copyright (C) 2006-2020 Simon Josefsson
 #
 # This file is part of GNU SASL.
 #
@@ -46,9 +46,10 @@ exclude_file_name_regexp--sc_makefile_path_separator_check = ^(lib/)?po/Makefile
 exclude_file_name_regexp--sc_bindtextdomain = ^doc/print-errors.c|examples/.*|lib/digest-md5/test-parser.c|lib/tests/test-error.c|tests/.*$$
 exclude_file_name_regexp--sc_program_name = $(exclude_file_name_regexp--sc_bindtextdomain)
 exclude_file_name_regexp--sc_prohibit_magic_number_exit = ^(lib/)?m4/.*|doc/gsasl.texi|examples/(openid20|saml20)/.*.php|tests.*$$
-exclude_file_name_regexp--sc_trailing_blank = ^doc/.*\.(eps|png)|(lib/)?po/.*$$
+exclude_file_name_regexp--sc_trailing_blank = ^(lib/)?ABOUT-NLS|doc/.*\.(eps|png)|(lib/)?po/.*$$
 exclude_file_name_regexp--sc_space_tab = ^(lib/)?m4/lib-prefix.m4$$
 exclude_file_name_regexp--sc_useless_cpp_parens = ^(lib/)?m4/.*$$
+exclude_file_name_regexp--sc_prohibit_test_minus_ao = ^lib/m4/libgcrypt.m4$$
 
 update-copyright-env = UPDATE_COPYRIGHT_HOLDER="Simon Josefsson" UPDATE_COPYRIGHT_USE_INTERVALS=2 UPDATE_COPYRIGHT_FORCE=1
 

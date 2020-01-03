@@ -1,5 +1,5 @@
-/* Plain mutexes (native Windows implementation).
-   Copyright (C) 2005-2019 Free Software Foundation, Inc.
+/* Plain recursive mutexes (native Windows implementation).
+   Copyright (C) 2005-2020 Free Software Foundation, Inc.
 
    This program is free software; you can redistribute it and/or modify
    it under the terms of the GNU General Public License as published by
@@ -17,35 +17,41 @@
 /* Written by Bruno Haible <bruno@clisp.org>, 2005.
    Based on GCC's gthr-win32.h.  */
 
-#ifndef _WINDOWS_MUTEX_H
-#define _WINDOWS_MUTEX_H
+#ifndef _WINDOWS_RECMUTEX_H
+#define _WINDOWS_RECMUTEX_H
 
 #define WIN32_LEAN_AND_MEAN  /* avoid including junk */
 #include <windows.h>
 
 #include "windows-initguard.h"
 
+/* The native Windows documentation says that CRITICAL_SECTION already
+   implements a recursive lock.  But we need not rely on it: It's easy to
+   implement a recursive lock without this assumption.  */
+
 typedef struct
         {
           glwthread_initguard_t guard; /* protects the initialization */
+          DWORD owner;
+          unsigned long depth;
           CRITICAL_SECTION lock;
         }
-        glwthread_mutex_t;
+        glwthread_recmutex_t;
 
-#define GLWTHREAD_MUTEX_INIT { GLWTHREAD_INITGUARD_INIT }
+#define GLWTHREAD_RECMUTEX_INIT { GLWTHREAD_INITGUARD_INIT, 0, 0 }
 
 #ifdef __cplusplus
 extern "C" {
 #endif
 
-extern void glwthread_mutex_init (glwthread_mutex_t *mutex);
-extern int glwthread_mutex_lock (glwthread_mutex_t *mutex);
-extern int glwthread_mutex_trylock (glwthread_mutex_t *mutex);
-extern int glwthread_mutex_unlock (glwthread_mutex_t *mutex);
-extern int glwthread_mutex_destroy (glwthread_mutex_t *mutex);
+extern void glwthread_recmutex_init (glwthread_recmutex_t *mutex);
+extern int glwthread_recmutex_lock (glwthread_recmutex_t *mutex);
+extern int glwthread_recmutex_trylock (glwthread_recmutex_t *mutex);
+extern int glwthread_recmutex_unlock (glwthread_recmutex_t *mutex);
+extern int glwthread_recmutex_destroy (glwthread_recmutex_t *mutex);
 
 #ifdef __cplusplus
 }
 #endif
 
-#endif /* _WINDOWS_MUTEX_H */
+#endif /* _WINDOWS_RECMUTEX_H */

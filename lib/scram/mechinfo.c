@@ -1,5 +1,5 @@
 /* mechinfo.c --- Definition of SCRAM mechanism.
- * Copyright (C) 2009-2019 Simon Josefsson
+ * Copyright (C) 2009-2020 Simon Josefsson
  *
  * This file is part of GNU SASL Library.
  *
@@ -88,6 +88,77 @@ Gsasl_mechanism gsasl_scram_sha1_plus_mechanism = {
    _gsasl_scram_sha1_plus_server_start,
    _gsasl_scram_sha1_server_step,
    _gsasl_scram_sha1_server_finish,
+#else
+   NULL,
+   NULL,
+   NULL,
+#endif
+   NULL,
+   NULL}
+};
+#endif
+
+#ifdef USE_SCRAM_SHA256
+Gsasl_mechanism gsasl_scram_sha256_mechanism = {
+  GSASL_SCRAM_SHA256_NAME,
+  {
+   NULL,
+   NULL,
+#ifdef USE_CLIENT
+   _gsasl_scram_sha256_client_start,
+   _gsasl_scram_sha256_client_step,
+   _gsasl_scram_sha256_client_finish,
+#else
+   NULL,
+   NULL,
+   NULL,
+#endif
+   NULL,
+   NULL}
+  ,
+  {
+   NULL,
+   NULL,
+#ifdef USE_SERVER
+   _gsasl_scram_sha256_server_start,
+   _gsasl_scram_sha256_server_step,
+   _gsasl_scram_sha256_server_finish,
+#else
+   NULL,
+   NULL,
+   NULL,
+#endif
+   NULL,
+   NULL}
+};
+#endif
+
+
+#ifdef USE_SCRAM_SHA256
+Gsasl_mechanism gsasl_scram_sha256_plus_mechanism = {
+  GSASL_SCRAM_SHA256_PLUS_NAME,
+  {
+   NULL,
+   NULL,
+#ifdef USE_CLIENT
+   _gsasl_scram_sha256_plus_client_start,
+   _gsasl_scram_sha256_client_step,
+   _gsasl_scram_sha256_client_finish,
+#else
+   NULL,
+   NULL,
+   NULL,
+#endif
+   NULL,
+   NULL}
+  ,
+  {
+   NULL,
+   NULL,
+#ifdef USE_SERVER
+   _gsasl_scram_sha256_plus_server_start,
+   _gsasl_scram_sha256_server_step,
+   _gsasl_scram_sha256_server_finish,
 #else
    NULL,
    NULL,

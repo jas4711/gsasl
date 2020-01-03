@@ -12,7 +12,7 @@
 This manual was last updated @value{UPDATED} for version
 @value{VERSION} of GNU SASL.
 
-Copyright @copyright{} 2002-2019 Simon Josefsson.
+Copyright @copyright{} 2002--2020 Simon Josefsson.
 
 @quotation
 Permission is granted to copy, distribute and/or modify this document
@@ -166,13 +166,13 @@ authentication messages.
 GNU SASL is an implementation of the Simple Authentication and
 Security Layer framework and a few common SASL mechanisms.
 
-GNU SASL consists of a library (@code{libgsasl}), a command line
-utility (@code{gsasl}) to access the library from the shell, and a
-manual.  The library includes support for the framework (with
-authentication functions and application data privacy and integrity
-functions) and at least partial support for the ANONYMOUS, CRAM-MD5,
-DIGEST-MD5, EXTERNAL, GS2-KRB5, GSSAPI, LOGIN, NTLM, PLAIN,
-SCRAM-SHA-1, SCRAM-SHA-1-PLUS, SAML20, OPENID20, and SECURID
+GNU SASL consists of a library (@code{libgsasl}), a command line utility
+(@code{gsasl}) to access the library from the shell, and a manual.  The
+library includes support for the framework (with authentication
+functions and application data privacy and integrity functions) and at
+least partial support for the ANONYMOUS, CRAM-MD5, DIGEST-MD5, EXTERNAL,
+GS2-KRB5, GSSAPI, LOGIN, NTLM, PLAIN, SCRAM-SHA-1, SCRAM-SHA-1-PLUS,
+SCRAM-SHA-256, SCRAM-SHA-256-PLUS, SAML20, OPENID20, and SECURID
 mechanisms.
 
 The library is easily ported because it does not do network
@@ -282,27 +282,22 @@ connectivity.
 @section Supported Platforms
 
 GNU SASL has at some point in time been tested on the following
-platforms.  Daily online build reports are available at
-@url{http://autobuild.josefsson.org/gsasl/}.
+platforms.
 
 @enumerate
 
-@item Debian GNU/Linux 3.0 (Woody)
+@item Debian GNU/Linux
 @cindex Debian
 
-GCC 2.95.4 and GNU Make. This is the main development platform.
-@code{alphaev67-unknown-linux-gnu}, @code{alphaev6-unknown-linux-gnu},
-@code{arm-unknown-linux-gnu}, @code{hppa-unknown-linux-gnu},
-@code{hppa64-unknown-linux-gnu}, @code{i686-pc-linux-gnu},
-@code{ia64-unknown-linux-gnu}, @code{m68k-unknown-linux-gnu},
-@code{mips-unknown-linux-gnu}, @code{mipsel-unknown-linux-gnu},
-@code{powerpc-unknown-linux-gnu}, @code{s390-ibm-linux-gnu},
-@code{sparc-unknown-linux-gnu}.
-
-@item Debian GNU/Linux 2.1
-@cindex Debian
-
-GCC 2.95.1 and GNU Make. @code{armv4l-unknown-linux-gnu}.
+GCC and GNU Make.  This is the main development platform.
+@code{x86_64-linux-gnu}, @code{alphaev67-unknown-linux-gnu},
+@code{alphaev6-unknown-linux-gnu}, @code{arm-unknown-linux-gnu},
+@code{hppa-unknown-linux-gnu}, @code{hppa64-unknown-linux-gnu},
+@code{i686-pc-linux-gnu}, @code{ia64-unknown-linux-gnu},
+@code{m68k-unknown-linux-gnu}, @code{mips-unknown-linux-gnu},
+@code{mipsel-unknown-linux-gnu}, @code{powerpc-unknown-linux-gnu},
+@code{s390-ibm-linux-gnu}, @code{sparc-unknown-linux-gnu},
+@code{armv4l-unknown-linux-gnu}.
 
 @item Tru64 UNIX
 @cindex Tru64
@@ -439,19 +434,20 @@ memory or size optimization.
 
 @end itemize
 
-If you are interested, please write to:
+The following companies have expressed an interest in providing this
+support:
 
-@verbatim
-Simon Josefsson Datakonsult AB
-Hagagatan 24
-113 47 Stockholm
-Sweden
+@itemize
 
-E-mail: simon@josefsson.org
-@end verbatim
+@item Simon Josefsson Datakonsult AB
+
+Contact through @url{https://josefsson.org/} and email
+@email{simon@@josefsson.org}.
+
+@end itemize
 
 If your company provides support related to GNU SASL and would like to
-be mentioned here, contact the author (@pxref{Bug Reports}).
+be mentioned here, please let us know (@pxref{Bug Reports}).
 
 @node Downloading and Installing
 @section Downloading and Installing
@@ -518,6 +514,7 @@ want to limit the size of the library.
 @itemx --disable-gs2
 @itemx --enable-kerberos_v5
 @itemx --disable-scram-sha1
+@itemx --disable-scram-sha256
 @itemx --disable-saml20
 @itemx --disable-openid20
 Disable or enable individual mechanisms (@pxref{Mechanisms}).
@@ -1433,13 +1430,12 @@ compare those values with external information (for example data
 stored in a database or on a LDAP server) and then return OK or not.
 
 @quotation Warning
-Don't expect that all mechanisms invoke one of the logical properties
-in the server mode.  For example, the CRAM-MD5 and SCRAM-SHA-1
-mechanisms will use the data properties (i.e., username and password)
-provided by the application to internally decide whether to
-successfully authenticate the user.  User authorization decisions
-needs to be made by the application outside of the SASL mechanism
-negotiation.
+Don't expect that all mechanisms invoke one of the ``logical
+properties'' in the server mode.  For example, the CRAM-MD5 and
+SCRAM-SHA-1 mechanisms will use the data properties (i.e., username and
+password) provided by the application to internally decide whether to
+successfully authenticate the user.  User authorization decisions needs
+to be made by the application outside of the SASL mechanism negotiation.
 @end quotation
 
 The logical properties are currently only used by servers, but data
@@ -1532,27 +1528,28 @@ values offered by the server (which may be inspected through the
 
 @item @code{GSASL_SCRAM_SALTED_PASSWORD}
 
-The SCRAM-SHA-1 client requests this property from the application,
-and the value should be 40 character long hex-encoded string with the
-user's hashed password.  Note that the value is different for the same
-password for each value of the @code{GSASL_SCRAM_ITER} and
-@code{GSASL_SCRAM_ITER} properties.  The property can be used to avoid
-storing a clear-text credential in the client.  If the property is not
-available, the client will ask for the @code{GSASL_PASSWORD} property
-instead.
+The SCRAM-* client requests this property from the application, and the
+value should be hex-encoded string (40 characters for SCRAM-SHA-1 and 64
+characters for SCRAM-SHA-256) with the user's PBKDF2-prepared password.
+Note that the value is different for the same password for each value of
+the @code{GSASL_SCRAM_ITER} and @code{GSASL_SCRAM_SALT} properties.  The
+property can be used to avoid storing a clear-text credential in the
+client, however note that an attacker who steal it may impersonate both
+a SCRAM client and SCRAM server.  If the property is not available, the
+client will ask for the @code{GSASL_PASSWORD} property instead.
 
 @item @code{GSASL_SCRAM_ITER}
 @item @code{GSASL_SCRAM_SALT}
 
 @cindex iteration count
 @cindex salt
-In the server, the application can set these properties to influence
-the hash iteration count and hash salt to use when deriving the
-password.  The default hash iteration count is 4096 and normally you
-should not need to use a lower setting.  The salt should be a random
-string.  In the client, the SCRAM-SHA-1 mechanism set these properties
-before asking for asking the application to provide a
-@code{GSASL_SCRAM_SALTED_PASSWORD} value.
+In the server, the application can set these properties to influence the
+hash iteration count and hash salt to use when deriving the password.
+The default hash iteration count is 4096 and normally you should not
+need to use a lower setting.  The salt should be a random string.  In
+the client, the SCRAM-* mechanism set these properties before asking for
+asking the application to provide a @code{GSASL_SCRAM_SALTED_PASSWORD}
+value.
 
 @item @code{GSASL_CB_TLS_UNIQUE}
 
@@ -1561,7 +1558,12 @@ before asking for asking the application to provide a
 This property holds base64 encoded @code{tls-unique} channel binding
 data.  As a hint, if you use GnuTLS, the API
 @code{gnutls_session_channel_binding} can be used to extract channel
-bindings for a session.
+bindings for a session.  To be secure, a TLS channel MUST have the
+session hash extension (RFC 7627) negotiated, or session resumption MUST
+NOT have been used.  The library cannot enforce this, so it is up to the
+application to only provide the @code{GSASL_CB_TLS_UNIQUE} property when
+the condition holds.
+
 
 @item @code{GSASL_SAML20_IDP_IDENTIFIER}
 
@@ -1671,12 +1673,12 @@ The client callback queries the user for a username and password.  The
 server callback hands the username and password into any local policy
 deciding authentication system (such as @file{/etc/passwd} via PAM).
 
-Mechanism such as @samp{CRAM-MD5} and @samp{SCRAM-SHA-1} uses hashed
+Mechanism such as @samp{CRAM-MD5} and @samp{SCRAM-SHA-256} uses hashed
 passwords.  The client callback behaviour is the same as for PLAIN.
 However, the server does not receive the plain text password over the
-network but rather a hash of it.  Existing policy deciding systems
-like PAM cannot handle this, so the server callback for these
-mechanisms are more complicated.
+network but rather a hash of it.  Existing policy deciding systems like
+PAM cannot handle this, so the server callback for these mechanisms are
+more complicated.
 
 Further, mechanisms like GSSAPI/GS2-KRB5 (Kerberos 5) assume a
 specific authentication system.  In theory this means that the SASL
@@ -1696,7 +1698,7 @@ entirely dependent on callbacks.
 * LOGIN::                   Non-standard clear text username and password.
 * CRAM-MD5::                Challenge-Response Authentication Mechanism.
 * DIGEST-MD5::              Digest Authentication.
-* SCRAM-SHA-1::             SCRAM-SHA-1 authentication.
+* SCRAM::                   Salted Challenge Response Authentication.
 * NTLM::                    Microsoft NTLM authentication.
 * SECURID::                 Authentication using tokens.
 * GSSAPI::                  GSSAPI (Kerberos 5) authentication.
@@ -1825,7 +1827,7 @@ SCRAM-SHA-1.  For insecure channels (e.g., when TLS is not used), it is
 has better properties than PLAIN since the unhashed password is not
 leaked.  The CRAM-MD5 mechanism does not support authorization
 identities; that make the relationship between CRAM-MD5 and
-DIGEST-MD5/SCRAM-SHA-1 similar to the relationship between LOGIN and
+DIGEST-MD5/SCRAM-SHA-* similar to the relationship between LOGIN and
 PLAIN.
 
 The disadvantage with hashed passwords is that the server cannot use
@@ -1900,18 +1902,26 @@ The DIGEST-MD5 mechanism is specified in RFC 2831.  RFC 6331 labels
 DIGEST-MD5 as historic and it contains a good exposition of the
 disadvantages with DIGEST-MD5.
 
-@node SCRAM-SHA-1
-@section The SCRAM-SHA-1 mechanism
+@node SCRAM
+@section The SCRAM mechanisms
 @cindex SCRAM
 
-The SCRAM-SHA-1 mechanism is designed to provide (almost) the same
-capabilities that CRAM-MD5 and DIGEST-MD5 provides but use modern
-cryptographic techniques such as HMAC-SHA-1 hashing and PKCS#5 PBKDF2
-key derivation.  SCRAM-SHA-1 supports authorization identities.  Like
-CRAM-MD5 and DIGEST-MD5, only a hashed password is transferred.
-Consequently, SCRAM-SHA-1 needs access to the correct password to verify
-the client response.  Channel bindings are supported through the
-SCRAM-SHA-1-PLUS mechanism.
+SCRAM is a family of mechanisms and we support SCRAM-SHA-1 and
+SCRAM-SHA-256.  They differ only in the use of underlying hash function.
+Channel bindings are supported through the SCRAM-SHA-1-PLUS and
+SCRAM-SHA-256-PLUS mechanisms, and will bind the authentication to a
+particular TLS channel.  SCRAM provides mutual authentication, i.e.,
+after a succesful authentication the client will know that the server
+knows the password, and the server will know that the client knows the
+password.  Further, this can be achieved without storing the password in
+clear text on either side.
+
+The SCRAM family is designed to provide the same capabilities that
+CRAM-MD5 and DIGEST-MD5 provides but with modern cryptographic
+techniques such as HMAC hashing and PKCS#5 PBKDF2 key derivation.  SCRAM
+supports authorization identities.  Like CRAM-MD5 and DIGEST-MD5, only a
+hashed password is transferred.  Consequently, SCRAM needs access to the
+correct password to verify the client response.
 
 In the client, the non-PLUS mechanism is always enabled, and it
 requires the @code{GSASL_AUTHID} property, and either
@@ -1927,32 +1937,40 @@ queried for.
 
 In the server, the mechanism will require the @code{GSASL_PASSWORD}
 callback property, which may use the @code{GSASL_AUTHID} property to
-determine which users' password should be used.  The
-@code{GSASL_AUTHID} will be in normalized form.  The server will then
-normalize the returned password, and compare the client response with
-the computed correct response, and accept the user accordingly.  The
-server may also set the @code{GSASL_SCRAM_ITER} and
-@code{GSASL_SCRAM_SALT} properties to influence the values to be used
-by clients to derive a key from a password.  When the
-@code{GSASL_CB_TLS_UNIQUE} property is set, the SCRAM-SHA-1-PLUS
-mechanism is supported and is used to negotiate channel bindings.
+determine which users' password should be used.  The @code{GSASL_AUTHID}
+will be in normalized form.  The server will then normalize the returned
+password, and compare the client response with the computed correct
+response, and accept the user accordingly.  The server may also set the
+@code{GSASL_SCRAM_ITER} and @code{GSASL_SCRAM_SALT} properties to
+influence the values to be used by clients to derive a key from a
+password.  When the @code{GSASL_CB_TLS_UNIQUE} property is set, the
+SCRAM-*-PLUS mechanism is supported and is used to negotiate channel
+bindings.
 
 @cindex channel binding
 The @code{GSASL_CB_TLS_UNIQUE} property signal that this side of the
 authentication supports channel bindings.  Setting the property will
-enable the SCRAM-SHA-1-PLUS mechanism.  For clients, this also
-instructs the SCRAM-SHA-1 mechanism to tell servers that the client
-believes the server does not support channel bindings if it is used
-(remember that clients should otherwise have chosen the
-SCRAM-SHA-1-PLUS mechanism instead of the SCRAM-SHA-1 mechanism).  For
-servers, it means the SCRAM-SHA-1 mechanism will refuse to
-authenticate against a client that signals that it believes the server
-does not support channel bindings.
+enable the SCRAM-SHA-1-PLUS and SCRAM-SHA-256-PLUS mechanisms.  For
+clients, this also instructs the SCRAM-SHA-1 and SCRAM-SHA-256 mechanism
+to tell servers that the client believes the server does not support
+channel bindings if it is used (remember that clients should otherwise
+have chosen the SCRAM-SHA-1-PLUS mechanism instead of the SCRAM-SHA-1
+mechanism).  For servers, it means the SCRAM-SHA-1/SCRAM-SHA-256
+mechanism will refuse to authenticate against a client that signals that
+it believes the server does not support channel bindings.
 
-The SCRAM-SHA-1-PLUS mechanism will never complete authentication
+The SCRAM-SHA-*-PLUS mechanisms will never complete authentication
 successfully if channel bindings are not confirmed.
 
-The SCRAM-SHA-1 mechanism is specified in RFC 5802.
+To offer the intended security, the SCRAM-SHA-*-PLUS mechanisms MUST be
+used over a TLS channel that has had the session hash extension (RFC
+7627) negotiated, or session resumption MUST NOT have been used.  The
+library cannot enforce this, so it is up to the application to only
+provide the @code{GSASL_CB_TLS_UNIQUE} property when this condition
+holds.
+
+The SCRAM-SHA-1 mechanism is specified in RFC 5802 and SCRAM-SHA-256 is
+specified in RFC 7677.
 
 @node NTLM
 @section The NTLM mechanism
@@ -1996,7 +2014,7 @@ If the callbacks is invoked again, after having returned
 @code{GSASL_PIN} property, in addition to the other properties, to
 find out the client selected PIN code.
 
-The SCRAM-SHA-1 mechanism is specified in RFC 2808.
+The SECURID mechanism is specified in RFC 2808.
 
 @node GSSAPI
 @section The GSSAPI mechanism

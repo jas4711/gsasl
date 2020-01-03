@@ -1,5 +1,5 @@
 # DO NOT EDIT! GENERATED AUTOMATICALLY!
-# Copyright (C) 2002-2019 Free Software Foundation, Inc.
+# Copyright (C) 2002-2020 Free Software Foundation, Inc.
 #
 # This file is free software; you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
@@ -74,6 +74,8 @@ AC_DEFUN([gl_EARLY],
   # Code from module crypto/gc-hmac-md5-tests:
   # Code from module crypto/gc-hmac-sha1:
   # Code from module crypto/gc-hmac-sha1-tests:
+  # Code from module crypto/gc-hmac-sha256:
+  # Code from module crypto/gc-hmac-sha256-tests:
   # Code from module crypto/gc-md5:
   # Code from module crypto/gc-md5-tests:
   # Code from module crypto/gc-pbkdf2-sha1:
@@ -81,17 +83,24 @@ AC_DEFUN([gl_EARLY],
   # Code from module crypto/gc-random:
   # Code from module crypto/gc-sha1:
   # Code from module crypto/gc-sha1-tests:
+  # Code from module crypto/gc-sha256:
+  # Code from module crypto/gc-sha256-tests:
   # Code from module crypto/gc-tests:
   # Code from module crypto/hmac-md5:
   # Code from module crypto/hmac-md5-tests:
   # Code from module crypto/hmac-sha1:
   # Code from module crypto/hmac-sha1-tests:
+  # Code from module crypto/hmac-sha256:
+  # Code from module crypto/hmac-sha256-tests:
   # Code from module crypto/md5:
   # Code from module crypto/md5-buffer:
   # Code from module crypto/md5-tests:
   # Code from module crypto/sha1:
   # Code from module crypto/sha1-buffer:
   # Code from module crypto/sha1-tests:
+  # Code from module crypto/sha256:
+  # Code from module crypto/sha256-buffer:
+  # Code from module crypto/sha256-tests:
   # Code from module ctype:
   # Code from module ctype-tests:
   # Code from module dosname:
@@ -111,7 +120,7 @@ AC_DEFUN([gl_EARLY],
   # Code from module fdopen:
   # Code from module fdopen-tests:
   # Code from module fflush:
-  AC_REQUIRE([AC_FUNC_FSEEKO])
+  AC_REQUIRE([gl_SET_LARGEFILE_SOURCE])
   # Code from module fflush-tests:
   # Code from module fgetc-tests:
   # Code from module filename:
@@ -129,14 +138,14 @@ AC_DEFUN([gl_EARLY],
   # Code from module fseek:
   # Code from module fseek-tests:
   # Code from module fseeko:
-  AC_REQUIRE([AC_FUNC_FSEEKO])
+  AC_REQUIRE([gl_SET_LARGEFILE_SOURCE])
   # Code from module fseeko-tests:
   # Code from module fstat:
   # Code from module fstat-tests:
   # Code from module ftell:
   # Code from module ftell-tests:
   # Code from module ftello:
-  AC_REQUIRE([AC_FUNC_FSEEKO])
+  AC_REQUIRE([gl_SET_LARGEFILE_SOURCE])
   # Code from module ftello-tests:
   # Code from module ftruncate:
   # Code from module ftruncate-tests:
@@ -216,8 +225,7 @@ AC_DEFUN([gl_EARLY],
   # Code from module pipe-posix:
   # Code from module pipe-posix-tests:
   # Code from module pthread-h:
-  AC_DEFINE([_REENTRANT], 1, [For thread-safety on OSF/1, Solaris.])
-  AC_DEFINE([_THREAD_SAFE], 1, [For thread-safety on AIX, FreeBSD.])
+  gl_ANYTHREADLIB_EARLY
   # Code from module pthread-h-tests:
   # Code from module pthread-thread:
   # Code from module pthread-thread-tests:
@@ -369,16 +377,22 @@ AC_DEFUN([gl_INIT],
   gl_MODULE_INDICATOR([gc-hmac-md5])
   gl_GC_HMAC_SHA1
   gl_MODULE_INDICATOR([gc-hmac-sha1])
+  gl_GC_HMAC_SHA256
+  gl_MODULE_INDICATOR([gc-hmac-sha256])
   gl_GC_MD5
   gl_MODULE_INDICATOR([gc-md5])
   gl_GC_RANDOM
   gl_MODULE_INDICATOR([gc-random])
   gl_GC_SHA1
   gl_MODULE_INDICATOR([gc-sha1])
+  gl_GC_SHA256
+  gl_MODULE_INDICATOR([gc-sha256])
   AC_DEFINE([GL_COMPILE_CRYPTO_STREAM], 1, [Compile Gnulib crypto stream ops.])
   gl_MD5
   AC_DEFINE([GL_COMPILE_CRYPTO_STREAM], 1, [Compile Gnulib crypto stream ops.])
   gl_SHA1
+  AC_DEFINE([GL_COMPILE_CRYPTO_STREAM], 1, [Compile Gnulib crypto stream ops.])
+  gl_SHA256
   gl_HEADER_ERRNO_H
   AC_REQUIRE([gl_EXTERN_INLINE])
   gl_FUNC_FFLUSH
@@ -459,6 +473,7 @@ AC_DEFUN([gl_INIT],
         [AC_CONFIG_LINKS([$GNUmakefile:$GNUmakefile], [],
           [GNUmakefile=$GNUmakefile])])
   sj_GSS_EXTRA
+  gl_INTTYPES_INCOMPLETE
   AC_REQUIRE([gl_LARGEFILE])
   gl_LD_OUTPUT_DEF
   gl_LD_VERSION_SCRIPT
@@ -684,7 +699,6 @@ changequote([, ])dnl
   gl_ARPA_INET_MODULE_INDICATOR([inet_pton])
   AC_C_BIGENDIAN
   gl_INTTYPES_H
-  gl_INTTYPES_INCOMPLETE
   gl_FUNC_IOCTL
   if test $HAVE_IOCTL = 0 || test $REPLACE_IOCTL = 1; then
     AC_LIBOBJ([ioctl])
@@ -706,6 +720,7 @@ changequote([, ])dnl
   gl_MODULE_INDICATOR([lock])
   AC_CHECK_HEADERS_ONCE([semaphore.h])
   AC_CHECK_DECLS_ONCE([alarm])
+  AC_REQUIRE([gl_SEMAPHORE])
   gl_FUNC_LSTAT
   if test $REPLACE_LSTAT = 1; then
     AC_LIBOBJ([lstat])
@@ -1058,9 +1073,11 @@ AC_DEFUN([gl_FILE_LIST], [
   lib/gss-extra.h
   lib/hmac-md5.c
   lib/hmac-sha1.c
+  lib/hmac-sha256.c
   lib/hmac.c
   lib/hmac.h
   lib/intprops.h
+  lib/inttypes.in.h
   lib/itold.c
   lib/libc-config.h
   lib/limits.in.h
@@ -1084,6 +1101,8 @@ AC_DEFUN([gl_FILE_LIST], [
   lib/printf-parse.h
   lib/sha1.c
   lib/sha1.h
+  lib/sha256.c
+  lib/sha256.h
   lib/size_max.h
   lib/stat-time.c
   lib/stat-time.h
@@ -1153,9 +1172,11 @@ AC_DEFUN([gl_FILE_LIST], [
   m4/ftruncate.m4
   m4/gc-hmac-md5.m4
   m4/gc-hmac-sha1.m4
+  m4/gc-hmac-sha256.m4
   m4/gc-md5.m4
   m4/gc-random.m4
   m4/gc-sha1.m4
+  m4/gc-sha256.m4
   m4/gc.m4
   m4/getcwd.m4
   m4/getdelim.m4
@@ -1182,10 +1203,10 @@ AC_DEFUN([gl_FILE_LIST], [
   m4/lib-ld.m4
   m4/lib-link.m4
   m4/lib-prefix.m4
+  m4/libgcrypt.m4
   m4/limits-h.m4
   m4/localtime-buffer.m4
   m4/lock.m4
-  m4/longlong.m4
   m4/lseek.m4
   m4/lstat.m4
   m4/malloc.m4
@@ -1205,6 +1226,7 @@ AC_DEFUN([gl_FILE_LIST], [
   m4/netinet_in_h.m4
   m4/off_t.m4
   m4/open-cloexec.m4
+  m4/open-slash.m4
   m4/open.m4
   m4/pathmax.m4
   m4/perror.m4
@@ -1218,8 +1240,10 @@ AC_DEFUN([gl_FILE_LIST], [
   m4/raise.m4
   m4/sched_h.m4
   m4/select.m4
+  m4/semaphore.m4
   m4/setenv.m4
   m4/sha1.m4
+  m4/sha256.m4
   m4/sigaction.m4
   m4/signal_h.m4
   m4/signalblocking.m4
@@ -1274,6 +1298,8 @@ AC_DEFUN([gl_FILE_LIST], [
   tests/bench-digest.h
   tests/bench-md5.c
   tests/bench-sha1.c
+  tests/bench-sha224.c
+  tests/bench-sha256.c
   tests/init.sh
   tests/macros.h
   tests/nap.h
@@ -1333,9 +1359,11 @@ AC_DEFUN([gl_FILE_LIST], [
   tests/test-fwrite.c
   tests/test-gc-hmac-md5.c
   tests/test-gc-hmac-sha1.c
+  tests/test-gc-hmac-sha256.c
   tests/test-gc-md5.c
   tests/test-gc-pbkdf2-sha1.c
   tests/test-gc-sha1.c
+  tests/test-gc-sha256.c
   tests/test-gc.c
   tests/test-getcwd-lgpl.c
   tests/test-getdelim.c
@@ -1345,6 +1373,7 @@ AC_DEFUN([gl_FILE_LIST], [
   tests/test-gettimeofday.c
   tests/test-hmac-md5.c
   tests/test-hmac-sha1.c
+  tests/test-hmac-sha256.c
   tests/test-ignore-value.c
   tests/test-inet_pton.c
   tests/test-init.sh
@@ -1388,6 +1417,7 @@ AC_DEFUN([gl_FILE_LIST], [
   tests/test-select.h
   tests/test-setsockopt.c
   tests/test-sha1.c
+  tests/test-sha256.c
   tests/test-sigaction.c
   tests/test-signal-h.c
   tests/test-sigprocmask.c
@@ -1468,7 +1498,6 @@ AC_DEFUN([gl_FILE_LIST], [
   tests=lib/glthread/yield.h
   tests=lib/ignore-value.h
   tests=lib/inet_pton.c
-  tests=lib/inttypes.in.h
   tests=lib/ioctl.c
   tests=lib/isblank.c
   tests=lib/listen.c

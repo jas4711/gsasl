@@ -1,5 +1,5 @@
 /* init.c --- Entry point for libgsasl.
- * Copyright (C) 2002-2019 Simon Josefsson
+ * Copyright (C) 2002-2020 Simon Josefsson
  *
  * This file is part of GNU SASL Library.
  *
@@ -113,6 +113,16 @@ register_builtin_mechs (Gsasl * ctx)
   if (rc != GSASL_OK)
     return rc;
 #endif /* USE_SCRAM_SHA1 */
+
+#ifdef USE_SCRAM_SHA256
+  rc = gsasl_register (ctx, &gsasl_scram_sha256_mechanism);
+  if (rc != GSASL_OK)
+    return rc;
+
+  rc = gsasl_register (ctx, &gsasl_scram_sha256_plus_mechanism);
+  if (rc != GSASL_OK)
+    return rc;
+#endif /* USE_SCRAM_SHA256 */
 
 #ifdef USE_SAML20
   rc = gsasl_register (ctx, &gsasl_saml20_mechanism);

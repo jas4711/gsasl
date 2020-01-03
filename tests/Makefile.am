@@ -1,5 +1,5 @@
 ## Process this file with automake to produce Makefile.in
-# Copyright (C) 2002-2019 Simon Josefsson
+# Copyright (C) 2002-2020 Simon Josefsson
 #
 # This file is part of GNU SASL.
 #
@@ -45,7 +45,7 @@ LOG_COMPILER=$(VALGRIND)
 
 ctests = external cram-md5 digest-md5 md5file name errors suggest	\
 	simple crypto scram scramplus symbols readnz gssapi gs2-krb5	\
-	saml20 openid20
+	saml20 openid20 scram-sha256
 if OBSOLETE
 ctests += old-simple old-md5file old-cram-md5 old-digest-md5	\
 	old-base64
