@@ -1536,7 +1536,7 @@ The SCRAM-SHA-1 client requests this property from the application,
 and the value should be 40 character long hex-encoded string with the
 user's hashed password.  Note that the value is different for the same
 password for each value of the @code{GSASL_SCRAM_ITER} and
-@code{GSASL_SCRAM_ITER} properties.  The property can be used to avoid
+@code{GSASL_SCRAM_SALT} properties.  The property can be used to avoid
 storing a clear-text credential in the client.  If the property is not
 available, the client will ask for the @code{GSASL_PASSWORD} property
 instead.
