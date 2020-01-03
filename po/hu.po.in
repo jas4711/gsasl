@@ -1,23 +1,23 @@
 # Hungarian translation for gsasl.
-# Copyright (C) 2014 Free Software Foundation, Inc.
+# Copyright (C) 2014, 2019 Free Software Foundation, Inc.
 # This file is distributed under the same license as the gsasl package.
 #
-# Balázs Úr <urbalazs@gmail.com>, 2014.
+# Balázs Úr <ur.balazs@fsf.hu>, 2014, 2019.
 msgid ""
 msgstr ""
-"Project-Id-Version: gsasl 1.7.4\n"
+"Project-Id-Version: gsasl 1.8.1\n"
 "Report-Msgid-Bugs-To: bug-gsasl@gnu.org\n"
-"POT-Creation-Date: 2012-05-16 00:55+0200\n"
-"PO-Revision-Date: 2014-06-26 22:51+0200\n"
-"Last-Translator: Balázs Úr <urbalazs@gmail.com>\n"
+"POT-Creation-Date: 2019-08-02 13:30+0200\n"
+"PO-Revision-Date: 2019-11-23 21:47+0100\n"
+"Last-Translator: Balázs Úr <ur.balazs@fsf.hu>\n"
 "Language-Team: Hungarian <translation-team-hu@lists.sourceforge.net>\n"
 "Language: hu\n"
-"X-Bugs: Report translation errors to the Language-Team address.\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
+"X-Bugs: Report translation errors to the Language-Team address.\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
-"X-Generator: Lokalize 1.5\n"
+"X-Generator: Lokalize 19.04.3\n"
 
 #: src/imap.c:76 src/smtp.c:79
 #, c-format
@@ -29,10 +29,10 @@ msgstr "SASL mechanizmus választása:\n"
 msgid "Using mechanism:\n"
 msgstr "Mechanizmus használata:\n"
 
-#: src/imap.c:180
+#: src/imap.c:186
 #, c-format
-msgid "error: server did not return a token\n"
-msgstr "hiba: a kiszolgáló nem adott vissza tokent\n"
+msgid "warning: server did not return a token\n"
+msgstr "figyelmeztetés: a kiszolgáló nem adott vissza tokent\n"
 
 #: src/smtp.c:192
 #, c-format
@@ -190,8 +190,8 @@ msgstr "a kiszolgáló tanúsítványát visszavonták"
 
 #: src/gsasl.c:592
 #, c-format
-msgid "could not verify server certificate (rc=%d)"
-msgstr "nem sikerült ellenőrizni a kiszolgáló tanúsítványát (rc=%d)"
+msgid "could not verify server certificate (rc=%u)"
+msgstr "nem sikerült ellenőrizni a kiszolgáló tanúsítványát (rc=%u)"
 
 #: src/gsasl.c:603
 #, c-format

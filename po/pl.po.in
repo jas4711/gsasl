@@ -1,21 +1,21 @@
 # Polish translation for gsasl.
-# Copyright (C) 2004, 2005, 2006, 2008, 2009, 2010, 2011, 2012 Free Software Foundation, Inc.
+# Copyright (C) 2004, 2005, 2006, 2008, 2009, 2010, 2011, 2012, 2019 Free Software Foundation, Inc.
 # This file is distributed under the same license as the gsasl package.
-# Jakub Bogusz <qboosh@pld-linux.org>, 2004-2012.
+# Jakub Bogusz <qboosh@pld-linux.org>, 2004-2019.
 #
 msgid ""
 msgstr ""
-"Project-Id-Version: gsasl 1.7.4\n"
+"Project-Id-Version: gsasl 1.8.1\n"
 "Report-Msgid-Bugs-To: bug-gsasl@gnu.org\n"
-"POT-Creation-Date: 2012-05-16 00:55+0200\n"
-"PO-Revision-Date: 2012-05-21 19:10+0200\n"
+"POT-Creation-Date: 2019-08-02 13:30+0200\n"
+"PO-Revision-Date: 2019-08-03 14:25+0200\n"
 "Last-Translator: Jakub Bogusz <qboosh@pld-linux.org>\n"
 "Language-Team: Polish <translation-team-pl@lists.sourceforge.net>\n"
 "Language: pl\n"
-"X-Bugs: Report translation errors to the Language-Team address.\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
+"X-Bugs: Report translation errors to the Language-Team address.\n"
 
 #: src/imap.c:76 src/smtp.c:79
 #, c-format
@@ -27,10 +27,10 @@ msgstr "Wybór mechanizmów SASL:\n"
 msgid "Using mechanism:\n"
 msgstr "Użycie mechanizmu:\n"
 
-#: src/imap.c:180
+#: src/imap.c:186
 #, c-format
-msgid "error: server did not return a token\n"
-msgstr "błąd: serwer nie zwrócił tokenu\n"
+msgid "warning: server did not return a token\n"
+msgstr "uwaga: serwer nie zwrócił tokenu\n"
 
 #: src/smtp.c:192
 #, c-format
@@ -188,8 +188,8 @@ msgstr "certyfikat serwera został anulowany"
 
 #: src/gsasl.c:592
 #, c-format
-msgid "could not verify server certificate (rc=%d)"
-msgstr "nie można zweryfikować certyfikatu serwera (rc=%d)"
+msgid "could not verify server certificate (rc=%u)"
+msgstr "nie udało się zweryfikować certyfikatu serwera (rc=%u)"
 
 #: src/gsasl.c:603
 #, c-format

@@ -1,24 +1,24 @@
 # Brazilian Portuguese translations for gsasl package
 # Traduções em português brasileiro para o pacote gsasl.
-# Copyright (C) 2018 Free Software Foundation, Inc.
-# Copyright (C) 2018 Simon Josefsson
+# Copyright (C) 2019 Free Software Foundation, Inc.
+# Copyright (C) 2019 Simon Josefsson
 # This file is distributed under the same license as the gsasl package.
-# Rafael Fontenelle <rafaelff@gnome.org>, 2018.
+# Rafael Fontenelle <rafaelff@gnome.org>, 2018, 2019.
 msgid ""
 msgstr ""
-"Project-Id-Version: gsasl 1.7.4\n"
+"Project-Id-Version: gsasl 1.8.1\n"
 "Report-Msgid-Bugs-To: bug-gsasl@gnu.org\n"
-"POT-Creation-Date: 2012-05-16 00:55+0200\n"
-"PO-Revision-Date: 2018-04-22 07:01-0300\n"
+"POT-Creation-Date: 2019-08-02 13:30+0200\n"
+"PO-Revision-Date: 2019-08-03 08:23-0200\n"
 "Last-Translator: Rafael Fontenelle <rafaelff@gnome.org>\n"
 "Language-Team: Brazilian Portuguese <ldpbr-translation@lists.sourceforge.net>\n"
 "Language: pt_BR\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Bugs: Report translation errors to the Language-Team address.\n"
 "Plural-Forms: nplurals=2; plural=(n > 1);\n"
 "X-Generator: Virtaal 1.0.0-beta1\n"
+"X-Bugs: Report translation errors to the Language-Team address.\n"
 
 #: src/imap.c:76 src/smtp.c:79
 #, c-format
@@ -30,10 +30,10 @@ msgstr "Escolha os mecanismos SASL:\n"
 msgid "Using mechanism:\n"
 msgstr "Usando o mecanismo:\n"
 
-#: src/imap.c:180
+#: src/imap.c:186
 #, c-format
-msgid "error: server did not return a token\n"
-msgstr "erro: o servidor não retornou um token\n"
+msgid "warning: server did not return a token\n"
+msgstr "aviso: o servidor não retornou um token\n"
 
 #: src/smtp.c:192
 #, c-format
@@ -191,8 +191,8 @@ msgstr "o certificado do servidor foi revogado"
 
 #: src/gsasl.c:592
 #, c-format
-msgid "could not verify server certificate (rc=%d)"
-msgstr "não foi possível verificar o certificado do servidor (rc=%d)"
+msgid "could not verify server certificate (rc=%u)"
+msgstr "não foi possível verificar o certificado do servidor (rc=%u)"
 
 #: src/gsasl.c:603
 #, c-format
