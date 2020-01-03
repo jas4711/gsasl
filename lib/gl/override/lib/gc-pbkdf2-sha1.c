@@ -38,11 +38,11 @@ gc_pbkdf2 (const char *P, size_t Plen,
 	   const char *S, size_t Slen,
 	   unsigned int c,
 	   char *DK, size_t dkLen,
+	   unsigned int hLen,
 	   gc_hmac_func f)
 {
-  unsigned int hLen = 20;
-  char U[20];
-  char T[20];
+  char U[32];
+  char T[32];
   unsigned int u;
   unsigned int l;
   unsigned int r;
@@ -112,7 +112,7 @@ gc_pbkdf2_sha1 (const char *P, size_t Plen,
 		unsigned int c,
 		char *DK, size_t dkLen)
 {
-  return gc_pbkdf2 (P, Plen, S, Slen, c, DK, dkLen, gc_hmac_sha1);
+  return gc_pbkdf2 (P, Plen, S, Slen, c, DK, dkLen, 20, gc_hmac_sha1);
 }
 
 Gc_rc
@@ -121,5 +121,5 @@ gc_pbkdf2_sha256 (const char *P, size_t Plen,
 		  unsigned int c,
 		  char *DK, size_t dkLen)
 {
-  return gc_pbkdf2 (P, Plen, S, Slen, c, DK, dkLen, gc_hmac_sha256);
+  return gc_pbkdf2 (P, Plen, S, Slen, c, DK, dkLen, 32, gc_hmac_sha256);
 }
