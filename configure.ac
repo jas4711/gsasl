@@ -40,7 +40,7 @@ AM_MISSING_PROG(EPSTOPDF, epstopdf, $missing_dir)
 
 # Internationalization.
 AM_GNU_GETTEXT([external])
-AM_GNU_GETTEXT_VERSION([0.19.2])
+AM_GNU_GETTEXT_VERSION([0.19.8])
 
 # Checks for header files.
 AC_CHECK_HEADERS(pwd.h)

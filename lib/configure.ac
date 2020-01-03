@@ -50,7 +50,7 @@ AC_PROG_LIBTOOL
 
 # Internationalization.
 AM_GNU_GETTEXT([external])
-AM_GNU_GETTEXT_VERSION([0.19.2])
+AM_GNU_GETTEXT_VERSION([0.19.8])
 
 # ANONYMOUS
 AC_ARG_ENABLE(anonymous,
