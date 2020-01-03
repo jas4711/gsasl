@@ -1,5 +1,5 @@
 /* mechinfo.c --- Definition of LOGIN mechanism.
- * Copyright (C) 2002-2019 Simon Josefsson
+ * Copyright (C) 2002-2020 Simon Josefsson
  *
  * This file is part of GNU SASL Library.
  *

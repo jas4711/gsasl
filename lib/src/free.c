@@ -1,5 +1,5 @@
 /* free.c --- Wrapper around the `free' function, primarily for Windows
- * Copyright (C) 2004-2019 Simon Josefsson
+ * Copyright (C) 2004-2020 Simon Josefsson
  *
  * This file is part of GNU SASL Library.
  *
