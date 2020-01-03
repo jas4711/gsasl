@@ -101,8 +101,8 @@ libgl_la_LDFLAGS += $(GETADDRINFO_LIB)
 libgl_la_LDFLAGS += $(HOSTENT_LIB)
 libgl_la_LDFLAGS += $(INET_NTOP_LIB)
 libgl_la_LDFLAGS += $(LIBSOCKET)
-libgl_la_LDFLAGS += $(LIBTHREAD)
 libgl_la_LDFLAGS += $(LIB_HARD_LOCALE)
+libgl_la_LDFLAGS += $(LIB_MBRTOWC)
 libgl_la_LDFLAGS += $(LIB_POLL)
 libgl_la_LDFLAGS += $(LIB_SELECT)
 libgl_la_LDFLAGS += $(LIB_SETLOCALE_NULL)
@@ -720,12 +720,6 @@ EXTRA_DIST += locale.in.h
 
 ## end   gnulib module locale
 
-## begin gnulib module lock
-
-libgl_la_SOURCES += glthread/lock.h glthread/lock.c
-
-## end   gnulib module lock
-
 ## begin gnulib module lseek
 
 
@@ -753,9 +747,9 @@ EXTRA_libgl_la_SOURCES += malloc.c
 ## begin gnulib module mbrtowc
 
 
-EXTRA_DIST += mbrtowc.c
+EXTRA_DIST += mbrtowc.c mbtowc-lock.c mbtowc-lock.h windows-initguard.h
 
-EXTRA_libgl_la_SOURCES += mbrtowc.c
+EXTRA_libgl_la_SOURCES += mbrtowc.c mbtowc-lock.c
 
 ## end   gnulib module mbrtowc
 
@@ -1921,12 +1915,6 @@ EXTRA_DIST += sys_uio.in.h
 
 ## end   gnulib module sys_uio
 
-## begin gnulib module threadlib
-
-libgl_la_SOURCES += glthread/threadlib.c
-
-## end   gnulib module threadlib
-
 ## begin gnulib module time
 
 BUILT_SOURCES += time.h
@@ -2022,6 +2010,7 @@ unistd.h: unistd.in.h $(top_builddir)/config.status $(CXXDEFS_H) $(ARG_NONNULL_H
 	      -e 's/@''GNULIB_GETHOSTNAME''@/$(GNULIB_GETHOSTNAME)/g' \
 	      -e 's/@''GNULIB_GETLOGIN''@/$(GNULIB_GETLOGIN)/g' \
 	      -e 's/@''GNULIB_GETLOGIN_R''@/$(GNULIB_GETLOGIN_R)/g' \
+	      -e 's/@''GNULIB_GETOPT_POSIX''@/$(GNULIB_GETOPT_POSIX)/g' \
 	      -e 's/@''GNULIB_GETPAGESIZE''@/$(GNULIB_GETPAGESIZE)/g' \
 	      -e 's/@''GNULIB_GETPASS''@/$(GNULIB_GETPASS)/g' \
 	      -e 's/@''GNULIB_GETUSERSHELL''@/$(GNULIB_GETUSERSHELL)/g' \
@@ -2415,42 +2404,6 @@ MOSTLYCLEANFILES += wctype.h wctype.h-t
 EXTRA_DIST += wctype.in.h
 
 ## end   gnulib module wctype-h
-
-## begin gnulib module windows-mutex
-
-
-EXTRA_DIST += windows-initguard.h windows-mutex.c windows-mutex.h
-
-EXTRA_libgl_la_SOURCES += windows-mutex.c
-
-## end   gnulib module windows-mutex
-
-## begin gnulib module windows-once
-
-
-EXTRA_DIST += windows-once.c windows-once.h
-
-EXTRA_libgl_la_SOURCES += windows-once.c
-
-## end   gnulib module windows-once
-
-## begin gnulib module windows-recmutex
-
-
-EXTRA_DIST += windows-initguard.h windows-recmutex.c windows-recmutex.h
-
-EXTRA_libgl_la_SOURCES += windows-recmutex.c
-
-## end   gnulib module windows-recmutex
-
-## begin gnulib module windows-rwlock
-
-
-EXTRA_DIST += windows-initguard.h windows-rwlock.c windows-rwlock.h
-
-EXTRA_libgl_la_SOURCES += windows-rwlock.c
-
-## end   gnulib module windows-rwlock
 
 ## begin gnulib module xalloc
 
