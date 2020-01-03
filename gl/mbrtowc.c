@@ -1,5 +1,5 @@
 /* Convert multibyte character to wide character.
-   Copyright (C) 1999-2002, 2005-2019 Free Software Foundation, Inc.
+   Copyright (C) 1999-2002, 2005-2020 Free Software Foundation, Inc.
    Written by Bruno Haible <bruno@clisp.org>, 2008.
 
    This program is free software: you can redistribute it and/or modify
@@ -20,7 +20,7 @@
 /* Specification.  */
 #include <wchar.h>
 
-#if C_LOCALE_MAYBE_EILSEQ
+#if MBRTOWC_IN_C_LOCALE_MAYBE_EILSEQ
 # include "hard-locale.h"
 # include <locale.h>
 #endif
@@ -29,6 +29,7 @@
 /* Implement mbrtowc() on top of mbtowc().  */
 
 # include <errno.h>
+# include <stdint.h>
 # include <stdlib.h>
 
 # include "localcharset.h"
@@ -214,12 +215,17 @@ mbrtowc (wchar_t *pwc, const char *s, size_t n, mbstate_t *ps)
 
                             if ((c3 ^ 0x80) < 0x40)
                               {
-                                if (pwc != NULL)
-                                  *pwc = ((unsigned int) (c & 0x0f) << 12)
-                                         | ((unsigned int) (c2 ^ 0x80) << 6)
-                                         | (unsigned int) (c3 ^ 0x80);
-                                res = 3;
-                                goto success;
+                                unsigned int wc
+                                  = (((unsigned int) (c & 0x0f) << 12)
+                                     | ((unsigned int) (c2 ^ 0x80) << 6)
+                                     | (unsigned int) (c3 ^ 0x80));
+                                if (wc <= WCHAR_MAX)
+                                  {
+                                    if (pwc != NULL)
+                                      *pwc = wc;
+                                    res = 3;
+                                    goto success;
+                                  }
                               }
                           }
                       }
@@ -253,13 +259,19 @@ mbrtowc (wchar_t *pwc, const char *s, size_t n, mbstate_t *ps)
 
                                     if ((c4 ^ 0x80) < 0x40)
                                       {
-                                        if (pwc != NULL)
-                                          *pwc = ((unsigned int) (c & 0x07) << 18)
-                                                 | ((unsigned int) (c2 ^ 0x80) << 12)
-                                                 | ((unsigned int) (c3 ^ 0x80) << 6)
-                                                 | (unsigned int) (c4 ^ 0x80);
-                                        res = 4;
-                                        goto success;
+                                        unsigned int wc
+                                          = (((unsigned int) (c & 0x07) << 18)
+                                             | ((unsigned int) (c2 ^ 0x80)
+                                                << 12)
+                                             | ((unsigned int) (c3 ^ 0x80) << 6)
+                                             | (unsigned int) (c4 ^ 0x80));
+                                        if (wc <= WCHAR_MAX)
+                                          {
+                                            if (pwc != NULL)
+                                              *pwc = wc;
+                                            res = 4;
+                                            goto success;
+                                          }
                                       }
                                   }
                               }
@@ -512,14 +524,20 @@ rpl_mbrtowc (wchar_t *pwc, const char *s, size_t n, mbstate_t *ps)
   }
 # endif
 
+# if MBRTOWC_STORES_INCOMPLETE_BUG
+  ret = mbrtowc (&wc, s, n, ps);
+  if (ret < (size_t) -2 && pwc != NULL)
+    *pwc = wc;
+# else
   ret = mbrtowc (pwc, s, n, ps);
+# endif
 
 # if MBRTOWC_NUL_RETVAL_BUG
   if (ret < (size_t) -2 && !*pwc)
     return 0;
 # endif
 
-# if C_LOCALE_MAYBE_EILSEQ
+# if MBRTOWC_IN_C_LOCALE_MAYBE_EILSEQ
   if ((size_t) -2 <= ret && n != 0 && ! hard_locale (LC_CTYPE))
     {
       unsigned char uc = *s;

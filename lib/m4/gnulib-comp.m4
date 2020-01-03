@@ -1,5 +1,5 @@
 # DO NOT EDIT! GENERATED AUTOMATICALLY!
-# Copyright (C) 2002-2019 Free Software Foundation, Inc.
+# Copyright (C) 2002-2020 Free Software Foundation, Inc.
 #
 # This file is free software; you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
@@ -111,7 +111,7 @@ AC_DEFUN([gl_EARLY],
   # Code from module fdopen:
   # Code from module fdopen-tests:
   # Code from module fflush:
-  AC_REQUIRE([AC_FUNC_FSEEKO])
+  AC_REQUIRE([gl_SET_LARGEFILE_SOURCE])
   # Code from module fflush-tests:
   # Code from module fgetc-tests:
   # Code from module filename:
@@ -129,14 +129,14 @@ AC_DEFUN([gl_EARLY],
   # Code from module fseek:
   # Code from module fseek-tests:
   # Code from module fseeko:
-  AC_REQUIRE([AC_FUNC_FSEEKO])
+  AC_REQUIRE([gl_SET_LARGEFILE_SOURCE])
   # Code from module fseeko-tests:
   # Code from module fstat:
   # Code from module fstat-tests:
   # Code from module ftell:
   # Code from module ftell-tests:
   # Code from module ftello:
-  AC_REQUIRE([AC_FUNC_FSEEKO])
+  AC_REQUIRE([gl_SET_LARGEFILE_SOURCE])
   # Code from module ftello-tests:
   # Code from module ftruncate:
   # Code from module ftruncate-tests:
@@ -216,8 +216,7 @@ AC_DEFUN([gl_EARLY],
   # Code from module pipe-posix:
   # Code from module pipe-posix-tests:
   # Code from module pthread-h:
-  AC_DEFINE([_REENTRANT], 1, [For thread-safety on OSF/1, Solaris.])
-  AC_DEFINE([_THREAD_SAFE], 1, [For thread-safety on AIX, FreeBSD.])
+  gl_ANYTHREADLIB_EARLY
   # Code from module pthread-h-tests:
   # Code from module pthread-thread:
   # Code from module pthread-thread-tests:
@@ -459,6 +458,7 @@ AC_DEFUN([gl_INIT],
         [AC_CONFIG_LINKS([$GNUmakefile:$GNUmakefile], [],
           [GNUmakefile=$GNUmakefile])])
   sj_GSS_EXTRA
+  gl_INTTYPES_INCOMPLETE
   AC_REQUIRE([gl_LARGEFILE])
   gl_LD_OUTPUT_DEF
   gl_LD_VERSION_SCRIPT
@@ -684,7 +684,6 @@ changequote([, ])dnl
   gl_ARPA_INET_MODULE_INDICATOR([inet_pton])
   AC_C_BIGENDIAN
   gl_INTTYPES_H
-  gl_INTTYPES_INCOMPLETE
   gl_FUNC_IOCTL
   if test $HAVE_IOCTL = 0 || test $REPLACE_IOCTL = 1; then
     AC_LIBOBJ([ioctl])
@@ -706,6 +705,7 @@ changequote([, ])dnl
   gl_MODULE_INDICATOR([lock])
   AC_CHECK_HEADERS_ONCE([semaphore.h])
   AC_CHECK_DECLS_ONCE([alarm])
+  AC_REQUIRE([gl_SEMAPHORE])
   gl_FUNC_LSTAT
   if test $REPLACE_LSTAT = 1; then
     AC_LIBOBJ([lstat])
@@ -1061,6 +1061,7 @@ AC_DEFUN([gl_FILE_LIST], [
   lib/hmac.c
   lib/hmac.h
   lib/intprops.h
+  lib/inttypes.in.h
   lib/itold.c
   lib/libc-config.h
   lib/limits.in.h
@@ -1182,10 +1183,10 @@ AC_DEFUN([gl_FILE_LIST], [
   m4/lib-ld.m4
   m4/lib-link.m4
   m4/lib-prefix.m4
+  m4/libgcrypt.m4
   m4/limits-h.m4
   m4/localtime-buffer.m4
   m4/lock.m4
-  m4/longlong.m4
   m4/lseek.m4
   m4/lstat.m4
   m4/malloc.m4
@@ -1205,6 +1206,7 @@ AC_DEFUN([gl_FILE_LIST], [
   m4/netinet_in_h.m4
   m4/off_t.m4
   m4/open-cloexec.m4
+  m4/open-slash.m4
   m4/open.m4
   m4/pathmax.m4
   m4/perror.m4
@@ -1218,6 +1220,7 @@ AC_DEFUN([gl_FILE_LIST], [
   m4/raise.m4
   m4/sched_h.m4
   m4/select.m4
+  m4/semaphore.m4
   m4/setenv.m4
   m4/sha1.m4
   m4/sigaction.m4
@@ -1468,7 +1471,6 @@ AC_DEFUN([gl_FILE_LIST], [
   tests=lib/glthread/yield.h
   tests=lib/ignore-value.h
   tests=lib/inet_pton.c
-  tests=lib/inttypes.in.h
   tests=lib/ioctl.c
   tests=lib/isblank.c
   tests=lib/listen.c

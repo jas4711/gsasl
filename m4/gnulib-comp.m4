@@ -1,5 +1,5 @@
 # DO NOT EDIT! GENERATED AUTOMATICALLY!
-# Copyright (C) 2002-2019 Free Software Foundation, Inc.
+# Copyright (C) 2002-2020 Free Software Foundation, Inc.
 #
 # This file is free software; you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
@@ -103,7 +103,7 @@ AC_DEFUN([gl_EARLY],
   # Code from module fseek:
   # Code from module fseek-tests:
   # Code from module fseeko:
-  AC_REQUIRE([AC_FUNC_FSEEKO])
+  AC_REQUIRE([gl_SET_LARGEFILE_SOURCE])
   # Code from module fseeko-tests:
   # Code from module fstat:
   # Code from module fstat-tests:
@@ -133,6 +133,7 @@ AC_DEFUN([gl_EARLY],
   # Code from module gnupload:
   # Code from module gperf:
   # Code from module hard-locale:
+  # Code from module hard-locale-tests:
   # Code from module havelib:
   # Code from module hostent:
   # Code from module iconv:
@@ -206,8 +207,7 @@ AC_DEFUN([gl_EARLY],
   # Code from module poll-h-tests:
   # Code from module progname:
   # Code from module pthread-h:
-  AC_DEFINE([_REENTRANT], 1, [For thread-safety on OSF/1, Solaris.])
-  AC_DEFINE([_THREAD_SAFE], 1, [For thread-safety on AIX, FreeBSD.])
+  gl_ANYTHREADLIB_EARLY
   # Code from module pthread-h-tests:
   # Code from module pthread-thread:
   # Code from module pthread-thread-tests:
@@ -231,6 +231,8 @@ AC_DEFUN([gl_EARLY],
   # Code from module setenv:
   # Code from module setenv-tests:
   # Code from module setlocale:
+  # Code from module setlocale-null:
+  # Code from module setlocale-null-tests:
   # Code from module setlocale-tests:
   # Code from module shutdown:
   # Code from module shutdown-tests:
@@ -266,6 +268,7 @@ AC_DEFUN([gl_EARLY],
   dnl Some compilers (e.g., AIX 5.3 cc) need to be in c99 mode
   dnl for the builtin va_copy to work.  gl_PROG_CC_C99 arranges for this.
   gl_PROG_CC_C99
+  # Code from module stdarg-tests:
   # Code from module stdbool:
   # Code from module stdbool-tests:
   # Code from module stddef:
@@ -436,7 +439,7 @@ AC_SUBST([LTALLOCA])
   fi
   gl_SYS_STAT_MODULE_INDICATOR([fstat])
   gl_GETADDRINFO
-  if test $HAVE_GETADDRINFO = 0; then
+  if test $HAVE_GETADDRINFO = 0 || test $REPLACE_GETADDRINFO = 1; then
     AC_LIBOBJ([getaddrinfo])
   fi
   if test $HAVE_DECL_GAI_STRERROR = 0 || test $REPLACE_GAI_STRERROR = 1; then
@@ -492,6 +495,9 @@ AC_SUBST([LTALLOCA])
           m4_defn([m4_PACKAGE_VERSION])), [1], [],
         [AC_CONFIG_LINKS([$GNUmakefile:$GNUmakefile], [],
           [GNUmakefile=$GNUmakefile])])
+  AC_REQUIRE([gl_FUNC_SETLOCALE_NULL])
+  LIB_HARD_LOCALE="$LIB_SETLOCALE_NULL"
+  AC_SUBST([LIB_HARD_LOCALE])
   gl_HOSTENT
   AM_ICONV
   m4_ifdef([gl_ICONV_MODULE_INDICATOR],
@@ -512,12 +518,14 @@ AC_SUBST([LTALLOCA])
   fi
   gl_ARPA_INET_MODULE_INDICATOR([inet_ntop])
   gl_INLINE
+  gl_INTTYPES_INCOMPLETE
   AC_REQUIRE([gl_LARGEFILE])
   gl_LIMITS_H
   gl_LOCALCHARSET
   dnl For backward compatibility. Some packages still use this.
   LOCALCHARSET_TESTS_ENVIRONMENT=
   AC_SUBST([LOCALCHARSET_TESTS_ENVIRONMENT])
+  gl_LOCALE_H
   gl_LOCK
   gl_MODULE_INDICATOR([lock])
   gl_FUNC_LSEEK
@@ -595,6 +603,12 @@ AC_SUBST([LTALLOCA])
   fi
   gl_SYS_SELECT_MODULE_INDICATOR([select])
   gl_SERVENT
+  gl_FUNC_SETLOCALE_NULL
+  if test $SETLOCALE_NULL_ALL_MTSAFE = 0 || test $SETLOCALE_NULL_ONE_MTSAFE = 0; then
+    AC_LIBOBJ([setlocale-lock])
+    gl_PREREQ_SETLOCALE_LOCK
+  fi
+  gl_LOCALE_MODULE_INDICATOR([setlocale_null])
   AC_REQUIRE([gl_HEADER_SYS_SOCKET])
   if test "$ac_cv_header_winsock2_h" = yes; then
     AC_LIBOBJ([shutdown])
@@ -809,6 +823,12 @@ changequote([, ])dnl
     AC_LIBOBJ([getpagesize])
   fi
   gl_UNISTD_MODULE_INDICATOR([getpagesize])
+  AC_REQUIRE([AC_CANONICAL_HOST])
+  case "$host_os" in
+    *-musl*) AC_DEFINE([MUSL_LIBC], [1], [Define to 1 on musl libc.]) ;;
+  esac
+  dnl Distinguish OpenBSD >= 6.2 from OpenBSD < 6.2.
+  AC_CHECK_FUNCS_ONCE([duplocale])
   AC_C_BIGENDIAN
   gl_FUNC_INET_PTON
   if test $HAVE_INET_PTON = 0 || test $REPLACE_INET_PTON = 1; then
@@ -818,20 +838,19 @@ changequote([, ])dnl
   gl_ARPA_INET_MODULE_INDICATOR([inet_pton])
   AC_C_BIGENDIAN
   gl_INTTYPES_H
-  gl_INTTYPES_INCOMPLETE
   gl_FUNC_ISBLANK
   if test $HAVE_ISBLANK = 0; then
     AC_LIBOBJ([isblank])
   fi
   gl_CTYPE_MODULE_INDICATOR([isblank])
   gl_LANGINFO_H
-  gl_LOCALE_H
   AC_CHECK_FUNCS_ONCE([newlocale])
   gl_LOCALENAME
   gl_LOCALE_MODULE_INDICATOR([localename])
   AC_CHECK_FUNCS_ONCE([newlocale])
   AC_CHECK_HEADERS_ONCE([semaphore.h])
   AC_CHECK_DECLS_ONCE([alarm])
+  AC_REQUIRE([gl_SEMAPHORE])
   gl_FUNC_LSTAT
   if test $REPLACE_LSTAT = 1; then
     AC_LIBOBJ([lstat])
@@ -1168,13 +1187,16 @@ AC_DEFUN([gl_FILE_LIST], [
   lib/iconv_open-irix.gperf
   lib/iconv_open-osf.gperf
   lib/iconv_open-solaris.gperf
+  lib/iconv_open-zos.gperf
   lib/iconv_open.c
   lib/inet_ntop.c
   lib/intprops.h
+  lib/inttypes.in.h
   lib/itold.c
   lib/limits.in.h
   lib/localcharset.c
   lib/localcharset.h
+  lib/locale.in.h
   lib/lseek.c
   lib/malloc.c
   lib/mbrtowc.c
@@ -1204,6 +1226,9 @@ AC_DEFUN([gl_FILE_LIST], [
   lib/readline.h
   lib/recv.c
   lib/select.c
+  lib/setlocale-lock.c
+  lib/setlocale_null.c
+  lib/setlocale_null.h
   lib/shutdown.c
   lib/signal.in.h
   lib/size_max.h
@@ -1346,7 +1371,6 @@ AC_DEFUN([gl_FILE_LIST], [
   m4/locale_h.m4
   m4/localename.m4
   m4/lock.m4
-  m4/longlong.m4
   m4/lseek.m4
   m4/lstat.m4
   m4/malloc.m4
@@ -1371,6 +1395,7 @@ AC_DEFUN([gl_FILE_LIST], [
   m4/nocrash.m4
   m4/off_t.m4
   m4/open-cloexec.m4
+  m4/open-slash.m4
   m4/open.m4
   m4/pathmax.m4
   m4/poll.m4
@@ -1387,9 +1412,11 @@ AC_DEFUN([gl_FILE_LIST], [
   m4/readline.m4
   m4/sched_h.m4
   m4/select.m4
+  m4/semaphore.m4
   m4/servent.m4
   m4/setenv.m4
   m4/setlocale.m4
+  m4/setlocale_null.m4
   m4/sigaction.m4
   m4/signal_h.m4
   m4/signalblocking.m4
@@ -1432,6 +1459,7 @@ AC_DEFUN([gl_FILE_LIST], [
   m4/vasnprintf.m4
   m4/vasprintf.m4
   m4/version-etc.m4
+  m4/visibility.m4
   m4/warn-on-use.m4
   m4/warnings.m4
   m4/wchar_h.m4
@@ -1445,6 +1473,7 @@ AC_DEFUN([gl_FILE_LIST], [
   m4/xsize.m4
   m4/yield.m4
   tests/init.sh
+  tests/locale.c
   tests/macros.h
   tests/nap.h
   tests/signature.h
@@ -1496,6 +1525,7 @@ AC_DEFUN([gl_FILE_LIST], [
   tests/test-getopt.h
   tests/test-getopt_long.h
   tests/test-getprogname.c
+  tests/test-hard-locale.c
   tests/test-iconv-h.c
   tests/test-iconv.c
   tests/test-ignore-value.c
@@ -1521,6 +1551,8 @@ AC_DEFUN([gl_FILE_LIST], [
   tests/test-mbrtowc-w32-3.sh
   tests/test-mbrtowc-w32-4.sh
   tests/test-mbrtowc-w32-5.sh
+  tests/test-mbrtowc-w32-6.sh
+  tests/test-mbrtowc-w32-7.sh
   tests/test-mbrtowc-w32.c
   tests/test-mbrtowc.c
   tests/test-mbrtowc1.sh
@@ -1554,6 +1586,9 @@ AC_DEFUN([gl_FILE_LIST], [
   tests/test-setlocale1.sh
   tests/test-setlocale2.c
   tests/test-setlocale2.sh
+  tests/test-setlocale_null-mt-all.c
+  tests/test-setlocale_null-mt-one.c
+  tests/test-setlocale_null.c
   tests/test-shutdown.c
   tests/test-sigaction.c
   tests/test-signal-h.c
@@ -1603,6 +1638,8 @@ AC_DEFUN([gl_FILE_LIST], [
   tests/test-wcrtomb-w32-3.sh
   tests/test-wcrtomb-w32-4.sh
   tests/test-wcrtomb-w32-5.sh
+  tests/test-wcrtomb-w32-6.sh
+  tests/test-wcrtomb-w32-7.sh
   tests/test-wcrtomb-w32.c
   tests/test-wcrtomb.c
   tests/test-wcrtomb.sh
@@ -1635,10 +1672,8 @@ AC_DEFUN([gl_FILE_LIST], [
   tests=lib/glthread/yield.h
   tests=lib/ignore-value.h
   tests=lib/inet_pton.c
-  tests=lib/inttypes.in.h
   tests=lib/isblank.c
   tests=lib/langinfo.in.h
-  tests=lib/locale.in.h
   tests=lib/localename-table.c
   tests=lib/localename-table.h
   tests=lib/localename.c

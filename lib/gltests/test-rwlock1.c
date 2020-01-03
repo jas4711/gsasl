@@ -1,5 +1,5 @@
 /* Test of glthread_rwlock_rdlock function.
-   Copyright (C) 2017-2019 Free Software Foundation, Inc.
+   Copyright (C) 2017-2020 Free Software Foundation, Inc.
 
    This program is free software: you can redistribute it and/or modify
    it under the terms of the GNU General Public License as published by
@@ -20,6 +20,8 @@
    by Intel Corporation.  */
 
 #include <config.h>
+
+#if USE_ISOC_THREADS || USE_POSIX_THREADS || USE_ISOC_AND_POSIX_THREADS || USE_WINDOWS_THREADS
 
 #include "glthread/lock.h"
 
@@ -47,7 +49,7 @@
    POSIX:2008 makes this requirement only for implementations that support TPS
    (Thread Priority Scheduling) and only for the scheduling policies SCHED_FIFO
    and SCHED_RR, see
-   http://pubs.opengroup.org/onlinepubs/9699919799/functions/pthread_rwlock_rdlock.html
+   https://pubs.opengroup.org/onlinepubs/9699919799/functions/pthread_rwlock_rdlock.html
    but test verifies the guarantee regardless of TPS and regardless of
    scheduling policy.  */
 
@@ -151,3 +153,18 @@ main ()
       sleep (1);
     }
 }
+
+#else
+
+/* No multithreading available.  */
+
+#include <stdio.h>
+
+int
+main ()
+{
+  fputs ("Skipping test: multithreading not enabled\n", stderr);
+  return 77;
+}
+
+#endif

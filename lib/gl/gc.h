@@ -1,5 +1,5 @@
 /* gc.h --- Header file for implementation agnostic crypto wrapper API.
- * Copyright (C) 2002-2005, 2007-2008, 2011-2019 Free Software Foundation, Inc.
+ * Copyright (C) 2002-2005, 2007-2008, 2011-2020 Free Software Foundation, Inc.
  *
  * This file is free software; you can redistribute it and/or modify
  * it under the terms of the GNU Lesser General Public License as published
@@ -159,6 +159,8 @@ extern Gc_rc gc_md2 (const void *in, size_t inlen, void *resbuf);
 extern Gc_rc gc_md4 (const void *in, size_t inlen, void *resbuf);
 extern Gc_rc gc_md5 (const void *in, size_t inlen, void *resbuf);
 extern Gc_rc gc_sha1 (const void *in, size_t inlen, void *resbuf);
+extern Gc_rc gc_sha256 (const void *in, size_t inlen, void *resbuf);
+extern Gc_rc gc_sha512 (const void *in, size_t inlen, void *resbuf);
 extern Gc_rc gc_sm3 (const void *in, size_t inlen, void *resbuf);
 extern Gc_rc gc_hmac_md5 (const void *key, size_t keylen,
                           const void *in, size_t inlen, char *resbuf);

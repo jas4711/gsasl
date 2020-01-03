@@ -1,6 +1,6 @@
 /* A GNU-like <stdlib.h>.
 
-   Copyright (C) 1995, 2001-2004, 2006-2019 Free Software Foundation, Inc.
+   Copyright (C) 1995, 2001-2004, 2006-2020 Free Software Foundation, Inc.
 
    This program is free software: you can redistribute it and/or modify
    it under the terms of the GNU General Public License as published by
@@ -176,7 +176,9 @@ _GL_CXXALIAS_RPL (calloc, void *, (size_t nmemb, size_t size));
 # else
 _GL_CXXALIAS_SYS (calloc, void *, (size_t nmemb, size_t size));
 # endif
+# if __GLIBC__ >= 2
 _GL_CXXALIASWARN (calloc);
+# endif
 #elif defined GNULIB_POSIXCHECK
 # undef calloc
 /* Assume calloc is always declared.  */
@@ -238,8 +240,8 @@ _GL_WARN_ON_USE (getloadavg, "getloadavg is not portable - "
        element (or NULL if it doesn't contain an "=" sign),
      - It returns the index of the "token" in the given array of tokens.
    Otherwise it returns -1, and *OPTIONP and *VALUEP are undefined.
-   For more details see the POSIX:2001 specification.
-   http://www.opengroup.org/susv3xsh/getsubopt.html */
+   For more details see the POSIX specification.
+   https://pubs.opengroup.org/onlinepubs/9699919799/functions/getsubopt.html */
 # if !@HAVE_GETSUBOPT@
 _GL_FUNCDECL_SYS (getsubopt, int,
                   (char **optionp, char *const *tokens, char **valuep)
@@ -288,7 +290,9 @@ _GL_CXXALIAS_RPL (malloc, void *, (size_t size));
 # else
 _GL_CXXALIAS_SYS (malloc, void *, (size_t size));
 # endif
+# if __GLIBC__ >= 2
 _GL_CXXALIASWARN (malloc);
+# endif
 #elif defined GNULIB_POSIXCHECK && !_GL_USE_STDLIB_ALLOC
 # undef malloc
 /* Assume malloc is always declared.  */
@@ -311,7 +315,9 @@ _GL_FUNCDECL_SYS (mbtowc, int, (wchar_t *pwc, const char *s, size_t n));
 #  endif
 _GL_CXXALIAS_SYS (mbtowc, int, (wchar_t *pwc, const char *s, size_t n));
 # endif
+# if __GLIBC__ >= 2
 _GL_CXXALIASWARN (mbtowc);
+# endif
 #elif defined GNULIB_POSIXCHECK
 # undef mbtowc
 # if HAVE_RAW_DECL_MBTOWC
@@ -593,7 +599,9 @@ _GL_CXXALIAS_RPL (random, long, (void));
 #  if !@HAVE_RANDOM@
 _GL_FUNCDECL_SYS (random, long, (void));
 #  endif
-_GL_CXXALIAS_SYS (random, long, (void));
+/* Need to cast, because on Haiku, the return type is
+                               int.  */
+_GL_CXXALIAS_SYS_CAST (random, long, (void));
 # endif
 _GL_CXXALIASWARN (random);
 #elif defined GNULIB_POSIXCHECK
@@ -616,7 +624,9 @@ _GL_CXXALIAS_RPL (srandom, void, (unsigned int seed));
 #  if !@HAVE_RANDOM@
 _GL_FUNCDECL_SYS (srandom, void, (unsigned int seed));
 #  endif
-_GL_CXXALIAS_SYS (srandom, void, (unsigned int seed));
+/* Need to cast, because on FreeBSD, the first parameter is
+                                       unsigned long seed.  */
+_GL_CXXALIAS_SYS_CAST (srandom, void, (unsigned int seed));
 # endif
 _GL_CXXALIASWARN (srandom);
 #elif defined GNULIB_POSIXCHECK
@@ -644,8 +654,10 @@ _GL_FUNCDECL_SYS (initstate, char *,
                   (unsigned int seed, char *buf, size_t buf_size)
                   _GL_ARG_NONNULL ((2)));
 #  endif
-_GL_CXXALIAS_SYS (initstate, char *,
-                  (unsigned int seed, char *buf, size_t buf_size));
+/* Need to cast, because on FreeBSD, the first parameter is
+                        unsigned long seed.  */
+_GL_CXXALIAS_SYS_CAST (initstate, char *,
+                       (unsigned int seed, char *buf, size_t buf_size));
 # endif
 _GL_CXXALIASWARN (initstate);
 #elif defined GNULIB_POSIXCHECK
@@ -668,7 +680,9 @@ _GL_CXXALIAS_RPL (setstate, char *, (char *arg_state));
 #  if !@HAVE_SETSTATE@ || !@HAVE_DECL_SETSTATE@
 _GL_FUNCDECL_SYS (setstate, char *, (char *arg_state) _GL_ARG_NONNULL ((1)));
 #  endif
-_GL_CXXALIAS_SYS (setstate, char *, (char *arg_state));
+/* Need to cast, because on Mac OS X 10.13, HP-UX, Solaris the first parameter
+   is                                     const char *arg_state.  */
+_GL_CXXALIAS_SYS_CAST (setstate, char *, (char *arg_state));
 # endif
 _GL_CXXALIASWARN (setstate);
 #elif defined GNULIB_POSIXCHECK
@@ -754,9 +768,11 @@ _GL_FUNCDECL_SYS (initstate_r, int,
                    struct random_data *rand_state)
                   _GL_ARG_NONNULL ((2, 4)));
 #  endif
-_GL_CXXALIAS_SYS (initstate_r, int,
-                  (unsigned int seed, char *buf, size_t buf_size,
-                   struct random_data *rand_state));
+/* Need to cast, because on Haiku, the third parameter is
+                                                     unsigned long buf_size.  */
+_GL_CXXALIAS_SYS_CAST (initstate_r, int,
+                       (unsigned int seed, char *buf, size_t buf_size,
+                        struct random_data *rand_state));
 # endif
 _GL_CXXALIASWARN (initstate_r);
 #elif defined GNULIB_POSIXCHECK
@@ -784,8 +800,10 @@ _GL_FUNCDECL_SYS (setstate_r, int,
                   (char *arg_state, struct random_data *rand_state)
                   _GL_ARG_NONNULL ((1, 2)));
 #  endif
-_GL_CXXALIAS_SYS (setstate_r, int,
-                  (char *arg_state, struct random_data *rand_state));
+/* Need to cast, because on Haiku, the first parameter is
+                        void *arg_state.  */
+_GL_CXXALIAS_SYS_CAST (setstate_r, int,
+                       (char *arg_state, struct random_data *rand_state));
 # endif
 _GL_CXXALIASWARN (setstate_r);
 #elif defined GNULIB_POSIXCHECK
@@ -809,7 +827,9 @@ _GL_CXXALIAS_RPL (realloc, void *, (void *ptr, size_t size));
 # else
 _GL_CXXALIAS_SYS (realloc, void *, (void *ptr, size_t size));
 # endif
+# if __GLIBC__ >= 2
 _GL_CXXALIASWARN (realloc);
+# endif
 #elif defined GNULIB_POSIXCHECK && !_GL_USE_STDLIB_ALLOC
 # undef realloc
 /* Assume realloc is always declared.  */
@@ -940,7 +960,9 @@ _GL_FUNCDECL_SYS (strtod, double, (const char *str, char **endp)
 #  endif
 _GL_CXXALIAS_SYS (strtod, double, (const char *str, char **endp));
 # endif
+# if __GLIBC__ >= 2
 _GL_CXXALIASWARN (strtod);
+# endif
 #elif defined GNULIB_POSIXCHECK
 # undef strtod
 # if HAVE_RAW_DECL_STRTOD
@@ -1079,7 +1101,9 @@ _GL_CXXALIAS_RPL (wctomb, int, (char *s, wchar_t wc));
 # else
 _GL_CXXALIAS_SYS (wctomb, int, (char *s, wchar_t wc));
 # endif
+# if __GLIBC__ >= 2
 _GL_CXXALIASWARN (wctomb);
+# endif
 #endif
 
 

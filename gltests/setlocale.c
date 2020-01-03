@@ -1,5 +1,5 @@
 /* Set the current locale.  -*- coding: utf-8 -*-
-   Copyright (C) 2009, 2011-2019 Free Software Foundation, Inc.
+   Copyright (C) 2009, 2011-2020 Free Software Foundation, Inc.
 
    This program is free software: you can redistribute it and/or modify
    it under the terms of the GNU General Public License as published by
@@ -51,6 +51,37 @@ extern void gl_locale_name_canonicalize (char *name);
 
 # undef setlocale
 
+/* Which of the replacements to activate?  */
+# if NEED_SETLOCALE_IMPROVED
+#  define setlocale_improved rpl_setlocale
+# elif NEED_SETLOCALE_MTSAFE
+#  define setlocale_mtsafe rpl_setlocale
+# else
+#  error "This file should only be compiled if NEED_SETLOCALE_IMPROVED || NEED_SETLOCALE_MTSAFE."
+# endif
+
+/* Like setlocale, but guaranteed to be multithread-safe if LOCALE == NULL.  */
+# if !SETLOCALE_NULL_ALL_MTSAFE || !SETLOCALE_NULL_ONE_MTSAFE /* i.e. if NEED_SETLOCALE_MTSAFE */
+
+#  if NEED_SETLOCALE_IMPROVED
+static
+#  endif
+char *
+setlocale_mtsafe (int category, const char *locale)
+{
+  if (locale == NULL)
+    return (char *) setlocale_null (category);
+  else
+    return setlocale (category, locale);
+}
+# else /* !NEED_SETLOCALE_MTSAFE */
+
+#  define setlocale_mtsafe setlocale
+
+# endif /* NEED_SETLOCALE_MTSAFE */
+
+# if NEED_SETLOCALE_IMPROVED
+
 /* Return string representation of locale category CATEGORY.  */
 static const char *
 category_to_name (int category)
@@ -85,7 +116,7 @@ category_to_name (int category)
   return retval;
 }
 
-# if defined _WIN32 && ! defined __CYGWIN__
+#  if defined _WIN32 && ! defined __CYGWIN__
 
 /* The native Windows setlocale() function expects locale names of the form
    "German" or "German_Germany" or "DEU", but not "de" or "de_DE".  We need
@@ -652,7 +683,7 @@ setlocale_unixlike (int category, const char *locale)
     locale = "C";
 
   /* First, try setlocale with the original argument unchanged.  */
-  result = setlocale (category, locale);
+  result = setlocale_mtsafe (category, locale);
   if (result != NULL)
     return result;
 
@@ -794,13 +825,13 @@ setlocale_unixlike (int category, const char *locale)
   return NULL;
 }
 
-# elif defined __ANDROID__
+#  elif defined __ANDROID__
 
 /* Like setlocale, but accept also the locale names "C" and "POSIX".  */
 static char *
 setlocale_unixlike (int category, const char *locale)
 {
-  char *result = setlocale (category, locale);
+  char *result = setlocale_mtsafe (category, locale);
   if (result == NULL)
     switch (category)
       {
@@ -825,13 +856,13 @@ setlocale_unixlike (int category, const char *locale)
       }
   return result;
 }
-#  define setlocale setlocale_unixlike
+#   define setlocale setlocale_unixlike
 
-# else
-#  define setlocale_unixlike setlocale
-# endif
+#  else
+#   define setlocale_unixlike setlocale_mtsafe
+#  endif
 
-# if LC_MESSAGES == 1729
+#  if LC_MESSAGES == 1729
 
 /* The system does not store an LC_MESSAGES locale category.  Do it here.  */
 static char lc_messages_name[64] = "C";
@@ -853,11 +884,11 @@ setlocale_single (int category, const char *locale)
     return setlocale_unixlike (category, locale);
 }
 
-# else
-#  define setlocale_single setlocale_unixlike
-# endif
+#  else
+#   define setlocale_single setlocale_unixlike
+#  endif
 
-# if defined __APPLE__ && defined __MACH__
+#  if defined __APPLE__ && defined __MACH__
 
 /* Mapping from language to main territory where that language is spoken.  */
 static char const locales_with_principal_territory[][6 + 1] =
@@ -1115,7 +1146,7 @@ langcmp (const char *locale1, const char *locale2)
 static const char *
 get_main_locale_with_same_language (const char *locale)
 {
-#  define table locales_with_principal_territory
+#   define table locales_with_principal_territory
   /* The table is sorted.  Perform a binary search.  */
   size_t hi = sizeof (table) / sizeof (table[0]);
   size_t lo = 0;
@@ -1142,7 +1173,7 @@ get_main_locale_with_same_language (const char *locale)
           return table[mid];
         }
     }
-#  undef table
+#   undef table
   return NULL;
 }
 
@@ -1344,7 +1375,7 @@ get_main_locale_with_same_territory (const char *locale)
 {
   if (strrchr (locale, '_') != NULL)
     {
-#  define table locales_with_principal_language
+#   define table locales_with_principal_language
       /* The table is sorted.  Perform a binary search.  */
       size_t hi = sizeof (table) / sizeof (table[0]);
       size_t lo = 0;
@@ -1371,15 +1402,15 @@ get_main_locale_with_same_territory (const char *locale)
               return table[mid];
             }
         }
-#  undef table
+#   undef table
     }
   return NULL;
 }
 
-# endif
+#  endif
 
 char *
-rpl_setlocale (int category, const char *locale)
+setlocale_improved (int category, const char *locale)
 {
   if (locale != NULL && locale[0] == '\0')
     {
@@ -1431,14 +1462,14 @@ rpl_setlocale (int category, const char *locale)
                 goto fail;
               i = 0;
             }
-# if defined _WIN32 && ! defined __CYGWIN__
+#  if defined _WIN32 && ! defined __CYGWIN__
           /* On native Windows, setlocale(LC_ALL,...) may succeed but set the
              LC_CTYPE category to an invalid value ("C") when it does not
              support the specified encoding.  Report a failure instead.  */
           if (strchr (base_name, '.') != NULL
               && strcmp (setlocale (LC_CTYPE, NULL), "C") == 0)
             goto fail;
-# endif
+#  endif
 
           for (; i < sizeof (categories) / sizeof (categories[0]); i++)
             {
@@ -1452,12 +1483,12 @@ rpl_setlocale (int category, const char *locale)
               /* If name is the same as base_name, it has already been set
                  through the setlocale call before the loop.  */
               if (strcmp (name, base_name) != 0
-# if LC_MESSAGES == 1729
+#  if LC_MESSAGES == 1729
                   || cat == LC_MESSAGES
-# endif
+#  endif
                  )
                 if (setlocale_single (cat, name) == NULL)
-# if defined __APPLE__ && defined __MACH__
+#  if defined __APPLE__ && defined __MACH__
                   {
                     /* On Mac OS X 10.13, some locales can be set through
                        System Preferences > Language & Region, that are not
@@ -1473,11 +1504,11 @@ rpl_setlocale (int category, const char *locale)
                       warn = (setlocale_single (cat, "UTF-8") == NULL);
                     else if (cat == LC_MESSAGES)
                       {
-#  if HAVE_CFLOCALECOPYPREFERREDLANGUAGES || HAVE_CFPREFERENCESCOPYAPPVALUE /* MacOS X 10.4 or newer */
+#   if HAVE_CFLOCALECOPYPREFERREDLANGUAGES || HAVE_CFPREFERENCESCOPYAPPVALUE /* MacOS X 10.4 or newer */
                         /* Take the primary language preference.  */
-#   if HAVE_CFLOCALECOPYPREFERREDLANGUAGES /* MacOS X 10.5 or newer */
+#    if HAVE_CFLOCALECOPYPREFERREDLANGUAGES /* MacOS X 10.5 or newer */
                         CFArrayRef prefArray = CFLocaleCopyPreferredLanguages ();
-#   elif HAVE_CFPREFERENCESCOPYAPPVALUE /* MacOS X 10.4 or newer */
+#    elif HAVE_CFPREFERENCESCOPYAPPVALUE /* MacOS X 10.4 or newer */
                         CFTypeRef preferences =
                           CFPreferencesCopyAppValue (CFSTR ("AppleLanguages"),
                                                      kCFPreferencesCurrentApplication);
@@ -1485,7 +1516,7 @@ rpl_setlocale (int category, const char *locale)
                             && CFGetTypeID (preferences) == CFArrayGetTypeID ())
                           {
                             CFArrayRef prefArray = (CFArrayRef)preferences;
-#   endif
+#    endif
                             int n = CFArrayGetCount (prefArray);
                             if (n > 0)
                               {
@@ -1519,19 +1550,19 @@ rpl_setlocale (int category, const char *locale)
                                       }
                                   }
                               }
-#   if HAVE_CFLOCALECOPYPREFERREDLANGUAGES /* MacOS X 10.5 or newer */
+#    if HAVE_CFLOCALECOPYPREFERREDLANGUAGES /* MacOS X 10.5 or newer */
                         CFRelease (prefArray);
-#   elif HAVE_CFPREFERENCESCOPYAPPVALUE /* MacOS X 10.4 or newer */
+#    elif HAVE_CFPREFERENCESCOPYAPPVALUE /* MacOS X 10.4 or newer */
                           }
-#   endif
-#  else
+#    endif
+#   else
                         const char *last_try =
                           get_main_locale_with_same_language (name);
 
                         if (last_try == NULL
                             || setlocale_single (cat, last_try) == NULL)
                           warn = 1;
-#  endif
+#   endif
                       }
                     else
                       {
@@ -1570,9 +1601,9 @@ rpl_setlocale (int category, const char *locale)
                                    category_to_name (cat), name);
                       }
                   }
-# else
+#  else
                   goto fail;
-# endif
+#  endif
             }
 
           /* All steps were successful.  */
@@ -1597,7 +1628,7 @@ rpl_setlocale (int category, const char *locale)
     }
   else
     {
-# if defined _WIN32 && ! defined __CYGWIN__
+#  if defined _WIN32 && ! defined __CYGWIN__
       if (category == LC_ALL && locale != NULL && strchr (locale, '.') != NULL)
         {
           char *saved_locale;
@@ -1632,9 +1663,11 @@ rpl_setlocale (int category, const char *locale)
           return setlocale (LC_ALL, NULL);
         }
       else
-# endif
+#  endif
         return setlocale_single (category, locale);
     }
 }
+
+# endif /* NEED_SETLOCALE_IMPROVED */
 
 #endif

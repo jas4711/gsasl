@@ -1,5 +1,5 @@
 /* Test of pthread_sigmask in a multi-threaded program.
-   Copyright (C) 2011-2019 Free Software Foundation, Inc.
+   Copyright (C) 2011-2020 Free Software Foundation, Inc.
 
    This program is free software: you can redistribute it and/or modify
    it under the terms of the GNU General Public License as published by
@@ -27,7 +27,7 @@
 
 #include "macros.h"
 
-#if USE_POSIX_THREADS
+#if USE_POSIX_THREADS || USE_ISOC_AND_POSIX_THREADS
 
 static pthread_t main_thread;
 static pthread_t killer_thread;
@@ -59,7 +59,10 @@ main (int argc, char *argv[])
   sigaddset (&set, SIGINT);
 
   /* Check error handling.  */
+  /* This call returns 0 on NetBSD 8.0.  */
+#if !defined __NetBSD__
   ASSERT (pthread_sigmask (1729, &set, NULL) == EINVAL);
+#endif
 
   /* Block SIGINT.  */
   ASSERT (pthread_sigmask (SIG_BLOCK, &set, NULL) == 0);
