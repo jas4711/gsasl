@@ -177,10 +177,13 @@ gl/iconv_open-hpux.h
 gl/iconv_open-irix.h
 gl/iconv_open-osf.h
 gl/iconv_open-solaris.h
+gl/iconv_open-zos.h
+gl/inttypes.h
 gl/libgl.la
 gl/limits.h
 gl/localcharset.lo
 gl/localcharset.o
+gl/locale.h
 gl/mbrtowc.lo
 gl/mbrtowc.o
 gl/netdb.h
@@ -199,6 +202,8 @@ gl/readline.lo
 gl/readline.o
 gl/ref-add.sed
 gl/ref-del.sed
+gl/setlocale_null.lo
+gl/setlocale_null.o
 gl/signal.h
 gl/sockets.lo
 gl/sockets.o
@@ -254,6 +259,7 @@ gltests/Makefile.in
 gltests/binary-io.o
 gltests/cloexec.o
 gltests/ctype.h
+gltests/current-locale
 gltests/fcntl.h
 gltests/fcntl.o
 gltests/glthread/.deps/
@@ -267,6 +273,7 @@ gltests/ioctl.o
 gltests/langinfo.h
 gltests/libtests.a
 gltests/locale.h
+gltests/locale.o
 gltests/localename-table.o
 gltests/localename.o
 gltests/malloca.o
@@ -887,6 +894,9 @@ lib/gl/hmac-md5.lo
 lib/gl/hmac-md5.o
 lib/gl/hmac-sha1.lo
 lib/gl/hmac-sha1.o
+lib/gl/hmac-sha256.lo
+lib/gl/hmac-sha256.o
+lib/gl/inttypes.h
 lib/gl/libgl.la
 lib/gl/limits.h
 lib/gl/md5.lo
@@ -901,6 +911,8 @@ lib/gl/printf-parse.lo
 lib/gl/printf-parse.o
 lib/gl/sha1.lo
 lib/gl/sha1.o
+lib/gl/sha256.lo
+lib/gl/sha256.o
 lib/gl/stat-time.lo
 lib/gl/stat-time.o
 lib/gl/stdalign.h
@@ -928,6 +940,10 @@ lib/gltests/bench-md5
 lib/gltests/bench-md5.o
 lib/gltests/bench-sha1
 lib/gltests/bench-sha1.o
+lib/gltests/bench-sha224
+lib/gltests/bench-sha224.o
+lib/gltests/bench-sha256
+lib/gltests/bench-sha256.o
 lib/gltests/binary-io.o
 lib/gltests/cloexec.o
 lib/gltests/ctype.h

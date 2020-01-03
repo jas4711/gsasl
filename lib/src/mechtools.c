@@ -39,6 +39,9 @@
 /* Get error codes. */
 #include <gsasl.h>
 
+/* Gnulib gc.h */
+#include <gc.h>
+
 /* Create in AUTHZID a newly allocated copy of STR where =2C is
    replaced with , and =3D is replaced with =.  Return GSASL_OK on
    success, GSASL_MALLOC_ERROR on memory errors, GSASL_PARSE_ERRORS if
@@ -214,4 +217,51 @@ _gsasl_gs2_generate_header (bool nonstd, char cbflag,
   *gs2hlen = len;
 
   return GSASL_OK;
+}
+
+/*
+ * _gsasl_sha256:
+ * @in: input character array of data to hash.
+ * @inlen: length of input character array of data to hash.
+ * @out: newly allocated 32-byte character array with hash of data.
+ *
+ * Compute hash of data using SHA256.  The @out buffer must be
+ * deallocated by the caller.
+ *
+ * Return value: Returns %GSASL_OK iff successful.
+ *
+ * Since: 1.9.0
+ **/
+int
+_gsasl_sha256 (const char *in, size_t inlen, char *out[])
+{
+  *out = malloc (GC_SHA256_DIGEST_SIZE);
+  if (!*out)
+    return GSASL_MALLOC_ERROR;
+  return gc_sha256 (in, inlen, *out);
+}
+
+/*
+ * _gsasl_hmac_sha256:
+ * @key: input character array with key to use.
+ * @keylen: length of input character array with key to use.
+ * @in: input character array of data to hash.
+ * @inlen: length of input character array of data to hash.
+ * @outhash: newly allocated 32-byte character array with keyed hash of data.
+ *
+ * Compute keyed checksum of data using HMAC-SHA256.  The @outhash buffer
+ * must be deallocated by the caller.
+ *
+ * Return value: Returns %GSASL_OK iff successful.
+ *
+ * Since: 1.9.0
+ **/
+int
+_gsasl_hmac_sha256 (const char *key, size_t keylen,
+		    const char *in, size_t inlen, char *outhash[])
+{
+  *outhash = malloc (GC_SHA256_DIGEST_SIZE);
+  if (!*outhash)
+    return GSASL_MALLOC_ERROR;
+  return gc_hmac_sha256 (key, keylen, in, inlen, *outhash);
 }

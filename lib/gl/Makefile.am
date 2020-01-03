@@ -41,10 +41,12 @@
 #  crypto/gc \
 #  crypto/gc-hmac-md5 \
 #  crypto/gc-hmac-sha1 \
+#  crypto/gc-hmac-sha256 \
 #  crypto/gc-md5 \
 #  crypto/gc-pbkdf2-sha1 \
 #  crypto/gc-random \
 #  crypto/gc-sha1 \
+#  crypto/gc-sha256 \
 #  getline \
 #  gettext-h \
 #  gss-extra \
@@ -210,6 +212,16 @@ EXTRA_libgl_la_SOURCES += hmac.c
 
 ## end   gnulib module crypto/hmac-sha1
 
+## begin gnulib module crypto/hmac-sha256
+
+libgl_la_SOURCES += hmac-sha256.c
+
+EXTRA_DIST += hmac.c hmac.h
+
+EXTRA_libgl_la_SOURCES += hmac.c
+
+## end   gnulib module crypto/hmac-sha256
+
 ## begin gnulib module crypto/md5-buffer
 
 libgl_la_SOURCES += md5.c
@@ -225,6 +237,14 @@ libgl_la_SOURCES += sha1.c
 EXTRA_DIST += gl_openssl.h sha1.h
 
 ## end   gnulib module crypto/sha1-buffer
+
+## begin gnulib module crypto/sha256-buffer
+
+libgl_la_SOURCES += sha256.c
+
+EXTRA_DIST += gl_openssl.h sha256.h
+
+## end   gnulib module crypto/sha256-buffer
 
 ## begin gnulib module errno
 

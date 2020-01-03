@@ -1,6 +1,6 @@
 # gss-extra.m4 serial 1
 
-dnl Copyright (C) 2010-2020 Simon Josefsson
+dnl Copyright (C) 2010 Simon Josefsson
 dnl
 dnl This file is free software; the Free Software Foundation
 dnl gives unlimited permission to copy and/or distribute it,

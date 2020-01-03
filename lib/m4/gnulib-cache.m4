@@ -46,10 +46,12 @@
 #  crypto/gc \
 #  crypto/gc-hmac-md5 \
 #  crypto/gc-hmac-sha1 \
+#  crypto/gc-hmac-sha256 \
 #  crypto/gc-md5 \
 #  crypto/gc-pbkdf2-sha1 \
 #  crypto/gc-random \
 #  crypto/gc-sha1 \
+#  crypto/gc-sha256 \
 #  getline \
 #  gettext-h \
 #  gss-extra \
@@ -74,10 +76,12 @@ gl_MODULES([
   crypto/gc
   crypto/gc-hmac-md5
   crypto/gc-hmac-sha1
+  crypto/gc-hmac-sha256
   crypto/gc-md5
   crypto/gc-pbkdf2-sha1
   crypto/gc-random
   crypto/gc-sha1
+  crypto/gc-sha256
   getline
   gettext-h
   gss-extra

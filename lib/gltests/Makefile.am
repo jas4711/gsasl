@@ -269,6 +269,15 @@ EXTRA_DIST += test-gc-hmac-sha1.c
 
 ## end   gnulib module crypto/gc-hmac-sha1-tests
 
+## begin gnulib module crypto/gc-hmac-sha256-tests
+
+TESTS += test-gc-hmac-sha256
+check_PROGRAMS += test-gc-hmac-sha256
+test_gc_hmac_sha256_LDADD = $(LDADD) @LIB_CRYPTO@
+EXTRA_DIST += test-gc-hmac-sha256.c
+
+## end   gnulib module crypto/gc-hmac-sha256-tests
+
 ## begin gnulib module crypto/gc-md5-tests
 
 TESTS += test-gc-md5
@@ -295,6 +304,15 @@ test_gc_sha1_LDADD = $(LDADD) @LIB_CRYPTO@
 EXTRA_DIST += test-gc-sha1.c
 
 ## end   gnulib module crypto/gc-sha1-tests
+
+## begin gnulib module crypto/gc-sha256-tests
+
+TESTS += test-gc-sha256
+check_PROGRAMS += test-gc-sha256
+test_gc_sha256_LDADD = $(LDADD) @LIB_CRYPTO@
+EXTRA_DIST += test-gc-sha256.c
+
+## end   gnulib module crypto/gc-sha256-tests
 
 ## begin gnulib module crypto/gc-tests
 
@@ -323,6 +341,15 @@ EXTRA_DIST += test-hmac-sha1.c
 
 ## end   gnulib module crypto/hmac-sha1-tests
 
+## begin gnulib module crypto/hmac-sha256-tests
+
+TESTS += test-hmac-sha256
+check_PROGRAMS += test-hmac-sha256
+test_hmac_sha256_LDADD = $(LDADD) @LIB_CRYPTO@
+EXTRA_DIST += test-hmac-sha256.c
+
+## end   gnulib module crypto/hmac-sha256-tests
+
 ## begin gnulib module crypto/md5-tests
 
 TESTS += test-md5
@@ -344,6 +371,18 @@ bench_sha1_LDADD = $(LDADD) @LIB_CRYPTO@
 EXTRA_DIST += test-sha1.c test-digest.h bench-sha1.c bench-digest.h macros.h
 
 ## end   gnulib module crypto/sha1-tests
+
+## begin gnulib module crypto/sha256-tests
+
+TESTS += test-sha256
+check_PROGRAMS += test-sha256
+noinst_PROGRAMS += bench-sha224 bench-sha256
+test_sha256_LDADD = $(LDADD) @LIB_CRYPTO@
+bench_sha224_LDADD = $(LDADD) @LIB_CRYPTO@
+bench_sha256_LDADD = $(LDADD) @LIB_CRYPTO@
+EXTRA_DIST += test-sha256.c test-digest.h bench-sha224.c bench-sha256.c bench-digest.h macros.h
+
+## end   gnulib module crypto/sha256-tests
 
 ## begin gnulib module ctype
 
