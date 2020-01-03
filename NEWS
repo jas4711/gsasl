@@ -6,7 +6,7 @@ Note that changes to the GNU SASL Library is documented in lib/NEWS.
 This file track changes to the remaining, non-library, parts of GNU
 SASL.  That include the manual, the command line tool, and self tests.
 
-* Version 1.9.0 (unreleased) [beta]
+* Version 1.9.0 (released 2020-01-03) [beta]
 
 ** Client and server support for SCRAM-SHA-256 and SCRAM-SHA-256-PLUS.
 
