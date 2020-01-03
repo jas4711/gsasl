@@ -381,10 +381,16 @@ main (int argc, char *argv[])
   if (connect_service && !args_info.smtp_flag && !args_info.imap_flag)
     {
       if (strcmp (connect_service, "25") == 0 ||
-	  strcmp (connect_service, "smtp") == 0)
+	  strcmp (connect_service, "smtp") == 0 ||
+	  strcmp (connect_service, "587") == 0 ||
+	  strcmp (connect_service, "submission") == 0)
 	args_info.smtp_flag = 1;
-      else
+      else if (strcmp (connect_service, "143") == 0 ||
+	       strcmp (connect_service, "imap") == 0)
 	args_info.imap_flag = 1;
+      else
+	error (EXIT_FAILURE, 0,
+	       _("cannot guess SASL profile (try --smtp or --imap)"));
     }
 
   if (args_info.imap_flag && !args_info.service_given)
