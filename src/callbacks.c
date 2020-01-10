@@ -57,7 +57,7 @@ readutf8line (const char *prompt)
   return locale_to_utf8 (p);
 }
 
-static char *
+char *
 readutf8pass (const char *prompt)
 {
   char *p = getpass (prompt);

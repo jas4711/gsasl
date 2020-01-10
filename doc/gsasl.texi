@@ -2456,6 +2456,22 @@ optional for any corresponding short options.
   -s, --server               Act as server.
       --server-mechanisms    Write name of supported server mechanisms
                              separated by space to stdout.
+  -k, --mkpasswd             Derive password. Provide --mechanism as
+                             SCRAM-SHA-1 or SCRAM-SHA-256.  The required
+                             inputs are password (through --password or
+                             read from terminal) and optional inputs are
+                             iteration count (through --iteration-count,
+                             or defaulting to 65536) and salt (through
+                             --salt, or generated randomly).  The output
+                             is a string of the form
+                             "mech:count:salt:salted-password:server-key:stored-key"
+                             where "mech" is the mechanism, "count" is
+                             the provided or default number of times to
+                             hash the password, "salt" is the provided
+                             or generated base64-encoded salt,
+                             "salted-password" is the derived password,
+                             "server-key" and "stored-key" are the two
+                             derived server-side keys.  (default=off)
 @end verbatim
 
 @majorheading Network Options

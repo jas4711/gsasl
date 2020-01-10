@@ -279,6 +279,114 @@ usage (int status)
   exit (status);
 }
 
+#define DEFAULT_SALT_SIZE 12
+
+static void
+mkpasswd (void)
+{
+  char *preppass;
+  char salt[DEFAULT_SALT_SIZE];
+  unsigned int c = 65536;
+  int res;
+  char *b64salt;
+  size_t b64saltlen;
+  char saltedpassword[GSASL_HASH_MAX_SIZE];
+  char *b64saltedpassword;
+  size_t b64saltedpasswordlen;
+  int hash = 0;
+  size_t hashlen = 0;
+  char clientkey[GSASL_HASH_MAX_SIZE];
+  char serverkey[GSASL_HASH_MAX_SIZE];
+  char storedkey[GSASL_HASH_MAX_SIZE];
+  char *b64serverkey, *b64storedkey;
+  size_t b64serverkeylen, b64storedkeylen;
+
+  if (args_info.mechanism_arg == NULL)
+    error (EXIT_FAILURE, 0, _("required --mechanism missing"));
+
+  if (strcmp (args_info.mechanism_arg, "SCRAM-SHA-1") == 0)
+    {
+      hash = GSASL_HASH_SHA1;
+      hashlen = GSASL_HASH_SHA1_SIZE;
+    }
+  else if (strcmp (args_info.mechanism_arg, "SCRAM-SHA-256") == 0)
+    {
+      hash = GSASL_HASH_SHA256;
+      hashlen = GSASL_HASH_SHA256_SIZE;
+    }
+  else
+    error (EXIT_FAILURE, 0, _("unsupported --mechanism for --mkpasswd: %s"),
+	   args_info.mechanism_arg);
+
+  res = gsasl_nonce (salt, sizeof (salt));
+  if (res != GSASL_OK)
+    error (EXIT_FAILURE, 0, "%s", gsasl_strerror (res));
+
+  res = gsasl_base64_to (salt, sizeof (salt), &b64salt, &b64saltlen);
+  if (res != GSASL_OK)
+    error (EXIT_FAILURE, 0, "%s", gsasl_strerror (res));
+
+  if (args_info.password_arg == NULL)
+    args_info.password_arg = readutf8pass (_("Enter password: "));
+
+  /* SASLprep */
+  res = gsasl_saslprep (args_info.password_arg,
+			GSASL_ALLOW_UNASSIGNED, &preppass, NULL);
+  if (res != GSASL_OK)
+    error (EXIT_FAILURE, 0, "%s", gsasl_strerror (res));
+
+  /* SaltedPassword */
+  res = gsasl_pbkdf2 (hash, preppass, strlen (preppass),
+		      salt, sizeof (salt),
+		      c, saltedpassword, 0);
+  if (res != GSASL_OK)
+    error (EXIT_FAILURE, 0, "%s", gsasl_strerror (res));
+
+  res = gsasl_base64_to (saltedpassword, hashlen,
+			 &b64saltedpassword, &b64saltedpasswordlen);
+  if (res != GSASL_OK)
+    error (EXIT_FAILURE, 0, "%s", gsasl_strerror (res));
+
+  /* ClientKey */
+#define CLIENT_KEY "Client Key"
+  res = gsasl_hmac (hash, saltedpassword, hashlen,
+		    CLIENT_KEY, strlen (CLIENT_KEY), clientkey);
+  if (res != GSASL_OK)
+    error (EXIT_FAILURE, 0, "%s", gsasl_strerror (res));
+
+  /* StoredKey */
+  res = gsasl_hash (hash, clientkey, hashlen, storedkey);
+  if (res != GSASL_OK)
+    error (EXIT_FAILURE, 0, "%s", gsasl_strerror (res));
+
+  res = gsasl_base64_to (storedkey, hashlen,
+			 &b64storedkey, &b64storedkeylen);
+  if (res != GSASL_OK)
+    error (EXIT_FAILURE, 0, "%s", gsasl_strerror (res));
+
+  /* ServerKey */
+#define SERVER_KEY "Server Key"
+  res = gsasl_hmac (hash, saltedpassword, hashlen,
+		    SERVER_KEY, strlen (SERVER_KEY), serverkey);
+  if (res != GSASL_OK)
+    error (EXIT_FAILURE, 0, "%s", gsasl_strerror (res));
+
+  res = gsasl_base64_to (serverkey, hashlen,
+			 &b64serverkey, &b64serverkeylen);
+  if (res != GSASL_OK)
+    error (EXIT_FAILURE, 0, "%s", gsasl_strerror (res));
+
+  printf ("%s:%u:%s:%s:%s:%s\n", args_info.mechanism_arg, c,
+	  b64salt, b64saltedpassword, b64serverkey, b64storedkey);
+
+  free (b64serverkey);
+  free (b64storedkey);
+  free (b64saltedpassword);
+  free (b64salt);
+  free (preppass);
+}
+
+
 int
 main (int argc, char *argv[])
 {
@@ -322,7 +430,8 @@ main (int argc, char *argv[])
 
   if (!(args_info.client_flag || args_info.client_given) &&
       !args_info.server_given &&
-      !args_info.client_mechanisms_flag && !args_info.server_mechanisms_flag)
+      !args_info.client_mechanisms_flag && !args_info.server_mechanisms_flag &&
+      !args_info.mkpasswd_given)
     {
       error (0, 0, _("missing argument"));
       usage (EXIT_FAILURE);
@@ -342,7 +451,8 @@ main (int argc, char *argv[])
 
   if (!args_info.connect_given && args_info.inputs_num == 0 &&
       !args_info.client_given && !args_info.server_given &&
-      !args_info.client_mechanisms_flag && !args_info.server_mechanisms_flag)
+      !args_info.client_mechanisms_flag && !args_info.server_mechanisms_flag &&
+      !args_info.mkpasswd_given)
     {
       cmdline_parser_print_help ();
       emit_bug_reporting_address ();
@@ -442,6 +552,12 @@ main (int argc, char *argv[])
 
       free (mechs);
 
+      return EXIT_SUCCESS;
+    }
+
+  if (args_info.mkpasswd_given)
+    {
+      mkpasswd ();
       return EXIT_SUCCESS;
     }
 
