@@ -56,91 +56,128 @@ gsasl_random (char *data, size_t datalen)
 }
 
 /**
- * gsasl_md5:
+ * gsasl_hash:
+ * @hash: a %Gsasl_hash hash algorithm identifier, e.g. #GSASL_HASH_SHA256.
  * @in: input character array of data to hash.
  * @inlen: length of input character array of data to hash.
- * @out: newly allocated 16-byte character array with hash of data.
+ * @outhash: buffer to hold hash of data.
  *
- * Compute hash of data using MD5.  The @out buffer must be
- * deallocated by the caller.
+ * Compute hash of data using the @hash algorithm.  The @outhash
+ * buffer must have room to hold the size of @hash's output; a safe
+ * value that have room for all possible outputs is
+ * %GSASL_HASH_MAX_SIZE.
  *
  * Return value: Returns %GSASL_OK iff successful.
+ *
+ * Since: 1.10
  **/
 int
-gsasl_md5 (const char *in, size_t inlen, char *out[])
+gsasl_hash (Gsasl_hash hash,
+	    const char *in, size_t inlen,
+	    char *outhash)
 {
-  *out = malloc (GC_MD5_DIGEST_SIZE);
-  if (!*out)
-    return GSASL_MALLOC_ERROR;
-  return gc_md5 (in, inlen, *out);
+  int rc;
+
+  if (hash == GSASL_HASH_MD5)
+    rc = gc_md5 (in, inlen, outhash);
+  else if (hash == GSASL_HASH_SHA1)
+    rc = gc_sha1 (in, inlen, outhash);
+  else if (hash == GSASL_HASH_SHA256)
+    rc = gc_sha256 (in, inlen, outhash);
+  else
+    rc = GSASL_CRYPTO_ERROR;
+
+  return rc;
 }
 
 /**
- * gsasl_hmac_md5:
+ * gsasl_hmac:
+ * @hash: a %Gsasl_hash hash algorithm identifier, e.g. #GSASL_HASH_SHA256.
  * @key: input character array with key to use.
  * @keylen: length of input character array with key to use.
  * @in: input character array of data to hash.
  * @inlen: length of input character array of data to hash.
- * @outhash: newly allocated 16-byte character array with keyed hash of data.
+ * @outhash: buffer to hold keyed hash of data.
  *
- * Compute keyed checksum of data using HMAC-MD5.  The @outhash buffer
- * must be deallocated by the caller.
+ * Compute keyed checksum of data using HMAC for the @hash algorithm.
+ * The @outhash buffer must have room to hold the size of @hash's
+ * output; a safe value that have room for all possible outputs is
+ * %GSASL_HASH_MAX_SIZE.
  *
  * Return value: Returns %GSASL_OK iff successful.
+ *
+ * Since: 1.10
  **/
 int
-gsasl_hmac_md5 (const char *key, size_t keylen,
-		const char *in, size_t inlen, char *outhash[])
+gsasl_hmac (Gsasl_hash hash,
+	    const char *key, size_t keylen,
+	    const char *in, size_t inlen,
+	    char *outhash)
 {
-  *outhash = malloc (GC_MD5_DIGEST_SIZE);
-  if (!*outhash)
-    return GSASL_MALLOC_ERROR;
-  return gc_hmac_md5 (key, keylen, in, inlen, *outhash);
+  int rc;
+
+  if (hash == GSASL_HASH_MD5)
+    rc = gc_hmac_md5 (key, keylen, in, inlen, outhash);
+  else if (hash == GSASL_HASH_SHA1)
+    rc = gc_hmac_sha1 (key, keylen, in, inlen, outhash);
+  else if (hash == GSASL_HASH_SHA256)
+    rc = gc_hmac_sha256 (key, keylen, in, inlen, outhash);
+  else
+    rc = GSASL_CRYPTO_ERROR;
+
+  return rc;
 }
 
 /**
- * gsasl_sha1:
- * @in: input character array of data to hash.
- * @inlen: length of input character array of data to hash.
- * @out: newly allocated 20-byte character array with hash of data.
+ * gsasl_pbkdf2:
+ * @hash: a %Gsasl_hash hash algorithm identifier.
+ * @password: input character array with password to use.
+ * @passwordlen: length of @password.
+ * @salt: input character array with salt, typically a short string.
+ * @saltlen: length of @salt.
+ * @c: iteration count, typically larger than 4096.
+ * @dk: output buffer, must be able to hold @dklen.
+ * @dklen: length of output buffer, or 0 to indicate @hash output size.
  *
- * Compute hash of data using SHA1.  The @out buffer must be
- * deallocated by the caller.
+ * Hash and salt password according to PBKDF2 algorithm with the @hash
+ * function used in HMAC.  This function can be used to prepare SCRAM
+ * SaltedPassword values for the %GSASL_SCRAM_SALTED_PASSWORD
+ * property.  Note that password should normally be prepared using
+ * gsasl_saslprep(GSASL_ALLOW_UNASSIGNED) before calling this
+ * function.
  *
- * Return value: Returns %GSASL_OK iff successful.
+ * Return value: Returns %GSASL_OK if successful, or error code.
  *
- * Since: 1.3
+ * Since: 1.10
  **/
 int
-gsasl_sha1 (const char *in, size_t inlen, char *out[])
+gsasl_pbkdf2 (Gsasl_hash hash,
+	      const char *password, size_t passwordlen,
+	      const char *salt, size_t saltlen,
+	      unsigned int c, char *dk, size_t dklen)
 {
-  *out = malloc (GC_SHA1_DIGEST_SIZE);
-  if (!*out)
-    return GSASL_MALLOC_ERROR;
-  return gc_sha1 (in, inlen, *out);
-}
+  int rc;
 
-/**
- * gsasl_hmac_sha1:
- * @key: input character array with key to use.
- * @keylen: length of input character array with key to use.
- * @in: input character array of data to hash.
- * @inlen: length of input character array of data to hash.
- * @outhash: newly allocated 20-byte character array with keyed hash of data.
- *
- * Compute keyed checksum of data using HMAC-SHA1.  The @outhash buffer
- * must be deallocated by the caller.
- *
- * Return value: Returns %GSASL_OK iff successful.
- *
- * Since: 1.3
- **/
-int
-gsasl_hmac_sha1 (const char *key, size_t keylen,
-		 const char *in, size_t inlen, char *outhash[])
-{
-  *outhash = malloc (GC_SHA1_DIGEST_SIZE);
-  if (!*outhash)
-    return GSASL_MALLOC_ERROR;
-  return gc_hmac_sha1 (key, keylen, in, inlen, *outhash);
+  if (hash == GSASL_HASH_SHA1)
+    {
+      if (dklen == 0)
+	dklen = GSASL_HASH_SHA1_SIZE;
+
+      rc = gc_pbkdf2_sha1 (password, passwordlen,
+			   salt, saltlen,
+			   c, dk, dklen);
+    }
+  else if (hash == GSASL_HASH_SHA256)
+    {
+      if (dklen == 0)
+	dklen = GSASL_HASH_SHA256_SIZE;
+
+      rc = gc_pbkdf2_sha256 (password, passwordlen,
+			     salt, saltlen,
+			     c, dk, dklen);
+    }
+  else
+    rc = GSASL_CRYPTO_ERROR;
+
+  return rc;
 }

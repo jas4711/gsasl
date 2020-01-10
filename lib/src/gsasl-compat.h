@@ -385,4 +385,19 @@ __attribute__ ((deprecated));
 extern GSASL_API Gsasl_server_callback_service
 gsasl_server_callback_service_get (Gsasl * ctx) __attribute__ ((deprecated));
 
+extern GSASL_API int
+gsasl_md5 (const char *in, size_t inlen,
+	   char *out[]) __attribute__ ((deprecated));
+extern GSASL_API int
+gsasl_hmac_md5 (const char *key, size_t keylen,
+		const char *in, size_t inlen,
+		char *outhash[]) __attribute__ ((deprecated));
+extern GSASL_API int
+gsasl_sha1 (const char *in, size_t inlen,
+	    char *out[]) __attribute__ ((deprecated));
+extern GSASL_API int
+gsasl_hmac_sha1 (const char *key, size_t keylen,
+		 const char *in, size_t inlen,
+		 char *outhash[]) __attribute__ ((deprecated));
+
 #endif /* GSASL_COMPAT_H */

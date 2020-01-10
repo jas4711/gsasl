@@ -471,16 +471,35 @@ extern "C"
 					  char **out, size_t * outlen);
   extern GSASL_API int gsasl_nonce (char *data, size_t datalen);
   extern GSASL_API int gsasl_random (char *data, size_t datalen);
-  extern GSASL_API int gsasl_md5 (const char *in, size_t inlen,
-				  char *out[]);
-  extern GSASL_API int gsasl_hmac_md5 (const char *key, size_t keylen,
-				       const char *in, size_t inlen,
-				       char *outhash[]);
-  extern GSASL_API int gsasl_sha1 (const char *in, size_t inlen,
-				   char *out[]);
-  extern GSASL_API int gsasl_hmac_sha1 (const char *key, size_t keylen,
-					const char *in, size_t inlen,
-					char *outhash[]);
+
+
+  typedef enum
+    {
+     /* Hash algorithm identifiers. */
+     GSASL_HASH_MD5 = 1,
+     GSASL_HASH_SHA1 = 2,
+     GSASL_HASH_SHA256 = 3,
+     /* Output sizes of hashes. */
+     GSASL_HASH_MD5_SIZE = 16,
+     GSASL_HASH_SHA1_SIZE = 20,
+     GSASL_HASH_SHA256_SIZE = 32,
+     GSASL_HASH_MAX_SIZE = GSASL_HASH_SHA256_SIZE
+    } Gsasl_hash;
+
+  extern GSASL_API int gsasl_hash (Gsasl_hash hash,
+				   const char *in, size_t inlen,
+				   char *out);
+  extern GSASL_API int gsasl_hmac (Gsasl_hash hash,
+				   const char *key, size_t keylen,
+				   const char *in, size_t inlen,
+				   char *outhash);
+  extern GSASL_API int gsasl_pbkdf2 (Gsasl_hash hash,
+				     const char *password,
+				     size_t passwordlen,
+				     const char *salt,
+				     size_t saltlen,
+				     unsigned int c,
+				     char *dk, size_t dklen);
   extern GSASL_API void gsasl_free (void *ptr);
 
   /* Get the mechanism API. */

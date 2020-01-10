@@ -146,3 +146,11 @@ LIBGSASL_1.4
     gsasl_sha1;
     gsasl_hmac_sha1;
 } LIBGSASL_1.1;
+
+LIBGSASL_1.10
+{
+  global:
+    gsasl_hash;
+    gsasl_hmac;
+    gsasl_pbkdf2;
+} LIBGSASL_1.4;
