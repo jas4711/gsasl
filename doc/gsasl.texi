@@ -2537,6 +2537,8 @@ terminal.
                              registered GSSAPI host based service name).
       --service-name=STRING  Set the generic server name in case of a
                              replicated server (DIGEST-MD5 only).
+      --iteration-count=NUMBER  Indicate PBKDF2 hash iteration count (SCRAM
+                                  only).  (default=`65536')
 @end verbatim
 
 @majorheading STARTTLS options

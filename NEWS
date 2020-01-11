@@ -9,7 +9,9 @@ SASL.  That include the manual, the command line tool, and self tests.
 * Version 1.9.1 (unreleased) [beta]
 
 ** gsasl: New --mkpasswd argument to prepare salted/hashed passwords.
-Currently mechanisms SCRAM-SHA-1 and SCRAM-SHA-256 are supported.
+Currently mechanisms SCRAM-SHA-1 and SCRAM-SHA-256 are supported.  New
+parameter --iteration-count to indicate number of PBKDF2 rounds,
+default being 65536.
 
 * Version 1.9.0 (released 2020-01-03) [beta]
 

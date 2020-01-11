@@ -286,7 +286,7 @@ mkpasswd (void)
 {
   char *preppass;
   char salt[DEFAULT_SALT_SIZE];
-  unsigned int c = 65536;
+  unsigned int c;
   int res;
   char *b64salt;
   size_t b64saltlen;
@@ -317,6 +317,12 @@ mkpasswd (void)
   else
     error (EXIT_FAILURE, 0, _("unsupported --mechanism for --mkpasswd: %s"),
 	   args_info.mechanism_arg);
+
+  if (args_info.iteration_count_arg <= 0)
+    error (EXIT_FAILURE, 0, _("iteration count must be positive: %d"),
+	   args_info.iteration_count_arg);
+
+  c = args_info.iteration_count_arg;
 
   res = gsasl_nonce (salt, sizeof (salt));
   if (res != GSASL_OK)
