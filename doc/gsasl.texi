@@ -2537,7 +2537,6 @@ terminal.
                              registered GSSAPI host based service name).
       --service-name=STRING  Set the generic server name in case of a
                              replicated server (DIGEST-MD5 only).
-  -x, --maxbuf=NUMBER        Indicate maximum buffer size (DIGEST-MD5 only).
 @end verbatim
 
 @majorheading STARTTLS options
