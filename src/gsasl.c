@@ -577,13 +577,13 @@ main (int argc, char *argv[])
 
       free (mechs);
 
-      return EXIT_SUCCESS;
+      goto done;
     }
 
   if (args_info.mkpasswd_given)
     {
       mkpasswd ();
-      return EXIT_SUCCESS;
+      goto done;
     }
 
   if (args_info.connect_given || args_info.inputs_num > 0)
@@ -778,7 +778,7 @@ main (int argc, char *argv[])
       if (mech == NULL)
 	{
 	  fprintf (stderr, _("Cannot find mechanism...\n"));
-	  return 0;
+	  goto done;
 	}
 
       if (args_info.mechanism_arg)
@@ -1048,6 +1048,7 @@ main (int argc, char *argv[])
       close (sockfd);
     }
 
+ done:
   gsasl_done (ctx);
 
 #ifdef HAVE_LIBGNUTLS
@@ -1060,5 +1061,5 @@ main (int argc, char *argv[])
     }
 #endif
 
-  return 0;
+  return EXIT_SUCCESS;
 }

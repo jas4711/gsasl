@@ -39,7 +39,8 @@ AM_TESTS_ENVIRONMENT = \
 	MD5FILE=$(srcdir)/cram-md5.pwd \
 	EGREP="$(EGREP)" \
 	GNUGSS=`if grep 'HAVE_LIBGSS 1' ../lib/config.h > /dev/null; then echo yes; else echo no; fi`; \
-	export SHISHI_KEYS SHISHI_TICKETS SHISHI_CONFIG SHISHI_HOME SHISHI_USER THREADSAFETY_FILES MD5FILE EGREP GNUGSS;
+	VALGRIND="$(VALGRIND)" \
+	export SHISHI_KEYS SHISHI_TICKETS SHISHI_CONFIG SHISHI_HOME SHISHI_USER THREADSAFETY_FILES MD5FILE EGREP GNUGSS VALGRIND;
 
 LOG_COMPILER=$(VALGRIND)
 
@@ -53,6 +54,6 @@ endif
 
 # old-gssapi
 
-TESTS = threadsafety $(ctests)
 check_PROGRAMS = $(ctests)
-dist_check_SCRIPTS = threadsafety
+dist_check_SCRIPTS = threadsafety gsasl-scram-pbkdf2
+TESTS = $(dist_check_SCRIPTS) $(ctests)
