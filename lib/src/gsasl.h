@@ -479,16 +479,21 @@ extern "C"
      GSASL_HASH_MD5 = 1,
      GSASL_HASH_SHA1 = 2,
      GSASL_HASH_SHA256 = 3,
+    } Gsasl_hash;
+
+  typedef enum
+    {
      /* Output sizes of hashes. */
      GSASL_HASH_MD5_SIZE = 16,
      GSASL_HASH_SHA1_SIZE = 20,
      GSASL_HASH_SHA256_SIZE = 32,
      GSASL_HASH_MAX_SIZE = GSASL_HASH_SHA256_SIZE
-    } Gsasl_hash;
+    } Gsasl_hash_length;
 
   extern GSASL_API int gsasl_hash (Gsasl_hash hash,
 				   const char *in, size_t inlen,
 				   char *out);
+  extern GSASL_API size_t gsasl_hash_length (Gsasl_hash hash);
   extern GSASL_API int gsasl_hmac (Gsasl_hash hash,
 				   const char *key, size_t keylen,
 				   const char *in, size_t inlen,
@@ -501,6 +506,24 @@ extern "C"
 				     unsigned int c,
 				     char *dk, size_t dklen);
   extern GSASL_API void gsasl_free (void *ptr);
+
+  /* Helper functions. */
+  extern GSASL_API int
+  gsasl_scram_secrets_from_salted_password (Gsasl_hash hash,
+					    const char *salted_password,
+					    char *client_key,
+					    char *server_key,
+					    char *stored_key);
+  extern GSASL_API int
+  gsasl_scram_secrets_from_password (Gsasl_hash hash,
+				     const char *password,
+				     unsigned int iteration_count,
+				     const char *salt,
+				     size_t saltlen,
+				     char *salted_password,
+				     char *client_key,
+				     char *server_key,
+				     char *stored_key);
 
   /* Get the mechanism API. */
 #include <gsasl-mech.h>

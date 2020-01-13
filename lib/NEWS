@@ -4,18 +4,23 @@ See the end for copying conditions.
 
 * Version 1.9.1 (unreleased) [beta]
 
-** New enum Gsasl_hash for hash algorithms.
+** New enum Gsasl_hash (and Gsasl_hash_length) for hash algorithms.
 The enum declares GSASL_HASH_MD5, GSASL_HASH_SHA1, and
 GSASL_HASH_SHA256 as new hash algorithm identifiers for use with
-functions such as gsasl_hash(), gsasl_hmac(), and gsasl_pbkdf2().  It
-also declare GSASL_HASH_MD5_SIZE, GSASL_HASH_SHA1_SIZE, and
-GSASL_HASH_SHA256_SIZE for the hash algorithm digest output sizes.
-Finally, GSASL_HASH_MAX_SIZE is declare as the largest of all
-GSASL_HASH_*_SIZE's.
+functions such as gsasl_hash(), gsasl_hmac(), and gsasl_pbkdf2().  The
+enum Gsasl_hash_length declare GSASL_HASH_MD5_SIZE,
+GSASL_HASH_SHA1_SIZE, and GSASL_HASH_SHA256_SIZE for the hash
+algorithm digest output sizes, together with GSASL_HASH_MAX_SIZE as
+the largest of all GSASL_HASH_*_SIZE's.  New function
+gsasl_hash_length() to get size of digest.
 
 ** New crypto interfaces for generic hash/hmac.
 Use gsasl_hash() and gsasl_hmac() instead of the now deprecated
 gsasl_md5(), gsasl_sha1(), gsasl_hmac_md5(), and gsasl_hmac_sha1().
+
+** New SCRAM crypto helper APIs.
+The APIs are gsasl_scram_secrets_from_password() and
+gsasl_scram_secrets_from_salted_password().
 
 ** New crypto interface for PBKDF2.
 The API is gsasl_pbkdf2().
@@ -26,10 +31,12 @@ gsasl_hmac: ADDED.
 gsasl_pbkdf2: ADDED.
 gsasl_md5, gsasl_sha1: DEPRECATED.
 gsasl_hmac_md5, gsasl_hmac_sha1: DEPRECATED.
-Gsasl_hash: ADDED.
+Gsasl_hash, Gsasl_hash_length: ADDED.
 GSASL_HASH_MD5, GSASL_HASH_SHA1, GSASL_HASH_SHA256: ADDED.
 GSASL_HASH_MD5_SIZE, GSASL_HASH_SHA1_SIZE, GSASL_HASH_SHA256_SIZE: ADDED.
 GSASL_HASH_MAX_SIZE: ADDED.
+gsasl_scram_secrets_from_password: ADDED.
+gsasl_scram_secrets_from_salted_password: ADDED.
 
 * Version 1.9.0 (released 2020-01-03) [beta]
 

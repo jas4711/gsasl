@@ -284,12 +284,9 @@ usage (int status)
 static void
 mkpasswd (void)
 {
-  char *preppass;
   char salt_buf[DEFAULT_SALT_SIZE];
   char *salt;
   size_t saltlen;
-  unsigned int c;
-  int res;
   char *b64salt;
   char saltedpassword[GSASL_HASH_MAX_SIZE];
   char *b64saltedpassword;
@@ -301,6 +298,7 @@ mkpasswd (void)
   char storedkey[GSASL_HASH_MAX_SIZE];
   char *b64serverkey, *b64storedkey;
   size_t b64serverkeylen, b64storedkeylen;
+  int res;
 
   if (args_info.mechanism_arg == NULL)
     error (EXIT_FAILURE, 0, _("required --mechanism missing"));
@@ -322,8 +320,6 @@ mkpasswd (void)
   if (args_info.iteration_count_arg <= 0)
     error (EXIT_FAILURE, 0, _("iteration count must be positive: %d"),
 	   args_info.iteration_count_arg);
-
-  c = args_info.iteration_count_arg;
 
   if (args_info.salt_given)
     {
@@ -350,16 +346,13 @@ mkpasswd (void)
   if (args_info.password_arg == NULL)
     args_info.password_arg = readutf8pass (_("Enter password: "));
 
-  /* SASLprep */
-  res = gsasl_saslprep (args_info.password_arg,
-			GSASL_ALLOW_UNASSIGNED, &preppass, NULL);
-  if (res != GSASL_OK)
-    error (EXIT_FAILURE, 0, "%s", gsasl_strerror (res));
-
-  /* SaltedPassword */
-  res = gsasl_pbkdf2 (hash, preppass, strlen (preppass),
-		      salt, saltlen,
-		      c, saltedpassword, 0);
+  res = gsasl_scram_secrets_from_password (hash, args_info.password_arg,
+					   args_info.iteration_count_arg,
+					   salt, saltlen,
+					   saltedpassword,
+					   clientkey,
+					   serverkey,
+					   storedkey);
   if (res != GSASL_OK)
     error (EXIT_FAILURE, 0, "%s", gsasl_strerror (res));
 
@@ -368,27 +361,8 @@ mkpasswd (void)
   if (res != GSASL_OK)
     error (EXIT_FAILURE, 0, "%s", gsasl_strerror (res));
 
-  /* ClientKey */
-#define CLIENT_KEY "Client Key"
-  res = gsasl_hmac (hash, saltedpassword, hashlen,
-		    CLIENT_KEY, strlen (CLIENT_KEY), clientkey);
-  if (res != GSASL_OK)
-    error (EXIT_FAILURE, 0, "%s", gsasl_strerror (res));
-
-  /* StoredKey */
-  res = gsasl_hash (hash, clientkey, hashlen, storedkey);
-  if (res != GSASL_OK)
-    error (EXIT_FAILURE, 0, "%s", gsasl_strerror (res));
-
   res = gsasl_base64_to (storedkey, hashlen,
 			 &b64storedkey, &b64storedkeylen);
-  if (res != GSASL_OK)
-    error (EXIT_FAILURE, 0, "%s", gsasl_strerror (res));
-
-  /* ServerKey */
-#define SERVER_KEY "Server Key"
-  res = gsasl_hmac (hash, saltedpassword, hashlen,
-		    SERVER_KEY, strlen (SERVER_KEY), serverkey);
   if (res != GSASL_OK)
     error (EXIT_FAILURE, 0, "%s", gsasl_strerror (res));
 
@@ -397,7 +371,8 @@ mkpasswd (void)
   if (res != GSASL_OK)
     error (EXIT_FAILURE, 0, "%s", gsasl_strerror (res));
 
-  printf ("%s:%u:%s:%s:%s:%s\n", args_info.mechanism_arg, c,
+  printf ("%s:%d:%s:%s:%s:%s\n", args_info.mechanism_arg,
+	  args_info.iteration_count_arg,
 	  b64salt, b64saltedpassword, b64serverkey, b64storedkey);
 
   if (salt != salt_buf)
@@ -408,7 +383,6 @@ mkpasswd (void)
   free (b64storedkey);
   free (b64saltedpassword);
   free (b64salt);
-  free (preppass);
 }
 
 

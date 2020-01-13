@@ -18,7 +18,8 @@
 set -e
 set -x
 
-GSASL="${GSASL:-../src/gsasl${EXEEXT}}"
+ROOT=`dirname $0`
+GSASL="${GSASL:-$ROOT/../src/gsasl${EXEEXT}}"
 
 if ! test -x "${GSASL}"; then
     exit 77
