@@ -285,11 +285,12 @@ static void
 mkpasswd (void)
 {
   char *preppass;
-  char salt[DEFAULT_SALT_SIZE];
+  char salt_buf[DEFAULT_SALT_SIZE];
+  char *salt;
+  size_t saltlen;
   unsigned int c;
   int res;
   char *b64salt;
-  size_t b64saltlen;
   char saltedpassword[GSASL_HASH_MAX_SIZE];
   char *b64saltedpassword;
   size_t b64saltedpasswordlen;
@@ -324,13 +325,27 @@ mkpasswd (void)
 
   c = args_info.iteration_count_arg;
 
-  res = gsasl_nonce (salt, sizeof (salt));
-  if (res != GSASL_OK)
-    error (EXIT_FAILURE, 0, "%s", gsasl_strerror (res));
+  if (args_info.salt_given)
+    {
+      b64salt = args_info.salt_arg;
 
-  res = gsasl_base64_to (salt, sizeof (salt), &b64salt, &b64saltlen);
-  if (res != GSASL_OK)
-    error (EXIT_FAILURE, 0, "%s", gsasl_strerror (res));
+      res = gsasl_base64_from (b64salt, strlen (b64salt), &salt, &saltlen);
+      if (res != GSASL_OK)
+	error (EXIT_FAILURE, 0, "%s: %s", gsasl_strerror (res), b64salt);
+    }
+  else
+    {
+      salt = salt_buf;
+      saltlen = sizeof (salt_buf);
+
+      res = gsasl_nonce (salt, saltlen);
+      if (res != GSASL_OK)
+	error (EXIT_FAILURE, 0, "%s", gsasl_strerror (res));
+
+      res = gsasl_base64_to (salt, saltlen, &b64salt, NULL);
+      if (res != GSASL_OK)
+	error (EXIT_FAILURE, 0, "%s", gsasl_strerror (res));
+    }
 
   if (args_info.password_arg == NULL)
     args_info.password_arg = readutf8pass (_("Enter password: "));
@@ -343,7 +358,7 @@ mkpasswd (void)
 
   /* SaltedPassword */
   res = gsasl_pbkdf2 (hash, preppass, strlen (preppass),
-		      salt, sizeof (salt),
+		      salt, saltlen,
 		      c, saltedpassword, 0);
   if (res != GSASL_OK)
     error (EXIT_FAILURE, 0, "%s", gsasl_strerror (res));
@@ -385,6 +400,10 @@ mkpasswd (void)
   printf ("%s:%u:%s:%s:%s:%s\n", args_info.mechanism_arg, c,
 	  b64salt, b64saltedpassword, b64serverkey, b64storedkey);
 
+  if (salt != salt_buf)
+    free (salt);
+  if (b64salt != args_info.salt_arg)
+    free (b64salt);
   free (b64serverkey);
   free (b64storedkey);
   free (b64saltedpassword);

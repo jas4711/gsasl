@@ -2539,6 +2539,8 @@ terminal.
                              replicated server (DIGEST-MD5 only).
       --iteration-count=NUMBER  Indicate PBKDF2 hash iteration count (SCRAM
                                   only).  (default=`65536')
+      --salt=B64DATA         Indicate PBKDF2 salt as base64-encoded string
+                                  (SCRAM only).
 @end verbatim
 
 @majorheading STARTTLS options

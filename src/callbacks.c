@@ -201,8 +201,18 @@ callback (Gsasl * ctx, Gsasl_session * sctx, Gsasl_property prop)
       break;
 
     case GSASL_SCRAM_SALTED_PASSWORD:
+      break;
+
     case GSASL_SCRAM_ITER:
+      gsasl_property_set (sctx, GSASL_SCRAM_ITER,
+			  args_info.iteration_count_orig);
+      rc = GSASL_OK;
+      break;
+
     case GSASL_SCRAM_SALT:
+      gsasl_property_set (sctx, GSASL_SCRAM_SALT,
+			  args_info.salt_arg);
+      rc = GSASL_OK;
       break;
 
     case GSASL_SAML20_IDP_IDENTIFIER:
