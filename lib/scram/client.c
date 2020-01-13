@@ -151,46 +151,6 @@ _gsasl_scram_sha256_plus_client_start (Gsasl_session * sctx, void **mech_data)
 }
 #endif
 
-static char
-hexdigit_to_char (char hexdigit)
-{
-  if (hexdigit >= '0' && hexdigit <= '9')
-    return hexdigit - '0';
-  if (hexdigit >= 'a' && hexdigit <= 'f')
-    return hexdigit - 'a' + 10;
-  return 0;
-}
-
-static char
-hex_to_char (char u, char l)
-{
-  return (char) (((unsigned char) hexdigit_to_char (u)) * 16
-		 + hexdigit_to_char (l));
-}
-
-static void
-sha1_hex_to_byte (char *saltedpassword, const char *p)
-{
-  while (*p)
-    {
-      *saltedpassword = hex_to_char (p[0], p[1]);
-      p += 2;
-      saltedpassword++;
-    }
-}
-
-static bool
-hex_p (const char *hexstr)
-{
-  static const char hexalpha[] = "0123456789abcdef";
-
-  for (; *hexstr; hexstr++)
-    if (strchr (hexalpha, *hexstr) == NULL)
-      return false;
-
-  return true;
-}
-
 static int
 scram_step (Gsasl_session * sctx,
 	    void *mech_data,
@@ -323,13 +283,11 @@ scram_step (Gsasl_session * sctx,
 
 	  /* Get SaltedPassword. */
 
-	  if ((p = gsasl_property_get (sctx, GSASL_SCRAM_SALTED_PASSWORD)) &&
-	      ((state->hash == GSASL_HASH_SHA1 &&
-		strlen (p) == 40 && hex_p (p)) ||
-	       (state->hash == GSASL_HASH_SHA256 &&
-		strlen (p) == 64 && hex_p (p))))
+	  if ((p = gsasl_property_get (sctx, GSASL_SCRAM_SALTED_PASSWORD))
+	      && (strlen (p) == 2 * gsasl_hash_length (state->hash))
+	      && _gsasl_hex_p (p))
 	    {
-	      sha1_hex_to_byte (saltedpassword, p);
+	      _gsasl_hex_decode (p, saltedpassword);
 
 	      rc = gsasl_scram_secrets_from_salted_password (state->hash,
 							     saltedpassword,

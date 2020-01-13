@@ -237,3 +237,47 @@ _gsasl_hex_encode (const char * in, size_t inlen, char *out)
 
   out[i] = '\0';
 }
+
+static char
+hexdigit_to_char (char hexdigit)
+{
+  if (hexdigit >= '0' && hexdigit <= '9')
+    return hexdigit - '0';
+  if (hexdigit >= 'a' && hexdigit <= 'f')
+    return hexdigit - 'a' + 10;
+  return 0;
+}
+
+static char
+hex_to_char (char u, char l)
+{
+  return (char) (((unsigned char) hexdigit_to_char (u)) * 16
+		 + hexdigit_to_char (l));
+}
+
+/* Hex decode string HEXSTR containing only hex "0-9A-F" characters
+   into binary buffer BIN which must have room for data, i.e., strlen
+   (hexstr)/2. */
+void
+_gsasl_hex_decode (const char *hexstr, char *bin)
+{
+  while (*hexstr)
+    {
+      *bin = hex_to_char (hexstr[0], hexstr[1]);
+      hexstr += 2;
+      bin++;
+    }
+}
+
+/* Return whether string contains hex "0-9a-f" symbols only. */
+bool
+_gsasl_hex_p (const char *hexstr)
+{
+  static const char hexalpha[] = "0123456789abcdef";
+
+  for (; *hexstr; hexstr++)
+    if (strchr (hexalpha, *hexstr) == NULL)
+      return false;
+
+  return true;
+}

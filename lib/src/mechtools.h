@@ -39,5 +39,7 @@ extern int _gsasl_gs2_generate_header (bool nonstd, char cbflag,
 				       size_t * gs2hlen);
 
 extern void _gsasl_hex_encode (const char * in, size_t inlen, char *out);
+extern void _gsasl_hex_decode (const char *hexstr, char *bin);
+extern bool _gsasl_hex_p (const char *hexstr);
 
 #endif
