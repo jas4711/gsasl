@@ -461,18 +461,7 @@ extern "C"
 				       Gsasl_saslprep_flags flags, char **out,
 				       int *stringpreprc);
 
-  /* Utilities: base64.c, md5pwd.c, crypto.c */
-  extern GSASL_API int gsasl_simple_getpass (const char *filename,
-					     const char *username,
-					     char **key);
-  extern GSASL_API int gsasl_base64_to (const char *in, size_t inlen,
-					char **out, size_t * outlen);
-  extern GSASL_API int gsasl_base64_from (const char *in, size_t inlen,
-					  char **out, size_t * outlen);
-  extern GSASL_API int gsasl_nonce (char *data, size_t datalen);
-  extern GSASL_API int gsasl_random (char *data, size_t datalen);
-
-
+  /* Crypto functions: crypto.c */
   typedef enum
     {
      /* Hash algorithm identifiers. */
@@ -490,6 +479,9 @@ extern "C"
      GSASL_HASH_MAX_SIZE = GSASL_HASH_SHA256_SIZE
     } Gsasl_hash_length;
 
+  extern GSASL_API int gsasl_nonce (char *data, size_t datalen);
+  extern GSASL_API int gsasl_random (char *data, size_t datalen);
+
   extern GSASL_API int gsasl_hash (Gsasl_hash hash,
 				   const char *in, size_t inlen,
 				   char *out);
@@ -505,9 +497,7 @@ extern "C"
 				     size_t saltlen,
 				     unsigned int c,
 				     char *dk, size_t dklen);
-  extern GSASL_API void gsasl_free (void *ptr);
 
-  /* Helper functions. */
   extern GSASL_API int
   gsasl_scram_secrets_from_salted_password (Gsasl_hash hash,
 					    const char *salted_password,
@@ -524,6 +514,16 @@ extern "C"
 				     char *client_key,
 				     char *server_key,
 				     char *stored_key);
+
+  /* Utilities: base64.c, md5pwd.c, free.c */
+  extern GSASL_API int gsasl_simple_getpass (const char *filename,
+					     const char *username,
+					     char **key);
+  extern GSASL_API int gsasl_base64_to (const char *in, size_t inlen,
+					char **out, size_t * outlen);
+  extern GSASL_API int gsasl_base64_from (const char *in, size_t inlen,
+					  char **out, size_t * outlen);
+  extern GSASL_API void gsasl_free (void *ptr);
 
   /* Get the mechanism API. */
 #include <gsasl-mech.h>
