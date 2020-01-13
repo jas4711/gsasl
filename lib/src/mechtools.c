@@ -218,3 +218,22 @@ _gsasl_gs2_generate_header (bool nonstd, char cbflag,
 
   return GSASL_OK;
 }
+
+/* Hex encode binary octet array IN of INLEN length, putting the hex
+   encoded string in OUT which must have room for the data and
+   terminating zero, i.e., 2*INLEN+1. */
+void
+_gsasl_hex_encode (const char * in, size_t inlen, char *out)
+{
+  int i;
+  const char * p = in;
+
+  for (i = 0; i < 2 * inlen; )
+    {
+      unsigned char c = *p++;
+      out[i++] = "0123456789abcdef"[c >> 4];
+      out[i++] = "0123456789abcdef"[c & 0x0f];
+    }
+
+  out[i] = '\0';
+}

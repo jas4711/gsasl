@@ -341,6 +341,7 @@ scram_step (Gsasl_session * sctx,
 	    }
 	  else if ((p = gsasl_property_get (sctx, GSASL_PASSWORD)) != NULL)
 	    {
+	      char hexstr_saltedpassword[GSASL_HASH_MAX_SIZE * 2 + 1];
 	      char *salt;
 	      size_t saltlen;
 
@@ -360,6 +361,10 @@ scram_step (Gsasl_session * sctx,
 	      if (rc != 0)
 		return rc;
 
+	      _gsasl_hex_encode (saltedpassword, gsasl_hash_length (state->hash),
+				 hexstr_saltedpassword);
+	      gsasl_property_set (sctx, GSASL_SCRAM_SALTED_PASSWORD,
+				  hexstr_saltedpassword);
 	      gsasl_free (salt);
 	    }
 	  else

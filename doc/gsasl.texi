@@ -1538,6 +1538,12 @@ client, however note that an attacker who steal it may impersonate both
 a SCRAM client and SCRAM server.  If the property is not available, the
 client will ask for the @code{GSASL_PASSWORD} property instead.
 
+The @code{GSASL_SCRAM_SALTED_PASSWORD} property is set by a SCRAM
+client/server if it derived the value from a @code{GSASL_PASSWORD} value
+supplied during authentication.  Thus, the client or server may cache
+this value for future authentication attempts.  See the SCRAM section
+(@pxref{SCRAM}) for more information about this.
+
 @item @code{GSASL_SCRAM_ITER}
 @item @code{GSASL_SCRAM_SALT}
 
@@ -1923,17 +1929,19 @@ supports authorization identities.  Like CRAM-MD5 and DIGEST-MD5, only a
 hashed password is transferred.  Consequently, SCRAM needs access to the
 correct password to verify the client response.
 
-In the client, the non-PLUS mechanism is always enabled, and it
-requires the @code{GSASL_AUTHID} property, and either
-@code{GSASL_PASSWORD} or @code{GSASL_SCRAM_SALTED_PASSWORD}.  When the
-@code{GSASL_CB_TLS_UNIQUE} property is available, the SCRAM-SHA-1-PLUS
-mechanism is also available and it will negotiate channel bindings
-when the server also supports it.  If set, @code{GSASL_AUTHZID} will
-be used by the client.  To be able to return the proper
-@code{GSASL_SCRAM_SALTED_PASSWORD} value, the client needs to check
-the @code{GSASL_SCRAM_ITER} and @code{GSASL_SCRAM_SALT} values which
-are available when the @code{GSASL_SCRAM_SALTED_PASSWORD} property is
-queried for.
+In the client, the non-PLUS mechanism is always enabled, and it requires
+the @code{GSASL_AUTHID} property, and either @code{GSASL_PASSWORD} or
+@code{GSASL_SCRAM_SALTED_PASSWORD}.  When the @code{GSASL_CB_TLS_UNIQUE}
+property is available, the SCRAM-SHA-1-PLUS mechanism is also available
+and it will negotiate channel bindings when the server also supports it.
+If set, @code{GSASL_AUTHZID} will be used by the client.  To be able to
+return the proper @code{GSASL_SCRAM_SALTED_PASSWORD} value, the client
+needs to check the @code{GSASL_SCRAM_ITER} and @code{GSASL_SCRAM_SALT}
+values which are available when the @code{GSASL_SCRAM_SALTED_PASSWORD}
+property is queried for.  The client/server learn relevant
+@code{GSASL_SCRAM_SALTED_PASSWORD} value by retrieving it after the
+final authentication step, or by using the
+@code{gsasl_scram_secrets_from_password} (@pxref{Utilities}).
 
 In the server, the mechanism will require the @code{GSASL_PASSWORD}
 callback property, which may use the @code{GSASL_AUTHID} property to

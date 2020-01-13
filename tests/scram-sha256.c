@@ -137,7 +137,7 @@ doit (void)
     printf ("C: %.*s [%c]\n", (int) s1len,
 	    s1, res == GSASL_OK ? 'O' : 'N');
 
-  /* Server step... */
+  /* Server first... */
 
   res = gsasl_step (server, s1, s1len, &s2, &s2len);
   gsasl_free (s1);
@@ -200,6 +200,22 @@ doit (void)
     const char *p = gsasl_property_fast (server, GSASL_AUTHID);
     if (p && strcmp (p, USERNAME) != 0)
       fail ("Bad authid? %s != %s\n", p, USERNAME);
+  }
+
+  {
+    const char *sp = gsasl_property_fast (client, GSASL_SCRAM_SALTED_PASSWORD);
+    if (!sp || strcmp (sp, "c4a49510323ab4f952cac1fa99441939"
+		       "e78ea74d6be81ddf7096e87513dc615d") != 0)
+      fail ("client didn't set salted password: %s\n",
+	    gsasl_property_fast (client, GSASL_SCRAM_SALTED_PASSWORD));
+  }
+
+  {
+    const char *sp = gsasl_property_fast (server, GSASL_SCRAM_SALTED_PASSWORD);
+    if (!sp || strcmp (sp, "c4a49510323ab4f952cac1fa99441939"
+		       "e78ea74d6be81ddf7096e87513dc615d") != 0)
+      fail ("server didn't set salted password: %s\n",
+	    gsasl_property_fast (client, GSASL_SCRAM_SALTED_PASSWORD));
   }
 
   if (debug)
