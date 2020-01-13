@@ -1552,10 +1552,16 @@ this value for future authentication attempts.  See the SCRAM section
 In the server, the application can set these properties to influence the
 hash iteration count and hash salt to use when deriving the password.
 The default hash iteration count is 4096 and normally you should not
-need to use a lower setting.  The salt should be a random string.  In
-the client, the SCRAM-* mechanism set these properties before asking for
-asking the application to provide a @code{GSASL_SCRAM_SALTED_PASSWORD}
-value.
+need to use a lower setting.  The salt should be a base64-encoded string
+with random data.
+
+In the client, the SCRAM-* mechanism set these properties before asking
+for asking the application to provide a
+@code{GSASL_SCRAM_SALTED_PASSWORD} value.
+
+The properties are also set by client/server when default values are
+used, to allow the application to retrieve the values used (required
+when storing the @code{GSASL_SCRAM_SALTED_PASSWORD} value, for example).
 
 @item @code{GSASL_CB_TLS_UNIQUE}
 

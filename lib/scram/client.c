@@ -302,7 +302,7 @@ scram_step (Gsasl_session * sctx,
 	{
 	  char *str = NULL;
 	  int n;
-	  n = asprintf (&str, "%lu", (unsigned long) state->sf.iter);
+	  n = asprintf (&str, "%zu", state->sf.iter);
 	  if (n < 0 || str == NULL)
 	    return GSASL_MALLOC_ERROR;
 	  gsasl_property_set (sctx, GSASL_SCRAM_ITER, str);

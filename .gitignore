@@ -1732,6 +1732,8 @@ tests/gs2-krb5
 tests/gs2-krb5.log
 tests/gs2-krb5.o
 tests/gs2-krb5.trs
+tests/gsasl-scram-pbkdf2.log
+tests/gsasl-scram-pbkdf2.trs
 tests/gssapi
 tests/gssapi.log
 tests/gssapi.o
@@ -1782,6 +1784,10 @@ tests/scram-sha256
 tests/scram-sha256.log
 tests/scram-sha256.o
 tests/scram-sha256.trs
+tests/scram-simple
+tests/scram-simple.log
+tests/scram-simple.o
+tests/scram-simple.trs
 tests/scram.log
 tests/scram.o
 tests/scram.trs

@@ -251,10 +251,23 @@ scram_server_step (Gsasl_session * sctx,
 
 	{
 	  const char *p = gsasl_property_get (sctx, GSASL_SCRAM_ITER);
+
 	  if (p)
 	    state->sf.iter = strtoul (p, NULL, 10);
 	  if (!p || state->sf.iter == 0 || state->sf.iter == ULONG_MAX)
 	    state->sf.iter = 4096;
+
+	  /* Save salt/iter as properties, so that client callback can
+	     access them. */
+	  {
+	    char *str = NULL;
+	    int n;
+	    n = asprintf (&str, "%zu", state->sf.iter);
+	    if (n < 0 || str == NULL)
+	      return GSASL_MALLOC_ERROR;
+	    gsasl_property_set (sctx, GSASL_SCRAM_ITER, str);
+	    free (str);
+	  }
 	}
 
 	{
@@ -264,6 +277,8 @@ scram_server_step (Gsasl_session * sctx,
 	      free (state->sf.salt);
 	      state->sf.salt = strdup (p);
 	    }
+	  else
+	    gsasl_property_set (sctx, GSASL_SCRAM_SALT, state->sf.salt);
 	}
 
 	rc = scram_print_server_first (&state->sf, &state->sf_str);
