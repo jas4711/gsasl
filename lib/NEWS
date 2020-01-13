@@ -4,6 +4,11 @@ See the end for copying conditions.
 
 * Version 1.9.1 (unreleased) [beta]
 
+** SCRAM: Sets GSASL_SCRAM_ITER/GSASL_SCRAM_SALT/GSASL_SCRAM_SALTED_PASSWORD.
+These properties can be read out and stored for future
+authentications, instead of storing the password, to improve
+performance and security.  Suggested by Jeremy Harris.
+
 ** New enum Gsasl_hash (and Gsasl_hash_length) for hash algorithms.
 The enum declares GSASL_HASH_MD5, GSASL_HASH_SHA1, and
 GSASL_HASH_SHA256 as new hash algorithm identifiers for use with
