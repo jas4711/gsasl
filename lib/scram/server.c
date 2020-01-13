@@ -51,8 +51,8 @@
 
 struct scram_server_state
 {
-  int plus;
-  int hash; // 0 is SHA1, 1 is SHA256
+  bool plus;
+  Gsasl_hash hash;
   int step;
   char *cbind;
   char *gs2header;		/* copy of client first gs2-header */
@@ -60,8 +60,8 @@ struct scram_server_state
   char *sf_str;			/* copy of server first message */
   char *snonce;
   char *clientproof;
-  char *storedkey;
-  char *serverkey;
+  char storedkey[GSASL_HASH_MAX_SIZE];
+  char serverkey[GSASL_HASH_MAX_SIZE];
   char *authmessage;
   char *cbtlsunique;
   size_t cbtlsuniquelen;
@@ -72,7 +72,8 @@ struct scram_server_state
 };
 
 static int
-scram_start (Gsasl_session * sctx, void **mech_data, int plus, int hash)
+scram_start (Gsasl_session * sctx, void **mech_data,
+	     bool plus, Gsasl_hash hash)
 {
   struct scram_server_state *state;
   char buf[MAX (SNONCE_ENTROPY_BYTES, DEFAULT_SALT_BYTES)];
@@ -92,7 +93,7 @@ scram_start (Gsasl_session * sctx, void **mech_data, int plus, int hash)
 
   rc = gsasl_base64_to (buf, SNONCE_ENTROPY_BYTES, &state->snonce, NULL);
 #if SCRAMDEBUG
-  if (hash == 0)
+  if (hash == GSASL_HASH_SHA1)
     state->snonce = strdup ("3rfcNHYJY1ZVvWVs7j"); // SCRAM-SHA1
   else
     state->snonce = strdup ("%hvYDpWUa2RaTCAfuxFIlj)hNlF$k0"); // SCRAM-SHA256
@@ -137,13 +138,13 @@ end:
 int
 _gsasl_scram_sha1_server_start (Gsasl_session * sctx, void **mech_data)
 {
-  return scram_start (sctx, mech_data, 0, 0);
+  return scram_start (sctx, mech_data, false, GSASL_HASH_SHA1);
 }
 
 int
 _gsasl_scram_sha1_plus_server_start (Gsasl_session * sctx, void **mech_data)
 {
-  return scram_start (sctx, mech_data, 1, 0);
+  return scram_start (sctx, mech_data, true, GSASL_HASH_SHA1);
 }
 #endif
 
@@ -151,13 +152,13 @@ _gsasl_scram_sha1_plus_server_start (Gsasl_session * sctx, void **mech_data)
 int
 _gsasl_scram_sha256_server_start (Gsasl_session * sctx, void **mech_data)
 {
-  return scram_start (sctx, mech_data, 0, 1);
+  return scram_start (sctx, mech_data, false, GSASL_HASH_SHA256);
 }
 
 int
 _gsasl_scram_sha256_plus_server_start (Gsasl_session * sctx, void **mech_data)
 {
-  return scram_start (sctx, mech_data, 1, 1);
+  return scram_start (sctx, mech_data, true, GSASL_HASH_SHA256);
 }
 #endif
 
@@ -236,11 +237,6 @@ scram_server_step (Gsasl_session * sctx,
 	  size_t cnlen = strlen (state->cf.client_nonce);
 	  size_t snlen = strlen (state->snonce);
 
-#if SCRAMDEBUG
-	  printf ("Server.cnonce: %s\n", state->cf.client_nonce);
-	  printf ("Server.snonce: %s\n", state->snonce);
-#endif
-
 	  state->sf.nonce = malloc (cnlen + snlen + 1);
 	  if (!state->sf.nonce)
 	    return GSASL_MALLOC_ERROR;
@@ -248,9 +244,6 @@ scram_server_step (Gsasl_session * sctx,
 	  memcpy (state->sf.nonce, state->cf.client_nonce, cnlen);
 	  memcpy (state->sf.nonce + cnlen, state->snonce, snlen);
 	  state->sf.nonce[cnlen + snlen] = '\0';
-#if SCRAMDEBUG
-	  printf ("Server.nonce: %s\n", state->sf.nonce);
-#endif
 	}
 
 	gsasl_property_set (sctx, GSASL_AUTHID, state->cf.username);
@@ -340,7 +333,8 @@ scram_server_step (Gsasl_session * sctx,
 				  &state->clientproof, &len);
 	  if (rc != 0)
 	    return rc;
-	  if ((state->hash == 0 && len != 20) || (state->hash == 1 && len != 32))
+	  if ((state->hash == GSASL_HASH_SHA1 && len != 20)
+	      || (state->hash == GSASL_HASH_SHA256 && len != 32))
 	    return GSASL_MECHANISM_PARSE_ERROR;
 	}
 	{
@@ -349,112 +343,28 @@ scram_server_step (Gsasl_session * sctx,
 	  /* Get StoredKey and ServerKey */
 	  if ((p = gsasl_property_get (sctx, GSASL_PASSWORD)))
 	    {
-	      Gc_rc err;
 	      char *salt;
 	      size_t saltlen;
-	      char saltedpassword[32];
-	      char *clientkey;
-	      char *preppasswd;
-
-	      rc = gsasl_saslprep (p, 0, &preppasswd, NULL);
-	      if (rc != GSASL_OK)
-		return rc;
+	      char saltedpassword[GSASL_HASH_MAX_SIZE];
+	      char clientkey[GSASL_HASH_MAX_SIZE];
 
 	      rc = gsasl_base64_from (state->sf.salt, strlen (state->sf.salt),
 				      &salt, &saltlen);
 	      if (rc != 0)
-		{
-		  gsasl_free (preppasswd);
-		  return rc;
-		}
+		return rc;
 
-	      /* SaltedPassword := Hi(password, salt) */
-	      if (state->hash == 0)
-		err = gc_pbkdf2_sha1 (preppasswd, strlen (preppasswd),
-				      salt, saltlen,
-				      state->sf.iter, saltedpassword, 20);
-	      else
-		err = gc_pbkdf2_sha256 (preppasswd, strlen (preppasswd),
-				      salt, saltlen,
-				      state->sf.iter, saltedpassword, 32);
-	      gsasl_free (preppasswd);
+	      rc = gsasl_scram_secrets_from_password (state->hash,
+						      p,
+						      state->sf.iter,
+						      salt, saltlen,
+						      saltedpassword,
+						      clientkey,
+						      state->serverkey,
+						      state->storedkey);
+	      if (rc != GSASL_OK)
+		return rc;
+
 	      gsasl_free (salt);
-	      if (err != GC_OK)
-		return GSASL_MALLOC_ERROR;
-#if SCRAMDEBUG
-	      {
-		int i;
-		printf ("Server.SaltedPassword: ");
-		for (i = 0; i < (state->hash == 0 ? 20 : 32); i++)
-		  printf ("%02x", saltedpassword[i] & 0xFF);
-		printf ("\n");
-	      }
-#endif
-
-	      /* ClientKey := HMAC(SaltedPassword, "Client Key") */
-#define CLIENT_KEY "Client Key"
-	      if (state->hash == 0)
-		rc = gsasl_hmac_sha1 (saltedpassword, 20,
-				      CLIENT_KEY, strlen (CLIENT_KEY),
-				      &clientkey);
-	      else
-		rc = _gsasl_hmac_sha256 (saltedpassword, 32,
-					 CLIENT_KEY, strlen (CLIENT_KEY),
-					 &clientkey);
-	      if (rc != 0)
-		return rc;
-
-#if SCRAMDEBUG
-	      {
-		int i;
-		printf ("Server.ClientKey: ");
-		for (i = 0; i < (state->hash == 0 ? 20 : 32); i++)
-		  printf ("%02x", clientkey[i] & 0xFF);
-		printf ("\n");
-	      }
-#endif
-
-	      /* StoredKey := H(ClientKey) */
-	      if (state->hash == 0)
-		rc = gsasl_sha1 (clientkey, 20, &state->storedkey);
-	      else
-		rc = _gsasl_sha256 (clientkey, 32, &state->storedkey);
-	      free (clientkey);
-	      if (rc != 0)
-		return rc;
-
-#if SCRAMDEBUG
-	      {
-		int i;
-		printf ("Server.StoredKey: ");
-		for (i = 0; i < (state->hash == 0 ? 20 : 32); i++)
-		  printf ("%02x", state->storedkey[i] & 0xFF);
-		printf ("\n");
-	      }
-#endif
-
-	      /* ServerKey := HMAC(SaltedPassword, "Server Key") */
-#define SERVER_KEY "Server Key"
-	      if (state->hash == 0)
-		rc = gsasl_hmac_sha1 (saltedpassword, 20,
-				      SERVER_KEY, strlen (SERVER_KEY),
-				      &state->serverkey);
-	      else
-		rc = _gsasl_hmac_sha256 (saltedpassword, 32,
-					 SERVER_KEY, strlen (SERVER_KEY),
-					 &state->serverkey);
-	      if (rc != 0)
-		return rc;
-
-#if SCRAMDEBUG
-	      {
-		int i;
-		printf ("Server.ServerKey: ");
-		for (i = 0; i < (state->hash == 0 ? 20 : 32); i++)
-		  printf ("%02x", state->serverkey[i] & 0xFF);
-		printf ("\n");
-	      }
-#endif
 	    }
 	  else
 	    return GSASL_NO_PASSWORD;
@@ -477,117 +387,53 @@ scram_server_step (Gsasl_session * sctx,
 	    if (n <= 0 || !state->authmessage)
 	      return GSASL_MALLOC_ERROR;
 	  }
-#if SCRAMDEBUG
-	  printf ("Server.AuthMessage: %s\n", state->authmessage);
-#endif
 
 	  /* Check client proof. */
 	  {
-	    char *clientsignature;
-	    char *maybe_storedkey;
+	    char clientsignature[GSASL_HASH_MAX_SIZE];
+	    char maybe_storedkey[GSASL_HASH_MAX_SIZE];
 
 	    /* ClientSignature := HMAC(StoredKey, AuthMessage) */
-	    if (state->hash == 0)
-	      rc = gsasl_hmac_sha1 (state->storedkey, 20,
-				    state->authmessage,
-				    strlen (state->authmessage),
-				    &clientsignature);
-	    else
-	      rc = _gsasl_hmac_sha256 (state->storedkey, 32,
-				       state->authmessage,
-				       strlen (state->authmessage),
-				       &clientsignature);
+	    rc = gsasl_hmac (state->hash,
+			     state->storedkey, gsasl_hash_length (state->hash),
+			     state->authmessage,
+			     strlen (state->authmessage),
+			     clientsignature);
 	    if (rc != 0)
 	      return rc;
-
-#if SCRAMDEBUG
-	    {
-	      int i;
-	      printf ("Server.ClientSignature: ");
-	      for (i = 0; i < (state->hash == 0 ? 20 : 32); i++)
-		printf ("%02x", clientsignature[i] & 0xFF);
-	      printf ("\n");
-	    }
-#endif
 
 	    /* ClientKey := ClientProof XOR ClientSignature */
-	    if (state->hash == 0)
-	      memxor (clientsignature, state->clientproof, 20);
-	    else
-	      memxor (clientsignature, state->clientproof, 32);
+	    memxor (clientsignature, state->clientproof,
+		    gsasl_hash_length (state->hash));
 
-#if SCRAMDEBUG
-	    {
-	      int i;
-	      printf ("Server.ClientKey: ");
-	      for (i = 0; i < (state->hash == 0 ? 20 : 32); i++)
-		printf ("%02x", clientsignature[i] & 0xFF);
-	      printf ("\n");
-	    }
-#endif
-
-	    if (state->hash == 0)
-	      rc = gsasl_sha1 (clientsignature, 20, &maybe_storedkey);
-	    else
-	      rc = _gsasl_sha256 (clientsignature, 32, &maybe_storedkey);
-	    free (clientsignature);
+	    rc = gsasl_hash (state->hash, clientsignature,
+			     gsasl_hash_length (state->hash),
+			     maybe_storedkey);
 	    if (rc != 0)
 	      return rc;
 
-#if SCRAMDEBUG
-	    {
-	      int i;
-	      printf ("Server.StoredKey: ");
-	      for (i = 0; i < (state->hash == 0 ? 20 : 32); i++)
-		printf ("%02x", maybe_storedkey[i] & 0xFF);
-	      printf ("\n");
-	    }
-#endif
-
-	    if (state->hash == 0)
-	      rc = memcmp (state->storedkey, maybe_storedkey, 20);
-	    else
-	      rc = memcmp (state->storedkey, maybe_storedkey, 32);
-	    free (maybe_storedkey);
+	    rc = memcmp (state->storedkey, maybe_storedkey,
+			 gsasl_hash_length (state->hash));
 	    if (rc != 0)
 	      return GSASL_AUTHENTICATION_ERROR;
 	  }
 
 	  /* Generate server verifier. */
 	  {
-	    char *serversignature;
+	    char serversignature[GSASL_HASH_MAX_SIZE];
 
 	    /* ServerSignature := HMAC(ServerKey, AuthMessage) */
-	    if (state->hash == 0)
-	      rc = gsasl_hmac_sha1 (state->serverkey, 20,
-				  state->authmessage,
-				  strlen (state->authmessage),
-				  &serversignature);
-	    else
-	      rc = _gsasl_hmac_sha256 (state->serverkey, 32,
-				       state->authmessage,
-				       strlen (state->authmessage),
-				       &serversignature);
+	    rc = gsasl_hmac (state->hash, state->serverkey,
+			     gsasl_hash_length (state->hash),
+			     state->authmessage,
+			     strlen (state->authmessage),
+			     serversignature);
 	    if (rc != 0)
 	      return rc;
 
-#if SCRAMDEBUG
-	    {
-	      int i;
-	      printf ("Server.ServerSignature: ");
-	      for (i = 0; i < (state->hash == 0 ? 20 : 32); i++)
-		printf ("%02x", serversignature[i] & 0xFF);
-	      printf ("\n");
-	    }
-#endif
-
-	    if (state->hash == 0)
-	      rc = gsasl_base64_to (serversignature, 20,
+	    rc = gsasl_base64_to (serversignature,
+				  gsasl_hash_length (state->hash),
 				  &state->sl.verifier, NULL);
-	    else
-	      rc = gsasl_base64_to (serversignature, 32,
-				    &state->sl.verifier, NULL);
-	    free (serversignature);
 	    if (rc != 0)
 	      return rc;
 	  }
@@ -618,7 +464,8 @@ _gsasl_scram_sha1_server_step (Gsasl_session * sctx,
 			       size_t input_len,
 			       char **output, size_t * output_len)
 {
-  return scram_server_step (sctx, mech_data, input, input_len, output, output_len);
+  return scram_server_step (sctx, mech_data, input, input_len,
+			    output, output_len);
 }
 #endif
 
@@ -630,7 +477,8 @@ _gsasl_scram_sha256_server_step (Gsasl_session * sctx,
 				 size_t input_len,
 				 char **output, size_t * output_len)
 {
-  return scram_server_step (sctx, mech_data, input, input_len, output, output_len);
+  return scram_server_step (sctx, mech_data, input, input_len,
+			    output, output_len);
 }
 #endif
 
@@ -648,8 +496,6 @@ scram_server_finish (Gsasl_session * sctx, void *mech_data)
   free (state->sf_str);
   free (state->snonce);
   free (state->clientproof);
-  free (state->storedkey);
-  free (state->serverkey);
   free (state->authmessage);
   free (state->cbtlsunique);
   scram_free_client_first (&state->cf);
