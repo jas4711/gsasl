@@ -18,6 +18,10 @@
  *
  */
 
+/* This self-test is about making sure that SALT/ITER/SALTED_PASSWORD
+   properties are set even if the callback does not set any of
+   them. */
+
 #ifdef HAVE_CONFIG_H
 #include "config.h"
 #endif

@@ -361,6 +361,45 @@ doit (void)
 	  fail ("Expected authzid? %d/%s\n", i, AUTHZID[i % N_AUTHZID]);
       }
 
+      {
+	const char *ci = gsasl_property_fast (client, GSASL_SCRAM_ITER);
+	const char *si = gsasl_property_fast (server, GSASL_SCRAM_ITER);
+	if (debug)
+	  {
+	    printf ("GSASL_SCRAM_ITER (client): %s\n", ci);
+	    printf ("GSASL_SCRAM_ITER (server): %s\n", si);
+	  }
+	if (!ci || !si || strcmp (ci, si) != 0)
+	  fail ("scram iter mismatch\n");
+      }
+
+      {
+	const char *cs = gsasl_property_fast (client, GSASL_SCRAM_SALT);
+	const char *ss = gsasl_property_fast (server, GSASL_SCRAM_SALT);
+	if (debug)
+	  {
+	    printf ("GSASL_SCRAM_ITER (client): %s\n", cs);
+	    printf ("GSASL_SCRAM_ITER (server): %s\n", ss);
+	  }
+	if (!cs || !ss || strcmp (cs, ss) != 0)
+	  fail ("scram salt mismatch\n");
+      }
+
+      {
+	const char *csp =
+	  gsasl_property_fast (client, GSASL_SCRAM_SALTED_PASSWORD);
+	const char *ssp =
+	  gsasl_property_fast (server, GSASL_SCRAM_SALTED_PASSWORD);
+
+	if (debug)
+	  {
+	    printf ("GSASL_SCRAM_SALTED_PASSWORD (client): %s\n", csp);
+	    printf ("GSASL_SCRAM_SALTED_PASSWORD (server): %s\n", ssp);
+	  }
+	if (!csp || !ssp || strcmp (csp, ssp) != 0)
+	  fail ("scram salted password mismatch\n");
+      }
+
     done:
       if (debug)
 	printf ("\n");
