@@ -747,9 +747,9 @@ EXTRA_libgl_la_SOURCES += malloc.c
 ## begin gnulib module mbrtowc
 
 
-EXTRA_DIST += mbrtowc.c mbtowc-lock.c mbtowc-lock.h windows-initguard.h
+EXTRA_DIST += lc-charset-dispatch.c lc-charset-dispatch.h mbrtowc-impl-utf8.h mbrtowc-impl.h mbrtowc.c mbtowc-lock.c mbtowc-lock.h windows-initguard.h
 
-EXTRA_libgl_la_SOURCES += mbrtowc.c mbtowc-lock.c
+EXTRA_libgl_la_SOURCES += lc-charset-dispatch.c mbrtowc.c mbtowc-lock.c
 
 ## end   gnulib module mbrtowc
 
