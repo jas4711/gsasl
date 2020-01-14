@@ -367,7 +367,7 @@ _gsasl_scram_server_step (Gsasl_session * sctx,
 	}
 
 	/* Base64 decode client proof and check that length matches
-	   SHA1/SHA256 size. */
+	   hash size. */
 	{
 	  size_t len;
 
@@ -375,8 +375,7 @@ _gsasl_scram_server_step (Gsasl_session * sctx,
 				  &state->clientproof, &len);
 	  if (rc != 0)
 	    return rc;
-	  if ((state->hash == GSASL_HASH_SHA1 && len != 20)
-	      || (state->hash == GSASL_HASH_SHA256 && len != 32))
+	  if (gsasl_hash_length (state->hash) != len)
 	    return GSASL_MECHANISM_PARSE_ERROR;
 	}
 	{
