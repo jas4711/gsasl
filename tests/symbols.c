@@ -75,6 +75,13 @@ doit (void)
   assert_symbol_exists ((const void *) gsasl_strerror);
   assert_symbol_exists ((const void *) gsasl_strerror_name);
 
+  /* LIBGSASL_1.10 */
+  assert_symbol_exists ((const void *) gsasl_hex_from);
+  assert_symbol_exists ((const void *) gsasl_hex_to);
+  assert_symbol_exists ((const void *) gsasl_hash_length);
+  assert_symbol_exists ((const void *) gsasl_scram_secrets_from_password);
+  assert_symbol_exists ((const void *) gsasl_scram_secrets_from_salted_password);
+
 #ifndef GSASL_NO_OBSOLETE
   /* LIBGSASL_1.1: Old interfaces */
   assert_symbol_exists ((const void *) gsasl_appinfo_get);

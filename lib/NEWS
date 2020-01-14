@@ -38,7 +38,7 @@ gsasl_scram_secrets_from_salted_password().
 Use gsasl_hex_from and gsasl_hex_to similar to the base64 functions.
 
 ** API and ABI modifications.
-gsasl_hex_to, gsasl_hex_from: ADDED.
+gsasl_hex_to, gsasl_hex_from, gsasl_hash_length: ADDED.
 gsasl_md5, gsasl_sha1: DEPRECATED.
 gsasl_hmac_md5, gsasl_hmac_sha1: DEPRECATED.
 Gsasl_hash, Gsasl_hash_length: ADDED.
