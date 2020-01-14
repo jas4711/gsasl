@@ -2,7 +2,7 @@ GNU SASL LIBRARY NEWS -- History of user-visible changes.
 Copyright (C) 2002-2020 Simon Josefsson
 See the end for copying conditions.
 
-* Version 1.9.1 (unreleased) [beta]
+* Version 1.9.1 (released 2020-01-14) [beta]
 
 ** SCRAM server: Support for password-less usage.
 New properties GSASL_SCRAM_SERVERKEY and GSASL_SCRAM_STOREDKEY are
