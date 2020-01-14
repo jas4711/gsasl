@@ -21,6 +21,7 @@
  */
 
 #include "internal.h"
+#include "mechtools.h"
 
 #include "gc.h"
 
@@ -157,60 +158,6 @@ gsasl_hmac (Gsasl_hash hash,
 }
 
 /**
- * gsasl_pbkdf2:
- * @hash: a %Gsasl_hash hash algorithm identifier.
- * @password: input character array with password to use.
- * @passwordlen: length of @password.
- * @salt: input character array with salt, typically a short string.
- * @saltlen: length of @salt.
- * @c: iteration count, typically larger than 4096.
- * @dk: output buffer, must be able to hold @dklen.
- * @dklen: length of output buffer, or 0 to indicate @hash output size.
- *
- * Hash and salt password according to PBKDF2 algorithm with the @hash
- * function used in HMAC.  This function can be used to prepare SCRAM
- * SaltedPassword values for the %GSASL_SCRAM_SALTED_PASSWORD
- * property.  Note that password should normally be prepared using
- * gsasl_saslprep(GSASL_ALLOW_UNASSIGNED) before calling this
- * function.
- *
- * Return value: Returns %GSASL_OK if successful, or error code.
- *
- * Since: 1.10
- **/
-int
-gsasl_pbkdf2 (Gsasl_hash hash,
-	      const char *password, size_t passwordlen,
-	      const char *salt, size_t saltlen,
-	      unsigned int c, char *dk, size_t dklen)
-{
-  int rc;
-
-  if (hash == GSASL_HASH_SHA1)
-    {
-      if (dklen == 0)
-	dklen = GSASL_HASH_SHA1_SIZE;
-
-      rc = gc_pbkdf2_sha1 (password, passwordlen,
-			   salt, saltlen,
-			   c, dk, dklen);
-    }
-  else if (hash == GSASL_HASH_SHA256)
-    {
-      if (dklen == 0)
-	dklen = GSASL_HASH_SHA256_SIZE;
-
-      rc = gc_pbkdf2_sha256 (password, passwordlen,
-			     salt, saltlen,
-			     c, dk, dklen);
-    }
-  else
-    rc = GSASL_CRYPTO_ERROR;
-
-  return rc;
-}
-
-/**
  * gsasl_scram_secrets_from_salted_password:
  * @hash: a %Gsasl_hash element, e.g., #GSASL_HASH_SHA256.
  * @salted_password: input array with salted password.
@@ -292,9 +239,9 @@ gsasl_scram_secrets_from_password (Gsasl_hash hash,
   if (res != GSASL_OK)
     return res;
 
-  res = gsasl_pbkdf2 (hash, preppass, strlen (preppass),
-		      salt, saltlen,
-		      iteration_count, salted_password, 0);
+  res = _gsasl_pbkdf2 (hash, preppass, strlen (preppass),
+		       salt, saltlen,
+		       iteration_count, salted_password, 0);
   free (preppass);
   if (res != GSASL_OK)
     return res;

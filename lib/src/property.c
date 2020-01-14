@@ -100,6 +100,14 @@ map (Gsasl_session * sctx, Gsasl_property prop)
       p = &sctx->scram_salted_password;
       break;
 
+    case GSASL_SCRAM_SERVERKEY:
+      p = &sctx->scram_serverkey;
+      break;
+
+    case GSASL_SCRAM_STOREDKEY:
+      p = &sctx->scram_storedkey;
+      break;
+
     case GSASL_CB_TLS_UNIQUE:
       p = &sctx->cb_tls_unique;
       break;

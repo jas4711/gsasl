@@ -4,7 +4,12 @@ See the end for copying conditions.
 
 * Version 1.9.1 (unreleased) [beta]
 
-** SCRAM: Sets GSASL_SCRAM_ITER/GSASL_SCRAM_SALT/GSASL_SCRAM_SALTED_PASSWORD.
+** SCRAM server: Support for password-less usage.
+New properties GSASL_SCRAM_SERVERKEY and GSASL_SCRAM_STOREDKEY are
+used, before asking for a password.  See updated manual for more
+information.  Suggested by Jeremy Harris.
+
+** SCRAM: Sets SCRAM_ITER/SCRAM_SALT/SCRAM_SALTED_PASSWORD.
 These properties can be read out and stored for future
 authentications, instead of storing the password, to improve
 performance and security.  Suggested by Jeremy Harris.
@@ -27,13 +32,9 @@ gsasl_md5(), gsasl_sha1(), gsasl_hmac_md5(), and gsasl_hmac_sha1().
 The APIs are gsasl_scram_secrets_from_password() and
 gsasl_scram_secrets_from_salted_password().
 
-** New crypto interface for PBKDF2.
-The API is gsasl_pbkdf2().
-
 ** API and ABI modifications.
 gsasl_hash: ADDED.
 gsasl_hmac: ADDED.
-gsasl_pbkdf2: ADDED.
 gsasl_md5, gsasl_sha1: DEPRECATED.
 gsasl_hmac_md5, gsasl_hmac_sha1: DEPRECATED.
 Gsasl_hash, Gsasl_hash_length: ADDED.

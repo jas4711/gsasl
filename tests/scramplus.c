@@ -107,6 +107,10 @@ callback (Gsasl * ctx, Gsasl_session * sctx, Gsasl_property prop)
 	}
       break;
 
+    case GSASL_SCRAM_SERVERKEY:
+    case GSASL_SCRAM_STOREDKEY:
+      break;
+
     case GSASL_CB_TLS_UNIQUE:
       gsasl_property_set (sctx, prop, "Zm5vcmQ=");
       rc = GSASL_OK;

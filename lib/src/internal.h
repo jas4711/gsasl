@@ -101,6 +101,8 @@ struct Gsasl_session
   char *scram_iter;
   char *scram_salt;
   char *scram_salted_password;
+  char *scram_serverkey;
+  char *scram_storedkey;
   char *cb_tls_unique;
   char *saml20_idp_identifier;
   char *saml20_redirect_url;

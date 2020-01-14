@@ -1780,6 +1780,10 @@ tests/saml20.log
 tests/saml20.o
 tests/saml20.trs
 tests/scram
+tests/scram-nopasswd
+tests/scram-nopasswd.log
+tests/scram-nopasswd.o
+tests/scram-nopasswd.trs
 tests/scram-sha256
 tests/scram-sha256.log
 tests/scram-sha256.o

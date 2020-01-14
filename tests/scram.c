@@ -93,18 +93,22 @@ callback (Gsasl * ctx, Gsasl_session * sctx, Gsasl_property prop)
 	}
       break;
 
+#define SP1 "06bfd2d70a0fa425c20473722a93700df39f3cbd"
+#define SP2 "f1e6c0e5a207367176ac42c7799b67ae3e097d7e"
+
     case GSASL_SCRAM_SALTED_PASSWORD:
       if (i & 0x04 && i & 0x08)	/* Only works with fixed salt. */
 	{
-	  const char *str[] = {
-	    "06bfd2d70a0fa425c20473722a93700df39f3cbd",
-	    "f1e6c0e5a207367176ac42c7799b67ae3e097d7e",
-	  };
+	  const char *str[] = { SP1, SP2 };
 	  /* >>1 to mask out authzid. */
 	  size_t pos = (i & ~0x04 & ~0x08) >> 1;
 	  gsasl_property_set (sctx, prop, str[pos]);
 	  rc = GSASL_OK;
 	}
+      break;
+
+    case GSASL_SCRAM_SERVERKEY:
+    case GSASL_SCRAM_STOREDKEY:
       break;
 
     case GSASL_CB_TLS_UNIQUE:
@@ -398,6 +402,31 @@ doit (void)
 	  }
 	if (!csp || !ssp || strcmp (csp, ssp) != 0)
 	  fail ("scram salted password mismatch\n");
+      }
+
+
+      {
+	const char *sek = gsasl_property_fast (server, GSASL_SCRAM_SERVERKEY);
+	const char *stk = gsasl_property_fast (server, GSASL_SCRAM_STOREDKEY);
+	const char *ssp =
+	  gsasl_property_fast (server, GSASL_SCRAM_SALTED_PASSWORD);
+
+	if (debug)
+	  {
+	    printf ("GSASL_SCRAM_SERVERKEY: %s\n", sek);
+	    printf ("GSASL_SCRAM_STOREDKEY: %s\n", stk);
+	  }
+
+	if (!sek)
+	  fail ("missing ServerKey\n");
+	if (!stk)
+	  fail ("missing StoredKey\n");
+	if ((strcmp (ssp, SP2) == 0)
+	    && (strcmp (sek, "9b4e58c109a4898b5f6a0b1fa87c936856f29532") != 0))
+	  fail ("incorrect ServerKey");
+	if ((strcmp (ssp, SP2) == 0)
+	    && (strcmp (stk, "6e0cc1c80a367b7685bdf7b315ea89cb9389494b") != 0))
+	  fail ("incorrect StoredKey");
       }
 
     done:

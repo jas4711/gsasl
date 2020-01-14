@@ -353,15 +353,25 @@ _gsasl_scram_server_step (Gsasl_session * sctx,
 	    return GSASL_MECHANISM_PARSE_ERROR;
 	}
 	{
-	  const char *p;
+	  const char *p, *q;
 
 	  /* Get StoredKey and ServerKey */
-	  if ((p = gsasl_property_get (sctx, GSASL_PASSWORD)))
+	  if ((p = gsasl_property_get (sctx, GSASL_SCRAM_SERVERKEY))
+	      && (strlen (p) == 2 * gsasl_hash_length (state->hash))
+	      && _gsasl_hex_p (p)
+	      && (q = gsasl_property_get (sctx, GSASL_SCRAM_STOREDKEY))
+	      && (strlen (q) == 2 * gsasl_hash_length (state->hash))
+	      && _gsasl_hex_p (q))
 	    {
+	      _gsasl_hex_decode (p, state->serverkey);
+	      _gsasl_hex_decode (q, state->storedkey);
+	    }
+	  else if ((p = gsasl_property_get (sctx, GSASL_PASSWORD)))
+	      {
 	      char *salt;
 	      size_t saltlen;
 	      char saltedpassword[GSASL_HASH_MAX_SIZE];
-	      char hexstr_saltedpassword[GSASL_HASH_MAX_SIZE * 2 + 1];
+	      char hexstr[GSASL_HASH_MAX_SIZE * 2 + 1];
 	      char clientkey[GSASL_HASH_MAX_SIZE];
 
 	      rc = gsasl_base64_from (state->sf.salt, strlen (state->sf.salt),
@@ -380,10 +390,22 @@ _gsasl_scram_server_step (Gsasl_session * sctx,
 	      if (rc != GSASL_OK)
 		return rc;
 
-	      _gsasl_hex_encode (saltedpassword, gsasl_hash_length (state->hash),
-				 hexstr_saltedpassword);
+	      _gsasl_hex_encode (saltedpassword,
+				 gsasl_hash_length (state->hash),
+				 hexstr);
 	      gsasl_property_set (sctx, GSASL_SCRAM_SALTED_PASSWORD,
-				  hexstr_saltedpassword);
+				  hexstr);
+
+	      _gsasl_hex_encode (state->serverkey,
+				 gsasl_hash_length (state->hash),
+				 hexstr);
+	      gsasl_property_set (sctx, GSASL_SCRAM_SERVERKEY,
+				  hexstr);
+	      _gsasl_hex_encode (state->storedkey,
+				 gsasl_hash_length (state->hash),
+				 hexstr);
+	      gsasl_property_set (sctx, GSASL_SCRAM_STOREDKEY,
+				  hexstr);
 
 	      gsasl_free (salt);
 	    }

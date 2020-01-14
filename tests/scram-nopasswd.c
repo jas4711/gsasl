@@ -1,4 +1,4 @@
-/* scram-simple.c --- Test the SCRAM-SHA256 mechanism.
+/* scram-nopasswd.c --- Test the SCRAM-SHA256 mechanism.
  * Copyright (C) 2009-2020 Simon Josefsson
  *
  * This file is part of GNU SASL.
@@ -18,9 +18,8 @@
  *
  */
 
-/* This self-test is about making sure that SALT/ITER/SALTED_PASSWORD
-   properties are set even if the callback does not set any of
-   them. */
+/* This self-test is about making sure SCRAM works without a supplied
+   password both in client and server mode. */
 
 #ifdef HAVE_CONFIG_H
 #include "config.h"
@@ -35,7 +34,15 @@
 #include "utils.h"
 
 #define USERNAME "user"
-#define PASSWORD "pencil"
+/* Password is "pencil" */
+#define ITER "4096"
+#define SALT "8tkvpwuPHUIvxZdV"
+#define SALTED_PASSWORD "931e475bfb57067b640d4f6f600a6120" \
+  "ba69f4690206961775bec6ea7e41ff2e"
+#define SERVERKEY       "0b03a06c18e55d36c7da05cae572a272" \
+  "1ed49f31eb321e6faded62a6f496d231"
+#define STOREDKEY "f5ed6e5262a1ac57b10ca136cdf1ecdd"	\
+  "a0ae4403737e77f91101ba3055ef98a3"
 
 static int
 callback (Gsasl * ctx, Gsasl_session * sctx, Gsasl_property prop)
@@ -46,8 +53,28 @@ callback (Gsasl * ctx, Gsasl_session * sctx, Gsasl_property prop)
 
   switch (prop)
     {
-    case GSASL_PASSWORD:
-      gsasl_property_set (sctx, prop, PASSWORD);
+    case GSASL_SCRAM_SALTED_PASSWORD:
+      gsasl_property_set (sctx, prop, SALTED_PASSWORD);
+      rc = GSASL_OK;
+      break;
+
+    case GSASL_SCRAM_SERVERKEY:
+      gsasl_property_set (sctx, prop, SERVERKEY);
+      rc = GSASL_OK;
+      break;
+
+    case GSASL_SCRAM_STOREDKEY:
+      gsasl_property_set (sctx, prop, STOREDKEY);
+      rc = GSASL_OK;
+      break;
+
+    case GSASL_SCRAM_ITER:
+      gsasl_property_set (sctx, prop, ITER);
+      rc = GSASL_OK;
+      break;
+
+    case GSASL_SCRAM_SALT:
+      gsasl_property_set (sctx, prop, SALT);
       rc = GSASL_OK;
       break;
 
@@ -56,13 +83,9 @@ callback (Gsasl * ctx, Gsasl_session * sctx, Gsasl_property prop)
       rc = GSASL_OK;
       break;
 
+    case GSASL_PASSWORD:
     case GSASL_CB_TLS_UNIQUE:
     case GSASL_AUTHZID:
-    case GSASL_SCRAM_SALT:
-    case GSASL_SCRAM_ITER:
-    case GSASL_SCRAM_SALTED_PASSWORD:
-    case GSASL_SCRAM_SERVERKEY:
-    case GSASL_SCRAM_STOREDKEY:
       break;
 
     default:
@@ -224,8 +247,30 @@ doit (void)
 	printf ("GSASL_SCRAM_SALTED_PASSWORD (client): %s\n", csp);
 	printf ("GSASL_SCRAM_SALTED_PASSWORD (server): %s\n", ssp);
       }
-    if (!csp || !ssp || strcmp (csp, ssp) != 0)
-      fail ("scram salted password mismatch\n");
+    if (!csp || strcmp (csp, SALTED_PASSWORD) != 0)
+      fail ("client scram salted password mismatch\n");
+    if (ssp)
+      fail ("server salted password set?\n");
+  }
+
+  {
+    const char *sek = gsasl_property_fast (server, GSASL_SCRAM_SERVERKEY);
+    const char *stk = gsasl_property_fast (server, GSASL_SCRAM_STOREDKEY);
+
+    if (debug)
+      {
+	printf ("GSASL_SCRAM_SERVERKEY: %s\n", sek);
+	printf ("GSASL_SCRAM_STOREDKEY: %s\n", stk);
+      }
+
+    if (!sek)
+      fail ("missing ServerKey\n");
+    if (!stk)
+      fail ("missing StoredKey\n");
+    if (strcmp (sek, SERVERKEY) != 0)
+      fail ("invalid ServerKey\n");
+    if (strcmp (stk, STOREDKEY) != 0)
+      fail ("invalid StoredKey\n");
   }
 
   if (debug)

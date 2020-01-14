@@ -29,6 +29,8 @@
 /* Get bool. */
 #include <stdbool.h>
 
+#include <gsasl.h>
+
 extern int _gsasl_parse_gs2_header (const char *data, size_t len,
 				    char **authzid, size_t * headerlen);
 
@@ -41,5 +43,13 @@ extern int _gsasl_gs2_generate_header (bool nonstd, char cbflag,
 extern void _gsasl_hex_encode (const char * in, size_t inlen, char *out);
 extern void _gsasl_hex_decode (const char *hexstr, char *bin);
 extern bool _gsasl_hex_p (const char *hexstr);
+
+extern int _gsasl_pbkdf2 (Gsasl_hash hash,
+			  const char *password,
+			  size_t passwordlen,
+			  const char *salt,
+			  size_t saltlen,
+			  unsigned int c,
+			  char *dk, size_t dklen);
 
 #endif

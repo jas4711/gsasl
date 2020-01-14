@@ -73,6 +73,8 @@ callback (Gsasl * ctx, Gsasl_session * sctx, Gsasl_property prop)
     case GSASL_CB_TLS_UNIQUE:
     case GSASL_AUTHZID:
     case GSASL_SCRAM_SALTED_PASSWORD:
+    case GSASL_SCRAM_SERVERKEY:
+    case GSASL_SCRAM_STOREDKEY:
       break;
 
     default:

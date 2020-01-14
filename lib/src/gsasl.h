@@ -305,8 +305,11 @@ extern "C"
    * @GSASL_QOP: Quality-of-protection value.
    * @GSASL_SCRAM_ITER: Number of iterations in password-to-key hashing.
    * @GSASL_SCRAM_SALT: Salt for password-to-key hashing.
-   * @GSASL_SCRAM_SALTED_PASSWORD: Pre-computed salted SCRAM key,
-   *   to avoid re-computation and storing passwords in the clear.
+   * @GSASL_SCRAM_SALTED_PASSWORD: Hex-encoded hashed/salted password.
+   * @GSASL_SCRAM_SERVERKEY: Hex-encoded SCRAM ServerKey derived
+   *   from users' passowrd.
+   * @GSASL_SCRAM_STOREDKEY: Hex-encoded SCRAM StoredKey derived
+   *   from users' passowrd.
    * @GSASL_CB_TLS_UNIQUE: Base64 encoded tls-unique channel binding.
    * @GSASL_SAML20_IDP_IDENTIFIER: SAML20 user IdP URL.
    * @GSASL_SAML20_REDIRECT_URL: SAML 2.0 URL to access in browser.
@@ -346,6 +349,8 @@ extern "C"
     GSASL_SCRAM_ITER = 15,
     GSASL_SCRAM_SALT = 16,
     GSASL_SCRAM_SALTED_PASSWORD = 17,
+    GSASL_SCRAM_SERVERKEY = 23,
+    GSASL_SCRAM_STOREDKEY = 24,
     GSASL_CB_TLS_UNIQUE = 18,
     GSASL_SAML20_IDP_IDENTIFIER = 19,
     GSASL_SAML20_REDIRECT_URL = 20,
@@ -490,13 +495,6 @@ extern "C"
 				   const char *key, size_t keylen,
 				   const char *in, size_t inlen,
 				   char *outhash);
-  extern GSASL_API int gsasl_pbkdf2 (Gsasl_hash hash,
-				     const char *password,
-				     size_t passwordlen,
-				     const char *salt,
-				     size_t saltlen,
-				     unsigned int c,
-				     char *dk, size_t dklen);
 
   extern GSASL_API int
   gsasl_scram_secrets_from_salted_password (Gsasl_hash hash,

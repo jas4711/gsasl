@@ -1563,6 +1563,23 @@ The properties are also set by client/server when default values are
 used, to allow the application to retrieve the values used (required
 when storing the @code{GSASL_SCRAM_SALTED_PASSWORD} value, for example).
 
+@item @code{GSASL_SCRAM_SERVERKEY}
+@item @code{GSASL_SCRAM_STOREDKEY}
+
+These properties are requested by the SCRAM server, and if they are not
+available it will ask for @code{GSASL_PASSWORD} to complete
+authentication.  The values are hex-encoded strings (40 characters for
+SCRAM-SHA-1 and 64 characters for SCRAM-SHA-256) with the
+ServerKey/StoredKey data.  The properties are set after completing the
+final authentication step, so a server using @code{GSASL_PASSWORD}
+callback for authentication can extract @code{GSASL_SCRAM_SERVERKEY} and
+@code{GSASL_SCRAM_STOREDKEY} and cache and use them in a future
+authentication.  The values can be calculated using
+@code{gsasl_scram_secrets_from_password},
+@code{gsasl_scram_secrets_from_salted_password} (@pxref{Utilities}) or
+using the @code{--mkpasswd} parameter for the @code{gsasl} utility
+(@pxref{Invoking gsasl}).
+
 @item @code{GSASL_CB_TLS_UNIQUE}
 
 @cindex channel binding
@@ -1932,8 +1949,9 @@ The SCRAM family is designed to provide the same capabilities that
 CRAM-MD5 and DIGEST-MD5 provides but with modern cryptographic
 techniques such as HMAC hashing and PKCS#5 PBKDF2 key derivation.  SCRAM
 supports authorization identities.  Like CRAM-MD5 and DIGEST-MD5, only a
-hashed password is transferred.  Consequently, SCRAM needs access to the
-correct password to verify the client response.
+hashed password is transferred.  Consequently, SCRAM servers needs
+access to the correct password (or the derived ServerKey/StoredKey) to
+verify the client response.
 
 In the client, the non-PLUS mechanism is always enabled, and it requires
 the @code{GSASL_AUTHID} property, and either @code{GSASL_PASSWORD} or
@@ -1944,20 +1962,37 @@ If set, @code{GSASL_AUTHZID} will be used by the client.  To be able to
 return the proper @code{GSASL_SCRAM_SALTED_PASSWORD} value, the client
 needs to check the @code{GSASL_SCRAM_ITER} and @code{GSASL_SCRAM_SALT}
 values which are available when the @code{GSASL_SCRAM_SALTED_PASSWORD}
-property is queried for.  The client/server learn relevant
+property is queried for.  The client/server may retrieve the calculated
 @code{GSASL_SCRAM_SALTED_PASSWORD} value by retrieving it after the
-final authentication step, or by using the
-@code{gsasl_scram_secrets_from_password} (@pxref{Utilities}).
+final authentication step; by using the
+@code{gsasl_scram_secrets_from_password} function (@pxref{Utilities}),
+or through the @code{--mkpasswd} parameter for the @code{gsasl} utility
+(@pxref{Invoking gsasl})..
 
-In the server, the mechanism will require the @code{GSASL_PASSWORD}
-callback property, which may use the @code{GSASL_AUTHID} property to
-determine which users' password should be used.  The @code{GSASL_AUTHID}
-will be in normalized form.  The server will then normalize the returned
-password, and compare the client response with the computed correct
-response, and accept the user accordingly.  The server may also set the
-@code{GSASL_SCRAM_ITER} and @code{GSASL_SCRAM_SALT} properties to
-influence the values to be used by clients to derive a key from a
-password.  When the @code{GSASL_CB_TLS_UNIQUE} property is set, the
+In the server, the @code{GSASL_AUTHID} property (and, when provided by
+the client, the @code{GSASL_AUTHZID} property) will be set (in
+normalized form) in order for the callback to retrieve the user
+credentials.  The server mechanism will request the
+@code{GSASL_SERVERKEY} and @code{GSASL_STOREDKEY} properties first, and
+will use them to complete authentication.  Using ServerKey/StoredKey on
+the server make it possible for the server to not store the clear-text
+password.  If ServerKey/StoredKey is not available, the
+@code{GSASL_PASSWORD} property is requested, which will be used to
+derive secrets.  The server uses the credentials to authenticate the
+user.  The application may set the @code{GSASL_SCRAM_ITER} and
+@code{GSASL_SCRAM_SALT} properties which allow the server to tell the
+clients what values to use for deriving a key from a password.  When the
+application do not supply them, the SCRAM server will default to using a
+fresh random salt and an iteration count of 4096.  After final
+authentication step, the application may retrieve the
+@code{GSASL_SCRAM_ITER}, @code{GSASL_SCRAM_SALT},
+@code{GSASL_SCRAM_SALTED_PASSWORD}, @code{GSASL_SERVERKEY}, and
+@code{GSASL_STOREDKEY} properties for potential storage in a database to
+avoid the need to store the cleartext password.  Note that servers
+should normally not remember @code{GSASL_SCRAM_SALTED_PASSWORD} as
+stealing that allow someone to impersonate the client, which is not
+(directly) possible if @code{GSASL_SERVERKEY} and @code{GSASL_STOREDKEY}
+are stolen.  When the @code{GSASL_CB_TLS_UNIQUE} property is set, the
 SCRAM-*-PLUS mechanism is supported and is used to negotiate channel
 bindings.
 
