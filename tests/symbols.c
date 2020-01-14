@@ -54,9 +54,7 @@ doit (void)
   assert_symbol_exists ((const void *) gsasl_encode);
   assert_symbol_exists ((const void *) gsasl_finish);
   assert_symbol_exists ((const void *) gsasl_free);
-  assert_symbol_exists ((const void *) gsasl_hmac_md5);
   assert_symbol_exists ((const void *) gsasl_init);
-  assert_symbol_exists ((const void *) gsasl_md5);
   assert_symbol_exists ((const void *) gsasl_mechanism_name);
   assert_symbol_exists ((const void *) gsasl_nonce);
   assert_symbol_exists ((const void *) gsasl_property_fast);
@@ -160,9 +158,14 @@ doit (void)
   assert_symbol_exists ((const void *) gsasl_stringprep_trace);
 #endif
 
+#ifndef GSASL_NO_OBSOLETE
+  /* Obsoleted in 1.10 */
+  assert_symbol_exists ((const void *) gsasl_hmac_md5);
+  assert_symbol_exists ((const void *) gsasl_md5);
   /* LIBGSASL_1.4 */
   assert_symbol_exists ((const void *) gsasl_sha1);
   assert_symbol_exists ((const void *) gsasl_hmac_sha1);
+#endif
 
   success ("all symbols exists\n");
 }

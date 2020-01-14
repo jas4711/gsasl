@@ -66,6 +66,7 @@ doit (void)
   success ("gsasl_random\n");
 #endif
 
+#ifndef GSASL_NO_OBSOLETE
   rc = gsasl_md5 ("abc", 3, &hash);
   if (rc != GSASL_OK)
     fail ("gsasl_md5 %d: %s\n", rc, gsasl_strerror (rc));
@@ -105,6 +106,7 @@ doit (void)
     fail ("gsasl_hmac_sha1 memcmp fail\n");
   success ("gsasl_hmac_sha1\n");
   gsasl_free (hash);
+#endif
 
   gsasl_done (ctx);
 }

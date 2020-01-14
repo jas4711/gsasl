@@ -43,6 +43,8 @@
 #include "digesthmac.h"
 #include "qop.h"
 
+#include "mechtools.h"
+
 #define CNONCE_ENTROPY_BYTES 16
 
 struct _Gsasl_digest_md5_client_state
@@ -211,12 +213,11 @@ _gsasl_digest_md5_client_step (Gsasl_session * sctx,
 	  if (rc < 0)
 	    return GSASL_MALLOC_ERROR;
 
-	  rc = gsasl_md5 (tmp, strlen (tmp), &tmp2);
+	  rc = _gsasl_hash (GSASL_HASH_MD5, tmp, strlen (tmp),
+			    state->secret);
 	  free (tmp);
-	  if (rc != GSASL_OK)
+	  if (rc != 0)
 	    return rc;
-	  memcpy (state->secret, tmp2, DIGEST_MD5_LENGTH);
-	  free (tmp2);
 	}
 
 	rc = digest_md5_hmac (state->response.response,
