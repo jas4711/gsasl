@@ -96,7 +96,7 @@ _gsasl_digest_md5_client_step (Gsasl_session * sctx,
 			       void *mech_data,
 			       const char *input,
 			       size_t input_len,
-			       char **output, size_t * output_len)
+			       char **output, size_t *output_len)
 {
   _Gsasl_digest_md5_client_state *state = mech_data;
   int rc, res;
@@ -297,7 +297,7 @@ _gsasl_digest_md5_client_encode (Gsasl_session * sctx,
 				 void *mech_data,
 				 const char *input,
 				 size_t input_len,
-				 char **output, size_t * output_len)
+				 char **output, size_t *output_len)
 {
   _Gsasl_digest_md5_client_state *state = mech_data;
   int res;
@@ -321,7 +321,7 @@ _gsasl_digest_md5_client_decode (Gsasl_session * sctx,
 				 void *mech_data,
 				 const char *input,
 				 size_t input_len,
-				 char **output, size_t * output_len)
+				 char **output, size_t *output_len)
 {
   _Gsasl_digest_md5_client_state *state = mech_data;
   int res;

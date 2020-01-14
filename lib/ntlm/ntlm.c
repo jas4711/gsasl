@@ -61,7 +61,7 @@ int
 _gsasl_ntlm_client_step (Gsasl_session * sctx,
 			 void *mech_data,
 			 const char *input, size_t input_len,
-			 char **output, size_t * output_len)
+			 char **output, size_t *output_len)
 {
   _Gsasl_ntlm_state *state = mech_data;
   const char *domain = gsasl_property_get (sctx, GSASL_REALM);

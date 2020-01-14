@@ -62,7 +62,7 @@ int
 _gsasl_saml20_client_step (Gsasl_session * sctx,
 			   void *mech_data,
 			   const char *input, size_t input_len,
-			   char **output, size_t * output_len)
+			   char **output, size_t *output_len)
 {
   struct saml20_client_state *state = mech_data;
   int res = GSASL_MECHANISM_CALLED_TOO_MANY_TIMES;

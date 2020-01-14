@@ -97,8 +97,7 @@ int _gsasl_scram_server_step (Gsasl_session * sctx,
 			      size_t input_len,
 			      char **output, size_t *output_len);
 
-void _gsasl_scram_server_finish (Gsasl_session * sctx,
-				 void *mech_data);
+void _gsasl_scram_server_finish (Gsasl_session * sctx, void *mech_data);
 
 #endif
 

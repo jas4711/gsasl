@@ -43,7 +43,7 @@
  * Deprecated: Use gsasl_client_mechlist() instead.
  **/
 int
-gsasl_client_listmech (Gsasl * ctx, char *out, size_t * outlen)
+gsasl_client_listmech (Gsasl * ctx, char *out, size_t *outlen)
 {
   char *tmp;
   int rc;
@@ -86,7 +86,7 @@ gsasl_client_listmech (Gsasl * ctx, char *out, size_t * outlen)
  * Deprecated: Use gsasl_server_mechlist() instead.
  **/
 int
-gsasl_server_listmech (Gsasl * ctx, char *out, size_t * outlen)
+gsasl_server_listmech (Gsasl * ctx, char *out, size_t *outlen)
 {
   char *tmp;
   int rc;
@@ -115,7 +115,7 @@ gsasl_server_listmech (Gsasl * ctx, char *out, size_t * outlen)
 static int
 _gsasl_step (Gsasl_session * sctx,
 	     const char *input, size_t input_len,
-	     char *output, size_t * output_len)
+	     char *output, size_t *output_len)
 {
   char *tmp;
   size_t tmplen;
@@ -166,7 +166,7 @@ _gsasl_step (Gsasl_session * sctx,
 int
 gsasl_client_step (Gsasl_session * sctx,
 		   const char *input,
-		   size_t input_len, char *output, size_t * output_len)
+		   size_t input_len, char *output, size_t *output_len)
 {
   return _gsasl_step (sctx, input, input_len, output, output_len);
 }
@@ -196,7 +196,7 @@ gsasl_client_step (Gsasl_session * sctx,
 int
 gsasl_server_step (Gsasl_session * sctx,
 		   const char *input,
-		   size_t input_len, char *output, size_t * output_len)
+		   size_t input_len, char *output, size_t *output_len)
 {
   return _gsasl_step (sctx, input, input_len, output, output_len);
 }
@@ -473,7 +473,7 @@ gsasl_ctx_get (Gsasl_session * sctx)
 int
 gsasl_encode_inline (Gsasl_session * sctx,
 		     const char *input, size_t input_len,
-		     char *output, size_t * output_len)
+		     char *output, size_t *output_len)
 {
   char *tmp;
   size_t tmplen;
@@ -513,7 +513,7 @@ gsasl_encode_inline (Gsasl_session * sctx,
 int
 gsasl_decode_inline (Gsasl_session * sctx,
 		     const char *input, size_t input_len,
-		     char *output, size_t * output_len)
+		     char *output, size_t *output_len)
 {
   char *tmp;
   size_t tmplen;
@@ -1767,7 +1767,7 @@ gsasl_stringprep_trace (const char *in, int *stringprep_rc)
  **/
 int
 gsasl_md5pwd_get_password (const char *filename,
-			   const char *username, char *key, size_t * keylen)
+			   const char *username, char *key, size_t *keylen)
 {
   char *tmp;
   size_t tmplen;

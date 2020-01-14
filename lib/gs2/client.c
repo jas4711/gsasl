@@ -187,7 +187,7 @@ prepare (Gsasl_session * sctx, _gsasl_gs2_client_state * state)
 static int
 token2output (Gsasl_session * sctx,
 	      _gsasl_gs2_client_state * state,
-	      const gss_buffer_t token, char **output, size_t * output_len)
+	      const gss_buffer_t token, char **output, size_t *output_len)
 {
   OM_uint32 maj_stat, min_stat;
   gss_buffer_desc bufdesc;
@@ -237,7 +237,7 @@ int
 _gsasl_gs2_client_step (Gsasl_session * sctx,
 			void *mech_data,
 			const char *input, size_t input_len,
-			char **output, size_t * output_len)
+			char **output, size_t *output_len)
 {
   _gsasl_gs2_client_state *state = mech_data;
   gss_buffer_desc bufdesc;

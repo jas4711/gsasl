@@ -143,7 +143,7 @@ static struct sasltv sasltv[] = {
 
 static int
 client_callback_authorization_id (Gsasl_session_ctx * xctx,
-				  char *out, size_t * outlen)
+				  char *out, size_t *outlen)
 {
   Gsasl_ctx *ctx = gsasl_client_ctx_get (xctx);
   int i = *(int *) gsasl_application_data_get (ctx);
@@ -161,7 +161,7 @@ client_callback_authorization_id (Gsasl_session_ctx * xctx,
 
 static int
 client_callback_authentication_id (Gsasl_session_ctx * xctx,
-				   char *out, size_t * outlen)
+				   char *out, size_t *outlen)
 {
   Gsasl_ctx *ctx = gsasl_client_ctx_get (xctx);
   int i = *(int *) gsasl_application_data_get (ctx);
@@ -178,8 +178,7 @@ client_callback_authentication_id (Gsasl_session_ctx * xctx,
 }
 
 static int
-client_callback_password (Gsasl_session_ctx * xctx, char *out,
-			  size_t * outlen)
+client_callback_password (Gsasl_session_ctx * xctx, char *out, size_t *outlen)
 {
   Gsasl_ctx *ctx = gsasl_client_ctx_get (xctx);
   int i = *(int *) gsasl_application_data_get (ctx);
@@ -225,7 +224,7 @@ static int
 server_callback_retrieve (Gsasl_session_ctx * xctx,
 			  const char *authentication_id,
 			  const char *authorization_id,
-			  const char *realm, char *key, size_t * keylen)
+			  const char *realm, char *key, size_t *keylen)
 {
   Gsasl_ctx *ctx = gsasl_server_ctx_get (xctx);
   int i = *(int *) gsasl_application_data_get (ctx);
@@ -244,9 +243,9 @@ server_callback_retrieve (Gsasl_session_ctx * xctx,
 static int
 client_callback_service (Gsasl_session_ctx * ctx,
 			 char *srv,
-			 size_t * srvlen,
+			 size_t *srvlen,
 			 char *host,
-			 size_t * hostlen, char *srvname, size_t * srvnamelen)
+			 size_t *hostlen, char *srvname, size_t *srvnamelen)
 {
   if (srvlen)
     *srvlen = 0;
@@ -260,7 +259,7 @@ client_callback_service (Gsasl_session_ctx * ctx,
 
 static int
 client_callback_anonymous (Gsasl_session_ctx * xctx, char *out,
-			   size_t * outlen)
+			   size_t *outlen)
 {
   Gsasl_ctx *ctx = gsasl_client_ctx_get (xctx);
   int i = *(int *) gsasl_application_data_get (ctx);
@@ -293,8 +292,7 @@ server_callback_external (Gsasl_session_ctx * xctx)
 }
 
 static int
-client_callback_passcode (Gsasl_session_ctx * xctx, char *out,
-			  size_t * outlen)
+client_callback_passcode (Gsasl_session_ctx * xctx, char *out, size_t *outlen)
 {
   Gsasl_ctx *ctx = gsasl_client_ctx_get (xctx);
   int i = *(int *) gsasl_application_data_get (ctx);
@@ -312,7 +310,7 @@ client_callback_passcode (Gsasl_session_ctx * xctx, char *out,
 
 static int
 client_callback_pin (Gsasl_session_ctx * xctx, char *suggestion,
-		     char *out, size_t * outlen)
+		     char *out, size_t *outlen)
 {
   Gsasl_ctx *ctx = gsasl_client_ctx_get (xctx);
   int i = *(int *) gsasl_application_data_get (ctx);
@@ -341,7 +339,7 @@ server_callback_securid (Gsasl_session_ctx * xctx,
 			 const char *authentication_id,
 			 const char *authorization_id,
 			 const char *passcode,
-			 char *pin, char *suggestpin, size_t * suggestpinlen)
+			 char *pin, char *suggestpin, size_t *suggestpinlen)
 {
   Gsasl_ctx *ctx = gsasl_server_ctx_get (xctx);
   int i = *(int *) gsasl_application_data_get (ctx);
@@ -520,13 +518,13 @@ doit (void)
 	    break;
 	}
 
-      if (j != (size_t) - 1 && res == GSASL_OK && sasltv[i].step[j + 2])
+      if (j != (size_t) -1 && res == GSASL_OK && sasltv[i].step[j + 2])
 	fail ("SASL entry %d mechanism %s step %d code ended prematurely\n",
 	      i, sasltv[i].mech, j);
-      else if (j != (size_t) - 1 && res == GSASL_NEEDS_MORE)
+      else if (j != (size_t) -1 && res == GSASL_NEEDS_MORE)
 	fail ("SASL entry %d mechanism %s step %d table ended prematurely\n",
 	      i, sasltv[i].mech, j);
-      else if (j != (size_t) - 1 && res != GSASL_OK)
+      else if (j != (size_t) -1 && res != GSASL_OK)
 	fail ("SASL entry %d mechanism %s step %d failed (%d):\n%s\n",
 	      i, sasltv[i].mech, j, res, gsasl_strerror (res));
       else

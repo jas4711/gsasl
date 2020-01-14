@@ -105,8 +105,7 @@ int
 gsasl_scram_secrets_from_salted_password (Gsasl_hash hash,
 					  const char *salted_password,
 					  char *client_key,
-					  char *server_key,
-					  char *stored_key)
+					  char *server_key, char *stored_key)
 {
   int res;
   size_t hashlen = gsasl_hash_length (hash);
@@ -162,8 +161,7 @@ gsasl_scram_secrets_from_password (Gsasl_hash hash,
 				   size_t saltlen,
 				   char *salted_password,
 				   char *client_key,
-				   char *server_key,
-				   char *stored_key)
+				   char *server_key, char *stored_key)
 {
   int res;
   char *preppass;
@@ -173,8 +171,7 @@ gsasl_scram_secrets_from_password (Gsasl_hash hash,
     return res;
 
   res = _gsasl_pbkdf2 (hash, preppass, strlen (preppass),
-		       salt, saltlen,
-		       iteration_count, salted_password, 0);
+		       salt, saltlen, iteration_count, salted_password, 0);
   free (preppass);
   if (res != GSASL_OK)
     return res;

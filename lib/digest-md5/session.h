@@ -27,13 +27,13 @@
 #include "tokens.h"
 
 extern int digest_md5_encode (const char *input, size_t input_len,
-			      char **output, size_t * output_len,
+			      char **output, size_t *output_len,
 			      digest_md5_qop qop,
 			      unsigned long sendseqnum,
 			      char key[DIGEST_MD5_LENGTH]);
 
 extern int digest_md5_decode (const char *input, size_t input_len,
-			      char **output, size_t * output_len,
+			      char **output, size_t *output_len,
 			      digest_md5_qop qop,
 			      unsigned long readseqnum,
 			      char key[DIGEST_MD5_LENGTH]);

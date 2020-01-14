@@ -57,7 +57,7 @@ _gsasl_securid_client_step (Gsasl_session * sctx,
 			    void *mech_data,
 			    const char *input,
 			    size_t input_len,
-			    char **output, size_t * output_len)
+			    char **output, size_t *output_len)
 {
   int *step = mech_data;
   const char *authzid = NULL, *authid = NULL, *passcode = NULL, *pin = NULL;

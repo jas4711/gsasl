@@ -58,7 +58,7 @@ server_cb_gssapi (Gsasl_session_ctx * ctx,
 
 static int
 server_cb_service (Gsasl_session_ctx * ctx,
-		   char *srv, size_t * srvlen, char *host, size_t * hostlen)
+		   char *srv, size_t *srvlen, char *host, size_t *hostlen)
 {
   size_t srvneedlen = strlen (SERVICE);
   size_t hostneedlen = strlen (HOST);
@@ -82,7 +82,7 @@ server_cb_service (Gsasl_session_ctx * ctx,
 
 static int
 client_cb_authentication_id (Gsasl_session_ctx * xctx,
-			     char *out, size_t * outlen)
+			     char *out, size_t *outlen)
 {
   size_t needlen = strlen (USERNAME[i]);
 
@@ -98,9 +98,9 @@ client_cb_authentication_id (Gsasl_session_ctx * xctx,
 
 static int
 client_cb_service (Gsasl_session_ctx * ctx,
-		   char *srv, size_t * srvlen,
-		   char *host, size_t * hostlen,
-		   char *srvname, size_t * srvnamelen)
+		   char *srv, size_t *srvlen,
+		   char *host, size_t *hostlen,
+		   char *srvname, size_t *srvnamelen)
 {
   size_t srvneedlen = strlen (SERVICE);
   size_t hostneedlen = strlen (HOST);

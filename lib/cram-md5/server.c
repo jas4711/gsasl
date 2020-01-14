@@ -64,7 +64,7 @@ int
 _gsasl_cram_md5_server_step (Gsasl_session * sctx,
 			     void *mech_data,
 			     const char *input, size_t input_len,
-			     char **output, size_t * output_len)
+			     char **output, size_t *output_len)
 {
   char *challenge = mech_data;
   char hash[CRAM_MD5_DIGEST_LEN];

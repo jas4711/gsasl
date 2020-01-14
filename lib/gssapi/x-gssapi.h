@@ -34,24 +34,24 @@ extern int _gsasl_gssapi_client_start (Gsasl_session * sctx,
 extern int _gsasl_gssapi_client_step (Gsasl_session * sctx,
 				      void *mech_data,
 				      const char *input, size_t input_len,
-				      char **output, size_t * output_len);
+				      char **output, size_t *output_len);
 extern void _gsasl_gssapi_client_finish (Gsasl_session * sctx,
 					 void *mech_data);
 extern int _gsasl_gssapi_client_encode (Gsasl_session * sctx,
 					void *mech_data,
 					const char *input, size_t input_len,
-					char **output, size_t * output_len);
+					char **output, size_t *output_len);
 extern int _gsasl_gssapi_client_decode (Gsasl_session * sctx,
 					void *mech_data,
 					const char *input, size_t input_len,
-					char **output, size_t * output_len);
+					char **output, size_t *output_len);
 
 extern int _gsasl_gssapi_server_start (Gsasl_session * sctx,
 				       void **mech_data);
 extern int _gsasl_gssapi_server_step (Gsasl_session * sctx,
 				      void *mech_data,
 				      const char *input, size_t input_len,
-				      char **output, size_t * output_len);
+				      char **output, size_t *output_len);
 extern void _gsasl_gssapi_server_finish (Gsasl_session * sctx,
 					 void *mech_data);
 

@@ -32,11 +32,11 @@ extern Gsasl_mechanism gsasl_plain_mechanism;
 extern int _gsasl_plain_client_step (Gsasl_session * sctx,
 				     void *mech_data,
 				     const char *input, size_t input_len,
-				     char **output, size_t * output_len);
+				     char **output, size_t *output_len);
 
 extern int _gsasl_plain_server_step (Gsasl_session * sctx,
 				     void *mech_data,
 				     const char *input, size_t input_len,
-				     char **output, size_t * output_len);
+				     char **output, size_t *output_len);
 
 #endif /* PLAIN_H */

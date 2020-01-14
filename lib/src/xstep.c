@@ -50,7 +50,7 @@
 int
 gsasl_step (Gsasl_session * sctx,
 	    const char *input, size_t input_len,
-	    char **output, size_t * output_len)
+	    char **output, size_t *output_len)
 {
   Gsasl_step_function step;
 

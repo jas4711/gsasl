@@ -36,8 +36,7 @@ static const struct
   int clientrc;
   int callbackrc;
   int serverrc;
-} tv[] =
-{
+} tv[] = {
   /* *INDENT-OFF* */
   { NULL, "", GSASL_OK, GSASL_OK, GSASL_OK },
   { "", "", GSASL_OK, GSASL_OK, GSASL_OK },

@@ -97,7 +97,7 @@ unescape_authzid (const char *str, size_t len, char **authzid)
    code.*/
 int
 _gsasl_parse_gs2_header (const char *data, size_t len,
-			 char **authzid, size_t * headerlen)
+			 char **authzid, size_t *headerlen)
 {
   char *authzid_endptr;
 
@@ -171,7 +171,7 @@ int
 _gsasl_gs2_generate_header (bool nonstd, char cbflag,
 			    const char *cbname, const char *authzid,
 			    size_t extralen, const char *extra,
-			    char **gs2h, size_t * gs2hlen)
+			    char **gs2h, size_t *gs2hlen)
 {
   int elen = extralen;
   char *gs2cbflag;
@@ -223,12 +223,12 @@ _gsasl_gs2_generate_header (bool nonstd, char cbflag,
    encoded string in OUT which must have room for the data and
    terminating zero, i.e., 2*INLEN+1. */
 void
-_gsasl_hex_encode (const char * in, size_t inlen, char *out)
+_gsasl_hex_encode (const char *in, size_t inlen, char *out)
 {
   int i;
-  const char * p = in;
+  const char *p = in;
 
-  for (i = 0; i < 2 * inlen; )
+  for (i = 0; i < 2 * inlen;)
     {
       unsigned char c = *p++;
       out[i++] = "0123456789abcdef"[c >> 4];
@@ -299,9 +299,7 @@ _gsasl_hex_p (const char *hexstr)
  * Since: 1.10
  **/
 int
-_gsasl_hash (Gsasl_hash hash,
-	     const char *in, size_t inlen,
-	     char *outhash)
+_gsasl_hash (Gsasl_hash hash, const char *in, size_t inlen, char *outhash)
 {
   int rc;
 
@@ -338,8 +336,7 @@ _gsasl_hash (Gsasl_hash hash,
 int
 _gsasl_hmac (Gsasl_hash hash,
 	     const char *key, size_t keylen,
-	     const char *in, size_t inlen,
-	     char *outhash)
+	     const char *in, size_t inlen, char *outhash)
 {
   int rc;
 
@@ -391,8 +388,7 @@ _gsasl_pbkdf2 (Gsasl_hash hash,
 	dklen = GSASL_HASH_SHA1_SIZE;
 
       rc = gc_pbkdf2_sha1 (password, passwordlen,
-			   salt, saltlen,
-			   c, dk, dklen);
+			   salt, saltlen, c, dk, dklen);
     }
   else if (hash == GSASL_HASH_SHA256)
     {
@@ -400,8 +396,7 @@ _gsasl_pbkdf2 (Gsasl_hash hash,
 	dklen = GSASL_HASH_SHA256_SIZE;
 
       rc = gc_pbkdf2_sha256 (password, passwordlen,
-			     salt, saltlen,
-			     c, dk, dklen);
+			     salt, saltlen, c, dk, dklen);
     }
   else
     rc = GSASL_CRYPTO_ERROR;

@@ -41,7 +41,7 @@
  * Since: 0.2.2
  **/
 int
-gsasl_base64_to (const char *in, size_t inlen, char **out, size_t * outlen)
+gsasl_base64_to (const char *in, size_t inlen, char **out, size_t *outlen)
 {
   size_t len = base64_encode_alloc (in, inlen, out);
 
@@ -71,7 +71,7 @@ gsasl_base64_to (const char *in, size_t inlen, char **out, size_t * outlen)
  * Since: 0.2.2
  **/
 int
-gsasl_base64_from (const char *in, size_t inlen, char **out, size_t * outlen)
+gsasl_base64_from (const char *in, size_t inlen, char **out, size_t *outlen)
 {
   int ok = base64_decode_alloc (in, inlen, out, outlen);
 
@@ -103,7 +103,7 @@ gsasl_base64_from (const char *in, size_t inlen, char **out, size_t * outlen)
  * Since: 1.10
  **/
 int
-gsasl_hex_to (const char *in, size_t inlen, char **out, size_t * outlen)
+gsasl_hex_to (const char *in, size_t inlen, char **out, size_t *outlen)
 {
   size_t len = 2 * inlen;
 
@@ -136,7 +136,7 @@ gsasl_hex_to (const char *in, size_t inlen, char **out, size_t * outlen)
  * Since: 1.10
  **/
 int
-gsasl_hex_from (const char *in, char **out, size_t * outlen)
+gsasl_hex_from (const char *in, char **out, size_t *outlen)
 {
   size_t inlen = strlen (in);
   size_t l = inlen / 2;

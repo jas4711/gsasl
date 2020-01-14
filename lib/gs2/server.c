@@ -167,7 +167,7 @@ int
 _gsasl_gs2_server_step (Gsasl_session * sctx,
 			void *mech_data,
 			const char *input, size_t input_len,
-			char **output, size_t * output_len)
+			char **output, size_t *output_len)
 {
   _Gsasl_gs2_server_state *state = mech_data;
   gss_buffer_desc bufdesc1, bufdesc2;

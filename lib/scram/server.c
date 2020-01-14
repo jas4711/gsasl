@@ -94,9 +94,9 @@ scram_start (Gsasl_session * sctx, void **mech_data,
   rc = gsasl_base64_to (buf, SNONCE_ENTROPY_BYTES, &state->snonce, NULL);
 #if SCRAMDEBUG
   if (hash == GSASL_HASH_SHA1)
-    state->snonce = strdup ("3rfcNHYJY1ZVvWVs7j"); // SCRAM-SHA1
+    state->snonce = strdup ("3rfcNHYJY1ZVvWVs7j");	// SCRAM-SHA1
   else
-    state->snonce = strdup ("%hvYDpWUa2RaTCAfuxFIlj)hNlF$k0"); // SCRAM-SHA256
+    state->snonce = strdup ("%hvYDpWUa2RaTCAfuxFIlj)hNlF$k0");	// SCRAM-SHA256
 #endif
   if (rc != GSASL_OK)
     goto end;
@@ -165,8 +165,7 @@ _gsasl_scram_sha256_plus_server_start (Gsasl_session * sctx, void **mech_data)
 static int
 extract_serverkey (Gsasl_session * sctx,
 		   struct scram_server_state *state,
-		   const char *b64,
-		   char *buf)
+		   const char *b64, char *buf)
 {
   char *bin;
   size_t binlen;
@@ -193,8 +192,7 @@ int
 _gsasl_scram_server_step (Gsasl_session * sctx,
 			  void *mech_data,
 			  const char *input,
-			  size_t input_len,
-			  char **output, size_t * output_len)
+			  size_t input_len, char **output, size_t *output_len)
 {
   struct scram_server_state *state = mech_data;
   int res = GSASL_MECHANISM_CALLED_TOO_MANY_TIMES;
@@ -393,7 +391,7 @@ _gsasl_scram_server_step (Gsasl_session * sctx,
 		return rc;
 	    }
 	  else if ((p = gsasl_property_get (sctx, GSASL_PASSWORD)))
-	      {
+	    {
 	      char *salt;
 	      size_t saltlen;
 	      char saltedpassword[GSASL_HASH_MAX_SIZE];
@@ -418,10 +416,8 @@ _gsasl_scram_server_step (Gsasl_session * sctx,
 		return rc;
 
 	      _gsasl_hex_encode (saltedpassword,
-				 gsasl_hash_length (state->hash),
-				 hexstr);
-	      gsasl_property_set (sctx, GSASL_SCRAM_SALTED_PASSWORD,
-				  hexstr);
+				 gsasl_hash_length (state->hash), hexstr);
+	      gsasl_property_set (sctx, GSASL_SCRAM_SALTED_PASSWORD, hexstr);
 
 
 	      rc = gsasl_base64_to (state->serverkey,
@@ -429,8 +425,7 @@ _gsasl_scram_server_step (Gsasl_session * sctx,
 				    &b64str, NULL);
 	      if (rc != 0)
 		return rc;
-	      gsasl_property_set (sctx, GSASL_SCRAM_SERVERKEY,
-				  b64str);
+	      gsasl_property_set (sctx, GSASL_SCRAM_SERVERKEY, b64str);
 	      free (b64str);
 
 
@@ -439,8 +434,7 @@ _gsasl_scram_server_step (Gsasl_session * sctx,
 				    &b64str, NULL);
 	      if (rc != 0)
 		return rc;
-	      gsasl_property_set (sctx, GSASL_SCRAM_STOREDKEY,
-				  b64str);
+	      gsasl_property_set (sctx, GSASL_SCRAM_STOREDKEY, b64str);
 	      free (b64str);
 
 	      gsasl_free (salt);
@@ -474,9 +468,9 @@ _gsasl_scram_server_step (Gsasl_session * sctx,
 
 	    /* ClientSignature := HMAC(StoredKey, AuthMessage) */
 	    rc = _gsasl_hmac (state->hash,
-			      state->storedkey, gsasl_hash_length (state->hash),
-			      state->authmessage,
-			      strlen (state->authmessage),
+			      state->storedkey,
+			      gsasl_hash_length (state->hash),
+			      state->authmessage, strlen (state->authmessage),
 			      clientsignature);
 	    if (rc != 0)
 	      return rc;
@@ -505,8 +499,7 @@ _gsasl_scram_server_step (Gsasl_session * sctx,
 	    rc = _gsasl_hmac (state->hash, state->serverkey,
 			      gsasl_hash_length (state->hash),
 			      state->authmessage,
-			      strlen (state->authmessage),
-			      serversignature);
+			      strlen (state->authmessage), serversignature);
 	    if (rc != 0)
 	      return rc;
 

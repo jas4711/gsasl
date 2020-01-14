@@ -53,12 +53,11 @@ callback (Gsasl * ctx, Gsasl_session * sctx, Gsasl_property prop)
       break;
 
       /* SCRAM/SALT: Attempt to reproduce RFC 7677 test vector.
-	 Requires that SCRAMDEBUG=1 when compiling so that
-	 client/server nonce ends up the same as in the document.  */
+         Requires that SCRAMDEBUG=1 when compiling so that
+         client/server nonce ends up the same as in the document.  */
 
     case GSASL_SCRAM_ITER:
-      if (strcmp (gsasl_property_fast (sctx, GSASL_AUTHID),
-		  USERNAME) != 0)
+      if (strcmp (gsasl_property_fast (sctx, GSASL_AUTHID), USERNAME) != 0)
 	fail ("Username mismatch: %s",
 	      gsasl_property_fast (sctx, GSASL_AUTHID));
       gsasl_property_set (sctx, prop, "4096");
@@ -134,14 +133,12 @@ doit (void)
   res = gsasl_step (client, s1, s1len, &s1, &s1len);
   if (res != GSASL_NEEDS_MORE)
     {
-      fail ("gsasl_step(1) failed (%d):\n%s\n", res,
-	    gsasl_strerror (res));
+      fail ("gsasl_step(1) failed (%d):\n%s\n", res, gsasl_strerror (res));
       return;
     }
 
   if (debug)
-    printf ("C: %.*s [%c]\n", (int) s1len,
-	    s1, res == GSASL_OK ? 'O' : 'N');
+    printf ("C: %.*s [%c]\n", (int) s1len, s1, res == GSASL_OK ? 'O' : 'N');
 
   /* Server first... */
 
@@ -149,14 +146,12 @@ doit (void)
   gsasl_free (s1);
   if (res != GSASL_NEEDS_MORE)
     {
-      fail ("gsasl_step(2) failed (%d):\n%s\n", res,
-	    gsasl_strerror (res));
+      fail ("gsasl_step(2) failed (%d):\n%s\n", res, gsasl_strerror (res));
       return;
     }
 
   if (debug)
-    printf ("S: %.*s [%c]\n", (int) s2len,
-	    s2, res == GSASL_OK ? 'O' : 'N');
+    printf ("S: %.*s [%c]\n", (int) s2len, s2, res == GSASL_OK ? 'O' : 'N');
 
   /* Client final... */
 
@@ -164,14 +159,12 @@ doit (void)
   gsasl_free (s2);
   if (res != GSASL_NEEDS_MORE)
     {
-      fail ("gsasl_step(3) failed (%d):\n%s\n", res,
-	    gsasl_strerror (res));
+      fail ("gsasl_step(3) failed (%d):\n%s\n", res, gsasl_strerror (res));
       return;
     }
 
   if (debug)
-    printf ("C: %.*s [%c]\n", (int) s1len,
-	    s1, res == GSASL_OK ? 'O' : 'N');
+    printf ("C: %.*s [%c]\n", (int) s1len, s1, res == GSASL_OK ? 'O' : 'N');
 
   /* Server final... */
 
@@ -179,14 +172,12 @@ doit (void)
   gsasl_free (s1);
   if (res != GSASL_OK)
     {
-      fail ("gsasl_step(4) failed (%d):\n%s\n", res,
-	    gsasl_strerror (res));
+      fail ("gsasl_step(4) failed (%d):\n%s\n", res, gsasl_strerror (res));
       return;
     }
 
   if (debug)
-    printf ("S: %.*s [%c]\n", (int) s2len,
-	    s2, res == GSASL_OK ? 'O' : 'N');
+    printf ("S: %.*s [%c]\n", (int) s2len, s2, res == GSASL_OK ? 'O' : 'N');
 
   /* Let client parse server final... */
 
@@ -194,8 +185,7 @@ doit (void)
   gsasl_free (s2);
   if (res != GSASL_OK)
     {
-      fail ("gsasl_step(5) failed (%d):\n%s\n", res,
-	    gsasl_strerror (res));
+      fail ("gsasl_step(5) failed (%d):\n%s\n", res, gsasl_strerror (res));
       return;
     }
 
@@ -209,17 +199,23 @@ doit (void)
   }
 
   {
-    const char *sp = gsasl_property_fast (client, GSASL_SCRAM_SALTED_PASSWORD);
-    if (!sp || strcmp (sp, "c4a49510323ab4f952cac1fa99441939"
-		       "e78ea74d6be81ddf7096e87513dc615d") != 0)
+    const char *sp =
+      gsasl_property_fast (client, GSASL_SCRAM_SALTED_PASSWORD);
+    if (!sp
+	|| strcmp (sp,
+		   "c4a49510323ab4f952cac1fa99441939"
+		   "e78ea74d6be81ddf7096e87513dc615d") != 0)
       fail ("client didn't set salted password: %s\n",
 	    gsasl_property_fast (client, GSASL_SCRAM_SALTED_PASSWORD));
   }
 
   {
-    const char *sp = gsasl_property_fast (server, GSASL_SCRAM_SALTED_PASSWORD);
-    if (!sp || strcmp (sp, "c4a49510323ab4f952cac1fa99441939"
-		       "e78ea74d6be81ddf7096e87513dc615d") != 0)
+    const char *sp =
+      gsasl_property_fast (server, GSASL_SCRAM_SALTED_PASSWORD);
+    if (!sp
+	|| strcmp (sp,
+		   "c4a49510323ab4f952cac1fa99441939"
+		   "e78ea74d6be81ddf7096e87513dc615d") != 0)
       fail ("server didn't set salted password: %s\n",
 	    gsasl_property_fast (client, GSASL_SCRAM_SALTED_PASSWORD));
   }

@@ -155,7 +155,7 @@ int
 _gsasl_scram_client_step (Gsasl_session * sctx,
 			  void *mech_data,
 			  const char *input, size_t input_len,
-			  char **output, size_t * output_len)
+			  char **output, size_t *output_len)
 {
   struct scram_client_state *state = mech_data;
   int res = GSASL_MECHANISM_CALLED_TOO_MANY_TIMES;
@@ -314,12 +314,12 @@ _gsasl_scram_client_step (Gsasl_session * sctx,
 						      salt, saltlen,
 						      saltedpassword,
 						      clientkey,
-						      serverkey,
-						      storedkey);
+						      serverkey, storedkey);
 	      if (rc != 0)
 		return rc;
 
-	      _gsasl_hex_encode (saltedpassword, gsasl_hash_length (state->hash),
+	      _gsasl_hex_encode (saltedpassword,
+				 gsasl_hash_length (state->hash),
 				 hexstr_saltedpassword);
 	      gsasl_property_set (sctx, GSASL_SCRAM_SALTED_PASSWORD,
 				  hexstr_saltedpassword);
@@ -354,14 +354,14 @@ _gsasl_scram_client_step (Gsasl_session * sctx,
 			    storedkey,
 			    gsasl_hash_length (state->hash),
 			    state->authmessage,
-			    strlen (state->authmessage),
-			    clientsignature);
+			    strlen (state->authmessage), clientsignature);
 	  if (rc != 0)
 	    return rc;
 
 	  /* ClientProof := ClientKey XOR ClientSignature */
 	  memcpy (clientproof, clientkey, gsasl_hash_length (state->hash));
-	  memxor (clientproof, clientsignature, gsasl_hash_length (state->hash));
+	  memxor (clientproof, clientsignature,
+		  gsasl_hash_length (state->hash));
 
 	  rc = gsasl_base64_to (clientproof, gsasl_hash_length (state->hash),
 				&state->cl.proof, NULL);
@@ -376,8 +376,7 @@ _gsasl_scram_client_step (Gsasl_session * sctx,
 	    rc = _gsasl_hmac (state->hash,
 			      serverkey, gsasl_hash_length (state->hash),
 			      state->authmessage,
-			      strlen (state->authmessage),
-			      serversignature);
+			      strlen (state->authmessage), serversignature);
 	    if (rc != 0)
 	      return rc;
 

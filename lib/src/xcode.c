@@ -26,7 +26,7 @@ static int
 _gsasl_code (Gsasl_session * sctx,
 	     Gsasl_code_function code,
 	     const char *input, size_t input_len,
-	     char **output, size_t * output_len)
+	     char **output, size_t *output_len)
 {
 
   if (code == NULL)
@@ -63,7 +63,7 @@ _gsasl_code (Gsasl_session * sctx,
 int
 gsasl_encode (Gsasl_session * sctx,
 	      const char *input, size_t input_len,
-	      char **output, size_t * output_len)
+	      char **output, size_t *output_len)
 {
   Gsasl_code_function code;
 
@@ -95,7 +95,7 @@ gsasl_encode (Gsasl_session * sctx,
 int
 gsasl_decode (Gsasl_session * sctx,
 	      const char *input, size_t input_len,
-	      char **output, size_t * output_len)
+	      char **output, size_t *output_len)
 {
   Gsasl_code_function code;
 

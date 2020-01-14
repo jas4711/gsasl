@@ -37,7 +37,7 @@ int
 _gsasl_plain_client_step (Gsasl_session * sctx,
 			  void *mech_data,
 			  const char *input, size_t input_len,
-			  char **output, size_t * output_len)
+			  char **output, size_t *output_len)
 {
   const char *authzid = gsasl_property_get (sctx, GSASL_AUTHZID);
   const char *authid = gsasl_property_get (sctx, GSASL_AUTHID);

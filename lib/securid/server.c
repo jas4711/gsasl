@@ -40,7 +40,7 @@ int
 _gsasl_securid_server_step (Gsasl_session * sctx,
 			    void *mech_data,
 			    const char *input, size_t input_len,
-			    char **output, size_t * output_len)
+			    char **output, size_t *output_len)
 {
   const char *authorization_id = NULL;
   const char *authentication_id = NULL;

@@ -178,7 +178,7 @@ imap_step_recv (char **data)
       if (strlen (p) >= 2 && strncmp (p, "+ ", 2) == 0)
 	memmove (&p[0], &p[2], strlen (p) - 1);
       /* This is a workaround for servers (e.g., Microsoft Exchange)
-	 that return '+' instead of the correct '+ '.  */
+         that return '+' instead of the correct '+ '.  */
       else if (strcmp (p, "+\n") == 0)
 	p[0] = '\0';
       else

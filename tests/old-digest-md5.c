@@ -38,7 +38,7 @@ static int
 server_cb_retrieve (Gsasl_session_ctx * xctx,
 		    const char *authentication_id,
 		    const char *authorization_id,
-		    const char *realm, char *key, size_t * keylen)
+		    const char *realm, char *key, size_t *keylen)
 {
   size_t needlen = strlen (PASSWORD);
 
@@ -75,16 +75,16 @@ client_cb_qop (Gsasl_session * sctx, Gsasl_qop serverqops)
 static int
 client_callback_service (Gsasl_session_ctx * ctx,
 			 char *srv,
-			 size_t * srvlen,
+			 size_t *srvlen,
 			 char *host,
-			 size_t * hostlen, char *srvname, size_t * srvnamelen)
+			 size_t *hostlen, char *srvname, size_t *srvnamelen)
 {
   return GSASL_OK;
 }
 
 static int
 client_cb_authentication_id (Gsasl_session_ctx * xctx,
-			     char *out, size_t * outlen)
+			     char *out, size_t *outlen)
 {
   size_t needlen = strlen (USERNAME);
 
@@ -99,7 +99,7 @@ client_cb_authentication_id (Gsasl_session_ctx * xctx,
 }
 
 static int
-client_cb_password (Gsasl_session_ctx * xctx, char *out, size_t * outlen)
+client_cb_password (Gsasl_session_ctx * xctx, char *out, size_t *outlen)
 {
   size_t needlen = strlen (PASSWORD);
 

@@ -78,7 +78,7 @@ scram_valid_client_first (struct scram_client_first *cf)
 }
 
 bool
-scram_valid_server_first (struct scram_server_first * sf)
+scram_valid_server_first (struct scram_server_first *sf)
 {
   /* We require a non-zero nonce. */
   if (sf->nonce == NULL || *sf->nonce == '\0')
@@ -103,7 +103,7 @@ scram_valid_server_first (struct scram_server_first * sf)
 }
 
 bool
-scram_valid_client_final (struct scram_client_final * cl)
+scram_valid_client_final (struct scram_client_final *cl)
 {
   /* We require a non-zero cbind. */
   if (cl->cbind == NULL || *cl->cbind == '\0')
@@ -133,7 +133,7 @@ scram_valid_client_final (struct scram_client_final * cl)
 }
 
 bool
-scram_valid_server_final (struct scram_server_final * sl)
+scram_valid_server_final (struct scram_server_final *sl)
 {
   /* We require a non-zero verifier. */
   if (sl->verifier == NULL || *sl->verifier == '\0')

@@ -350,24 +350,20 @@ mkpasswd (void)
 					   args_info.iteration_count_arg,
 					   salt, saltlen,
 					   saltedpassword,
-					   clientkey,
-					   serverkey,
-					   storedkey);
+					   clientkey, serverkey, storedkey);
   if (res != GSASL_OK)
     error (EXIT_FAILURE, 0, "%s", gsasl_strerror (res));
 
   res = gsasl_hex_to (saltedpassword, hashlen,
-			 &hexsaltedpassword, &hexsaltedpasswordlen);
+		      &hexsaltedpassword, &hexsaltedpasswordlen);
   if (res != GSASL_OK)
     error (EXIT_FAILURE, 0, "%s", gsasl_strerror (res));
 
-  res = gsasl_base64_to (storedkey, hashlen,
-			 &b64storedkey, &b64storedkeylen);
+  res = gsasl_base64_to (storedkey, hashlen, &b64storedkey, &b64storedkeylen);
   if (res != GSASL_OK)
     error (EXIT_FAILURE, 0, "%s", gsasl_strerror (res));
 
-  res = gsasl_base64_to (serverkey, hashlen,
-			 &b64serverkey, &b64serverkeylen);
+  res = gsasl_base64_to (serverkey, hashlen, &b64serverkey, &b64serverkeylen);
   if (res != GSASL_OK)
     error (EXIT_FAILURE, 0, "%s", gsasl_strerror (res));
 
@@ -429,8 +425,8 @@ main (int argc, char *argv[])
 
   if (!(args_info.client_flag || args_info.client_given) &&
       !args_info.server_given &&
-      !args_info.client_mechanisms_flag && !args_info.server_mechanisms_flag &&
-      !args_info.mkpasswd_given)
+      !args_info.client_mechanisms_flag && !args_info.server_mechanisms_flag
+      && !args_info.mkpasswd_given)
     {
       error (0, 0, _("missing argument"));
       usage (EXIT_FAILURE);
@@ -450,8 +446,8 @@ main (int argc, char *argv[])
 
   if (!args_info.connect_given && args_info.inputs_num == 0 &&
       !args_info.client_given && !args_info.server_given &&
-      !args_info.client_mechanisms_flag && !args_info.server_mechanisms_flag &&
-      !args_info.mkpasswd_given)
+      !args_info.client_mechanisms_flag && !args_info.server_mechanisms_flag
+      && !args_info.mkpasswd_given)
     {
       cmdline_parser_print_help ();
       emit_bug_reporting_address ();
@@ -1022,7 +1018,7 @@ main (int argc, char *argv[])
       close (sockfd);
     }
 
- done:
+done:
   gsasl_done (ctx);
 
 #ifdef HAVE_LIBGNUTLS

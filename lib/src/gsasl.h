@@ -443,7 +443,7 @@ extern "C"
 					   Gsasl_session ** sctx);
   extern GSASL_API int gsasl_step (Gsasl_session * sctx,
 				   const char *input, size_t input_len,
-				   char **output, size_t * output_len);
+				   char **output, size_t *output_len);
   extern GSASL_API int gsasl_step64 (Gsasl_session * sctx,
 				     const char *b64input, char **b64output);
   extern GSASL_API void gsasl_finish (Gsasl_session * sctx);
@@ -451,10 +451,10 @@ extern "C"
   /* Session functions: xcode.c, mechname.c */
   extern GSASL_API int gsasl_encode (Gsasl_session * sctx,
 				     const char *input, size_t input_len,
-				     char **output, size_t * output_len);
+				     char **output, size_t *output_len);
   extern GSASL_API int gsasl_decode (Gsasl_session * sctx,
 				     const char *input, size_t input_len,
-				     char **output, size_t * output_len);
+				     char **output, size_t *output_len);
   extern GSASL_API const char *gsasl_mechanism_name (Gsasl_session * sctx);
 
   /* Error handling: error.c */
@@ -468,21 +468,21 @@ extern "C"
 
   /* Crypto functions: crypto.c */
   typedef enum
-    {
-     /* Hash algorithm identifiers. */
-     GSASL_HASH_MD5 = 1,
-     GSASL_HASH_SHA1 = 2,
-     GSASL_HASH_SHA256 = 3,
-    } Gsasl_hash;
+  {
+    /* Hash algorithm identifiers. */
+    GSASL_HASH_MD5 = 1,
+    GSASL_HASH_SHA1 = 2,
+    GSASL_HASH_SHA256 = 3,
+  } Gsasl_hash;
 
   typedef enum
-    {
-     /* Output sizes of hashes. */
-     GSASL_HASH_MD5_SIZE = 16,
-     GSASL_HASH_SHA1_SIZE = 20,
-     GSASL_HASH_SHA256_SIZE = 32,
-     GSASL_HASH_MAX_SIZE = GSASL_HASH_SHA256_SIZE
-    } Gsasl_hash_length;
+  {
+    /* Output sizes of hashes. */
+    GSASL_HASH_MD5_SIZE = 16,
+    GSASL_HASH_SHA1_SIZE = 20,
+    GSASL_HASH_SHA256_SIZE = 32,
+    GSASL_HASH_MAX_SIZE = GSASL_HASH_SHA256_SIZE
+  } Gsasl_hash_length;
 
   extern GSASL_API int gsasl_nonce (char *data, size_t datalen);
   extern GSASL_API int gsasl_random (char *data, size_t datalen);
@@ -490,34 +490,33 @@ extern "C"
   extern GSASL_API size_t gsasl_hash_length (Gsasl_hash hash);
 
   extern GSASL_API int
-  gsasl_scram_secrets_from_salted_password (Gsasl_hash hash,
-					    const char *salted_password,
-					    char *client_key,
-					    char *server_key,
-					    char *stored_key);
+    gsasl_scram_secrets_from_salted_password (Gsasl_hash hash,
+					      const char *salted_password,
+					      char *client_key,
+					      char *server_key,
+					      char *stored_key);
   extern GSASL_API int
-  gsasl_scram_secrets_from_password (Gsasl_hash hash,
-				     const char *password,
-				     unsigned int iteration_count,
-				     const char *salt,
-				     size_t saltlen,
-				     char *salted_password,
-				     char *client_key,
-				     char *server_key,
-				     char *stored_key);
+    gsasl_scram_secrets_from_password (Gsasl_hash hash,
+				       const char *password,
+				       unsigned int iteration_count,
+				       const char *salt,
+				       size_t saltlen,
+				       char *salted_password,
+				       char *client_key,
+				       char *server_key, char *stored_key);
 
   /* Utilities: md5pwd.c, base64.c, free.c */
   extern GSASL_API int gsasl_simple_getpass (const char *filename,
 					     const char *username,
 					     char **key);
   extern GSASL_API int gsasl_base64_to (const char *in, size_t inlen,
-					char **out, size_t * outlen);
+					char **out, size_t *outlen);
   extern GSASL_API int gsasl_base64_from (const char *in, size_t inlen,
-					  char **out, size_t * outlen);
+					  char **out, size_t *outlen);
   extern GSASL_API int gsasl_hex_to (const char *in, size_t inlen,
-				     char **out, size_t * outlen);
+				     char **out, size_t *outlen);
   extern GSASL_API int gsasl_hex_from (const char *in, char **out,
-				       size_t * outlen);
+				       size_t *outlen);
   extern GSASL_API void gsasl_free (void *ptr);
 
   /* Get the mechanism API. */

@@ -61,7 +61,7 @@ int
 _gsasl_login_server_step (Gsasl_session * sctx,
 			  void *mech_data,
 			  const char *input, size_t input_len,
-			  char **output, size_t * output_len)
+			  char **output, size_t *output_len)
 {
   struct _Gsasl_login_server_state *state = mech_data;
   int res;

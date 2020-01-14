@@ -29,11 +29,11 @@ typedef void (*Gsasl_done_function) (Gsasl * ctx);
 typedef int (*Gsasl_start_function) (Gsasl_session * sctx, void **mech_data);
 typedef int (*Gsasl_step_function) (Gsasl_session * sctx, void *mech_data,
 				    const char *input, size_t input_len,
-				    char **output, size_t * output_len);
+				    char **output, size_t *output_len);
 typedef void (*Gsasl_finish_function) (Gsasl_session * sctx, void *mech_data);
 typedef int (*Gsasl_code_function) (Gsasl_session * sctx, void *mech_data,
 				    const char *input, size_t input_len,
-				    char **output, size_t * output_len);
+				    char **output, size_t *output_len);
 
 /* Collection of mechanism functions for either client or server. */
 struct Gsasl_mechanism_functions
