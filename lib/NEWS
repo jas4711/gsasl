@@ -12,7 +12,9 @@ information.  Suggested by Jeremy Harris.
 ** SCRAM: Sets SCRAM_ITER/SCRAM_SALT/SCRAM_SALTED_PASSWORD.
 These properties can be read out and stored for future
 authentications, instead of storing the password, to improve
-performance and security.  Suggested by Jeremy Harris.
+performance and security.  The new properties GSASL_SCRAM_SERVERKEY
+and GSASL_SCRAM_STOREDKEY can also be read out.  Suggested by Jeremy
+Harris.
 
 ** New enum Gsasl_hash (and Gsasl_hash_length) for hash algorithms.
 The enum declares GSASL_HASH_MD5, GSASL_HASH_SHA1, and
