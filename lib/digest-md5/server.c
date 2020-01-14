@@ -277,7 +277,7 @@ _gsasl_digest_md5_server_step (Gsasl_session * sctx,
 	    rc = _gsasl_hash (GSASL_HASH_MD5, tmp, strlen (tmp),
 			      state->secret);
 	    free (tmp);
-	    if (rc != 0)
+	    if (rc != GSASL_OK)
 	      return rc;
 	  }
 	else
