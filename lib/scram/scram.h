@@ -39,12 +39,12 @@ int
 _gsasl_scram_sha1_plus_client_start (Gsasl_session * sctx, void **mech_data);
 
 int
-_gsasl_scram_sha1_client_step (Gsasl_session * sctx,
-			       void *mech_data,
-			       const char *input, size_t input_len,
-			       char **output, size_t *output_len);
+_gsasl_scram_client_step (Gsasl_session * sctx,
+			  void *mech_data,
+			  const char *input, size_t input_len,
+			  char **output, size_t *output_len);
 
-void _gsasl_scram_sha1_client_finish (Gsasl_session * sctx, void *mech_data);
+void _gsasl_scram_client_finish (Gsasl_session * sctx, void *mech_data);
 
 
 int _gsasl_scram_sha1_server_start (Gsasl_session * sctx, void **mech_data);
@@ -52,14 +52,13 @@ int _gsasl_scram_sha1_server_start (Gsasl_session * sctx, void **mech_data);
 int
 _gsasl_scram_sha1_plus_server_start (Gsasl_session * sctx, void **mech_data);
 
-int
-_gsasl_scram_sha1_server_step (Gsasl_session * sctx,
-			       void *mech_data,
-			       const char *input,
-			       size_t input_len,
-			       char **output, size_t *output_len);
+int _gsasl_scram_server_step (Gsasl_session * sctx,
+			      void *mech_data,
+			      const char *input,
+			      size_t input_len,
+			      char **output, size_t *output_len);
 
-void _gsasl_scram_sha1_server_finish (Gsasl_session * sctx, void *mech_data);
+void _gsasl_scram_server_finish (Gsasl_session * sctx, void *mech_data);
 
 #endif
 
@@ -78,13 +77,12 @@ _gsasl_scram_sha256_plus_client_start (Gsasl_session * sctx,
 				       void **mech_data);
 
 int
-_gsasl_scram_sha256_client_step (Gsasl_session * sctx,
-				 void *mech_data,
-				 const char *input, size_t input_len,
-				 char **output, size_t *output_len);
+_gsasl_scram_client_step (Gsasl_session * sctx,
+			  void *mech_data,
+			  const char *input, size_t input_len,
+			  char **output, size_t *output_len);
 
-void _gsasl_scram_sha256_client_finish (Gsasl_session * sctx,
-					void *mech_data);
+void _gsasl_scram_client_finish (Gsasl_session * sctx, void *mech_data);
 
 
 int _gsasl_scram_sha256_server_start (Gsasl_session * sctx, void **mech_data);
@@ -93,15 +91,14 @@ int
 _gsasl_scram_sha256_plus_server_start (Gsasl_session * sctx,
 				       void **mech_data);
 
-int
-_gsasl_scram_sha256_server_step (Gsasl_session * sctx,
-				 void *mech_data,
-				 const char *input,
-				 size_t input_len,
-				 char **output, size_t *output_len);
+int _gsasl_scram_server_step (Gsasl_session * sctx,
+			      void *mech_data,
+			      const char *input,
+			      size_t input_len,
+			      char **output, size_t *output_len);
 
-void _gsasl_scram_sha256_server_finish (Gsasl_session * sctx,
-					void *mech_data);
+void _gsasl_scram_server_finish (Gsasl_session * sctx,
+				 void *mech_data);
 
 #endif
 

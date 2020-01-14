@@ -162,12 +162,12 @@ _gsasl_scram_sha256_plus_server_start (Gsasl_session * sctx, void **mech_data)
 }
 #endif
 
-static int
-scram_server_step (Gsasl_session * sctx,
-		   void *mech_data,
-		   const char *input,
-		   size_t input_len,
-		   char **output, size_t * output_len)
+int
+_gsasl_scram_server_step (Gsasl_session * sctx,
+			  void *mech_data,
+			  const char *input,
+			  size_t input_len,
+			  char **output, size_t * output_len)
 {
   struct scram_server_state *state = mech_data;
   int res = GSASL_MECHANISM_CALLED_TOO_MANY_TIMES;
@@ -477,34 +477,8 @@ scram_server_step (Gsasl_session * sctx,
   return res;
 }
 
-#ifdef USE_SCRAM_SHA1
-int
-_gsasl_scram_sha1_server_step (Gsasl_session * sctx,
-			       void *mech_data,
-			       const char *input,
-			       size_t input_len,
-			       char **output, size_t * output_len)
-{
-  return scram_server_step (sctx, mech_data, input, input_len,
-			    output, output_len);
-}
-#endif
-
-#ifdef USE_SCRAM_SHA256
-int
-_gsasl_scram_sha256_server_step (Gsasl_session * sctx,
-				 void *mech_data,
-				 const char *input,
-				 size_t input_len,
-				 char **output, size_t * output_len)
-{
-  return scram_server_step (sctx, mech_data, input, input_len,
-			    output, output_len);
-}
-#endif
-
-static void
-scram_server_finish (Gsasl_session * sctx, void *mech_data)
+void
+_gsasl_scram_server_finish (Gsasl_session * sctx, void *mech_data)
 {
   struct scram_server_state *state = mech_data;
 
@@ -526,19 +500,3 @@ scram_server_finish (Gsasl_session * sctx, void *mech_data)
 
   free (state);
 }
-
-#ifdef USE_SCRAM_SHA1
-void
-_gsasl_scram_sha1_server_finish (Gsasl_session * sctx, void *mech_data)
-{
-  return scram_server_finish (sctx, mech_data);
-}
-#endif
-
-#ifdef USE_SCRAM_SHA256
-void
-_gsasl_scram_sha256_server_finish (Gsasl_session * sctx, void *mech_data)
-{
-  return scram_server_finish (sctx, mech_data);
-}
-#endif
