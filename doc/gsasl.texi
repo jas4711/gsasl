@@ -2520,8 +2520,9 @@ optional for any corresponding short options.
                              the provided or default number of times to
                              hash the password, "salt" is the provided
                              or generated base64-encoded salt,
-                             "salted-password" is the derived password,
-                             "server-key" and "stored-key" are the two
+                             "salted-password" is the hex-encoded
+                             derived password, "server-key" and
+                             "stored-key" are the two base64-encoded
                              derived server-side keys.  (default=off)
 @end verbatim
 
