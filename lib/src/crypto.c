@@ -57,41 +57,6 @@ gsasl_random (char *data, size_t datalen)
 }
 
 /**
- * gsasl_hash:
- * @hash: a %Gsasl_hash hash algorithm identifier, e.g. #GSASL_HASH_SHA256.
- * @in: input character array of data to hash.
- * @inlen: length of input character array of data to hash.
- * @outhash: buffer to hold hash of data.
- *
- * Compute hash of data using the @hash algorithm.  The @outhash
- * buffer must have room to hold the size of @hash's output; a safe
- * value that have room for all possible outputs is
- * %GSASL_HASH_MAX_SIZE.
- *
- * Return value: Returns %GSASL_OK iff successful.
- *
- * Since: 1.10
- **/
-int
-gsasl_hash (Gsasl_hash hash,
-	    const char *in, size_t inlen,
-	    char *outhash)
-{
-  int rc;
-
-  if (hash == GSASL_HASH_MD5)
-    rc = gc_md5 (in, inlen, outhash);
-  else if (hash == GSASL_HASH_SHA1)
-    rc = gc_sha1 (in, inlen, outhash);
-  else if (hash == GSASL_HASH_SHA256)
-    rc = gc_sha256 (in, inlen, outhash);
-  else
-    rc = GSASL_CRYPTO_ERROR;
-
-  return rc;
-}
-
-/**
  * gsasl_hash_length:
  * @hash: a %Gsasl_hash element, e.g., #GSASL_HASH_SHA256.
  *
@@ -120,44 +85,6 @@ gsasl_hash_length (Gsasl_hash hash)
 }
 
 /**
- * gsasl_hmac:
- * @hash: a %Gsasl_hash hash algorithm identifier, e.g. #GSASL_HASH_SHA256.
- * @key: input character array with key to use.
- * @keylen: length of input character array with key to use.
- * @in: input character array of data to hash.
- * @inlen: length of input character array of data to hash.
- * @outhash: buffer to hold keyed hash of data.
- *
- * Compute keyed checksum of data using HMAC for the @hash algorithm.
- * The @outhash buffer must have room to hold the size of @hash's
- * output; a safe value that have room for all possible outputs is
- * %GSASL_HASH_MAX_SIZE.
- *
- * Return value: Returns %GSASL_OK iff successful.
- *
- * Since: 1.10
- **/
-int
-gsasl_hmac (Gsasl_hash hash,
-	    const char *key, size_t keylen,
-	    const char *in, size_t inlen,
-	    char *outhash)
-{
-  int rc;
-
-  if (hash == GSASL_HASH_MD5)
-    rc = gc_hmac_md5 (key, keylen, in, inlen, outhash);
-  else if (hash == GSASL_HASH_SHA1)
-    rc = gc_hmac_sha1 (key, keylen, in, inlen, outhash);
-  else if (hash == GSASL_HASH_SHA256)
-    rc = gc_hmac_sha256 (key, keylen, in, inlen, outhash);
-  else
-    rc = GSASL_CRYPTO_ERROR;
-
-  return rc;
-}
-
-/**
  * gsasl_scram_secrets_from_salted_password:
  * @hash: a %Gsasl_hash element, e.g., #GSASL_HASH_SHA256.
  * @salted_password: input array with salted password.
@@ -165,7 +92,10 @@ gsasl_hmac (Gsasl_hash hash,
  * @server_key: pre-allocated output array with derived server key.
  * @stored_key: pre-allocated output array with derived stored key.
  *
- * Helper function to derive SCRAM ClientKey/ServerKey/StoredKey.
+ * Helper function to derive SCRAM ClientKey/ServerKey/StoredKey.  The
+ * @client_key, @server_key, and @stored_key buffers must have room to
+ * hold digest for given @hash, use #GSASL_HASH_MAX_SIZE which is
+ * sufficient for all hashes.
  *
  * Return value: Returns %GSASL_OK if successful, or error code.
  *
@@ -183,20 +113,20 @@ gsasl_scram_secrets_from_salted_password (Gsasl_hash hash,
 
   /* ClientKey */
 #define CLIENT_KEY "Client Key"
-  res = gsasl_hmac (hash, salted_password, hashlen,
-		    CLIENT_KEY, strlen (CLIENT_KEY), client_key);
+  res = _gsasl_hmac (hash, salted_password, hashlen,
+		     CLIENT_KEY, strlen (CLIENT_KEY), client_key);
   if (res != GSASL_OK)
     return res;
 
   /* StoredKey */
-  res = gsasl_hash (hash, client_key, hashlen, stored_key);
+  res = _gsasl_hash (hash, client_key, hashlen, stored_key);
   if (res != GSASL_OK)
     return res;
 
   /* ServerKey */
 #define SERVER_KEY "Server Key"
-  res = gsasl_hmac (hash, salted_password, hashlen,
-		    SERVER_KEY, strlen (SERVER_KEY), server_key);
+  res = _gsasl_hmac (hash, salted_password, hashlen,
+		     SERVER_KEY, strlen (SERVER_KEY), server_key);
   if (res != GSASL_OK)
     return res;
 
@@ -215,7 +145,10 @@ gsasl_scram_secrets_from_salted_password (Gsasl_hash hash,
  * @server_key: pre-allocated output array with derived server key.
  * @stored_key: pre-allocated output array with derived stored key.
  *
- * Helper function to generate SCRAM secrets from a password.
+ * Helper function to generate SCRAM secrets from a password.  The
+ * @salted_password, @client_key, @server_key, and @stored_key buffers
+ * must have room to hold digest for given @hash, use
+ * #GSASL_HASH_MAX_SIZE which is sufficient for all hashes.
  *
  * Return value: Returns %GSASL_OK if successful, or error code.
  *

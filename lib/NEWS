@@ -17,16 +17,16 @@ performance and security.  Suggested by Jeremy Harris.
 ** New enum Gsasl_hash (and Gsasl_hash_length) for hash algorithms.
 The enum declares GSASL_HASH_MD5, GSASL_HASH_SHA1, and
 GSASL_HASH_SHA256 as new hash algorithm identifiers for use with
-functions such as gsasl_hash(), gsasl_hmac(), and gsasl_pbkdf2().  The
-enum Gsasl_hash_length declare GSASL_HASH_MD5_SIZE,
-GSASL_HASH_SHA1_SIZE, and GSASL_HASH_SHA256_SIZE for the hash
-algorithm digest output sizes, together with GSASL_HASH_MAX_SIZE as
-the largest of all GSASL_HASH_*_SIZE's.  New function
-gsasl_hash_length() to get size of digest.
+functions such as gsasl_scram_secrets_from_password().  The enum
+Gsasl_hash_length declare GSASL_HASH_MD5_SIZE, GSASL_HASH_SHA1_SIZE,
+and GSASL_HASH_SHA256_SIZE for the hash algorithm digest output sizes,
+together with GSASL_HASH_MAX_SIZE as the largest of all
+GSASL_HASH_*_SIZE's.  New function gsasl_hash_length() to get size of
+digest.
 
-** New crypto interfaces for generic hash/hmac.
-Use gsasl_hash() and gsasl_hmac() instead of the now deprecated
-gsasl_md5(), gsasl_sha1(), gsasl_hmac_md5(), and gsasl_hmac_sha1().
+** Raw crypto interfaces deprecated.
+The functions gsasl_md5(), gsasl_sha1(), gsasl_hmac_md5(), and
+gsasl_hmac_sha1() are now deprecated.
 
 ** New SCRAM crypto helper APIs.
 The APIs are gsasl_scram_secrets_from_password() and
@@ -37,8 +37,6 @@ Use gsasl_hex_from and gsasl_hex_to similar to the base64 functions.
 
 ** API and ABI modifications.
 gsasl_hex_to, gsasl_hex_from: ADDED.
-gsasl_hash: ADDED.
-gsasl_hmac: ADDED.
 gsasl_md5, gsasl_sha1: DEPRECATED.
 gsasl_hmac_md5, gsasl_hmac_sha1: DEPRECATED.
 Gsasl_hash, Gsasl_hash_length: ADDED.

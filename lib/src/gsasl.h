@@ -487,14 +487,7 @@ extern "C"
   extern GSASL_API int gsasl_nonce (char *data, size_t datalen);
   extern GSASL_API int gsasl_random (char *data, size_t datalen);
 
-  extern GSASL_API int gsasl_hash (Gsasl_hash hash,
-				   const char *in, size_t inlen,
-				   char *out);
   extern GSASL_API size_t gsasl_hash_length (Gsasl_hash hash);
-  extern GSASL_API int gsasl_hmac (Gsasl_hash hash,
-				   const char *key, size_t keylen,
-				   const char *in, size_t inlen,
-				   char *outhash);
 
   extern GSASL_API int
   gsasl_scram_secrets_from_salted_password (Gsasl_hash hash,
@@ -513,7 +506,7 @@ extern "C"
 				     char *server_key,
 				     char *stored_key);
 
-  /* Utilities: base64.c, md5pwd.c, free.c */
+  /* Utilities: md5pwd.c, base64.c, free.c */
   extern GSASL_API int gsasl_simple_getpass (const char *filename,
 					     const char *username,
 					     char **key);

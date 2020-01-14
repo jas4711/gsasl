@@ -2188,7 +2188,7 @@ _gsasl_obsolete_callback (Gsasl * ctx, Gsasl_session * sctx,
  *
  * Return value: Returns %GSASL_OK iff successful.
  *
- * Deprecated: Use gsasl_hash() instead.
+ * Deprecated: Use a crypto library.
  **/
 int
 gsasl_md5 (const char *in, size_t inlen, char *out[])
@@ -2212,7 +2212,7 @@ gsasl_md5 (const char *in, size_t inlen, char *out[])
  *
  * Return value: Returns %GSASL_OK iff successful.
  *
- * Deprecated: Use gsasl_hmac() instead.
+ * Deprecated: Use a crypto library.
  **/
 int
 gsasl_hmac_md5 (const char *key, size_t keylen,
@@ -2237,7 +2237,7 @@ gsasl_hmac_md5 (const char *key, size_t keylen,
  *
  * Since: 1.3
  *
- * Deprecated: Use gsasl_hash() instead.
+ * Deprecated: Use a crypto library.
  **/
 int
 gsasl_sha1 (const char *in, size_t inlen, char *out[])
@@ -2263,7 +2263,7 @@ gsasl_sha1 (const char *in, size_t inlen, char *out[])
  *
  * Since: 1.3
  *
- * Deprecated: Use gsasl_hmac() instead.
+ * Deprecated: Use a crypto library.
  **/
 int
 gsasl_hmac_sha1 (const char *key, size_t keylen,

@@ -44,6 +44,14 @@ extern void _gsasl_hex_encode (const char * in, size_t inlen, char *out);
 extern void _gsasl_hex_decode (const char *hexstr, char *bin);
 extern bool _gsasl_hex_p (const char *hexstr);
 
+extern int _gsasl_hash (Gsasl_hash hash,
+			const char *in, size_t inlen,
+			char *out);
+extern int _gsasl_hmac (Gsasl_hash hash,
+			const char *key, size_t keylen,
+			const char *in, size_t inlen,
+			char *outhash);
+
 extern int _gsasl_pbkdf2 (Gsasl_hash hash,
 			  const char *password,
 			  size_t passwordlen,

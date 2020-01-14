@@ -350,12 +350,12 @@ _gsasl_scram_client_step (Gsasl_session * sctx,
 	  }
 
 	  /* ClientSignature := HMAC(StoredKey, AuthMessage) */
-	  rc = gsasl_hmac (state->hash,
-			   storedkey,
-			   gsasl_hash_length (state->hash),
-			   state->authmessage,
-			   strlen (state->authmessage),
-			   clientsignature);
+	  rc = _gsasl_hmac (state->hash,
+			    storedkey,
+			    gsasl_hash_length (state->hash),
+			    state->authmessage,
+			    strlen (state->authmessage),
+			    clientsignature);
 	  if (rc != 0)
 	    return rc;
 
@@ -373,11 +373,11 @@ _gsasl_scram_client_step (Gsasl_session * sctx,
 	    char serversignature[GSASL_HASH_MAX_SIZE];
 
 	    /* ServerSignature := HMAC(ServerKey, AuthMessage) */
-	    rc = gsasl_hmac (state->hash,
-			     serverkey, gsasl_hash_length (state->hash),
-			     state->authmessage,
-			     strlen (state->authmessage),
-			     serversignature);
+	    rc = _gsasl_hmac (state->hash,
+			      serverkey, gsasl_hash_length (state->hash),
+			      state->authmessage,
+			      strlen (state->authmessage),
+			      serversignature);
 	    if (rc != 0)
 	      return rc;
 

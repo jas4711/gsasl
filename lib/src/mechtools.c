@@ -283,6 +283,79 @@ _gsasl_hex_p (const char *hexstr)
 }
 
 /*
+ * _gsasl_hash:
+ * @hash: a %Gsasl_hash hash algorithm identifier, e.g. #GSASL_HASH_SHA256.
+ * @in: input character array of data to hash.
+ * @inlen: length of input character array of data to hash.
+ * @outhash: buffer to hold hash of data.
+ *
+ * Compute hash of data using the @hash algorithm.  The @outhash
+ * buffer must have room to hold the size of @hash's output; a safe
+ * value that have room for all possible outputs is
+ * %GSASL_HASH_MAX_SIZE.
+ *
+ * Return value: Returns %GSASL_OK iff successful.
+ *
+ * Since: 1.10
+ **/
+int
+_gsasl_hash (Gsasl_hash hash,
+	     const char *in, size_t inlen,
+	     char *outhash)
+{
+  int rc;
+
+  if (hash == GSASL_HASH_MD5)
+    rc = gc_md5 (in, inlen, outhash);
+  else if (hash == GSASL_HASH_SHA1)
+    rc = gc_sha1 (in, inlen, outhash);
+  else if (hash == GSASL_HASH_SHA256)
+    rc = gc_sha256 (in, inlen, outhash);
+  else
+    rc = GSASL_CRYPTO_ERROR;
+
+  return rc;
+}
+
+/*
+ * _gsasl_hmac:
+ * @hash: a %Gsasl_hash hash algorithm identifier, e.g. #GSASL_HASH_SHA256.
+ * @key: input character array with key to use.
+ * @keylen: length of input character array with key to use.
+ * @in: input character array of data to hash.
+ * @inlen: length of input character array of data to hash.
+ * @outhash: buffer to hold keyed hash of data.
+ *
+ * Compute keyed checksum of data using HMAC for the @hash algorithm.
+ * The @outhash buffer must have room to hold the size of @hash's
+ * output; a safe value that have room for all possible outputs is
+ * %GSASL_HASH_MAX_SIZE.
+ *
+ * Return value: Returns %GSASL_OK iff successful.
+ *
+ * Since: 1.10
+ **/
+int
+_gsasl_hmac (Gsasl_hash hash,
+	     const char *key, size_t keylen,
+	     const char *in, size_t inlen,
+	     char *outhash)
+{
+  int rc;
+
+  if (hash == GSASL_HASH_MD5)
+    rc = gc_hmac_md5 (key, keylen, in, inlen, outhash);
+  else if (hash == GSASL_HASH_SHA1)
+    rc = gc_hmac_sha1 (key, keylen, in, inlen, outhash);
+  else if (hash == GSASL_HASH_SHA256)
+    rc = gc_hmac_sha256 (key, keylen, in, inlen, outhash);
+  else
+    rc = GSASL_CRYPTO_ERROR;
+
+  return rc;
+}
+
+/*
  * gsasl_pbkdf2:
  * @hash: a %Gsasl_hash hash algorithm identifier.
  * @password: input character array with password to use.
