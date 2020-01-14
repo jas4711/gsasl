@@ -18,9 +18,11 @@
  *
  */
 
-/* This self-test is about making sure that SALT/ITER/SALTED_PASSWORD
-   properties are set even if the callback does not set any of
-   them. */
+/* This self-test is about making sure that
+   SALT/ITER/SALTED_PASSWORD/SERVERKEY/STOREDKEY properties are set
+   after completing authentication without setting the properties, and
+   also that the SCRAM mechanism works without a callback if the
+   required properties are available. */
 
 #ifdef HAVE_CONFIG_H
 #include "config.h"
@@ -36,42 +38,6 @@
 
 #define USERNAME "user"
 #define PASSWORD "pencil"
-
-static int
-callback (Gsasl * ctx, Gsasl_session * sctx, Gsasl_property prop)
-{
-  int rc = GSASL_NO_CALLBACK;
-
-  /* Get user info from user. */
-
-  switch (prop)
-    {
-    case GSASL_PASSWORD:
-      gsasl_property_set (sctx, prop, PASSWORD);
-      rc = GSASL_OK;
-      break;
-
-    case GSASL_AUTHID:
-      gsasl_property_set (sctx, prop, USERNAME);
-      rc = GSASL_OK;
-      break;
-
-    case GSASL_CB_TLS_UNIQUE:
-    case GSASL_AUTHZID:
-    case GSASL_SCRAM_SALT:
-    case GSASL_SCRAM_ITER:
-    case GSASL_SCRAM_SALTED_PASSWORD:
-    case GSASL_SCRAM_SERVERKEY:
-    case GSASL_SCRAM_STOREDKEY:
-      break;
-
-    default:
-      fail ("Unknown callback property %u\n", prop);
-      break;
-    }
-
-  return rc;
-}
 
 void
 doit (void)
@@ -97,8 +63,6 @@ doit (void)
       exit (77);
     }
 
-  gsasl_callback_set (ctx, callback);
-
   res = gsasl_server_start (ctx, "SCRAM-SHA-256", &server);
   if (res != GSASL_OK)
     {
@@ -113,6 +77,11 @@ doit (void)
 	    res, gsasl_strerror (res));
       return;
     }
+
+  gsasl_property_set (client, GSASL_PASSWORD, PASSWORD);
+  gsasl_property_set (server, GSASL_PASSWORD, PASSWORD);
+  gsasl_property_set (client, GSASL_AUTHID, USERNAME);
+  gsasl_property_set (server, GSASL_AUTHID, USERNAME);
 
   s1 = NULL;
   s1len = 0;
@@ -166,7 +135,7 @@ doit (void)
     }
 
   if (debug)
-    printf ("S: %.*s [%c]\n", (int) s2len, s2, res == GSASL_OK ? 'O' : 'N');
+    printf ("S: %.*s [%c]\n\n", (int) s2len, s2, res == GSASL_OK ? 'O' : 'N');
 
   /* Let client parse server final... */
 
@@ -206,8 +175,8 @@ doit (void)
     const char *ss = gsasl_property_fast (server, GSASL_SCRAM_SALT);
     if (debug)
       {
-	printf ("GSASL_SCRAM_ITER (client): %s\n", cs);
-	printf ("GSASL_SCRAM_ITER (server): %s\n", ss);
+	printf ("GSASL_SCRAM_SALT (client): %s\n", cs);
+	printf ("GSASL_SCRAM_SALT (server): %s\n", ss);
       }
     if (!cs || !ss || strcmp (cs, ss) != 0)
       fail ("scram salt mismatch\n");
@@ -226,6 +195,22 @@ doit (void)
       }
     if (!csp || !ssp || strcmp (csp, ssp) != 0)
       fail ("scram salted password mismatch\n");
+  }
+
+  {
+    const char *sek = gsasl_property_fast (server, GSASL_SCRAM_SERVERKEY);
+    const char *stk = gsasl_property_fast (server, GSASL_SCRAM_STOREDKEY);
+
+    if (debug)
+      {
+	printf ("GSASL_SCRAM_SERVERKEY: %s\n", sek);
+	printf ("GSASL_SCRAM_STOREDKEY: %s\n", stk);
+      }
+
+    if (!sek)
+      fail ("missing ServerKey\n");
+    if (!stk)
+      fail ("missing StoredKey\n");
   }
 
   if (debug)
