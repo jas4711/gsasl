@@ -8,7 +8,7 @@ AC_DEFUN([gl_GC],
 [
   AC_ARG_WITH([libgcrypt],
     AS_HELP_STRING([--with-libgcrypt], [use libgcrypt for low-level crypto]),
-    libgcrypt=$withval, libgcrypt=yes)
+    libgcrypt=$withval, libgcrypt=no)
   if test "$libgcrypt" != no; then
     # gc-libgcrypt.c will fail on startup if we don't have
     # version 1.4.4 or later, so test for it early. */
