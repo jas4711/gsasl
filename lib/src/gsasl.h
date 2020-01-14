@@ -521,6 +521,10 @@ extern "C"
 					char **out, size_t * outlen);
   extern GSASL_API int gsasl_base64_from (const char *in, size_t inlen,
 					  char **out, size_t * outlen);
+  extern GSASL_API int gsasl_hex_to (const char *in, size_t inlen,
+				     char **out, size_t * outlen);
+  extern GSASL_API int gsasl_hex_from (const char *in, char **out,
+				       size_t * outlen);
   extern GSASL_API void gsasl_free (void *ptr);
 
   /* Get the mechanism API. */

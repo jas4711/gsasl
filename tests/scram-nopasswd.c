@@ -33,16 +33,19 @@
 
 #include "utils.h"
 
+/*
+  $ src/gsasl --mkpasswd --password pencil --mechanism SCRAM-SHA-256 --iteration-count 4096 --salt 8tkvpwuPHUIvxZdV
+  SCRAM-SHA-256:4096:8tkvpwuPHUIvxZdV:kx5HW/tXBntkDU9vYAphILpp9GkCBpYXdb7G6n5B/y4=:CwOgbBjlXTbH2gXK5XKich7UnzHrMh5vre1ipvSW0jE=:9e1uUmKhrFexDKE2zfHs3aCuRANzfnf5EQG6MFXvmKM=
+  $
+ */
+
 #define USERNAME "user"
-/* Password is "pencil" */
 #define ITER "4096"
 #define SALT "8tkvpwuPHUIvxZdV"
 #define SALTED_PASSWORD "931e475bfb57067b640d4f6f600a6120" \
   "ba69f4690206961775bec6ea7e41ff2e"
-#define SERVERKEY       "0b03a06c18e55d36c7da05cae572a272" \
-  "1ed49f31eb321e6faded62a6f496d231"
-#define STOREDKEY "f5ed6e5262a1ac57b10ca136cdf1ecdd"	\
-  "a0ae4403737e77f91101ba3055ef98a3"
+#define SERVERKEY "CwOgbBjlXTbH2gXK5XKich7UnzHrMh5vre1ipvSW0jE="
+#define STOREDKEY "9e1uUmKhrFexDKE2zfHs3aCuRANzfnf5EQG6MFXvmKM="
 
 static int
 callback (Gsasl * ctx, Gsasl_session * sctx, Gsasl_property prop)

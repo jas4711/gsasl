@@ -280,6 +280,33 @@ doit (void)
   success ("Header version %s library version %s\n",
 	   GSASL_VERSION, gsasl_check_version (NULL));
 
+  {
+    char *tmp;
+    size_t tmplen;
+
+    res = gsasl_hex_from ("aa", &tmp, NULL);
+    if (res != GSASL_OK)
+      fail ("gsasl_hex_from AA failure NULL outlen\n");
+    else
+      {
+	if (*tmp != '\xAA')
+	  fail ("gsasl_hex_from AA data: %c\n", *tmp);
+	gsasl_free (tmp);
+      }
+
+    res = gsasl_hex_from ("aa", &tmp, &tmplen);
+    if (res != GSASL_OK)
+      fail ("gsasl_hex_from AA failure\n");
+    else
+      {
+	if (tmplen != 1)
+	  fail ("gsasl_hex_from length\n");
+	if (*tmp != '\xAA')
+	  fail ("gsasl_hex_from AA data: %c\n", *tmp);
+	gsasl_free (tmp);
+      }
+  }
+
   res = gsasl_init (&ctx);
   if (res != GSASL_OK)
     {

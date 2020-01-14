@@ -162,6 +162,33 @@ _gsasl_scram_sha256_plus_server_start (Gsasl_session * sctx, void **mech_data)
 }
 #endif
 
+static int
+extract_serverkey (Gsasl_session * sctx,
+		   struct scram_server_state *state,
+		   const char *b64,
+		   char *buf)
+{
+  char *bin;
+  size_t binlen;
+  int rc;
+
+  rc = gsasl_base64_from (b64, strlen (b64), &bin, &binlen);
+  if (rc != GSASL_OK)
+    return rc;
+
+  if (binlen != gsasl_hash_length (state->hash))
+    {
+      free (bin);
+      return GSASL_AUTHENTICATION_ERROR;
+    }
+
+  memcpy (buf, bin, binlen);
+
+  free (bin);
+
+  return GSASL_OK;
+}
+
 int
 _gsasl_scram_server_step (Gsasl_session * sctx,
 			  void *mech_data,
@@ -357,14 +384,14 @@ _gsasl_scram_server_step (Gsasl_session * sctx,
 
 	  /* Get StoredKey and ServerKey */
 	  if ((p = gsasl_property_get (sctx, GSASL_SCRAM_SERVERKEY))
-	      && (strlen (p) == 2 * gsasl_hash_length (state->hash))
-	      && _gsasl_hex_p (p)
-	      && (q = gsasl_property_get (sctx, GSASL_SCRAM_STOREDKEY))
-	      && (strlen (q) == 2 * gsasl_hash_length (state->hash))
-	      && _gsasl_hex_p (q))
+	      && (q = gsasl_property_get (sctx, GSASL_SCRAM_STOREDKEY)))
 	    {
-	      _gsasl_hex_decode (p, state->serverkey);
-	      _gsasl_hex_decode (q, state->storedkey);
+	      rc = extract_serverkey (sctx, state, p, state->serverkey);
+	      if (rc != GSASL_OK)
+		return rc;
+	      rc = extract_serverkey (sctx, state, q, state->storedkey);
+	      if (rc != GSASL_OK)
+		return rc;
 	    }
 	  else if ((p = gsasl_property_get (sctx, GSASL_PASSWORD)))
 	      {
@@ -373,10 +400,11 @@ _gsasl_scram_server_step (Gsasl_session * sctx,
 	      char saltedpassword[GSASL_HASH_MAX_SIZE];
 	      char hexstr[GSASL_HASH_MAX_SIZE * 2 + 1];
 	      char clientkey[GSASL_HASH_MAX_SIZE];
+	      char *b64str;
 
 	      rc = gsasl_base64_from (state->sf.salt, strlen (state->sf.salt),
 				      &salt, &saltlen);
-	      if (rc != 0)
+	      if (rc != GSASL_OK)
 		return rc;
 
 	      rc = gsasl_scram_secrets_from_password (state->hash,
@@ -396,16 +424,25 @@ _gsasl_scram_server_step (Gsasl_session * sctx,
 	      gsasl_property_set (sctx, GSASL_SCRAM_SALTED_PASSWORD,
 				  hexstr);
 
-	      _gsasl_hex_encode (state->serverkey,
-				 gsasl_hash_length (state->hash),
-				 hexstr);
+
+	      rc = gsasl_base64_to (state->serverkey,
+				    gsasl_hash_length (state->hash),
+				    &b64str, NULL);
+	      if (rc != 0)
+		return rc;
 	      gsasl_property_set (sctx, GSASL_SCRAM_SERVERKEY,
-				  hexstr);
-	      _gsasl_hex_encode (state->storedkey,
-				 gsasl_hash_length (state->hash),
-				 hexstr);
+				  b64str);
+	      free (b64str);
+
+
+	      rc = gsasl_base64_to (state->storedkey,
+				    gsasl_hash_length (state->hash),
+				    &b64str, NULL);
+	      if (rc != 0)
+		return rc;
 	      gsasl_property_set (sctx, GSASL_SCRAM_STOREDKEY,
-				  hexstr);
+				  b64str);
+	      free (b64str);
 
 	      gsasl_free (salt);
 	    }

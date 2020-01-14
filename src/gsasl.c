@@ -289,8 +289,8 @@ mkpasswd (void)
   size_t saltlen;
   char *b64salt;
   char saltedpassword[GSASL_HASH_MAX_SIZE];
-  char *b64saltedpassword;
-  size_t b64saltedpasswordlen;
+  char *hexsaltedpassword;
+  size_t hexsaltedpasswordlen;
   int hash = 0;
   size_t hashlen = 0;
   char clientkey[GSASL_HASH_MAX_SIZE];
@@ -356,8 +356,8 @@ mkpasswd (void)
   if (res != GSASL_OK)
     error (EXIT_FAILURE, 0, "%s", gsasl_strerror (res));
 
-  res = gsasl_base64_to (saltedpassword, hashlen,
-			 &b64saltedpassword, &b64saltedpasswordlen);
+  res = gsasl_hex_to (saltedpassword, hashlen,
+			 &hexsaltedpassword, &hexsaltedpasswordlen);
   if (res != GSASL_OK)
     error (EXIT_FAILURE, 0, "%s", gsasl_strerror (res));
 
@@ -373,7 +373,7 @@ mkpasswd (void)
 
   printf ("%s:%d:%s:%s:%s:%s\n", args_info.mechanism_arg,
 	  args_info.iteration_count_arg,
-	  b64salt, b64saltedpassword, b64serverkey, b64storedkey);
+	  b64salt, hexsaltedpassword, b64serverkey, b64storedkey);
 
   if (salt != salt_buf)
     free (salt);
@@ -381,7 +381,7 @@ mkpasswd (void)
     free (b64salt);
   free (b64serverkey);
   free (b64storedkey);
-  free (b64saltedpassword);
+  free (hexsaltedpassword);
   free (b64salt);
 }
 

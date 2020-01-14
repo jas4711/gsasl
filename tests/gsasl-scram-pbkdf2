@@ -41,16 +41,9 @@ fi
 #       DK = 0c 60 c8 0f 96 1f 0e 71
 #            f3 a9 b5 24 af 60 12 06
 #            2f e0 37 a6             (20 octets)
-#
-#
-# $ echo DGDID5YfDnHzqbUkr2ASBi/gN6Y=|base64 -d|hexdump -C
-# 00000000  0c 60 c8 0f 96 1f 0e 71  f3 a9 b5 24 af 60 12 06
-# 00000010  2f e0 37 a6
-# 00000014
-# $
 
 OUT=$(${VALGRIND} "${GSASL}" --mkpasswd --password password --mechanism SCRAM-SHA-1 --iteration-count 1 --salt c2FsdA==)
-EXP="SCRAM-SHA-1:1:c2FsdA==:DGDID5YfDnHzqbUkr2ASBi/gN6Y=:gEBmhcREcU59nXxkDhCePwlgRbY=:vVnp0FhQZmQRSMvw9oq1LFMCh8E="
+EXP="SCRAM-SHA-1:1:c2FsdA==:0c60c80f961f0e71f3a9b524af6012062fe037a6:gEBmhcREcU59nXxkDhCePwlgRbY=:vVnp0FhQZmQRSMvw9oq1LFMCh8E="
 if test "$OUT" != "$EXP"; then
     echo expected $EXP got $OUT
     exit 1
@@ -66,15 +59,9 @@ fi
 #       DK = ea 6c 01 4d c7 2d 6f 8c
 #            cd 1e d9 2a ce 1d 41 f0
 #            d8 de 89 57             (20 octets)
-#
-# $ echo 6mwBTcctb4zNHtkqzh1B8NjeiVc=|base64 -d|hexdump -C
-# 00000000  ea 6c 01 4d c7 2d 6f 8c  cd 1e d9 2a ce 1d 41 f0
-# 00000010  d8 de 89 57
-# 00000014
-# $
 
 OUT=$(${VALGRIND} "${GSASL}" --mkpasswd --password password --mechanism SCRAM-SHA-1 --iteration-count 2 --salt c2FsdA==)
-EXP="SCRAM-SHA-1:2:c2FsdA==:6mwBTcctb4zNHtkqzh1B8NjeiVc=:5Alx1KUCWBgKd9mxAgTkpDBis54=:J4+ucUpxxJUZf/2dj0CKWg+lhvs="
+EXP="SCRAM-SHA-1:2:c2FsdA==:ea6c014dc72d6f8ccd1ed92ace1d41f0d8de8957:5Alx1KUCWBgKd9mxAgTkpDBis54=:J4+ucUpxxJUZf/2dj0CKWg+lhvs="
 if test "$OUT" != "$EXP"; then
     echo expected $EXP got $OUT
     exit 1
@@ -90,13 +77,9 @@ fi
 #       DK = 4b 00 79 01 b7 65 48 9a
 #            be ad 49 d9 26 f7 21 d0
 #            65 a4 29 c1             (20 octets)
-#
-# $ echo SwB5AbdlSJq+rUnZJvch0GWkKcE=|base64 -d|hexdump -v -e '/1 "%02X "';echo
-# 4B 00 79 01 B7 65 48 9A BE AD 49 D9 26 F7 21 D0 65 A4 29 C1
-# $
 
 OUT=$(${VALGRIND} "${GSASL}" --mkpasswd --password password --mechanism SCRAM-SHA-1 --iteration-count 4096 --salt c2FsdA==)
-EXP="SCRAM-SHA-1:4096:c2FsdA==:SwB5AbdlSJq+rUnZJvch0GWkKcE=:BZ90E2UltiQTre5pA3UZCJJGU3w=:0qUypmwka5AUb9oe/OrTaR5uwR8="
+EXP="SCRAM-SHA-1:4096:c2FsdA==:4b007901b765489abead49d926f721d065a429c1:BZ90E2UltiQTre5pA3UZCJJGU3w=:0qUypmwka5AUb9oe/OrTaR5uwR8="
 if test "$OUT" != "$EXP"; then
     echo expected $EXP got $OUT
     exit 1
@@ -105,7 +88,7 @@ fi
 # RFC 7677
 
 OUT=$(${VALGRIND} "${GSASL}" --mkpasswd --password pencil --mechanism SCRAM-SHA-256 --iteration-count 4096 --salt W22ZaJ0SNY7soEsUEjb6gQ==)
-EXP="SCRAM-SHA-256:4096:W22ZaJ0SNY7soEsUEjb6gQ==:xKSVEDI6tPlSysH6mUQZOeeOp01r6B3fcJbodRPcYV0=:wfPLwcE6nTWhTAmQ7tl2KeoiWGPlZqQxSrmfPwDl2dU=:WG5d8oPm3OtcPnkdi4Uo7BkeZkBFzpcXkuLmtbsT4qY="
+EXP="SCRAM-SHA-256:4096:W22ZaJ0SNY7soEsUEjb6gQ==:c4a49510323ab4f952cac1fa99441939e78ea74d6be81ddf7096e87513dc615d:wfPLwcE6nTWhTAmQ7tl2KeoiWGPlZqQxSrmfPwDl2dU=:WG5d8oPm3OtcPnkdi4Uo7BkeZkBFzpcXkuLmtbsT4qY="
 if test "$OUT" != "$EXP"; then
     echo expected $EXP got $OUT
     exit 1

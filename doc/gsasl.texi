@@ -1553,7 +1553,7 @@ In the server, the application can set these properties to influence the
 hash iteration count and hash salt to use when deriving the password.
 The default hash iteration count is 4096 and normally you should not
 need to use a lower setting.  The salt should be a base64-encoded string
-with random data.
+with random data, typical length 4 to 16 bytes.
 
 In the client, the SCRAM-* mechanism set these properties before asking
 for asking the application to provide a
@@ -1568,8 +1568,8 @@ when storing the @code{GSASL_SCRAM_SALTED_PASSWORD} value, for example).
 
 These properties are requested by the SCRAM server, and if they are not
 available it will ask for @code{GSASL_PASSWORD} to complete
-authentication.  The values are hex-encoded strings (40 characters for
-SCRAM-SHA-1 and 64 characters for SCRAM-SHA-256) with the
+authentication.  The values are base64-encoded strings (28 characters
+for SCRAM-SHA-1 and 44 characters for SCRAM-SHA-256) with the
 ServerKey/StoredKey data.  The properties are set after completing the
 final authentication step, so a server using @code{GSASL_PASSWORD}
 callback for authentication can extract @code{GSASL_SCRAM_SERVERKEY} and

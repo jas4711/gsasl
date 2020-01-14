@@ -153,6 +153,8 @@ LIBGSASL_1.10
     gsasl_hash;
     gsasl_hash_length;
     gsasl_hmac;
+    gsasl_hex_from;
+    gsasl_hex_to;
     gsasl_scram_secrets_from_password;
     gsasl_scram_secrets_from_salted_password;
 } LIBGSASL_1.4;

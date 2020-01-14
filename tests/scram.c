@@ -422,11 +422,11 @@ doit (void)
 	if (!stk)
 	  fail ("missing StoredKey\n");
 	if ((strcmp (ssp, SP2) == 0)
-	    && (strcmp (sek, "9b4e58c109a4898b5f6a0b1fa87c936856f29532") != 0))
-	  fail ("incorrect ServerKey");
+	    && (strcmp (sek, "m05YwQmkiYtfagsfqHyTaFbylTI=") != 0))
+	  fail ("incorrect ServerKey\n");
 	if ((strcmp (ssp, SP2) == 0)
-	    && (strcmp (stk, "6e0cc1c80a367b7685bdf7b315ea89cb9389494b") != 0))
-	  fail ("incorrect StoredKey");
+	    && (strcmp (stk, "bgzByAo2e3aFvfezFeqJy5OJSUs=") != 0))
+	  fail ("incorrect StoredKey\n");
       }
 
     done:
