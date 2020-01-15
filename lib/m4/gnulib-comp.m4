@@ -78,8 +78,8 @@ AC_DEFUN([gl_EARLY],
   # Code from module crypto/gc-hmac-sha256-tests:
   # Code from module crypto/gc-md5:
   # Code from module crypto/gc-md5-tests:
-  # Code from module crypto/gc-pbkdf2-sha1:
-  # Code from module crypto/gc-pbkdf2-sha1-tests:
+  # Code from module crypto/gc-pbkdf2:
+  # Code from module crypto/gc-pbkdf2-tests:
   # Code from module crypto/gc-random:
   # Code from module crypto/gc-sha1:
   # Code from module crypto/gc-sha1-tests:
@@ -1063,7 +1063,7 @@ AC_DEFUN([gl_FILE_LIST], [
   lib/ftello.c
   lib/gc-gnulib.c
   lib/gc-libgcrypt.c
-  lib/gc-pbkdf2-sha1.c
+  lib/gc-pbkdf2.c
   lib/gc.h
   lib/getdelim.c
   lib/getline.c
@@ -1361,7 +1361,7 @@ AC_DEFUN([gl_FILE_LIST], [
   tests/test-gc-hmac-sha1.c
   tests/test-gc-hmac-sha256.c
   tests/test-gc-md5.c
-  tests/test-gc-pbkdf2-sha1.c
+  tests/test-gc-pbkdf2.c
   tests/test-gc-sha1.c
   tests/test-gc-sha256.c
   tests/test-gc.c

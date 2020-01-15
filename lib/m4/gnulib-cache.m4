@@ -48,7 +48,7 @@
 #  crypto/gc-hmac-sha1 \
 #  crypto/gc-hmac-sha256 \
 #  crypto/gc-md5 \
-#  crypto/gc-pbkdf2-sha1 \
+#  crypto/gc-pbkdf2 \
 #  crypto/gc-random \
 #  crypto/gc-sha1 \
 #  crypto/gc-sha256 \
@@ -78,7 +78,7 @@ gl_MODULES([
   crypto/gc-hmac-sha1
   crypto/gc-hmac-sha256
   crypto/gc-md5
-  crypto/gc-pbkdf2-sha1
+  crypto/gc-pbkdf2
   crypto/gc-random
   crypto/gc-sha1
   crypto/gc-sha256

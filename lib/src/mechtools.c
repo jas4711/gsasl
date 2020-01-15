@@ -381,25 +381,30 @@ _gsasl_pbkdf2 (Gsasl_hash hash,
 	       unsigned int c, char *dk, size_t dklen)
 {
   int rc;
+  Gc_hash gch;
 
-  if (hash == GSASL_HASH_SHA1)
+  switch  (hash)
     {
+    case GSASL_HASH_SHA1:
       if (dklen == 0)
 	dklen = GSASL_HASH_SHA1_SIZE;
+      gch = GC_SHA1;
+      break;
 
-      rc = gc_pbkdf2_sha1 (password, passwordlen,
-			   salt, saltlen, c, dk, dklen);
-    }
-  else if (hash == GSASL_HASH_SHA256)
-    {
+    case GSASL_HASH_SHA256:
       if (dklen == 0)
 	dklen = GSASL_HASH_SHA256_SIZE;
+      gch = GC_SHA256;
+      break;
 
-      rc = gc_pbkdf2_sha256 (password, passwordlen,
-			     salt, saltlen, c, dk, dklen);
+    default:
+      return GSASL_CRYPTO_ERROR;
     }
-  else
-    rc = GSASL_CRYPTO_ERROR;
 
-  return rc;
+  rc = gc_pbkdf2_hmac (gch, password, passwordlen,
+		       salt, saltlen, c, dk, dklen);
+  if (rc != GC_OK)
+    return GSASL_CRYPTO_ERROR;
+
+  return GSASL_OK;
 }

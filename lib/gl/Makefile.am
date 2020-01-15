@@ -43,7 +43,7 @@
 #  crypto/gc-hmac-sha1 \
 #  crypto/gc-hmac-sha256 \
 #  crypto/gc-md5 \
-#  crypto/gc-pbkdf2-sha1 \
+#  crypto/gc-pbkdf2 \
 #  crypto/gc-random \
 #  crypto/gc-sha1 \
 #  crypto/gc-sha256 \
@@ -186,11 +186,11 @@ libgl_la_SOURCES += md5.h
 
 ## end   gnulib module crypto/gc-md5
 
-## begin gnulib module crypto/gc-pbkdf2-sha1
+## begin gnulib module crypto/gc-pbkdf2
 
-libgl_la_SOURCES += gc-pbkdf2-sha1.c
+libgl_la_SOURCES += gc-pbkdf2.c
 
-## end   gnulib module crypto/gc-pbkdf2-sha1
+## end   gnulib module crypto/gc-pbkdf2
 
 ## begin gnulib module crypto/hmac-md5
 

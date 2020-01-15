@@ -1,4 +1,4 @@
-/* gc-pbkdf2-sha1.c --- Password-Based Key Derivation Function a'la PKCS#5
+/* gc-pbkdf2.c --- Password-Based Key Derivation Function a'la PKCS#5
    Copyright (C) 2002-2006, 2009-2020 Free Software Foundation, Inc.
 
    This program is free software; you can redistribute it and/or modify
@@ -23,26 +23,18 @@
 #include <stdlib.h>
 #include <string.h>
 
-typedef Gc_rc (*gc_hmac_func) (const void *key, size_t keylen,
-			       const void *in, size_t inlen, char *resbuf);
+typedef Gc_rc (*gc_prf_func) (const void *key, size_t keylen,
+                              const void *in, size_t inlen, char *resbuf);
 
-
-/* Implement PKCS#5 PBKDF2 as per RFC 2898.  The PRF to use is hard
-   coded to be HMAC-SHA1.  Inputs are the password P of length PLEN,
-   the salt S of length SLEN, the iteration counter C (> 0), and the
-   desired derived output length DKLEN.  Output buffer is DK which
-   must have room for at least DKLEN octets.  The output buffer will
-   be filled with the derived data.  */
-Gc_rc
-gc_pbkdf2 (const char *P, size_t Plen,
-	   const char *S, size_t Slen,
-	   unsigned int c,
-	   char *DK, size_t dkLen,
-	   unsigned int hLen,
-	   gc_hmac_func f)
+static Gc_rc
+gc_pbkdf2_prf (gc_prf_func prf, size_t hLen,
+               const char *P, size_t Plen,
+               const char *S, size_t Slen,
+               unsigned int c,
+               char *DK, size_t dkLen)
 {
-  char U[32];
-  char T[32];
+  char U[GC_MAX_DIGEST_SIZE];
+  char T[GC_MAX_DIGEST_SIZE];
   unsigned int u;
   unsigned int l;
   unsigned int r;
@@ -83,10 +75,10 @@ gc_pbkdf2 (const char *P, size_t Plen,
               tmp[Slen + 2] = (i & 0x0000ff00) >> 8;
               tmp[Slen + 3] = (i & 0x000000ff) >> 0;
 
-              rc = f (P, Plen, tmp, tmplen, U);
+              rc = prf (P, Plen, tmp, tmplen, U);
             }
           else
-            rc = f (P, Plen, U, hLen, U);
+            rc = prf (P, Plen, U, hLen, U);
 
           if (rc != GC_OK)
             {
@@ -107,19 +99,40 @@ gc_pbkdf2 (const char *P, size_t Plen,
 }
 
 Gc_rc
-gc_pbkdf2_sha1 (const char *P, size_t Plen,
-		const char *S, size_t Slen,
-		unsigned int c,
-		char *DK, size_t dkLen)
+gc_pbkdf2_hmac (Gc_hash hash,
+                const char *P, size_t Plen,
+                const char *S, size_t Slen,
+                unsigned int c, char *DK, size_t dkLen)
 {
-  return gc_pbkdf2 (P, Plen, S, Slen, c, DK, dkLen, 20, gc_hmac_sha1);
-}
+  gc_prf_func prf;
+  size_t hLen;
 
-Gc_rc
-gc_pbkdf2_sha256 (const char *P, size_t Plen,
-		  const char *S, size_t Slen,
-		  unsigned int c,
-		  char *DK, size_t dkLen)
-{
-  return gc_pbkdf2 (P, Plen, S, Slen, c, DK, dkLen, 32, gc_hmac_sha256);
+  switch (hash)
+    {
+#if GNULIB_GC_HMAC_SHA1
+    case GC_SHA1:
+      prf = gc_hmac_sha1;
+      hLen = GC_SHA1_DIGEST_SIZE;
+      break;
+#endif
+
+#if GNULIB_GC_HMAC_SHA256
+    case GC_SHA256:
+      prf = gc_hmac_sha256;
+      hLen = GC_SHA256_DIGEST_SIZE;
+      break;
+#endif
+
+#if GNULIB_GC_HMAC_SHA512
+    case GC_SHA512:
+      prf = gc_hmac_sha512;
+      hLen = GC_SHA512_DIGEST_SIZE;
+      break;
+#endif
+
+    default:
+      return GC_INVALID_HASH;
+    }
+
+  return gc_pbkdf2_prf (prf, hLen, P, Plen, S, Slen, c, DK, dkLen);
 }

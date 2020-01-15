@@ -287,14 +287,14 @@ EXTRA_DIST += test-gc-md5.c
 
 ## end   gnulib module crypto/gc-md5-tests
 
-## begin gnulib module crypto/gc-pbkdf2-sha1-tests
+## begin gnulib module crypto/gc-pbkdf2-tests
 
-TESTS += test-gc-pbkdf2-sha1
-check_PROGRAMS += test-gc-pbkdf2-sha1
-test_gc_pbkdf2_sha1_LDADD = $(LDADD) @LIB_CRYPTO@
-EXTRA_DIST += test-gc-pbkdf2-sha1.c
+TESTS += test-gc-pbkdf2
+check_PROGRAMS += test-gc-pbkdf2
+test_gc_pbkdf2_LDADD = $(LDADD) @LIB_CRYPTO@
+EXTRA_DIST += test-gc-pbkdf2.c
 
-## end   gnulib module crypto/gc-pbkdf2-sha1-tests
+## end   gnulib module crypto/gc-pbkdf2-tests
 
 ## begin gnulib module crypto/gc-sha1-tests
 
