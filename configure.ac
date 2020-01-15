@@ -176,16 +176,20 @@ AC_OUTPUT
 AC_MSG_NOTICE([summary of main build options:
 
   version:            ${VERSION}
-  Host type:          ${host}
+  Host/Target system: ${host}
+  Build system:       ${build}
   Install prefix:     ${prefix}
   Compiler:           cc: ${CC} cflags: ${CFLAGS} cppflags: ${CPPFLAGS}
-  Warning flags:      $gl_gcc_warnings
+  Valgrind:           $opt_valgrind_tests ${VALGRIND}
   Library types:      Shared=${enable_shared}, Static=${enable_static}
-  Valgrind:           ${VALGRIND}
+  Warning flags:      $gl_gcc_warnings werror $WERROR_CFLAGS wstack $WSTACK_CFLAGS warn $WARN_CFLAGS
+
   Obsolete functions: $obsolete
+
   GnuTLS support:     $gnutls
         CPPFLAGS:     $INCLIBGNUTLS
            LDADD:     $LTLIBGNUTLS
+
   Lasso support:      $lasso
        CPPFLAGS:      $LASSO_CFLAGS
           LDADD:      $LASSO_LIBS

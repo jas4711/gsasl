@@ -449,24 +449,31 @@ AC_OUTPUT
 
 AC_MSG_NOTICE([summary of library build options:
 
-  version:            ${VERSION}
-  Host type:          ${host}
+  version:            ${VERSION} shared $LT_CURRENT:$LT_REVISION:$LT_AGE
+  Host/Target system: ${host}
+  Build system:       ${build}
   Install prefix:     ${prefix}
   Compiler:           cc: ${CC} cflags: ${CFLAGS} cppflags: ${CPPFLAGS}
-  Warning flags:      $gl_gcc_warnings
+  Valgrind:           $opt_valgrind_tests ${VALGRIND}
   Library types:      Shared=${enable_shared}, Static=${enable_static}
-  Valgrind:           ${VALGRIND}
+  Warning flags:      $gl_gcc_warnings werror $WERROR_CFLAGS wstack $WSTACK_CFLAGS warn $WARN_CFLAGS
+
   Obsolete functions: $obsolete
 
   Client side:        $client
   Server side:        $server
+
+  Libidn:             $LTLIBIDN
+  Libgcrypt:          $LIB_CRYPTO
+  Libntlm:            $LTLIBNTLM
+  GSS-API:            $LTLIBGSS $LTLIBGSSAPI32 $GSS_LIBS
 
   ANONYMOUS:          $anonymous
   EXTERNAL:           $external
   PLAIN:              $plain
   LOGIN:              $login
   SECURID:            $securid
-  NTLM:               $ntlm (libs: $LTLIBNTLM)
+  NTLM:               $ntlm
   CRAM-MD5:           $cram_md5
   DIGEST-MD5:         $digest_md5
   SCRAM-SHA-1:        $scram_sha1
