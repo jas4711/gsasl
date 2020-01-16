@@ -37,6 +37,17 @@ gsasl_scram_secrets_from_salted_password().
 ** New APIs for hex encoding/decoding.
 Use gsasl_hex_from and gsasl_hex_to similar to the base64 functions.
 
+** Formally declare some obsolete constructs.
+The entire KERBEROS_V5 mechanism together with its error codes
+GSASL_KERBEROS_V5_INIT_ERROR, GSASL_KERBEROS_V5_INTERNAL_ERROR, and
+the already deprecated GSASL_SHISHI_ERROR are now considered obsolete.
+
+Since DIGEST-MD5 does not support confidentiality layers, the
+Gsasl_cipher type enum is useless and is now classified as obsolete.
+
+The gsasl_simple_getpass() function does not encourage good security
+practices (storing passwords in clear text) and is now deprecated.
+
 ** API and ABI modifications.
 gsasl_hex_to, gsasl_hex_from, gsasl_hash_length: ADDED.
 gsasl_md5, gsasl_sha1: DEPRECATED.
