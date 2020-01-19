@@ -470,7 +470,6 @@ extern "C"
   typedef enum
   {
     /* Hash algorithm identifiers. */
-    GSASL_HASH_MD5 = 1,
     GSASL_HASH_SHA1 = 2,
     GSASL_HASH_SHA256 = 3,
   } Gsasl_hash;
@@ -478,7 +477,6 @@ extern "C"
   typedef enum
   {
     /* Output sizes of hashes. */
-    GSASL_HASH_MD5_SIZE = 16,
     GSASL_HASH_SHA1_SIZE = 20,
     GSASL_HASH_SHA256_SIZE = 32,
     GSASL_HASH_MAX_SIZE = GSASL_HASH_SHA256_SIZE

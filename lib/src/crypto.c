@@ -73,8 +73,6 @@ gsasl_hash_length (Gsasl_hash hash)
 {
   switch (hash)
     {
-    case GSASL_HASH_MD5:
-      return GSASL_HASH_MD5_SIZE;
     case GSASL_HASH_SHA1:
       return GSASL_HASH_SHA1_SIZE;
     case GSASL_HASH_SHA256:

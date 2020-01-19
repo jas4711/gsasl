@@ -303,9 +303,7 @@ _gsasl_hash (Gsasl_hash hash, const char *in, size_t inlen, char *outhash)
 {
   int rc;
 
-  if (hash == GSASL_HASH_MD5)
-    rc = gc_md5 (in, inlen, outhash);
-  else if (hash == GSASL_HASH_SHA1)
+  if (hash == GSASL_HASH_SHA1)
     rc = gc_sha1 (in, inlen, outhash);
   else if (hash == GSASL_HASH_SHA256)
     rc = gc_sha256 (in, inlen, outhash);
@@ -340,9 +338,7 @@ _gsasl_hmac (Gsasl_hash hash,
 {
   int rc;
 
-  if (hash == GSASL_HASH_MD5)
-    rc = gc_hmac_md5 (key, keylen, in, inlen, outhash);
-  else if (hash == GSASL_HASH_SHA1)
+  if (hash == GSASL_HASH_SHA1)
     rc = gc_hmac_sha1 (key, keylen, in, inlen, outhash);
   else if (hash == GSASL_HASH_SHA256)
     rc = gc_hmac_sha256 (key, keylen, in, inlen, outhash);

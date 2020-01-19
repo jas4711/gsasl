@@ -2,6 +2,159 @@ GNU SASL LIBRARY NEWS -- History of user-visible changes.
 Copyright (C) 2002-2020 Simon Josefsson
 See the end for copying conditions.
 
+* Version 1.9.2 (unreleased) [beta]
+
+** Drop GSASL_HASH_MD5 and GSASL_HASH_MD5_SIZE from last released.
+
+** Clarify obsolete deprecated interfaces.
+All of the following will be removed in the next stable branch.
+
+The entire KERBEROS_V5 mechanism together with its error codes
+GSASL_KERBEROS_V5_INIT_ERROR, GSASL_KERBEROS_V5_INTERNAL_ERROR, and
+the already deprecated GSASL_SHISHI_ERROR are now considered obsolete.
+
+Our DIGEST-MD5 implementation does not support confidentiality layers,
+thus the Gsasl_cipher type enum is useless and is classified as
+obsolete.
+
+The gsasl_simple_getpass() function does not encourage good security
+practices (storing passwords in clear text) and is now deprecated.
+
+The following backwards compatibility error codes are obsolete:
+  GSASL_TOO_SMALL_BUFFER
+  GSASL_FOPEN_ERROR
+  GSASL_FCLOSE_ERROR
+  GSASL_GCRYPT_ERROR
+  GSASL_CANNOT_GET_CTX
+  GSASL_NEED_CLIENT_ANONYMOUS_CALLBACK
+  GSASL_NEED_CLIENT_PASSWORD_CALLBACK
+  GSASL_NEED_CLIENT_PASSCODE_CALLBACK
+  GSASL_NEED_CLIENT_PIN_CALLBACK
+  GSASL_NEED_CLIENT_AUTHORIZATION_ID_CALLBACK
+  GSASL_NEED_CLIENT_AUTHENTICATION_ID_CALLBACK
+  GSASL_NEED_CLIENT_SERVICE_CALLBACK
+  GSASL_NEED_SERVER_VALIDATE_CALLBACK
+  GSASL_NEED_SERVER_CRAM_MD5_CALLBACK
+  GSASL_NEED_SERVER_DIGEST_MD5_CALLBACK
+  GSASL_NEED_SERVER_EXTERNAL_CALLBACK
+  GSASL_NEED_SERVER_ANONYMOUS_CALLBACK
+  GSASL_NEED_SERVER_REALM_CALLBACK
+  GSASL_NEED_SERVER_SECURID_CALLBACK
+  GSASL_NEED_SERVER_SERVICE_CALLBACK
+  GSASL_NEED_SERVER_GSSAPI_CALLBACK
+  GSASL_NEED_SERVER_RETRIEVE_CALLBACK
+  GSASL_UNICODE_NORMALIZATION_ERROR
+  GSASL_NO_MORE_REALMS
+  GSASL_INVALID_HANDLE
+
+The following backwards compatibility types are obsolete:
+  Gsasl_ctx
+  Gsasl_session_ctx
+  Gsasl_client_callback_anonymous
+  Gsasl_client_callback_authentication_id
+  Gsasl_client_callback_authorization_id
+  Gsasl_client_callback_password
+  Gsasl_client_callback_passcode
+  Gsasl_client_callback_pin
+  Gsasl_client_callback_service
+  Gsasl_client_callback_qop
+  Gsasl_client_callback_maxbuf
+  Gsasl_client_callback_realm
+  Gsasl_server_callback_retrieve
+  Gsasl_server_callback_validate
+  Gsasl_server_callback_gssapi
+  Gsasl_server_callback_securid
+  Gsasl_server_callback_cram_md5
+  Gsasl_server_callback_digest_md5
+  Gsasl_server_callback_service
+  Gsasl_server_callback_external
+  Gsasl_server_callback_anonymous
+  Gsasl_server_callback_realm
+  Gsasl_server_callback_qop
+  Gsasl_server_callback_maxbuf
+  Gsasl_server_callback_cipher
+
+The following backwards compatibility functions are obsolete:
+  gsasl_client_listmech
+  gsasl_server_listmech
+  gsasl_client_step
+  gsasl_client_step_base64
+  gsasl_server_step
+  gsasl_server_step_base64
+  gsasl_client_finish
+  gsasl_server_finish
+  gsasl_client_ctx_get
+  gsasl_server_ctx_get
+  gsasl_client_application_data_set
+  gsasl_client_application_data_get
+  gsasl_server_application_data_set
+  gsasl_server_application_data_get
+  gsasl_randomize
+  gsasl_ctx_get
+  gsasl_encode_inline
+  gsasl_decode_inline
+  gsasl_application_data_set
+  gsasl_application_data_get
+  gsasl_appinfo_set
+  gsasl_appinfo_get
+  gsasl_server_suggest_mechanism
+  gsasl_base64_encode
+  gsasl_base64_decode
+  gsasl_stringprep_nfkc
+  gsasl_stringprep_saslprep
+  gsasl_stringprep_trace
+  gsasl_md5pwd_get_password
+  gsasl_client_callback_authorization_id_set
+  gsasl_client_callback_authorization_id_get
+  gsasl_client_callback_authentication_id_set
+  gsasl_client_callback_authentication_id_get
+  gsasl_client_callback_anonymous_set
+  gsasl_client_callback_anonymous_get
+  gsasl_client_callback_password_set
+  gsasl_client_callback_password_get
+  gsasl_client_callback_passcode_set
+  gsasl_client_callback_passcode_get
+  gsasl_client_callback_pin_set
+  gsasl_client_callback_pin_get
+  gsasl_client_callback_service_set
+  gsasl_client_callback_service_get
+  gsasl_client_callback_qop_set
+  gsasl_client_callback_qop_get
+  gsasl_client_callback_maxbuf_set
+  gsasl_client_callback_maxbuf_get
+  gsasl_client_callback_realm_set
+  gsasl_client_callback_realm_get
+  gsasl_server_callback_validate_set
+  gsasl_server_callback_validate_get
+  gsasl_server_callback_retrieve_set
+  gsasl_server_callback_retrieve_get
+  gsasl_server_callback_cram_md5_set
+  gsasl_server_callback_cram_md5_get
+  gsasl_server_callback_digest_md5_set
+  gsasl_server_callback_digest_md5_get
+  gsasl_server_callback_external_set
+  gsasl_server_callback_external_get
+  gsasl_server_callback_anonymous_set
+  gsasl_server_callback_anonymous_get
+  gsasl_server_callback_realm_set
+  gsasl_server_callback_realm_get
+  gsasl_server_callback_qop_set
+  gsasl_server_callback_qop_get
+  gsasl_server_callback_maxbuf_set
+  gsasl_server_callback_maxbuf_get
+  gsasl_server_callback_cipher_set
+  gsasl_server_callback_cipher_get
+  gsasl_server_callback_securid_set
+  gsasl_server_callback_securid_get
+  gsasl_server_callback_gssapi_set
+  gsasl_server_callback_gssapi_get
+  gsasl_server_callback_service_set
+  gsasl_server_callback_service_get
+  gsasl_md5
+  gsasl_hmac_md5
+  gsasl_sha1
+  gsasl_hmac_sha1
+
 * Version 1.9.1 (released 2020-01-14) [beta]
 
 ** SCRAM server: Support for password-less usage.
@@ -36,17 +189,6 @@ gsasl_scram_secrets_from_salted_password().
 
 ** New APIs for hex encoding/decoding.
 Use gsasl_hex_from and gsasl_hex_to similar to the base64 functions.
-
-** Formally declare some obsolete constructs.
-The entire KERBEROS_V5 mechanism together with its error codes
-GSASL_KERBEROS_V5_INIT_ERROR, GSASL_KERBEROS_V5_INTERNAL_ERROR, and
-the already deprecated GSASL_SHISHI_ERROR are now considered obsolete.
-
-Since DIGEST-MD5 does not support confidentiality layers, the
-Gsasl_cipher type enum is useless and is now classified as obsolete.
-
-The gsasl_simple_getpass() function does not encourage good security
-practices (storing passwords in clear text) and is now deprecated.
 
 ** API and ABI modifications.
 gsasl_hex_to, gsasl_hex_from, gsasl_hash_length: ADDED.

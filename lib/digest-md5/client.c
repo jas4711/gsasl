@@ -33,6 +33,8 @@
 /* Get memcpy, strlen. */
 #include <string.h>
 
+#include "gc.h"
+
 /* Get tools. */
 #include "nonascii.h"
 #include "tokens.h"
@@ -214,11 +216,10 @@ _gsasl_digest_md5_client_step (Gsasl_session * sctx,
 	  if (rc < 0)
 	    return GSASL_MALLOC_ERROR;
 
-	  rc = _gsasl_hash (GSASL_HASH_MD5, tmp, strlen (tmp),
-			    state->secret);
+	  rc = gc_md5 (tmp, strlen (tmp), state->secret);
 	  free (tmp);
-	  if (rc != GSASL_OK)
-	    return rc;
+	  if (rc != GC_OK)
+	    return GSASL_CRYPTO_ERROR;
 	}
 
 	rc = digest_md5_hmac (state->response.response,
