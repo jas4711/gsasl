@@ -59,6 +59,7 @@
 #  lib-symbol-versions \
 #  lib-symbol-visibility \
 #  maintainer-makefile \
+#  manywarnings \
 #  memmem \
 #  memxor \
 #  minmax \
@@ -89,6 +90,7 @@ gl_MODULES([
   lib-symbol-versions
   lib-symbol-visibility
   maintainer-makefile
+  manywarnings
   memmem
   memxor
   minmax

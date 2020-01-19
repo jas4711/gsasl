@@ -202,6 +202,7 @@ AC_DEFUN([gl_EARLY],
   # Code from module malloc-posix:
   # Code from module malloca:
   # Code from module malloca-tests:
+  # Code from module manywarnings:
   # Code from module memchr:
   # Code from module memchr-tests:
   # Code from module memmem:
@@ -331,6 +332,7 @@ AC_DEFUN([gl_EARLY],
   # Code from module vc-list-files:
   # Code from module verify:
   # Code from module verify-tests:
+  # Code from module warnings:
   # Code from module wchar:
   # Code from module wchar-tests:
   # Code from module windows-mutex:
@@ -1211,6 +1213,8 @@ AC_DEFUN([gl_FILE_LIST], [
   m4/lstat.m4
   m4/malloc.m4
   m4/malloca.m4
+  m4/manywarnings-c++.m4
+  m4/manywarnings.m4
   m4/math_h.m4
   m4/md5.m4
   m4/memchr.m4
@@ -1290,6 +1294,7 @@ AC_DEFUN([gl_FILE_LIST], [
   m4/vasprintf.m4
   m4/visibility.m4
   m4/warn-on-use.m4
+  m4/warnings.m4
   m4/wchar_h.m4
   m4/wchar_t.m4
   m4/wint_t.m4

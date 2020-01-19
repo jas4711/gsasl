@@ -150,9 +150,6 @@ if test "$gl_gcc_warnings" = yes; then
   gl_WARN_ADD([-fdiagnostics-show-option])
 fi
 
-# Export things for lib/configure.ac.
-export WARN_CFLAGS
-
 AC_CONFIG_SUBDIRS([lib])
 
 AC_CONFIG_FILES([
