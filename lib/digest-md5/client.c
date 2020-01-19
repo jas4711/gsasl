@@ -106,14 +106,15 @@ _gsasl_digest_md5_client_step (Gsasl_session * sctx,
   *output = NULL;
   *output_len = 0;
 
-  switch (state->step)
+  if (state->step == 0)
     {
-    case 0:
       state->step++;
       if (input_len == 0)
 	return GSASL_NEEDS_MORE;
-      /* fall through */
+    }
 
+  switch (state->step)
+    {
     case 1:
       {
 	if (digest_md5_parse_challenge (input, input_len,

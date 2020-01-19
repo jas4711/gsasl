@@ -270,8 +270,6 @@ digest_md5_print_response (digest_md5_response * r)
     cipher = "cipher=rc4-56";
   else if (r->cipher & DIGEST_MD5_CIPHER_AES_CBC)
     cipher = "cipher=aes-cbc";
-  else if (r->cipher & DIGEST_MD5_CIPHER_3DES)
-    cipher = "cipher=3des";
 
   if (r->username)
     if (comma_append (&out, "username", r->username, 1) < 0)

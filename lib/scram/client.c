@@ -41,6 +41,7 @@
 #include "printer.h"
 #include "gc.h"
 #include "memxor.h"
+#include "tools.h"
 #include "mechtools.h"
 
 #define CNONCE_ENTROPY_BYTES 18
@@ -274,8 +275,6 @@ _gsasl_scram_client_step (Gsasl_session * sctx,
 	/* Generate ClientProof. */
 	{
 	  char saltedpassword[GSASL_HASH_MAX_SIZE];
-	  char clientsignature[GSASL_HASH_MAX_SIZE];
-	  char clientproof[GSASL_HASH_MAX_SIZE];
 	  char clientkey[GSASL_HASH_MAX_SIZE];
 	  char serverkey[GSASL_HASH_MAX_SIZE];
 	  char storedkey[GSASL_HASH_MAX_SIZE];
@@ -299,7 +298,6 @@ _gsasl_scram_client_step (Gsasl_session * sctx,
 	    }
 	  else if ((p = gsasl_property_get (sctx, GSASL_PASSWORD)) != NULL)
 	    {
-	      char hexstr_saltedpassword[GSASL_HASH_MAX_SIZE * 2 + 1];
 	      char *salt;
 	      size_t saltlen;
 
@@ -318,11 +316,8 @@ _gsasl_scram_client_step (Gsasl_session * sctx,
 	      if (rc != 0)
 		return rc;
 
-	      _gsasl_hex_encode (saltedpassword,
-				 gsasl_hash_length (state->hash),
-				 hexstr_saltedpassword);
-	      gsasl_property_set (sctx, GSASL_SCRAM_SALTED_PASSWORD,
-				  hexstr_saltedpassword);
+	      set_saltedpassword (sctx, state->hash, saltedpassword);
+
 	      gsasl_free (salt);
 	    }
 	  else
@@ -349,24 +344,29 @@ _gsasl_scram_client_step (Gsasl_session * sctx,
 	      return GSASL_MALLOC_ERROR;
 	  }
 
-	  /* ClientSignature := HMAC(StoredKey, AuthMessage) */
-	  rc = _gsasl_hmac (state->hash,
-			    storedkey,
-			    gsasl_hash_length (state->hash),
-			    state->authmessage,
-			    strlen (state->authmessage), clientsignature);
-	  if (rc != 0)
-	    return rc;
+	  {
+	    char clientsignature[GSASL_HASH_MAX_SIZE];
+	    char clientproof[GSASL_HASH_MAX_SIZE];
 
-	  /* ClientProof := ClientKey XOR ClientSignature */
-	  memcpy (clientproof, clientkey, gsasl_hash_length (state->hash));
-	  memxor (clientproof, clientsignature,
-		  gsasl_hash_length (state->hash));
+	    /* ClientSignature := HMAC(StoredKey, AuthMessage) */
+	    rc = _gsasl_hmac (state->hash,
+			      storedkey,
+			      gsasl_hash_length (state->hash),
+			      state->authmessage,
+			      strlen (state->authmessage), clientsignature);
+	    if (rc != 0)
+	      return rc;
 
-	  rc = gsasl_base64_to (clientproof, gsasl_hash_length (state->hash),
-				&state->cl.proof, NULL);
-	  if (rc != 0)
-	    return rc;
+	    /* ClientProof := ClientKey XOR ClientSignature */
+	    memcpy (clientproof, clientkey, gsasl_hash_length (state->hash));
+	    memxor (clientproof, clientsignature,
+		    gsasl_hash_length (state->hash));
+
+	    rc = gsasl_base64_to (clientproof, gsasl_hash_length (state->hash),
+				  &state->cl.proof, NULL);
+	    if (rc != 0)
+	      return rc;
+	  }
 
 	  /* Generate ServerSignature, for comparison in next step. */
 	  {

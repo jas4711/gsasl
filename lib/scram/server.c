@@ -44,6 +44,7 @@
 #include "printer.h"
 #include "gc.h"
 #include "memxor.h"
+#include "tools.h"
 #include "mechtools.h"
 
 #define DEFAULT_SALT_BYTES 12
@@ -395,7 +396,6 @@ _gsasl_scram_server_step (Gsasl_session * sctx,
 	      char *salt;
 	      size_t saltlen;
 	      char saltedpassword[GSASL_HASH_MAX_SIZE];
-	      char hexstr[GSASL_HASH_MAX_SIZE * 2 + 1];
 	      char clientkey[GSASL_HASH_MAX_SIZE];
 	      char *b64str;
 
@@ -415,10 +415,7 @@ _gsasl_scram_server_step (Gsasl_session * sctx,
 	      if (rc != GSASL_OK)
 		return rc;
 
-	      _gsasl_hex_encode (saltedpassword,
-				 gsasl_hash_length (state->hash), hexstr);
-	      gsasl_property_set (sctx, GSASL_SCRAM_SALTED_PASSWORD, hexstr);
-
+	      set_saltedpassword (sctx, state->hash, saltedpassword);
 
 	      rc = gsasl_base64_to (state->serverkey,
 				    gsasl_hash_length (state->hash),

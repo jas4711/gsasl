@@ -210,7 +210,7 @@ scram_parse_client_first (const char *str, size_t len,
 
   /* FIXME check that any extension fields follow valid syntax. */
 
-  if (scram_valid_client_first (cf) < 0)
+  if (!scram_valid_client_first (cf))
     return -1;
 
   return 0;
@@ -319,7 +319,7 @@ scram_parse_server_first (const char *str, size_t len,
 
   /* FIXME check that any extension fields follow valid syntax. */
 
-  if (scram_valid_server_first (sf) < 0)
+  if (!scram_valid_server_first (sf))
     return -1;
 
   return 0;
@@ -447,7 +447,7 @@ scram_parse_client_final (const char *str, size_t len,
   memcpy (cl->proof, str, len);
   cl->proof[len] = '\0';
 
-  if (scram_valid_client_final (cl) < 0)
+  if (!scram_valid_client_final (cl))
     return -1;
 
   return 0;
@@ -480,7 +480,7 @@ scram_parse_server_final (const char *str, size_t len,
   memcpy (sl->verifier, str, len);
   sl->verifier[len] = '\0';
 
-  if (scram_valid_server_final (sl) < 0)
+  if (!scram_valid_server_final (sl))
     return -1;
 
   return 0;
