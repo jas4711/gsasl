@@ -1735,6 +1735,8 @@ lib/scram/server.lo
 lib/scram/server.o
 lib/scram/tokens.lo
 lib/scram/tokens.o
+lib/scram/tools.lo
+lib/scram/tools.o
 lib/scram/validate.lo
 lib/scram/validate.o
 lib/securid/.deps/
