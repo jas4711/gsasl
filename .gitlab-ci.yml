@@ -1,8 +1,7 @@
 Debian GNU/Linux build:
   before_script:
-    - apt-get install -y -qq git-core autoconf automake libtool make
-    - apt-get install -y -qq help2man gtk-doc-tools valgrind
-    - apt-get install -y -qq dia libgnutls-dev gengetopt gperf liblasso3-dev
-    - make bootstrap
+    - apt-get install git-core autoconf automake libtool make
+    - apt-get install dia libgnutls-dev gengetopt gperf liblasso3-dev
+    - make bootstrap CFGFLAGS=--enable-gcc-warnings
   script:
     - (make && make check) || (cat *.log test-suite.log; exit 1)
