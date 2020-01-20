@@ -4,7 +4,7 @@ See the end for copying conditions.
 
 * Version 1.9.2 (unreleased) [beta]
 
-** Drop GSASL_HASH_MD5 and GSASL_HASH_MD5_SIZE from last released.
+** Drop GSASL_HASH_MD5 and GSASL_HASH_MD5_SIZE.
 
 ** Clarify obsolete deprecated interfaces.
 All of the following will be removed in the next stable branch.
