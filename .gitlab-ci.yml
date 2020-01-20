@@ -1,7 +1,5 @@
 Debian GNU/Linux build:
   before_script:
-    - apt-get install git-core autoconf automake libtool make
-    - apt-get install dia libgnutls-dev gengetopt gperf liblasso3-dev
-    - make bootstrap CFGFLAGS=--enable-gcc-warnings
+    - make bootstrap CFGFLAGS="--enable-gcc-warnings --disable-silent-rules"
   script:
     - (make && make check) || (cat *.log test-suite.log; exit 1)
