@@ -1473,6 +1473,7 @@ AC_DEFUN([gl_FILE_LIST], [
   m4/xalloc.m4
   m4/xsize.m4
   m4/yield.m4
+  m4/zzgnulib.m4
   tests/init.sh
   tests/locale.c
   tests/macros.h

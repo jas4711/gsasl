@@ -1300,6 +1300,7 @@ AC_DEFUN([gl_FILE_LIST], [
   m4/wint_t.m4
   m4/xsize.m4
   m4/yield.m4
+  m4/zzgnulib.m4
   tests/bench-digest.h
   tests/bench-md5.c
   tests/bench-sha1.c
