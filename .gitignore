@@ -966,6 +966,7 @@ lib/digest-md5/test-parser.log
 lib/digest-md5/test-parser.o
 lib/digest-md5/test-parser.trs
 lib/digest-md5/test-suite.log
+lib/digest-md5/test_parser-test-parser.o
 lib/digest-md5/validate.lo
 lib/digest-md5/validate.o
 lib/external/.deps/
@@ -1768,7 +1769,10 @@ lib/src/free.lo
 lib/src/free.o
 lib/src/init.lo
 lib/src/init.o
+lib/src/libgsasl-obsolete.la
 lib/src/libgsasl.la
+lib/src/libgsasl_obsolete_la-obsolete.lo
+lib/src/libgsasl_obsolete_la-obsolete.o
 lib/src/listmech.lo
 lib/src/listmech.o
 lib/src/md5pwd.lo

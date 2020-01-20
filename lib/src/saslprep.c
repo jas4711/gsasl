@@ -23,10 +23,12 @@
 #include "internal.h"
 
 #if HAVE_LIBIDN
+
 #include <stringprep.h>
+
 #if defined HAVE_PR29_H && defined HAVE_PR29_8Z
 #include <pr29.h>
-#endif
+
 #endif
 
 /**
@@ -48,7 +50,6 @@ int
 gsasl_saslprep (const char *in, Gsasl_saslprep_flags flags,
 		char **out, int *stringpreprc)
 {
-#if HAVE_LIBIDN
   int rc;
 
   rc = stringprep_profile (in, out, "SASLprep",
@@ -76,7 +77,15 @@ gsasl_saslprep (const char *in, Gsasl_saslprep_flags flags,
     }
 #endif
 
-#else
+  return GSASL_OK;
+}
+
+#else /* HAVE_LIBIDN */
+
+int
+gsasl_saslprep (const char *in, Gsasl_saslprep_flags flags _GL_UNUSED,
+		char **out, int *stringpreprc _GL_UNUSED)
+{
   size_t i, inlen = strlen (in);
 
   for (i = 0; i < inlen; i++)
@@ -90,7 +99,6 @@ gsasl_saslprep (const char *in, Gsasl_saslprep_flags flags,
   if (!*out)
     return GSASL_MALLOC_ERROR;
   strcpy (*out, in);
-#endif
-
-  return GSASL_OK;
 }
+
+#endif
