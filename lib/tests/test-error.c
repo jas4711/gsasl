@@ -29,7 +29,7 @@ main (void)
   size_t i;
 
   for (i = 0; i < (sizeof (errors) / sizeof (errors[0])); i++)
-    if (errors[i].rc != i)
+    if (errors[i].rc != (int) i)
       {
 	printf ("%i\n", errors[i].rc);
 	return EXIT_FAILURE;

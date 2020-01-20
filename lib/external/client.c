@@ -32,8 +32,9 @@
 
 int
 _gsasl_external_client_step (Gsasl_session * sctx,
-			     void *mech_data,
-			     const char *input, size_t input_len,
+			     void *mech_data _GL_UNUSED,
+			     const char *input _GL_UNUSED,
+			     size_t input_len _GL_UNUSED,
 			     char **output, size_t *output_len)
 {
   const char *p;

@@ -45,7 +45,8 @@ struct openid20_client_state
 };
 
 int
-_gsasl_openid20_client_start (Gsasl_session * sctx, void **mech_data)
+_gsasl_openid20_client_start (Gsasl_session * sctx _GL_UNUSED,
+			      void **mech_data)
 {
   struct openid20_client_state *state;
 
@@ -161,7 +162,8 @@ _gsasl_openid20_client_step (Gsasl_session * sctx,
 }
 
 void
-_gsasl_openid20_client_finish (Gsasl_session * sctx, void *mech_data)
+_gsasl_openid20_client_finish (Gsasl_session * sctx _GL_UNUSED,
+			       void *mech_data)
 {
   struct openid20_client_state *state = mech_data;
 

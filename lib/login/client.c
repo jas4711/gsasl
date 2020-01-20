@@ -39,7 +39,8 @@ struct _Gsasl_login_client_state
 };
 
 int
-_gsasl_login_client_start (Gsasl_session * sctx, void **mech_data)
+_gsasl_login_client_start (Gsasl_session * sctx _GL_UNUSED,
+			   void **mech_data)
 {
   struct _Gsasl_login_client_state *state;
 
@@ -55,9 +56,10 @@ _gsasl_login_client_start (Gsasl_session * sctx, void **mech_data)
 }
 
 int
-_gsasl_login_client_step (Gsasl_session * sctx,
+_gsasl_login_client_step (Gsasl_session * sctx _GL_UNUSED,
 			  void *mech_data,
-			  const char *input, size_t input_len,
+			  const char *input _GL_UNUSED,
+			  size_t input_len _GL_UNUSED,
 			  char **output, size_t *output_len)
 {
   struct _Gsasl_login_client_state *state = mech_data;
@@ -99,7 +101,8 @@ _gsasl_login_client_step (Gsasl_session * sctx,
 }
 
 void
-_gsasl_login_client_finish (Gsasl_session * sctx, void *mech_data)
+_gsasl_login_client_finish (Gsasl_session * sctx _GL_UNUSED,
+			    void *mech_data)
 {
   struct _Gsasl_login_client_state *state = mech_data;
 

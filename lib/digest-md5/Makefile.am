@@ -46,7 +46,7 @@ endif
 
 LDADD = libgsasl-digest_md5.la ../gl/libgl.la
 
-test_parser_CFLAGS = $(WARN_CFLAGS)
+test_parser_CFLAGS = $(WERROR_CFLAGS) $(WARN_CFLAGS)
 ctests = test-parser
 TESTS = $(ctests)
 check_PROGRAMS = $(ctests)

@@ -183,7 +183,7 @@ callback (Gsasl * ctx, Gsasl_session * sctx, Gsasl_property prop)
 }
 
 int
-main (int argc, char *argv[])
+main (void)
 {
   Gsasl *ctx = NULL;
   int rc;

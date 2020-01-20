@@ -420,7 +420,8 @@ _gsasl_scram_client_step (Gsasl_session * sctx,
 }
 
 void
-_gsasl_scram_client_finish (Gsasl_session * sctx, void *mech_data)
+_gsasl_scram_client_finish (Gsasl_session * sctx _GL_UNUSED,
+			    void *mech_data)
 {
   struct scram_client_state *state = mech_data;
 

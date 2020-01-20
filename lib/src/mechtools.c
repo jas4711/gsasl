@@ -225,7 +225,7 @@ _gsasl_gs2_generate_header (bool nonstd, char cbflag,
 void
 _gsasl_hex_encode (const char *in, size_t inlen, char *out)
 {
-  int i;
+  size_t i;
   const char *p = in;
 
   for (i = 0; i < 2 * inlen;)

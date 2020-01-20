@@ -624,7 +624,9 @@ gsasl_appinfo_get (Gsasl_session * sctx)
  * that chose which mechanism to use.
  **/
 const char *
-gsasl_server_suggest_mechanism (Gsasl * ctx, const char *mechlist)
+gsasl_server_suggest_mechanism (Gsasl * ctx _GL_UNUSED,
+				const char *mechlist _GL_UNUSED)
+
 {
   return NULL;			/* This function is just silly. */
 }
@@ -2055,7 +2057,8 @@ _gsasl_obsolete_property_map (Gsasl_session * sctx, Gsasl_property prop)
 }
 
 int
-_gsasl_obsolete_callback (Gsasl * ctx, Gsasl_session * sctx,
+_gsasl_obsolete_callback (Gsasl * ctx _GL_UNUSED,
+			  Gsasl_session * sctx,
 			  Gsasl_property prop)
 {
   int res;

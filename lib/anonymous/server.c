@@ -29,7 +29,7 @@
 
 int
 _gsasl_anonymous_server_step (Gsasl_session * sctx,
-			      void *mech_data,
+			      void *mech_data _GL_UNUSED,
 			      const char *input, size_t input_len,
 			      char **output, size_t *output_len)
 {

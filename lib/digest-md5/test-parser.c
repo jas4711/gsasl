@@ -35,7 +35,7 @@
 #include "gc.h"
 
 int
-main (int argc, char *argv[])
+main (void)
 {
   digest_md5_challenge c;
   digest_md5_response r;

@@ -164,8 +164,7 @@ _gsasl_scram_sha256_plus_server_start (Gsasl_session * sctx, void **mech_data)
 #endif
 
 static int
-extract_serverkey (Gsasl_session * sctx,
-		   struct scram_server_state *state,
+extract_serverkey (struct scram_server_state *state,
 		   const char *b64, char *buf)
 {
   char *bin;
@@ -384,10 +383,10 @@ _gsasl_scram_server_step (Gsasl_session * sctx,
 	  if ((p = gsasl_property_get (sctx, GSASL_SCRAM_SERVERKEY))
 	      && (q = gsasl_property_get (sctx, GSASL_SCRAM_STOREDKEY)))
 	    {
-	      rc = extract_serverkey (sctx, state, p, state->serverkey);
+	      rc = extract_serverkey (state, p, state->serverkey);
 	      if (rc != GSASL_OK)
 		return rc;
-	      rc = extract_serverkey (sctx, state, q, state->storedkey);
+	      rc = extract_serverkey (state, q, state->storedkey);
 	      if (rc != GSASL_OK)
 		return rc;
 	    }
@@ -526,7 +525,8 @@ _gsasl_scram_server_step (Gsasl_session * sctx,
 }
 
 void
-_gsasl_scram_server_finish (Gsasl_session * sctx, void *mech_data)
+_gsasl_scram_server_finish (Gsasl_session * sctx _GL_UNUSED,
+			    void *mech_data)
 {
   struct scram_server_state *state = mech_data;
 

@@ -104,7 +104,7 @@ client (Gsasl * ctx)
 }
 
 int
-main (int argc, char *argv[])
+main (void)
 {
   Gsasl *ctx = NULL;
   int rc;

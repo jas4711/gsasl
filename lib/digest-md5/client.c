@@ -65,7 +65,8 @@ struct _Gsasl_digest_md5_client_state
 typedef struct _Gsasl_digest_md5_client_state _Gsasl_digest_md5_client_state;
 
 int
-_gsasl_digest_md5_client_start (Gsasl_session * sctx, void **mech_data)
+_gsasl_digest_md5_client_start (Gsasl_session * sctx _GL_UNUSED,
+				void **mech_data)
 {
   _Gsasl_digest_md5_client_state *state;
   char nonce[CNONCE_ENTROPY_BYTES];
@@ -281,7 +282,8 @@ _gsasl_digest_md5_client_step (Gsasl_session * sctx,
 }
 
 void
-_gsasl_digest_md5_client_finish (Gsasl_session * sctx, void *mech_data)
+_gsasl_digest_md5_client_finish (Gsasl_session * sctx _GL_UNUSED,
+				 void *mech_data)
 {
   _Gsasl_digest_md5_client_state *state = mech_data;
 
@@ -296,7 +298,7 @@ _gsasl_digest_md5_client_finish (Gsasl_session * sctx, void *mech_data)
 }
 
 int
-_gsasl_digest_md5_client_encode (Gsasl_session * sctx,
+_gsasl_digest_md5_client_encode (Gsasl_session * sctx _GL_UNUSED,
 				 void *mech_data,
 				 const char *input,
 				 size_t input_len,
@@ -320,7 +322,7 @@ _gsasl_digest_md5_client_encode (Gsasl_session * sctx,
 }
 
 int
-_gsasl_digest_md5_client_decode (Gsasl_session * sctx,
+_gsasl_digest_md5_client_decode (Gsasl_session * sctx _GL_UNUSED,
 				 void *mech_data,
 				 const char *input,
 				 size_t input_len,

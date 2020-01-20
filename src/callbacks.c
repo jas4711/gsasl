@@ -66,7 +66,7 @@ readutf8pass (const char *prompt)
 }
 
 int
-callback (Gsasl * ctx, Gsasl_session * sctx, Gsasl_property prop)
+callback (Gsasl * ctx _GL_UNUSED, Gsasl_session * sctx, Gsasl_property prop)
 {
   int rc = GSASL_NO_CALLBACK;
 

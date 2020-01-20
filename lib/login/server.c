@@ -44,7 +44,8 @@ struct _Gsasl_login_server_state
 #define CHALLENGE_PASSWORD "Password"
 
 int
-_gsasl_login_server_start (Gsasl_session * sctx, void **mech_data)
+_gsasl_login_server_start (Gsasl_session * sctx _GL_UNUSED,
+			   void **mech_data)
 {
   struct _Gsasl_login_server_state *state;
 
@@ -143,7 +144,8 @@ _gsasl_login_server_step (Gsasl_session * sctx,
 }
 
 void
-_gsasl_login_server_finish (Gsasl_session * sctx, void *mech_data)
+_gsasl_login_server_finish (Gsasl_session * sctx _GL_UNUSED,
+			    void *mech_data)
 {
   struct _Gsasl_login_server_state *state = mech_data;
 

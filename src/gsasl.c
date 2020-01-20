@@ -27,7 +27,7 @@
 
 #ifdef HAVE_LIBGNUTLS
 #include <gnutls/gnutls.h>
-gnutls_session session;
+gnutls_session_t session;
 bool using_tls = false;
 #endif
 
@@ -58,7 +58,7 @@ writeln (const char *str)
       else
 #endif
 	len = write (sockfd, str, len);
-      if (len != strlen (str))
+      if (len != (ssize_t) strlen (str))
 	return 0;
 
 #define CRLF "\r\n"
@@ -391,8 +391,8 @@ main (int argc, char *argv[])
   char *connect_hostname = NULL;
   char *connect_service = NULL;
 #ifdef HAVE_LIBGNUTLS
-  gnutls_anon_client_credentials anoncred;
-  gnutls_certificate_credentials x509cred;
+  gnutls_anon_client_credentials_t anoncred;
+  gnutls_certificate_credentials_t x509cred;
 #endif
 
   set_program_name (argv[0]);
@@ -674,7 +674,7 @@ main (int argc, char *argv[])
 		   gnutls_strerror (res), err_pos);
 	}
 
-      gnutls_transport_set_ptr (session, (gnutls_transport_ptr)
+      gnutls_transport_set_ptr (session, (gnutls_transport_ptr_t)
 				(unsigned long) sockfd);
 
       if (!starttls ())
@@ -712,7 +712,7 @@ main (int argc, char *argv[])
 #if HAVE_GNUTLS_SESSION_CHANNEL_BINDING
       if (!args_info.no_cb_flag)
 	{
-	  gnutls_datum cb;
+	  gnutls_datum_t cb;
 
 	  res = gnutls_session_channel_binding (session,
 						GNUTLS_CB_TLS_UNIQUE, &cb);
@@ -906,7 +906,7 @@ main (int argc, char *argv[])
 		      else
 #endif
 			len = write (sockfd, out, output_len);
-		      if (len != output_len)
+		      if (len != (ssize_t) output_len)
 			error (EXIT_FAILURE, errno, "write");
 		    }
 		  else if (!(strlen (line) == output_len &&

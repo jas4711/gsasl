@@ -55,10 +55,14 @@ DISTCLEANFILES = $(defexec_DATA)
 endif
 
 if OBSOLETE
-libgsasl_la_SOURCES += obsolete.c
+noinst_LTLIBRARIES = libgsasl-obsolete.la
+libgsasl_obsolete_la_SOURCES = obsolete.c
+libgsasl_obsolete_la_CFLAGS = $(AM_CFLAGS) $(WOBSOLETE_CFLAGS)
+libgsasl_obsolete_la_CPPFLAGS = $(AM_CPPFLAGS)
 if DIGEST_MD5
-AM_CPPFLAGS += -I$(srcdir)/../digest-md5
+libgsasl_obsolete_la_CPPFLAGS += -I$(srcdir)/../digest-md5
 endif
+libgsasl_la_LIBADD += libgsasl-obsolete.la
 endif
 
 # Plugins:

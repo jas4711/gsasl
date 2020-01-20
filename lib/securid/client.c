@@ -37,7 +37,8 @@
 #define PIN "pin"
 
 int
-_gsasl_securid_client_start (Gsasl_session * sctx, void **mech_data)
+_gsasl_securid_client_start (Gsasl_session * sctx _GL_UNUSED,
+			     void **mech_data)
 {
   int *step;
 
@@ -160,7 +161,8 @@ _gsasl_securid_client_step (Gsasl_session * sctx,
 }
 
 void
-_gsasl_securid_client_finish (Gsasl_session * sctx, void *mech_data)
+_gsasl_securid_client_finish (Gsasl_session * sctx _GL_UNUSED,
+			      void *mech_data)
 {
   int *step = mech_data;
 
