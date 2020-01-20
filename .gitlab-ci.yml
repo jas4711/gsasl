@@ -1,0 +1,5 @@
+Debian GNU/Linux build:
+  before_script:
+    - make bootstrap
+  script:
+    - (make && make check) || (cat *.log test-suite.log; exit 1)
