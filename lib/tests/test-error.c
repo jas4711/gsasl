@@ -31,7 +31,7 @@ main (void)
   for (i = 0; i < (sizeof (errors) / sizeof (errors[0])); i++)
     if (errors[i].rc != i)
       {
-	printf ("%ld\n", i);
+	printf ("%i\n", errors[i].rc);
 	return EXIT_FAILURE;
       }
 

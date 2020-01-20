@@ -91,7 +91,8 @@ main (int argc, char *argv[])
     rc = digest_md5_parse_challenge (token, 0, &c);
     if (rc != 0)
       abort ();
-    printf ("qop %02x ciphers %02x: %s\n", c.qops, c.ciphers,
+    printf ("qop %02x ciphers %02x: %s\n",
+	    (unsigned) c.qops, (unsigned) c.ciphers,
 	    (c.qops == 5 && c.ciphers == 1) ? "PASS" : "FAILURE");
     tmp = digest_md5_print_challenge (&c);
     if (!tmp)
