@@ -1,6 +1,6 @@
 Debian GNU/Linux build:
   before_script:
-    - apt-get install -y -qq git-core autoconf automake libtool gettext cvs make
+    - apt-get install git-core autoconf automake libtool gettext make
     - apt-get install -y -qq texinfo texlive texlive-generic-recommended texlive-extra-utils
     - apt-get install -y -qq help2man gtk-doc-tools valgrind
     - apt-get install -y -qq dia libgnutls-dev gengetopt gperf liblasso3-dev
