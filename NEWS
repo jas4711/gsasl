@@ -8,6 +8,10 @@ SASL.  That include the manual, the command line tool, and self tests.
 
 * Version 1.9.2 (unreleased) [beta]
 
+** Build changes.
+Some more compiler warnings used and code fixed.  Improved ./configure
+diagnostics.
+
 * Version 1.9.1 (released 2020-01-14) [beta]
 
 ** gsasl: New --mkpasswd argument to prepare salted/hashed passwords.
