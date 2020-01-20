@@ -1,5 +1,9 @@
 Debian GNU/Linux build:
   before_script:
+    - apt-get install -y git-core autoconf automake libtool gettext cvs make
+    - apt-get install -y texinfo texlive texlive-generic-recommended texlive-extra-utils
+    - apt-get install -y help2man gtk-doc-tools valgrind
+    - apt-get install -y dia libgnutls-dev gengetopt gperf liblasso3-dev
     - make bootstrap CFGFLAGS="--enable-gcc-warnings --disable-silent-rules"
   script:
     - (make && make check) || (cat *.log test-suite.log; exit 1)
