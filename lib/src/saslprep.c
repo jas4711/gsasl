@@ -99,6 +99,8 @@ gsasl_saslprep (const char *in, Gsasl_saslprep_flags flags _GL_UNUSED,
   if (!*out)
     return GSASL_MALLOC_ERROR;
   strcpy (*out, in);
+
+  return GSASL_OK;
 }
 
 #endif
