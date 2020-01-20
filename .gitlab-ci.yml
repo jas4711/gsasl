@@ -1,4 +1,6 @@
 Debian GNU/Linux build:
+  tags:
+    - glr1
   before_script:
     - apt-get install -y git-core autoconf automake libtool gettext cvs make
     - apt-get install -y texinfo texlive texlive-generic-recommended texlive-extra-utils
