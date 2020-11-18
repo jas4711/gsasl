@@ -49,7 +49,7 @@ AM_CPPFLAGS = \
   -I.. -I$(srcdir)/.. \
   -I../gl -I$(srcdir)/../gl
 
-LDADD = libtests.a ../gl/libgl.la libtests.a $(LIBTESTS_LIBDEPS)
+LDADD = libtests.a ../gl/libgl.la libtests.a ../gl/libgl.la libtests.a $(LIBTESTS_LIBDEPS)
 
 libtests_a_SOURCES =
 libtests_a_LIBADD = $(gltests_LIBOBJS)
@@ -129,14 +129,6 @@ test_c_strncasecmp_LDADD = $(LDADD) $(LIB_SETLOCALE)
 EXTRA_DIST += test-c-strcase.sh test-c-strcasecmp.c test-c-strncasecmp.c macros.h
 
 ## end   gnulib module c-strcase-tests
-
-## begin gnulib module cloexec
-
-libtests_a_SOURCES += cloexec.c
-
-EXTRA_DIST += cloexec.h
-
-## end   gnulib module cloexec
 
 ## begin gnulib module cloexec-tests
 
@@ -224,52 +216,6 @@ EXTRA_DIST += test-errno.c
 
 ## end   gnulib module errno-tests
 
-## begin gnulib module fcntl
-
-
-EXTRA_DIST += fcntl.c
-
-EXTRA_libtests_a_SOURCES += fcntl.c
-
-## end   gnulib module fcntl
-
-## begin gnulib module fcntl-h
-
-BUILT_SOURCES += fcntl.h
-
-# We need the following in order to create <fcntl.h> when the system
-# doesn't have one that works with the given compiler.
-fcntl.h: fcntl.in.h $(top_builddir)/config.status $(CXXDEFS_H) $(ARG_NONNULL_H) $(WARN_ON_USE_H)
-	$(AM_V_GEN)rm -f $@-t $@ && \
-	{ echo '/* DO NOT EDIT! GENERATED AUTOMATICALLY! */'; \
-	  sed -e 's|@''GUARD_PREFIX''@|GL|g' \
-	      -e 's|@''INCLUDE_NEXT''@|$(INCLUDE_NEXT)|g' \
-	      -e 's|@''PRAGMA_SYSTEM_HEADER''@|@PRAGMA_SYSTEM_HEADER@|g' \
-	      -e 's|@''PRAGMA_COLUMNS''@|@PRAGMA_COLUMNS@|g' \
-	      -e 's|@''NEXT_FCNTL_H''@|$(NEXT_FCNTL_H)|g' \
-	      -e 's/@''GNULIB_CREAT''@/$(GNULIB_CREAT)/g' \
-	      -e 's/@''GNULIB_FCNTL''@/$(GNULIB_FCNTL)/g' \
-	      -e 's/@''GNULIB_NONBLOCKING''@/$(GNULIB_NONBLOCKING)/g' \
-	      -e 's/@''GNULIB_OPEN''@/$(GNULIB_OPEN)/g' \
-	      -e 's/@''GNULIB_OPENAT''@/$(GNULIB_OPENAT)/g' \
-	      -e 's|@''HAVE_FCNTL''@|$(HAVE_FCNTL)|g' \
-	      -e 's|@''HAVE_OPENAT''@|$(HAVE_OPENAT)|g' \
-	      -e 's|@''REPLACE_CREAT''@|$(REPLACE_CREAT)|g' \
-	      -e 's|@''REPLACE_FCNTL''@|$(REPLACE_FCNTL)|g' \
-	      -e 's|@''REPLACE_OPEN''@|$(REPLACE_OPEN)|g' \
-	      -e 's|@''REPLACE_OPENAT''@|$(REPLACE_OPENAT)|g' \
-	      -e '/definitions of _GL_FUNCDECL_RPL/r $(CXXDEFS_H)' \
-	      -e '/definition of _GL_ARG_NONNULL/r $(ARG_NONNULL_H)' \
-	      -e '/definition of _GL_WARN_ON_USE/r $(WARN_ON_USE_H)' \
-	      < $(srcdir)/fcntl.in.h; \
-	} > $@-t && \
-	mv $@-t $@
-MOSTLYCLEANFILES += fcntl.h fcntl.h-t
-
-EXTRA_DIST += fcntl.in.h
-
-## end   gnulib module fcntl-h
-
 ## begin gnulib module fcntl-h-tests
 
 TESTS += test-fcntl-h
@@ -311,13 +257,6 @@ EXTRA_DIST += test-fgetc.c signature.h macros.h
 
 ## end   gnulib module fgetc-tests
 
-## begin gnulib module filename
-
-
-EXTRA_DIST += filename.h
-
-## end   gnulib module filename
-
 ## begin gnulib module flexmember
 
 
@@ -332,6 +271,23 @@ check_PROGRAMS += test-float
 EXTRA_DIST += test-float.c macros.h
 
 ## end   gnulib module float-tests
+
+## begin gnulib module fopen-gnu-tests
+
+TESTS += test-fopen-gnu
+check_PROGRAMS += test-fopen-gnu
+EXTRA_DIST += test-fopen-gnu.c macros.h
+
+## end   gnulib module fopen-gnu-tests
+
+## begin gnulib module fopen-tests
+
+TESTS += test-fopen
+check_PROGRAMS += test-fopen
+
+EXTRA_DIST += test-fopen.h test-fopen.c signature.h macros.h
+
+## end   gnulib module fopen-tests
 
 ## begin gnulib module fpucw
 
@@ -423,15 +379,6 @@ MOSTLYCLEANFILES += test-getdelim.txt
 EXTRA_DIST += test-getdelim.c signature.h macros.h
 
 ## end   gnulib module getdelim-tests
-
-## begin gnulib module getdtablesize
-
-
-EXTRA_DIST += getdtablesize.c
-
-EXTRA_libtests_a_SOURCES += getdtablesize.c
-
-## end   gnulib module getdtablesize
 
 ## begin gnulib module getdtablesize-tests
 
@@ -702,7 +649,7 @@ test_once1_SOURCES = test-once.c
 test_once1_LDADD = $(LDADD) @LIBTHREAD@
 test_once2_SOURCES = test-once.c
 test_once2_LDADD = $(LDADD) @LIBMULTITHREAD@
-EXTRA_DIST += test-rwlock1.c test-lock.c test-once.c
+EXTRA_DIST += test-rwlock1.c test-lock.c test-once.c atomic-int-gnulib.h
 
 ## end   gnulib module lock-tests
 
@@ -730,14 +677,6 @@ check_PROGRAMS += test-lstat
 EXTRA_DIST += test-lstat.h test-lstat.c signature.h macros.h
 
 ## end   gnulib module lstat-tests
-
-## begin gnulib module malloca
-
-libtests_a_SOURCES += malloca.c
-
-EXTRA_DIST += malloca.h
-
-## end   gnulib module malloca
 
 ## begin gnulib module malloca-tests
 
@@ -827,15 +766,6 @@ check_PROGRAMS += test-netinet_in
 EXTRA_DIST += test-netinet_in.c
 
 ## end   gnulib module netinet_in-tests
-
-## begin gnulib module open
-
-
-EXTRA_DIST += open.c
-
-EXTRA_libtests_a_SOURCES += open.c
-
-## end   gnulib module open
 
 ## begin gnulib module open-tests
 
@@ -1345,15 +1275,6 @@ EXTRA_DIST += test-sockets.c
 
 ## end   gnulib module sockets-tests
 
-## begin gnulib module stat
-
-
-EXTRA_DIST += stat-w32.c stat-w32.h stat.c
-
-EXTRA_libtests_a_SOURCES += stat-w32.c stat.c
-
-## end   gnulib module stat
-
 ## begin gnulib module stat-tests
 
 TESTS += test-stat
@@ -1524,6 +1445,13 @@ EXTRA_DIST += test-init.sh
 libtests_a_SOURCES += glthread/thread.h glthread/thread.c
 
 ## end   gnulib module thread
+
+## begin gnulib module thread-optim
+
+
+EXTRA_DIST += thread-optim.h
+
+## end   gnulib module thread-optim
 
 ## begin gnulib module thread-tests
 

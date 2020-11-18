@@ -49,7 +49,7 @@ AM_CPPFLAGS = \
   -I.. -I$(srcdir)/.. \
   -I../gl -I$(srcdir)/../gl
 
-LDADD = libtests.a ../gl/libgl.la libtests.a $(LIBTESTS_LIBDEPS)
+LDADD = libtests.a ../gl/libgl.la libtests.a ../gl/libgl.la libtests.a $(LIBTESTS_LIBDEPS)
 
 libtests_a_SOURCES =
 libtests_a_LIBADD = $(gltests_LIBOBJS)
@@ -200,14 +200,6 @@ EXTRA_DIST += test-c-ctype.c macros.h
 
 ## end   gnulib module c-ctype-tests
 
-## begin gnulib module cloexec
-
-libtests_a_SOURCES += cloexec.c
-
-EXTRA_DIST += cloexec.h
-
-## end   gnulib module cloexec
-
 ## begin gnulib module cloexec-tests
 
 TESTS += test-cloexec
@@ -215,15 +207,6 @@ check_PROGRAMS += test-cloexec
 EXTRA_DIST += test-cloexec.c macros.h
 
 ## end   gnulib module cloexec-tests
-
-## begin gnulib module close
-
-
-EXTRA_DIST += close.c
-
-EXTRA_libtests_a_SOURCES += close.c
-
-## end   gnulib module close
 
 ## begin gnulib module close-tests
 
@@ -318,7 +301,7 @@ EXTRA_DIST += test-gc-sha256.c
 
 TESTS += test-gc
 check_PROGRAMS += test-gc
-test_gc_LDADD = $(LDADD) @LIB_CRYPTO@
+test_gc_LDADD = $(LDADD) @LIB_CRYPTO@ $(LIB_GC_RANDOM)
 EXTRA_DIST += test-gc.c
 
 ## end   gnulib module crypto/gc-tests
@@ -419,22 +402,6 @@ EXTRA_DIST += test-ctype.c
 
 ## end   gnulib module ctype-tests
 
-## begin gnulib module dosname
-
-
-EXTRA_DIST += dosname.h
-
-## end   gnulib module dosname
-
-## begin gnulib module dup2
-
-
-EXTRA_DIST += dup2.c
-
-EXTRA_libtests_a_SOURCES += dup2.c
-
-## end   gnulib module dup2
-
 ## begin gnulib module dup2-tests
 
 TESTS += test-dup2
@@ -461,52 +428,6 @@ EXTRA_DIST += test-errno.c
 
 ## end   gnulib module errno-tests
 
-## begin gnulib module fcntl
-
-
-EXTRA_DIST += fcntl.c
-
-EXTRA_libtests_a_SOURCES += fcntl.c
-
-## end   gnulib module fcntl
-
-## begin gnulib module fcntl-h
-
-BUILT_SOURCES += fcntl.h
-
-# We need the following in order to create <fcntl.h> when the system
-# doesn't have one that works with the given compiler.
-fcntl.h: fcntl.in.h $(top_builddir)/config.status $(CXXDEFS_H) $(ARG_NONNULL_H) $(WARN_ON_USE_H)
-	$(AM_V_GEN)rm -f $@-t $@ && \
-	{ echo '/* DO NOT EDIT! GENERATED AUTOMATICALLY! */'; \
-	  sed -e 's|@''GUARD_PREFIX''@|GL|g' \
-	      -e 's|@''INCLUDE_NEXT''@|$(INCLUDE_NEXT)|g' \
-	      -e 's|@''PRAGMA_SYSTEM_HEADER''@|@PRAGMA_SYSTEM_HEADER@|g' \
-	      -e 's|@''PRAGMA_COLUMNS''@|@PRAGMA_COLUMNS@|g' \
-	      -e 's|@''NEXT_FCNTL_H''@|$(NEXT_FCNTL_H)|g' \
-	      -e 's/@''GNULIB_CREAT''@/$(GNULIB_CREAT)/g' \
-	      -e 's/@''GNULIB_FCNTL''@/$(GNULIB_FCNTL)/g' \
-	      -e 's/@''GNULIB_NONBLOCKING''@/$(GNULIB_NONBLOCKING)/g' \
-	      -e 's/@''GNULIB_OPEN''@/$(GNULIB_OPEN)/g' \
-	      -e 's/@''GNULIB_OPENAT''@/$(GNULIB_OPENAT)/g' \
-	      -e 's|@''HAVE_FCNTL''@|$(HAVE_FCNTL)|g' \
-	      -e 's|@''HAVE_OPENAT''@|$(HAVE_OPENAT)|g' \
-	      -e 's|@''REPLACE_CREAT''@|$(REPLACE_CREAT)|g' \
-	      -e 's|@''REPLACE_FCNTL''@|$(REPLACE_FCNTL)|g' \
-	      -e 's|@''REPLACE_OPEN''@|$(REPLACE_OPEN)|g' \
-	      -e 's|@''REPLACE_OPENAT''@|$(REPLACE_OPENAT)|g' \
-	      -e '/definitions of _GL_FUNCDECL_RPL/r $(CXXDEFS_H)' \
-	      -e '/definition of _GL_ARG_NONNULL/r $(ARG_NONNULL_H)' \
-	      -e '/definition of _GL_WARN_ON_USE/r $(WARN_ON_USE_H)' \
-	      < $(srcdir)/fcntl.in.h; \
-	} > $@-t && \
-	mv $@-t $@
-MOSTLYCLEANFILES += fcntl.h fcntl.h-t
-
-EXTRA_DIST += fcntl.in.h
-
-## end   gnulib module fcntl-h
-
 ## begin gnulib module fcntl-h-tests
 
 TESTS += test-fcntl-h
@@ -522,14 +443,6 @@ check_PROGRAMS += test-fcntl
 EXTRA_DIST += test-fcntl.c signature.h macros.h
 
 ## end   gnulib module fcntl-tests
-
-## begin gnulib module fd-hook
-
-libtests_a_SOURCES += fd-hook.c
-
-EXTRA_DIST += fd-hook.h
-
-## end   gnulib module fd-hook
 
 ## begin gnulib module fdopen
 
@@ -564,13 +477,6 @@ check_PROGRAMS += test-fgetc
 EXTRA_DIST += test-fgetc.c signature.h macros.h
 
 ## end   gnulib module fgetc-tests
-
-## begin gnulib module filename
-
-
-EXTRA_DIST += filename.h
-
-## end   gnulib module filename
 
 ## begin gnulib module float-tests
 
@@ -714,15 +620,6 @@ MOSTLYCLEANFILES += test-getdelim.txt
 EXTRA_DIST += test-getdelim.c signature.h macros.h
 
 ## end   gnulib module getdelim-tests
-
-## begin gnulib module getdtablesize
-
-
-EXTRA_DIST += getdtablesize.c
-
-EXTRA_libtests_a_SOURCES += getdtablesize.c
-
-## end   gnulib module getdtablesize
 
 ## begin gnulib module getdtablesize-tests
 
@@ -894,15 +791,6 @@ EXTRA_DIST += test-listen.c signature.h macros.h
 
 ## end   gnulib module listen-tests
 
-## begin gnulib module localtime-buffer
-
-
-EXTRA_DIST += localtime-buffer.c localtime-buffer.h
-
-EXTRA_libtests_a_SOURCES += localtime-buffer.c
-
-## end   gnulib module localtime-buffer
-
 ## begin gnulib module lock
 
 libtests_a_SOURCES += glthread/lock.h glthread/lock.c
@@ -919,7 +807,7 @@ test_once1_SOURCES = test-once.c
 test_once1_LDADD = $(LDADD) @LIBTHREAD@
 test_once2_SOURCES = test-once.c
 test_once2_LDADD = $(LDADD) @LIBMULTITHREAD@
-EXTRA_DIST += test-rwlock1.c test-lock.c test-once.c
+EXTRA_DIST += test-rwlock1.c test-lock.c test-once.c atomic-int-gnulib.h
 
 ## end   gnulib module lock-tests
 
@@ -956,14 +844,6 @@ EXTRA_DIST += malloc.c
 EXTRA_libtests_a_SOURCES += malloc.c
 
 ## end   gnulib module malloc-posix
-
-## begin gnulib module malloca
-
-libtests_a_SOURCES += malloca.c
-
-EXTRA_DIST += malloca.h
-
-## end   gnulib module malloca
 
 ## begin gnulib module malloca-tests
 
@@ -1047,15 +927,6 @@ check_PROGRAMS += test-netinet_in
 EXTRA_DIST += test-netinet_in.c
 
 ## end   gnulib module netinet_in-tests
-
-## begin gnulib module open
-
-
-EXTRA_DIST += open.c
-
-EXTRA_libtests_a_SOURCES += open.c
-
-## end   gnulib module open
 
 ## begin gnulib module open-tests
 
@@ -1595,15 +1466,6 @@ EXTRA_DIST += test-sockets.c
 
 ## end   gnulib module sockets-tests
 
-## begin gnulib module stat
-
-
-EXTRA_DIST += stat-w32.c stat-w32.h stat.c
-
-EXTRA_libtests_a_SOURCES += stat-w32.c stat.c
-
-## end   gnulib module stat
-
 ## begin gnulib module stat-tests
 
 TESTS += test-stat
@@ -1678,6 +1540,7 @@ stdlib.h: stdlib.in.h $(top_builddir)/config.status $(CXXDEFS_H) \
 	      -e 's|@''PRAGMA_COLUMNS''@|@PRAGMA_COLUMNS@|g' \
 	      -e 's|@''NEXT_STDLIB_H''@|$(NEXT_STDLIB_H)|g' \
 	      -e 's/@''GNULIB__EXIT''@/$(GNULIB__EXIT)/g' \
+	      -e 's/@''GNULIB_ALIGNED_ALLOC''@/$(GNULIB_ALIGNED_ALLOC)/g' \
 	      -e 's/@''GNULIB_ATOLL''@/$(GNULIB_ATOLL)/g' \
 	      -e 's/@''GNULIB_CALLOC_POSIX''@/$(GNULIB_CALLOC_POSIX)/g' \
 	      -e 's/@''GNULIB_CANONICALIZE_FILE_NAME''@/$(GNULIB_CANONICALIZE_FILE_NAME)/g' \
@@ -1691,6 +1554,7 @@ stdlib.h: stdlib.in.h $(top_builddir)/config.status $(CXXDEFS_H) \
 	      -e 's/@''GNULIB_MKOSTEMPS''@/$(GNULIB_MKOSTEMPS)/g' \
 	      -e 's/@''GNULIB_MKSTEMP''@/$(GNULIB_MKSTEMP)/g' \
 	      -e 's/@''GNULIB_MKSTEMPS''@/$(GNULIB_MKSTEMPS)/g' \
+	      -e 's/@''GNULIB_POSIX_MEMALIGN''@/$(GNULIB_POSIX_MEMALIGN)/g' \
 	      -e 's/@''GNULIB_POSIX_OPENPT''@/$(GNULIB_POSIX_OPENPT)/g' \
 	      -e 's/@''GNULIB_PTSNAME''@/$(GNULIB_PTSNAME)/g' \
 	      -e 's/@''GNULIB_PTSNAME_R''@/$(GNULIB_PTSNAME_R)/g' \
@@ -1714,6 +1578,7 @@ stdlib.h: stdlib.in.h $(top_builddir)/config.status $(CXXDEFS_H) \
 	      -e 's/@''GNULIB_WCTOMB''@/$(GNULIB_WCTOMB)/g' \
 	      < $(srcdir)/stdlib.in.h | \
 	  sed -e 's|@''HAVE__EXIT''@|$(HAVE__EXIT)|g' \
+	      -e 's|@''HAVE_ALIGNED_ALLOC''@|$(HAVE_ALIGNED_ALLOC)|g' \
 	      -e 's|@''HAVE_ATOLL''@|$(HAVE_ATOLL)|g' \
 	      -e 's|@''HAVE_CANONICALIZE_FILE_NAME''@|$(HAVE_CANONICALIZE_FILE_NAME)|g' \
 	      -e 's|@''HAVE_DECL_GETLOADAVG''@|$(HAVE_DECL_GETLOADAVG)|g' \
@@ -1727,6 +1592,7 @@ stdlib.h: stdlib.in.h $(top_builddir)/config.status $(CXXDEFS_H) \
 	      -e 's|@''HAVE_MKOSTEMPS''@|$(HAVE_MKOSTEMPS)|g' \
 	      -e 's|@''HAVE_MKSTEMP''@|$(HAVE_MKSTEMP)|g' \
 	      -e 's|@''HAVE_MKSTEMPS''@|$(HAVE_MKSTEMPS)|g' \
+	      -e 's|@''HAVE_POSIX_MEMALIGN''@|$(HAVE_POSIX_MEMALIGN)|g' \
 	      -e 's|@''HAVE_POSIX_OPENPT''@|$(HAVE_POSIX_OPENPT)|g' \
 	      -e 's|@''HAVE_PTSNAME''@|$(HAVE_PTSNAME)|g' \
 	      -e 's|@''HAVE_PTSNAME_R''@|$(HAVE_PTSNAME_R)|g' \
@@ -1749,12 +1615,14 @@ stdlib.h: stdlib.in.h $(top_builddir)/config.status $(CXXDEFS_H) \
 	      -e 's|@''HAVE_SYS_LOADAVG_H''@|$(HAVE_SYS_LOADAVG_H)|g' \
 	      -e 's|@''HAVE_UNLOCKPT''@|$(HAVE_UNLOCKPT)|g' \
 	      -e 's|@''HAVE_DECL_UNSETENV''@|$(HAVE_DECL_UNSETENV)|g' \
+	      -e 's|@''REPLACE_ALIGNED_ALLOC''@|$(REPLACE_ALIGNED_ALLOC)|g' \
 	      -e 's|@''REPLACE_CALLOC''@|$(REPLACE_CALLOC)|g' \
 	      -e 's|@''REPLACE_CANONICALIZE_FILE_NAME''@|$(REPLACE_CANONICALIZE_FILE_NAME)|g' \
 	      -e 's|@''REPLACE_INITSTATE''@|$(REPLACE_INITSTATE)|g' \
 	      -e 's|@''REPLACE_MALLOC''@|$(REPLACE_MALLOC)|g' \
 	      -e 's|@''REPLACE_MBTOWC''@|$(REPLACE_MBTOWC)|g' \
 	      -e 's|@''REPLACE_MKSTEMP''@|$(REPLACE_MKSTEMP)|g' \
+	      -e 's|@''REPLACE_POSIX_MEMALIGN''@|$(REPLACE_POSIX_MEMALIGN)|g' \
 	      -e 's|@''REPLACE_PTSNAME''@|$(REPLACE_PTSNAME)|g' \
 	      -e 's|@''REPLACE_PTSNAME_R''@|$(REPLACE_PTSNAME_R)|g' \
 	      -e 's|@''REPLACE_PUTENV''@|$(REPLACE_PUTENV)|g' \
@@ -2244,13 +2112,6 @@ EXTRA_DIST += windows-tls.c windows-tls.h
 EXTRA_libtests_a_SOURCES += windows-tls.c
 
 ## end   gnulib module windows-tls
-
-## begin gnulib module xalloc-oversized
-
-
-EXTRA_DIST += xalloc-oversized.h
-
-## end   gnulib module xalloc-oversized
 
 ## begin gnulib module yield
 
