@@ -132,6 +132,8 @@ gl/c-strcasecmp.o
 gl/c-strncasecmp.lo
 gl/c-strncasecmp.o
 gl/charset.alias
+gl/cloexec.lo
+gl/cloexec.o
 gl/close-hook.lo
 gl/close-hook.o
 gl/configmake.h
@@ -141,6 +143,9 @@ gl/exitfail.lo
 gl/exitfail.o
 gl/fclose.lo
 gl/fclose.o
+gl/fcntl.h
+gl/fcntl.lo
+gl/fcntl.o
 gl/fd-hook.lo
 gl/fd-hook.o
 gl/fflush.lo
@@ -184,6 +189,8 @@ gl/limits.h
 gl/localcharset.lo
 gl/localcharset.o
 gl/locale.h
+gl/malloca.lo
+gl/malloca.o
 gl/mbrtowc.lo
 gl/mbrtowc.o
 gl/mbtowc-lock.lo
@@ -993,6 +1000,13 @@ lib/gl/base64.lo
 lib/gl/base64.o
 lib/gl/c-ctype.lo
 lib/gl/c-ctype.o
+lib/gl/cloexec.lo
+lib/gl/cloexec.o
+lib/gl/fcntl.h
+lib/gl/fcntl.lo
+lib/gl/fcntl.o
+lib/gl/fd-hook.lo
+lib/gl/fd-hook.o
 lib/gl/fflush.lo
 lib/gl/fflush.o
 lib/gl/fpurge.lo
@@ -1020,6 +1034,8 @@ lib/gl/hmac-sha256.o
 lib/gl/inttypes.h
 lib/gl/libgl.la
 lib/gl/limits.h
+lib/gl/malloca.lo
+lib/gl/malloca.o
 lib/gl/md5.lo
 lib/gl/md5.o
 lib/gl/memmem.lo
