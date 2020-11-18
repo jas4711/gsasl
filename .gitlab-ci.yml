@@ -1,12 +1,23 @@
-Debian GNU/Linux build:
-  tags:
-    - glr1
+stages:
+ - build
+ - test
+ - deploy
+
+Debian:
+  image: debian:latest
+  stage: build
   before_script:
-    - apt-get update
-    - apt-get install -y git autoconf automake libtool gettext cvs make
-    - apt-get install -y texinfo texlive texlive-generic-recommended texlive-extra-utils texlive-font-utils
-    - apt-get install -y help2man gtk-doc-tools valgrind
-    - apt-get install -y dia libgnutls28-dev gengetopt gperf
-    - make bootstrap CFGFLAGS="--enable-gcc-warnings --disable-silent-rules"
+    - apt-get update -qq
+    - env DEBIAN_FRONTEND=noninteractive apt-get install -y -qq git autoconf automake libtool gettext cvs make texinfo texlive texlive-generic-recommended texlive-extra-utils texlive-font-utils help2man gtk-doc-tools valgrind dia libgnutls28-dev gengetopt gperf
   script:
-    - (make && make check) || (cat *.log test-suite.log; exit 1)
+    - make autoreconf
+    - ./configure --enable-gcc-warnings --disable-silent-rules --enable-gtk-doc --enable-gtk-doc-pdf
+    - make V=1
+    - make syntax-check
+    - make check V=1 || (find . -name test-suite.log -exec cat {} +; exit 1)
+    - make dist
+    - sha224sum gsasl-*.tar.gz
+  artifacts:
+    expire_in: 2 weeks
+    paths:
+      - gsasl-*.tar.gz
