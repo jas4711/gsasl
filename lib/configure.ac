@@ -19,7 +19,7 @@ dnl Process this file with autoconf to produce a configure script.
 # Software Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston,
 # MA 02110-1301, USA.
 
-AC_PREREQ(2.63)
+AC_PREREQ([2.64])
 AC_INIT([libgsasl], [1.9.2], [bug-gsasl@gnu.org])
 AC_CONFIG_AUX_DIR([build-aux])
 AC_CONFIG_MACRO_DIR([m4])
