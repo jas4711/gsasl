@@ -13,7 +13,6 @@ Debian:
     - make autoreconf
     - ./configure --enable-gcc-warnings --disable-silent-rules --enable-gtk-doc --enable-gtk-doc-pdf
     - make
-    - make -k syntax-check
     - make check || (find . -name test-suite.log -exec cat {} +; exit 1)
     - make dist
     - sha224sum gsasl-*.tar.gz
