@@ -185,8 +185,7 @@ prepare (Gsasl_session * sctx, _gsasl_gs2_client_state * state)
    just copy the buffer.  Return GSASL_OK on success or an error
    code.  */
 static int
-token2output (Gsasl_session * sctx,
-	      _gsasl_gs2_client_state * state,
+token2output (_gsasl_gs2_client_state * state,
 	      const gss_buffer_t token, char **output, size_t *output_len)
 {
   OM_uint32 maj_stat, min_stat;
@@ -289,7 +288,7 @@ _gsasl_gs2_client_step (Gsasl_session * sctx,
   if (maj_stat != GSS_S_COMPLETE && maj_stat != GSS_S_CONTINUE_NEEDED)
     return GSASL_GSSAPI_INIT_SEC_CONTEXT_ERROR;
 
-  res = token2output (sctx, state, &state->token, output, output_len);
+  res = token2output (state, &state->token, output, output_len);
   if (res != GSASL_OK)
     return res;
 
@@ -315,18 +314,19 @@ void
 _gsasl_gs2_client_finish (Gsasl_session * sctx, void *mech_data)
 {
   _gsasl_gs2_client_state *state = mech_data;
-  OM_uint32 maj_stat, min_stat;
+  OM_uint32 min_stat;
+  (void)sctx;
 
   if (!state)
     return;
 
   if (state->token.value != NULL)
-    maj_stat = gss_release_buffer (&min_stat, &state->token);
+    gss_release_buffer (&min_stat, &state->token);
   if (state->service != GSS_C_NO_NAME)
-    maj_stat = gss_release_name (&min_stat, &state->service);
+    gss_release_name (&min_stat, &state->service);
   if (state->context != GSS_C_NO_CONTEXT)
-    maj_stat = gss_delete_sec_context (&min_stat, &state->context,
-				       GSS_C_NO_BUFFER);
+    gss_delete_sec_context (&min_stat, &state->context,
+			    GSS_C_NO_BUFFER);
 
   free (state->cb.application_data.value);
   free (state);

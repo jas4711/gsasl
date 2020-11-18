@@ -33,6 +33,9 @@
 /* Get memcpy, strlen. */
 #include <string.h>
 
+/* Get FALLTHROUGH. */
+#include <attribute.h>
+
 #include "gss-extra.h"
 #include "gs2helper.h"
 #include "mechtools.h"
@@ -180,7 +183,7 @@ _gsasl_gs2_server_step (Gsasl_session * sctx,
 
   *output = NULL;
   *output_len = 0;
-  bufdesc1.value = input;
+  bufdesc1.value = (char*) input;
   bufdesc1.length = input_len;
 
   switch (state->step)
@@ -192,7 +195,7 @@ _gsasl_gs2_server_step (Gsasl_session * sctx,
 	  break;
 	}
       state->step++;
-      /* fall through */
+      FALLTHROUGH; /* fall through */
 
     case 1:
       {
@@ -210,10 +213,10 @@ _gsasl_gs2_server_step (Gsasl_session * sctx,
 	    free (authzid);
 	  }
 
-	state->cb.application_data.value = input;
+	state->cb.application_data.value = (char*) input;
 	state->cb.application_data.length = headerlen;
 
-	bufdesc2.value = input + headerlen;
+	bufdesc2.value = (char*) input + headerlen;
 	bufdesc2.length = input_len - headerlen;
 
 	maj_stat = gss_encapsulate_token (&bufdesc2, state->mech_oid,
@@ -224,7 +227,7 @@ _gsasl_gs2_server_step (Gsasl_session * sctx,
 	free_bufdesc1 = 1;
       }
       state->step++;
-      /* fall through */
+      FALLTHROUGH; /* fall through */
 
     case 2:
       if (state->client)
@@ -297,6 +300,7 @@ _gsasl_gs2_server_finish (Gsasl_session * sctx, void *mech_data)
 {
   _Gsasl_gs2_server_state *state = mech_data;
   OM_uint32 min_stat;
+  (void) sctx;
 
   if (!state)
     return;
