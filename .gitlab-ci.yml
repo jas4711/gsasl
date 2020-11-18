@@ -8,13 +8,13 @@ Debian:
   stage: build
   before_script:
     - apt-get update -qq
-    - env DEBIAN_FRONTEND=noninteractive apt-get install -y -qq git autoconf automake libtool gettext cvs make texinfo texlive texlive-generic-recommended texlive-extra-utils texlive-font-utils help2man gtk-doc-tools dblatex valgrind dia libidn11-dev libntlm0-dev libgnutls28-dev libkrb5-dev gengetopt gperf
+    - env DEBIAN_FRONTEND=noninteractive apt-get install -y -qq git autoconf automake libtool gettext cvs make texinfo texlive texlive-generic-recommended texlive-extra-utils texlive-font-utils help2man gtk-doc-tools libglib2.0-dev dblatex valgrind dia libidn11-dev libntlm0-dev libgnutls28-dev libkrb5-dev gengetopt gperf
   script:
     - make autoreconf
     - ./configure --enable-gcc-warnings --disable-silent-rules --enable-gtk-doc --enable-gtk-doc-pdf
-    - make V=1
-    - make syntax-check
-    - make check V=1 || (find . -name test-suite.log -exec cat {} +; exit 1)
+    - make
+    - make -k syntax-check
+    - make check || (find . -name test-suite.log -exec cat {} +; exit 1)
     - make dist
     - sha224sum gsasl-*.tar.gz
   artifacts:
