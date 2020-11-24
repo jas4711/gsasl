@@ -47,16 +47,16 @@
  *
  * \section abstraction Logical overview
  *
- * \image html abstraction.png
- * \image latex abstraction.eps "Logical overview" width=10cm
+ * \image html gsasl-abstraction.png
+ * \image latex gsasl-abstraction.eps "Logical overview" width=10cm
  *
  * \section controlflow Control flow in application using the library
  *
- * \image html controlflow.png
- * \image latex controlflow.eps "Control flow" width=15cm
+ * \image html gsasl-controlflow.png
+ * \image latex gsasl-controlflow.eps "Control flow" width=15cm
 
- * \image html controlflow2.png
- * \image latex controlflow2.eps "Control flow" width=16cm
+ * \image html gsasl-controlflow2.png
+ * \image latex gsasl-controlflow2.eps "Control flow" width=16cm
  *
  * \section examples Examples
  *

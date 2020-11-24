@@ -197,7 +197,7 @@ applications and the library through the official API is illustrated
 below.
 
 @float Illustration,fig:abstraction
-@image{abstraction,10cm,5cm}
+@image{gsasl-abstraction,10cm,5cm}
 
 @caption{Logical overview showing how applications use authentication
 mechanisms through an abstract interface.}
@@ -1055,7 +1055,7 @@ following steps: initialize the library, optionally specify the
 callback, perform the authentication, and finally clean up.  The
 following image illustrates this.
 
-@image{controlflow,15cm,5cm}
+@image{gsasl-controlflow,15cm,5cm}
 
 The third step may look complex, but for a simple client it will
 actually not involve any code.  If your application needs to handle
@@ -1120,7 +1120,7 @@ protocol profile for SMTP is described in RFC 2554.
 
 The following image illustrates the steps we have been talking about.
 
-@image{controlflow2,16cm,12cm}
+@image{gsasl-controlflow2,16cm,12cm}
 
 We will now show the implementation of the @code{client} function used
 before.

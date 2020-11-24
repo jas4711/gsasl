@@ -21,7 +21,7 @@ SUBDIRS += reference
 endif
 
 EXTRA_DIST = gdoc \
-	controlflow.dia controlflow2.dia abstraction.dia \
+	gsasl-controlflow.dia gsasl-controlflow2.dia gsasl-abstraction.dia \
 	gsasl.html gsasl.ps gsasl.pdf texinfo.css \
 	doxygen/Doxyfile.in doxygen/gdoc2doxygen
 
@@ -36,9 +36,9 @@ EXTRA_DIST = gdoc \
 
 info_TEXINFOS = gsasl.texi
 gsasl_TEXINFOS = fdl-1.3.texi $(gdoc_TEXINFOS) \
-	controlflow.eps controlflow.png controlflow.pdf \
-	controlflow2.eps controlflow2.png controlflow2.pdf \
-	abstraction.eps abstraction.png abstraction.pdf \
+	gsasl-controlflow.eps gsasl-controlflow.png gsasl-controlflow.pdf \
+	gsasl-controlflow2.eps gsasl-controlflow2.png gsasl-controlflow2.pdf \
+	gsasl-abstraction.eps gsasl-abstraction.png gsasl-abstraction.pdf \
 	gsasl-callback-password.texi gsasl-callback-authorization.texi \
 	gsasl-callback-authentication.texi gsasl-callback-validate.texi \
 	gsasl-callback-retrieve.texi gsasl-callback-cram-md5.texi \

@@ -76,7 +76,7 @@ mechanism interact is shown in <xref linkend="abstraction"/>.
     <figure id="abstraction">
       <title>Illustration of separation between application and
 	individual mechanism</title>
-      <graphic fileref="abstraction.png" format="PNG"></graphic>
+      <graphic fileref="gsasl-abstraction.png" format="PNG"></graphic>
     </figure>
 
     <para>
@@ -89,12 +89,12 @@ mechanism interact is shown in <xref linkend="abstraction"/>.
 
     <figure id="controlflow">
       <title>High-level control flow of SASL application</title>
-      <graphic fileref="controlflow.png" format="PNG"></graphic>
+      <graphic fileref="gsasl-controlflow.png" format="PNG"></graphic>
     </figure>
 
     <figure id="controlflow2">
       <title>Low-level control flow of SASL application</title>
-      <graphic fileref="controlflow2.png" format="PNG"></graphic>
+      <graphic fileref="gsasl-controlflow2.png" format="PNG"></graphic>
     </figure>
 
     <xi:include href="xml/gsasl.xml"/>
