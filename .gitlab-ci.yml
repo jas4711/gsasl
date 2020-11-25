@@ -8,7 +8,7 @@ Debian:
   stage: build
   before_script:
     - apt-get update -qq
-    - env DEBIAN_FRONTEND=noninteractive apt-get install -y -qq git autoconf automake libtool gettext cvs make texinfo texlive texlive-generic-recommended texlive-extra-utils texlive-font-utils help2man gtk-doc-tools libglib2.0-dev dblatex valgrind libidn11-dev libntlm0-dev libgnutls28-dev libkrb5-dev liblasso3-dev gengetopt gperf
+    - env DEBIAN_FRONTEND=noninteractive apt-get install -y -qq git autoconf automake libtool gettext cvs make texinfo texlive texlive-generic-recommended texlive-extra-utils texlive-font-utils help2man gtk-doc-tools libglib2.0-dev dblatex valgrind libidn11-dev libntlm0-dev libgnutls28-dev libkrb5-dev gengetopt gperf
   script:
     - make autoreconf
     - ./configure --enable-gcc-warnings --disable-silent-rules --enable-gtk-doc --enable-gtk-doc-pdf
@@ -35,7 +35,8 @@ Ubuntu-coverage:
     - make check || (find . -name test-suite.log -exec cat {} +; exit 1)
     - mkdir coverage
     - lcov --directory . --output-file coverage/gsasl.info --capture
-    - genhtml --output-directory coverage coverage/gsasl.info --highlight --frames --legend --title "GNU SASL"
+    - lcov --remove coverage/gsasl.info '/usr/include/*' '*/gl/*' '*/gltests/*' '*/lib/gl/*' '*/lib/gltests/*' -o coverage/gsasl_filtered.info
+    - genhtml --output-directory coverage coverage/gsasl_filtered.info --highlight --frames --legend --title "GNU SASL"
   artifacts:
     when: on_success
     paths:
