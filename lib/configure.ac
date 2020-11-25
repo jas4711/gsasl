@@ -433,7 +433,7 @@ AC_ARG_ENABLE([gcc-warnings],
 
 if test "$gl_gcc_warnings" = yes; then
   gl_WARN_ADD([-Werror], [WERROR_CFLAGS])
-  gl_WARN_ADD([-Wframe-larger-than=250], [WSTACK_CFLAGS])
+  gl_WARN_ADD([-Wframe-larger-than=800], [WSTACK_CFLAGS])
   gl_WARN_ADD([-Wno-deprecated-declarations], [WOBSOLETE_CFLAGS])
   gl_WARN_ADD([-Wno-unused-parameter], [WOBSOLETE_CFLAGS])
 
