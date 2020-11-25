@@ -26,7 +26,7 @@ Ubuntu-coverage:
   stage: build
   before_script:
     - apt-get update -qq
-    - env DEBIAN_FRONTEND=noninteractive apt-get install -y -qq git autoconf automake libtool gettext make texinfo help2man gtk-doc-tools libglib2.0-dev valgrind libidn11-dev libntlm0-dev libgnutls28-dev libkrb5-dev gengetopt gperf
+    - env DEBIAN_FRONTEND=noninteractive apt-get install -y -qq git autoconf automake libtool gettext make texinfo texlive-font-utils help2man gtk-doc-tools libglib2.0-dev valgrind libidn11-dev libntlm0-dev libgnutls28-dev libkrb5-dev gengetopt gperf
     - env DEBIAN_FRONTEND=noninteractive apt-get install -y -qq lcov
   script:
     - make autoreconf
@@ -47,7 +47,7 @@ Fedora-clanganalyzer:
   image: fedora:latest
   stage: build
   before_script:
-  - yum -y install git make diffutils file hostname autoconf automake libtool texinfo texlive-epstopdf help2man gtk-doc gengetopt gperf
+  - yum -y install git make diffutils file hostname autoconf automake libtool texinfo texlive texlive-epstopdf help2man gtk-doc gengetopt gperf
   - yum -y install clang clang-analyzer
   script:
   - make autoreconf
