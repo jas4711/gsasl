@@ -8,7 +8,7 @@ Debian:
   stage: build
   before_script:
     - apt-get update -qq
-    - env DEBIAN_FRONTEND=noninteractive apt-get install -y -qq git autoconf automake libtool gettext cvs make texinfo texlive texlive-generic-recommended texlive-extra-utils texlive-font-utils help2man gtk-doc-tools libglib2.0-dev dblatex valgrind dia libidn11-dev libntlm0-dev libgnutls28-dev libkrb5-dev gengetopt gperf
+    - env DEBIAN_FRONTEND=noninteractive apt-get install -y -qq git autoconf automake libtool gettext cvs make texinfo texlive texlive-generic-recommended texlive-extra-utils texlive-font-utils help2man gtk-doc-tools libglib2.0-dev dblatex valgrind libidn11-dev libntlm0-dev libgnutls28-dev libkrb5-dev liblasso3-dev gengetopt gperf
   script:
     - make autoreconf
     - ./configure --enable-gcc-warnings --disable-silent-rules --enable-gtk-doc --enable-gtk-doc-pdf
@@ -30,7 +30,7 @@ Ubuntu-coverage:
     - env DEBIAN_FRONTEND=noninteractive apt-get install -y -qq lcov
   script:
     - make autoreconf
-    - env gl_cv_warn_c__Wframe_larger_than_250=no ./configure --enable-gcc-warnings --disable-silent-rules --enable-valgrind-tests CFLAGS="-g --coverage" || (cat config.log; exit 1)
+    - ./configure --enable-gcc-warnings --disable-silent-rules --enable-valgrind-tests CFLAGS="-g --coverage" || (cat config.log; exit 1)
     - lcov --directory . --zerocounters
     - make check || (find . -name test-suite.log -exec cat {} +; exit 1)
     - mkdir coverage
@@ -79,7 +79,7 @@ CentOS:
   stage: test
   needs: [Debian]
   before_script:
-  - yum -y install make gcc
+  - yum -y install make gcc diffutils
   script:
   - tar xfa gsasl-*.tar.gz
   - cd `ls -d gsasl-* | grep -v tar.gz`
