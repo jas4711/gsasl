@@ -47,7 +47,7 @@ Fedora-clanganalyzer:
   image: fedora:latest
   stage: build
   before_script:
-  - yum -y install git make diffutils file hostname autoconf automake libtool texinfo help2man gtk-doc gengetopt gperf
+  - yum -y install git make diffutils file hostname autoconf automake libtool texinfo texlive-epstopdf help2man gtk-doc gengetopt gperf
   - yum -y install clang clang-analyzer
   script:
   - make autoreconf
