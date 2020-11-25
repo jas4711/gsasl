@@ -129,7 +129,10 @@ doit (void)
 
       last_server_challenge = malloc (s1len);
       if (!last_server_challenge)
-	fail ("malloc() failure (%lu)\n", (unsigned long) s1len);
+	{
+	  fail ("malloc() failure (%lu)\n", (unsigned long) s1len);
+	  return;
+	}
       memcpy (last_server_challenge, s1, s1len);
       last_server_challenge_len = s1len;
 
