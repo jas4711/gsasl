@@ -20,3 +20,56 @@ Debian:
     expire_in: 2 weeks
     paths:
       - gsasl-*.tar.gz
+
+Ubuntu-coverage:
+  image: ubuntu:devel
+  stage: build
+  before_script:
+    - apt-get update -qq
+    - env DEBIAN_FRONTEND=noninteractive apt-get install -y -qq git autoconf automake libtool gettext make texinfo help2man gtk-doc-tools libglib2.0-dev valgrind libidn11-dev libntlm0-dev libgnutls28-dev libkrb5-dev gengetopt gperf
+    - env DEBIAN_FRONTEND=noninteractive apt-get install -y -qq lcov
+  script:
+    - make autoreconf
+    - ./configure --enable-gcc-warnings --disable-silent-rules --enable-valgrind-tests CFLAGS="-g --coverage" || (cat config.log; exit 1)
+    - lcov --directory . --zerocounters
+    - make check || (find . -name test-suite.log -exec cat {} +; exit 1)
+    - mkdir coverage
+    - lcov --directory . --output-file coverage/gsasl.info --capture
+    - genhtml --output-directory coverage coverage/gsasl.info --highlight --frames --legend --title "GNU SASL"
+  artifacts:
+    when: on_success
+    paths:
+      - coverage
+  only:
+    - master
+
+Fedora-clanganalyzer:
+  image: fedora:latest
+  stage: build
+  before_script:
+  - yum -y install git make autoconf automake libtool help2man gtk-doc gengetopt
+  - yum -y install clang clang-analyzer
+  script:
+  - make autoreconf
+  - scan-build ./configure --disable-silent-rules || (cat config.log; exit 1)
+  - scan-build -o clang-analyzer make V=1
+  artifacts:
+    when: on_success
+    paths:
+      - clang-analyzer
+  only:
+    - master
+
+pages:
+  stage: deploy
+  needs: ["Ubuntu-coverage", "Fedora-clanganalyzer"]
+  script:
+    - mkdir public
+    - mv coverage/ public/
+    - mv clang-analyzer/* public/clang-analyzer
+  artifacts:
+    paths:
+    - public
+    expire_in: 30 days
+  only:
+  - master
