@@ -30,7 +30,7 @@ Ubuntu-coverage:
     - env DEBIAN_FRONTEND=noninteractive apt-get install -y -qq lcov
   script:
     - make autoreconf
-    - ./configure --enable-gcc-warnings --disable-silent-rules --enable-valgrind-tests CFLAGS="-g --coverage" || (cat config.log; exit 1)
+    - env gl_cv_warn_c__Wframe_larger_than_250=no ./configure --enable-gcc-warnings --disable-silent-rules --enable-valgrind-tests CFLAGS="-g --coverage" || (cat config.log; exit 1)
     - lcov --directory . --zerocounters
     - make check || (find . -name test-suite.log -exec cat {} +; exit 1)
     - mkdir coverage
@@ -47,7 +47,7 @@ Fedora-clanganalyzer:
   image: fedora:latest
   stage: build
   before_script:
-  - yum -y install git make autoconf automake libtool help2man gtk-doc gengetopt
+  - yum -y install git make diffutils file autoconf automake libtool help2man gtk-doc gengetopt gperf
   - yum -y install clang clang-analyzer
   script:
   - make autoreconf
@@ -73,3 +73,43 @@ pages:
     expire_in: 30 days
   only:
   - master
+
+CentOS:
+  image: centos:latest
+  stage: test
+  needs: [Debian]
+  before_script:
+  - yum -y install make gcc
+  script:
+  - tar xfa gsasl-*.tar.gz
+  - cd `ls -d gsasl-* | grep -v tar.gz`
+  - ./configure --enable-gcc-warnings || (cat config.log; exit 1)
+  - make check V=1 || (find . -name test-suite.log -exec cat {} +; exit 1)
+
+Alpine:
+  image: alpine:latest
+  stage: test
+  needs: [Debian]
+  before_script:
+  - echo "ipv6" >> /etc/modules
+  - apk update
+  - apk add build-base
+  script:
+  - tar xfz gsasl-*.tar.gz
+  - cd `ls -d gsasl-* | grep -v tar.gz`
+  - ./configure --enable-gcc-warnings || (cat config.log; exit 1)
+  - make check V=1 || (find . -name test-suite.log -exec cat {} +; exit 1)
+
+ArchLinux:
+  image: archlinux:latest
+  stage: test
+  needs: [Debian]
+  before_script:
+  - pacman -Sy --noconfirm make gcc
+  script:
+  - tar xfz gsasl-*.tar.gz
+  - cd `ls -d gsasl-* | grep -v tar.gz`
+  - mkdir b
+  - cd b
+  - ../configure --enable-gcc-warnings || (cat config.log; exit 1)
+  - make check V=1 || (find . -name test-suite.log -exec cat {} +; exit 1)
