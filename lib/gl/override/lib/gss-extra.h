@@ -1,5 +1,5 @@
 /* gss-extra.h --- Provide GSS-API symbols when missing from library.
- * Copyright (C) 2010  Simon Josefsson
+ * Copyright (C) 2010, 2020  Simon Josefsson
  *
  * This file is part of GNU SASL Library.
  *
@@ -30,6 +30,8 @@
 # include <gssapi.h>
 #elif HAVE_GSSAPI_GSSAPI_H
 # include <gssapi/gssapi.h>
+#elif HAVE_GSSAPI_GSSAPI_EXT_H
+# include <gssapi/gssapi_ext.h>
 #endif
 
 #ifndef HAVE_GSS_OID_EQUAL

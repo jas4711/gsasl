@@ -20,7 +20,7 @@ AC_DEFUN([sj_GSS_EXTRA],
     AC_CHECK_FUNCS([gss_oid_equal])
     AC_CHECK_FUNCS([gss_inquire_mech_for_saslname])
     if test "$gssapi_impl" != "gss"; then
-      AC_CHECK_HEADERS([gssapi.h gssapi/gssapi.h])
+      AC_CHECK_HEADERS([gssapi.h gssapi/gssapi.h gssapi/gssapi_ext.h])
       if test "$ac_cv_header_gssapi_h$ac_cv_header_gssapi_gssapi_h" = "nono"; then
         gssapi_impl=no
         AC_MSG_WARN([Cannot find gssapi.h or gssapi/gssapi.h, disabling GSSAPI])
