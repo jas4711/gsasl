@@ -182,10 +182,10 @@ Debian-interop:
   - printf "verbose on\nconnect 127.0.0.1 2000\nehlo foo\nset username jas\nset password wrong\nauth DIGEST-MD5\nquit\n" |mailutils smtp 2>&1 | grep 'Error authenticating user'
   - printf "verbose on\nconnect 127.0.0.1 2000\nehlo foo\nset username jas\nset password wrong\nauth SCRAM-SHA-1\nquit\n" |mailutils smtp 2>&1 | grep 'Error authenticating user'
   - printf "verbose on\nconnect 127.0.0.1 2000\nehlo foo\nset username jas\nset password wrong\nauth SCRAM-SHA-256\nquit\n" | LD_PRELOAD=lib/src/.libs/libgsasl.so mailutils smtp 2>&1 | grep 'Error authenticating user'
-  - swaks --to user@example.com --server 127.0.0.1:2000 --auth CRAM-MD5 --auth-user jas --auth-password wrong 2>&1 | grep 'No authentication type succeeded'
-  - swaks --to user@example.com --server 127.0.0.1:2000 --auth DIGEST-MD5 --auth-user jas --auth-password wrong 2>&1 | grep 'No authentication type succeeded'
-  - swaks --to user@example.com --server 127.0.0.1:2000 --auth PLAIN --auth-user jas --auth-password wrong 2>&1 | grep 'No authentication type succeeded'
-  - swaks --to user@example.com --server 127.0.0.1:2000 --auth LOGIN --auth-user jas --auth-password wrong 2>&1 | grep 'No authentication type succeeded'
+  - (swaks --to user@example.com --server 127.0.0.1:2000 --auth CRAM-MD5 --auth-user jas --auth-password wrong 2>&1 || true) | grep 'No authentication type succeeded'
+  - (swaks --to user@example.com --server 127.0.0.1:2000 --auth DIGEST-MD5 --auth-user jas --auth-password wrong 2>&1 || true) | grep 'No authentication type succeeded'
+  - (swaks --to user@example.com --server 127.0.0.1:2000 --auth PLAIN --auth-user jas --auth-password wrong 2>&1 || true) | grep 'No authentication type succeeded'
+  - (swaks --to user@example.com --server 127.0.0.1:2000 --auth LOGIN --auth-user jas --auth-password wrong 2>&1 || true) | grep 'No authentication type succeeded'
   - swaks --to user@example.com --server 127.0.0.1:2000 --auth CRAM-MD5 --auth-user jas --auth-password sesam
   - swaks --to user@example.com --server 127.0.0.1:2000 --auth DIGEST-MD5 --auth-user jas --auth-password sesam
   - swaks --to user@example.com --server 127.0.0.1:2000 --auth PLAIN --auth-user jas --auth-password sesam
