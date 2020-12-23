@@ -59,6 +59,8 @@ autoreconf:
 	done
 	touch ChangeLog lib/ChangeLog
 	test -f ./configure || AUTOPOINT=true autoreconf --install
+	patch -d m4 < gl/override/0001-Fix-export-symbols-and-export-symbols-regex-support-.patch
+	patch -d lib/m4 < gl/override/0001-Fix-export-symbols-and-export-symbols-regex-support-.patch
 
 update-po:
 	$(MAKE) -C lib refresh-po PACKAGE=libgsasl
