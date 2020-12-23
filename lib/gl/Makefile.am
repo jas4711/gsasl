@@ -522,6 +522,10 @@ clean-GNUmakefile:
 
 ## begin gnulib module gss-extra
 
+AM_CPPFLAGS += $(GSS_CFLAGS)
+if GL_COND_LIBTOOL
+libgl_la_LDFLAGS += $(GSS_LIBS)
+endif
 
 EXTRA_DIST += gss-extra.c gss-extra.h
 

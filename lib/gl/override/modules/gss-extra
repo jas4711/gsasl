@@ -12,6 +12,10 @@ configure.ac:
 sj_GSS_EXTRA
 
 Makefile.am:
+AM_CPPFLAGS += $(GSS_CFLAGS)
+if GL_COND_LIBTOOL
+lib_LDFLAGS += $(GSS_LIBS)
+endif
 
 Include:
 "gss-extra.h"

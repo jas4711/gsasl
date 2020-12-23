@@ -1,6 +1,6 @@
 # gss-extra.m4 serial 1
 
-dnl Copyright (C) 2010 Simon Josefsson
+dnl Copyright (C) 2010, 2020 Simon Josefsson
 dnl
 dnl This file is free software; the Free Software Foundation
 dnl gives unlimited permission to copy and/or distribute it,
@@ -19,12 +19,19 @@ AC_DEFUN([sj_GSS_EXTRA],
     AC_CHECK_FUNCS([gss_decapsulate_token])
     AC_CHECK_FUNCS([gss_oid_equal])
     AC_CHECK_FUNCS([gss_inquire_mech_for_saslname])
-    AC_CHECK_FUNCS([GSS_C_NT_HOSTBASED_SERVICE])
     if test "$gssapi_impl" != "gss"; then
       AC_CHECK_HEADERS([gssapi.h gssapi/gssapi.h])
       if test "$ac_cv_header_gssapi_h$ac_cv_header_gssapi_gssapi_h" = "nono"; then
         gssapi_impl=no
         AC_MSG_WARN([Cannot find gssapi.h or gssapi/gssapi.h, disabling GSSAPI])
+      else
+        AC_CHECK_DECLS([GSS_C_NT_HOSTBASED_SERVICE], [], [], [[
+#if HAVE_GSSAPI_H
+# include <gssapi.h>
+#elif HAVE_GSSAPI_GSSAPI_H
+# include <gssapi/gssapi.h>
+#endif
+]])
       fi
     fi
     CPPFLAGS="$save_CPPFLAGS"

@@ -1,5 +1,5 @@
 /* gss-extra.c --- Provide GSS-API symbols when missing from library.
- * Copyright (C) 2010  Simon Josefsson
+ * Copyright (C) 2010, 2020  Simon Josefsson
  *
  * This file is part of GNU SASL Library.
  *
@@ -33,8 +33,7 @@
 /* Get malloc, free. */
 #include <stdlib.h>
 
-#ifndef HAVE_GSS_C_NT_HOSTBASED_SERVICE
-
+#ifndef HAVE_DECL_GSS_C_NT_HOSTBASED_SERVICE
 /* MIT Kerberos for Windows version 3.2.2 lacks this. */
 static gss_OID_desc tmp = {
   10,

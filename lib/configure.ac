@@ -501,7 +501,7 @@ AC_MSG_NOTICE([summary of library build options:
   Libidn:             $LTLIBIDN
   Libgcrypt:          $LIB_CRYPTO
   Libntlm:            $LTLIBNTLM
-  GSS-API:            $LTLIBGSS $LTLIBGSSAPI32 $GSS_LIBS
+  GSS-API:            $gssapi_impl ltlibgss: $LTLIBGSS ltlibgssapi32: $LTLIBGSSAPI32 gss_libs: $GSS_LIBS
 
   ANONYMOUS:          $anonymous
   EXTERNAL:           $external
