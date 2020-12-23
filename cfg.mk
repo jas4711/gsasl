@@ -58,9 +58,13 @@ autoreconf:
 		cp $$f `echo $$f | sed 's/.in//'`; \
 	done
 	touch ChangeLog lib/ChangeLog
-	test -f ./configure || AUTOPOINT=true autoreconf --install
-	patch -d m4 < gl/override/0001-Fix-export-symbols-and-export-symbols-regex-support-.patch
-	patch -d lib/m4 < gl/override/0001-Fix-export-symbols-and-export-symbols-regex-support-.patch
+	if ! test -f ./configure; then \
+		libtoolize --copy --install; \
+		cd lib && libtoolize --copy --install && cd ..; \
+		patch -d m4 < gl/override/0001-Fix-export-symbols-and-export-symbols-regex-support-.patch; \
+		patch -d lib/m4 < gl/override/0001-Fix-export-symbols-and-export-symbols-regex-support-.patch; \
+		AUTOPOINT=true LIBTOOLIZE=true autoreconf --install --verbose; \
+	fi
 
 update-po:
 	$(MAKE) -C lib refresh-po PACKAGE=libgsasl
