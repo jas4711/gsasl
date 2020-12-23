@@ -118,10 +118,6 @@ NetBSD:
   image: madworx/netbsd:8.1-x86_64
   stage: test
   needs: [Debian]
-  before_script:
-  - ls -al
-  - pkg_add file || true
-  - uname -a
   script:
   - tar xfz gsasl-*.tar.gz
   - cd `ls -d gsasl-* | grep -v tar.gz`
