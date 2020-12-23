@@ -378,7 +378,6 @@ mkpasswd (void)
   free (b64serverkey);
   free (b64storedkey);
   free (hexsaltedpassword);
-  free (b64salt);
 }
 
 

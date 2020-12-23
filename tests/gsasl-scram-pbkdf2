@@ -29,6 +29,10 @@ if ! test -z "${VALGRIND}"; then
     VALGRIND="${LIBTOOL:-../libtool} --mode=execute ${VALGRIND} --leak-check=full --error-exitcode=1"
 fi
 
+# Sanity checks
+${VALGRIND} "${GSASL}" --mkpasswd --password password --mechanism SCRAM-SHA-1
+${VALGRIND} "${GSASL}" --mkpasswd --password password --mechanism SCRAM-SHA-256
+
 # RFC 6070
 
 #     Input:
