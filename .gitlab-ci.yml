@@ -141,3 +141,29 @@ ArchLinux:
   - cd b
   - ../configure --enable-gcc-warnings || (cat config.log; exit 1)
   - make check V=1 || (find . -name test-suite.log -exec cat {} +; exit 1)
+
+Debian-interop:
+  image: debian:sid
+  stage: test
+  needs: [Debian]
+  before_script:
+    - apt-get update -qq
+    - env DEBIAN_FRONTEND=noninteractive apt-get install -y -qq make gcc msmtp swaks
+  script:
+  - tar xfz gsasl-*.tar.gz
+  - cd `ls -d gsasl-* | grep -v tar.gz`
+  - mkdir b
+  - cd b
+  - ../configure --enable-gcc-warnings || (cat config.log; exit 1)
+  - make V=1 || (find . -name test-suite.log -exec cat {} +; exit 1)
+  - examples/smtp-server &
+  - swaks --to user@example.com --server 127.0.0.1:2000 --auth CRAM-MD5 --auth-user jas --auth-password sesam --quit-after AUTH
+  - swaks --to user@example.com --server 127.0.0.1:2000 --auth DIGEST-MD5 --auth-user jas --auth-password sesam --quit-after AUTH
+  - swaks --to user@example.com --server 127.0.0.1:2000 --auth PLAIN --auth-user jas --auth-password sesam --quit-after AUTH
+  - swaks --to user@example.com --server 127.0.0.1:2000 --auth CRAM-MD5 --auth-user jas --auth-password sesam
+  - swaks --to user@example.com --server 127.0.0.1:2000 --auth DIGEST-MD5 --auth-user jas --auth-password sesam
+  - swaks --to user@example.com --server 127.0.0.1:2000 --auth PLAIN --auth-user jas --auth-password sesam
+  - echo foo | msmtp --host=localhost --port=2000 --auth=cram-md5 --debug -f simon@josefsson.org simon@josefsson.org --user=jas  --passwordeval 'echo sesam'
+  - echo foo | msmtp --host=localhost --port=2000 --auth=digest-md5 --debug -f simon@josefsson.org simon@josefsson.org --user=jas  --passwordeval 'echo sesam'
+  - echo foo | msmtp --host=localhost --port=2000 --auth=scram-sha-1 --debug -f simon@josefsson.org simon@josefsson.org --user=jas  --passwordeval 'echo sesam'
+  - echo foo | msmtp --host=localhost --port=2000 --auth=plain --debug -f simon@josefsson.org simon@josefsson.org --user=jas  --passwordeval 'echo sesam'
