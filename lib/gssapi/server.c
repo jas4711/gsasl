@@ -56,57 +56,13 @@ int
 _gsasl_gssapi_server_start (Gsasl_session * sctx, void **mech_data)
 {
   _Gsasl_gssapi_server_state *state;
-  OM_uint32 maj_stat, min_stat;
-  gss_name_t server;
-  gss_buffer_desc bufdesc;
-  const char *service;
-  const char *hostname;
-
-  service = gsasl_property_get (sctx, GSASL_SERVICE);
-  if (!service)
-    return GSASL_NO_SERVICE;
-
-  hostname = gsasl_property_get (sctx, GSASL_HOSTNAME);
-  if (!hostname)
-    return GSASL_NO_HOSTNAME;
-
-  /* FIXME: Use asprintf. */
-
-  bufdesc.length = strlen (service) + strlen ("@") + strlen (hostname) + 1;
-  bufdesc.value = malloc (bufdesc.length);
-  if (bufdesc.value == NULL)
-    return GSASL_MALLOC_ERROR;
-
-  sprintf (bufdesc.value, "%s@%s", service, hostname);
 
   state = (_Gsasl_gssapi_server_state *) malloc (sizeof (*state));
   if (state == NULL)
-    {
-      free (bufdesc.value);
-      return GSASL_MALLOC_ERROR;
-    }
-
-  maj_stat = gss_import_name (&min_stat, &bufdesc, GSS_C_NT_HOSTBASED_SERVICE,
-			      &server);
-  free (bufdesc.value);
-  if (GSS_ERROR (maj_stat))
-    {
-      free (state);
-      return GSASL_GSSAPI_IMPORT_NAME_ERROR;
-    }
-
-  maj_stat = gss_acquire_cred (&min_stat, server, 0,
-			       GSS_C_NULL_OID_SET, GSS_C_ACCEPT,
-			       &state->cred, NULL, NULL);
-  gss_release_name (&min_stat, &server);
-
-  if (GSS_ERROR (maj_stat))
-    {
-      free (state);
-      return GSASL_GSSAPI_ACQUIRE_CRED_ERROR;
-    }
+    return GSASL_MALLOC_ERROR;
 
   state->step = 0;
+  state->cred = GSS_C_NO_CREDENTIAL;
   state->context = GSS_C_NO_CONTEXT;
   state->client = NULL;
   *mech_data = state;
@@ -134,11 +90,48 @@ _gsasl_gssapi_server_step (Gsasl_session * sctx,
   switch (state->step)
     {
     case 0:
-      if (input_len == 0)
-	{
-	  res = GSASL_NEEDS_MORE;
-	  break;
-	}
+      {
+	gss_name_t server;
+	const char *service;
+	const char *hostname;
+
+	if (input_len == 0)
+	  {
+	    res = GSASL_NEEDS_MORE;
+	    break;
+	  }
+
+	service = gsasl_property_get (sctx, GSASL_SERVICE);
+	if (!service)
+	  return GSASL_NO_SERVICE;
+
+	hostname = gsasl_property_get (sctx, GSASL_HOSTNAME);
+	if (!hostname)
+	  return GSASL_NO_HOSTNAME;
+
+	/* FIXME: Use asprintf. */
+
+	bufdesc1.length = strlen (service) + strlen ("@")
+	  + strlen (hostname) + 1;
+	bufdesc1.value = malloc (bufdesc1.length);
+	if (bufdesc1.value == NULL)
+	  return GSASL_MALLOC_ERROR;
+
+	sprintf (bufdesc1.value, "%s@%s", service, hostname);
+
+	maj_stat = gss_import_name (&min_stat, &bufdesc1,
+				    GSS_C_NT_HOSTBASED_SERVICE, &server);
+	free (bufdesc1.value);
+	if (GSS_ERROR (maj_stat))
+	  return GSASL_GSSAPI_IMPORT_NAME_ERROR;
+
+	maj_stat = gss_acquire_cred (&min_stat, server, 0,
+				     GSS_C_NULL_OID_SET, GSS_C_ACCEPT,
+				     &state->cred, NULL, NULL);
+	gss_release_name (&min_stat, &server);
+	if (GSS_ERROR (maj_stat))
+	  return GSASL_GSSAPI_ACQUIRE_CRED_ERROR;
+      }
       state->step++;
       /* fall through */
 

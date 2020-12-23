@@ -134,15 +134,9 @@ _gsasl_gs2_server_start (Gsasl_session * sctx, void **mech_data)
       return res;
     }
 
-  res = gs2_get_cred (sctx, state);
-  if (res != GSASL_OK)
-    {
-      free (state);
-      return res;
-    }
-
   state->step = 0;
   state->context = GSS_C_NO_CONTEXT;
+  state->cred = GSS_C_NO_CREDENTIAL;
   state->client = NULL;
   /* The initiator-address-type and acceptor-address-type fields of
      the GSS-CHANNEL-BINDINGS structure MUST be set to 0.  The
@@ -183,19 +177,22 @@ _gsasl_gs2_server_step (Gsasl_session * sctx,
 
   *output = NULL;
   *output_len = 0;
-  bufdesc1.value = (char*) input;
+  bufdesc1.value = (char *) input;
   bufdesc1.length = input_len;
 
   switch (state->step)
     {
     case 0:
+      res = gs2_get_cred (sctx, state);
+      if (res != GSASL_OK)
+	return res;
       if (input_len == 0)
 	{
 	  res = GSASL_NEEDS_MORE;
 	  break;
 	}
       state->step++;
-      FALLTHROUGH; /* fall through */
+      FALLTHROUGH;		/* fall through */
 
     case 1:
       {
@@ -213,10 +210,10 @@ _gsasl_gs2_server_step (Gsasl_session * sctx,
 	    free (authzid);
 	  }
 
-	state->cb.application_data.value = (char*) input;
+	state->cb.application_data.value = (char *) input;
 	state->cb.application_data.length = headerlen;
 
-	bufdesc2.value = (char*) input + headerlen;
+	bufdesc2.value = (char *) input + headerlen;
 	bufdesc2.length = input_len - headerlen;
 
 	maj_stat = gss_encapsulate_token (&bufdesc2, state->mech_oid,
@@ -227,7 +224,7 @@ _gsasl_gs2_server_step (Gsasl_session * sctx,
 	free_bufdesc1 = 1;
       }
       state->step++;
-      FALLTHROUGH; /* fall through */
+      FALLTHROUGH;		/* fall through */
 
     case 2:
       if (state->client)

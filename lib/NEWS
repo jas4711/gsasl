@@ -4,6 +4,12 @@ See the end for copying conditions.
 
 * Version 1.9.2 (unreleased) [beta]
 
+** SCRAM, GS2, and GSSAPI no longer retrieve the TLS channel binding
+** data (property GSASL_CB_TLS_UNIQUE) during gsasl_client_start() or
+** gsasl_server_start().
+** Now it is retrieved during the first call to gsasl_step().
+See ../NEWS and ../tests/startcb.c for more information.
+
 ** Drop GSASL_HASH_MD5 and GSASL_HASH_MD5_SIZE.
 Introduced in 1.9.x series so no API/ABI problem.
 

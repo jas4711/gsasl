@@ -63,12 +63,11 @@ struct scram_client_state
 };
 
 static int
-scram_start (Gsasl_session * sctx, void **mech_data,
-	     bool plus, Gsasl_hash hash)
+scram_start (Gsasl_session * sctx _GL_UNUSED,
+	     void **mech_data, bool plus, Gsasl_hash hash)
 {
   struct scram_client_state *state;
   char buf[CNONCE_ENTROPY_BYTES];
-  const char *p;
   int rc;
 
   state = (struct scram_client_state *) calloc (sizeof (*state), 1);
@@ -99,25 +98,6 @@ scram_start (Gsasl_session * sctx, void **mech_data,
   else
     state->cf.client_nonce = strdup ("rOprNGfwEbeRWgbNEkqO");
 #endif
-
-  p = gsasl_property_get (sctx, GSASL_CB_TLS_UNIQUE);
-  if (state->plus && !p)
-    {
-      free (state->cf.client_nonce);
-      free (state);
-      return GSASL_NO_CB_TLS_UNIQUE;
-    }
-  if (p)
-    {
-      rc = gsasl_base64_from (p, strlen (p), &state->cbtlsunique,
-			      &state->cbtlsuniquelen);
-      if (rc != GSASL_OK)
-	{
-	  free (state->cf.client_nonce);
-	  free (state);
-	  return rc;
-	}
-    }
 
   *mech_data = state;
 
@@ -170,6 +150,17 @@ _gsasl_scram_client_step (Gsasl_session * sctx,
     case 0:
       {
 	const char *p;
+
+	p = gsasl_property_get (sctx, GSASL_CB_TLS_UNIQUE);
+	if (state->plus && !p)
+	  return GSASL_NO_CB_TLS_UNIQUE;
+	if (p)
+	  {
+	    rc = gsasl_base64_from (p, strlen (p), &state->cbtlsunique,
+				    &state->cbtlsuniquelen);
+	    if (rc != GSASL_OK)
+	      return rc;
+	  }
 
 	if (state->plus)
 	  {
@@ -362,8 +353,9 @@ _gsasl_scram_client_step (Gsasl_session * sctx,
 	    memxor (clientproof, clientsignature,
 		    gsasl_hash_length (state->hash));
 
-	    rc = gsasl_base64_to (clientproof, gsasl_hash_length (state->hash),
-				  &state->cl.proof, NULL);
+	    rc =
+	      gsasl_base64_to (clientproof, gsasl_hash_length (state->hash),
+			       &state->cl.proof, NULL);
 	    if (rc != 0)
 	      return rc;
 	  }
@@ -420,8 +412,7 @@ _gsasl_scram_client_step (Gsasl_session * sctx,
 }
 
 void
-_gsasl_scram_client_finish (Gsasl_session * sctx _GL_UNUSED,
-			    void *mech_data)
+_gsasl_scram_client_finish (Gsasl_session * sctx _GL_UNUSED, void *mech_data)
 {
   struct scram_client_state *state = mech_data;
 

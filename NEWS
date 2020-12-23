@@ -8,6 +8,34 @@ SASL.  That include the manual, the command line tool, and self tests.
 
 * Version 1.9.2 (unreleased) [beta]
 
+** SCRAM, GS2 and GSSAPI retrieve properties later in
+** the authentication process.
+Before the property GSASL_CB_TLS_UNIQUE was retrieved during SCRAM
+gsasl_client_start() and gsasl_server_start(), and the properties
+GSSAPI_SERVICE and GSSAPI_HOSTNAME was retrived during GS2/GSSAPI
+gsasl_server_start().  Now they are retrieved during the first call to
+gsasl_step().
+
+The only user-visible impact of this should be that 'gsasl
+--client-mechanisms' and 'gsasl --server-mechanisms' will now not
+query for parameters before giving a list of supported mechanisms,
+which arguable gives a better user experience.  The downside of this
+is that SCRAM-*-PLUS, GS2 and GSSAPI may be advertised even though
+completing the server mechanism may not complete.
+
+The problem with calling callbacks in the start() function is that the
+callback will have no per-session context at that point, only a global
+context, so the only way to give per-session unique callback responses
+is to use a separate global handle per session.  This was discovered
+in the Exim implementation of gsasl with SCRAM that used to request
+the GSASL_CB_TLS_UNIQUE property in the start() function.  After
+noticing this design issue, and writing this self test, it was
+discovered that it also happened for the GSSAPI/GS2 server (not
+client) mechanism for the GSASL_SERVICE and GSASL_HOSTNAME properties.
+
+Thanks to Jeremy Harris for noticing the problem and discussion, see
+https://lists.gnu.org/archive/html/help-gsasl/2020-01/msg00035.html
+
 ** Filenames of images in manual are now prefixed with 'gsasl-'.
 This makes /usr/share/info more understandable, and it is suggested by
 at least Debian to do this in upstream.

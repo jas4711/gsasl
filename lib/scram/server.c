@@ -73,12 +73,11 @@ struct scram_server_state
 };
 
 static int
-scram_start (Gsasl_session * sctx, void **mech_data,
+scram_start (Gsasl_session * sctx _GL_UNUSED, void **mech_data,
 	     bool plus, Gsasl_hash hash)
 {
   struct scram_server_state *state;
   char buf[MAX (SNONCE_ENTROPY_BYTES, DEFAULT_SALT_BYTES)];
-  const char *p;
   int rc;
 
   state = (struct scram_server_state *) calloc (sizeof (*state), 1);
@@ -109,20 +108,6 @@ scram_start (Gsasl_session * sctx, void **mech_data,
   rc = gsasl_base64_to (buf, DEFAULT_SALT_BYTES, &state->sf.salt, NULL);
   if (rc != GSASL_OK)
     goto end;
-
-  p = gsasl_property_get (sctx, GSASL_CB_TLS_UNIQUE);
-  if (plus && !p)
-    {
-      rc = GSASL_NO_CB_TLS_UNIQUE;
-      goto end;
-    }
-  if (p)
-    {
-      rc = gsasl_base64_from (p, strlen (p), &state->cbtlsunique,
-			      &state->cbtlsuniquelen);
-      if (rc != GSASL_OK)
-	goto end;
-    }
 
   *mech_data = state;
 
@@ -207,6 +192,21 @@ _gsasl_scram_server_step (Gsasl_session * sctx,
       {
 	if (input_len == 0)
 	  return GSASL_NEEDS_MORE;
+
+	{
+	  const char *p;
+
+	  p = gsasl_property_get (sctx, GSASL_CB_TLS_UNIQUE);
+	  if (state->plus && !p)
+	    return GSASL_NO_CB_TLS_UNIQUE;
+	  if (p)
+	    {
+	      rc = gsasl_base64_from (p, strlen (p), &state->cbtlsunique,
+				      &state->cbtlsuniquelen);
+	      if (rc != GSASL_OK)
+		return rc;
+	    }
+	}
 
 	if (scram_parse_client_first (input, input_len, &state->cf) < 0)
 	  return GSASL_MECHANISM_PARSE_ERROR;
@@ -525,8 +525,7 @@ _gsasl_scram_server_step (Gsasl_session * sctx,
 }
 
 void
-_gsasl_scram_server_finish (Gsasl_session * sctx _GL_UNUSED,
-			    void *mech_data)
+_gsasl_scram_server_finish (Gsasl_session * sctx _GL_UNUSED, void *mech_data)
 {
   struct scram_server_state *state = mech_data;
 

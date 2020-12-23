@@ -1959,6 +1959,10 @@ tests/simple
 tests/simple.log
 tests/simple.o
 tests/simple.trs
+tests/startcb
+tests/startcb.log
+tests/startcb.o
+tests/startcb.trs
 tests/suggest
 tests/suggest.log
 tests/suggest.o
