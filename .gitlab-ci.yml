@@ -116,11 +116,13 @@ ArchLinux:
   - make check V=1 || (find . -name test-suite.log -exec cat {} +; exit 1)
 
 NetBSD:
-  image: madworx/netbsd:9.0-x86_64
+  image: madworx/netbsd:8.1-x86_64
   stage: test
   needs: [Debian]
   before_script:
-  - pkg_add file
+  - ls -al
+  - pkg_add file || true
+  - uname -a
   script:
   - tar xfz gsasl-*.tar.gz
   - cd `ls -d gsasl-* | grep -v tar.gz`
