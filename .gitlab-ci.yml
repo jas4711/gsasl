@@ -157,6 +157,7 @@ Debian-interop:
   - ../configure --enable-gcc-warnings || (cat config.log; exit 1)
   - make V=1 || (find . -name test-suite.log -exec cat {} +; exit 1)
   - examples/smtp-server &
+  - sleep 5
   - src/gsasl localhost 2000 --smtp --mechanism PLAIN --password sesam -d
   - src/gsasl localhost 2000 --smtp --mechanism LOGIN --password sesam -d
   - src/gsasl localhost 2000 --smtp --mechanism CRAM-MD5 --password sesam -d
