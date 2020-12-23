@@ -29,13 +29,10 @@
    password property to the hex encoded value. */
 void
 set_saltedpassword (Gsasl_session * sctx,
-		    Gsasl_hash hash,
-		    const char *hashbuf)
+		    Gsasl_hash hash, const char *hashbuf)
 {
   char hexstr[GSASL_HASH_MAX_SIZE * 2 + 1];
 
-  _gsasl_hex_encode (hashbuf,
-		     gsasl_hash_length (hash),
-		     hexstr);
+  _gsasl_hex_encode (hashbuf, gsasl_hash_length (hash), hexstr);
   gsasl_property_set (sctx, GSASL_SCRAM_SALTED_PASSWORD, hexstr);
 }

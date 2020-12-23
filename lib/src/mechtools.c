@@ -379,7 +379,7 @@ _gsasl_pbkdf2 (Gsasl_hash hash,
   int rc;
   Gc_hash gch;
 
-  switch  (hash)
+  switch (hash)
     {
     case GSASL_HASH_SHA1:
       if (dklen == 0)

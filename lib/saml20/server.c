@@ -42,8 +42,7 @@ struct saml20_server_state
 };
 
 int
-_gsasl_saml20_server_start (Gsasl_session * sctx _GL_UNUSED,
-			    void **mech_data)
+_gsasl_saml20_server_start (Gsasl_session * sctx _GL_UNUSED, void **mech_data)
 {
   struct saml20_server_state *state;
 
@@ -137,8 +136,7 @@ _gsasl_saml20_server_step (Gsasl_session * sctx,
 }
 
 void
-_gsasl_saml20_server_finish (Gsasl_session * sctx _GL_UNUSED,
-			     void *mech_data)
+_gsasl_saml20_server_finish (Gsasl_session * sctx _GL_UNUSED, void *mech_data)
 {
   struct saml20_server_state *state = mech_data;
 

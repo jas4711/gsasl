@@ -315,7 +315,7 @@ _gsasl_gs2_client_finish (Gsasl_session * sctx, void *mech_data)
 {
   _gsasl_gs2_client_state *state = mech_data;
   OM_uint32 min_stat;
-  (void)sctx;
+  (void) sctx;
 
   if (!state)
     return;
@@ -325,8 +325,7 @@ _gsasl_gs2_client_finish (Gsasl_session * sctx, void *mech_data)
   if (state->service != GSS_C_NO_NAME)
     gss_release_name (&min_stat, &state->service);
   if (state->context != GSS_C_NO_CONTEXT)
-    gss_delete_sec_context (&min_stat, &state->context,
-			    GSS_C_NO_BUFFER);
+    gss_delete_sec_context (&min_stat, &state->context, GSS_C_NO_BUFFER);
 
   free (state->cb.application_data.value);
   free (state);

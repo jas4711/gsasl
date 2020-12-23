@@ -80,7 +80,8 @@ doit (void)
   assert_symbol_exists ((const void *) gsasl_hex_to);
   assert_symbol_exists ((const void *) gsasl_hash_length);
   assert_symbol_exists ((const void *) gsasl_scram_secrets_from_password);
-  assert_symbol_exists ((const void *) gsasl_scram_secrets_from_salted_password);
+  assert_symbol_exists ((const void *)
+			gsasl_scram_secrets_from_salted_password);
 
 #ifndef GSASL_NO_OBSOLETE
   /* LIBGSASL_1.1: Old interfaces */

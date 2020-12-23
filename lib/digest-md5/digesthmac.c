@@ -83,7 +83,7 @@ digest_md5_hmac (char *output, char secret[MD5LEN], const char *nonce,
 		 char *kic, char *kis, char *kcc, char *kcs)
 {
   const char *a2string = rspauth ? COLON : A2_PRE;
-  char nchex[17]; /* really 9 but 17 for -Werror=format-overflow= */
+  char nchex[17];		/* really 9 but 17 for -Werror=format-overflow= */
   char a1hexhash[2 * MD5LEN];
   char a2hexhash[2 * MD5LEN];
   char hash[MD5LEN];

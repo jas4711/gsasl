@@ -42,8 +42,7 @@ struct _Gsasl_ntlm_state
 typedef struct _Gsasl_ntlm_state _Gsasl_ntlm_state;
 
 int
-_gsasl_ntlm_client_start (Gsasl_session * sctx _GL_UNUSED,
-			  void **mech_data)
+_gsasl_ntlm_client_start (Gsasl_session * sctx _GL_UNUSED, void **mech_data)
 {
   _Gsasl_ntlm_state *state;
 
@@ -165,8 +164,7 @@ _gsasl_ntlm_client_step (Gsasl_session * sctx,
 }
 
 void
-_gsasl_ntlm_client_finish (Gsasl_session * sctx _GL_UNUSED,
-			   void *mech_data)
+_gsasl_ntlm_client_finish (Gsasl_session * sctx _GL_UNUSED, void *mech_data)
 {
   _Gsasl_ntlm_state *state = mech_data;
 

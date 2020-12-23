@@ -27,7 +27,6 @@
 
 extern void
 set_saltedpassword (Gsasl_session * sctx,
-		    Gsasl_hash hash,
-		    const char *hashbuf);
+		    Gsasl_hash hash, const char *hashbuf);
 
 #endif /* SCRAM_TOOLS_H */
