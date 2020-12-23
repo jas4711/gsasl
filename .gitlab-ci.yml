@@ -148,7 +148,7 @@ Debian-interop:
   needs: [Debian]
   before_script:
     - apt-get update -qq
-    - env DEBIAN_FRONTEND=noninteractive apt-get install -y -qq make gcc msmtp swaks libauthen-sasl-perl
+    - env DEBIAN_FRONTEND=noninteractive apt-get install -y -qq make gcc file msmtp swaks libauthen-sasl-perl
   script:
   - tar xfz gsasl-*.tar.gz
   - cd `ls -d gsasl-* | grep -v tar.gz`
