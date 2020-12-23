@@ -164,16 +164,16 @@ Debian-interop:
   - src/gsasl localhost 2000 --smtp --mechanism DIGEST-MD5 --password sesam -d --quality-of-protection="" --realm=""
   - src/gsasl localhost 2000 --smtp --mechanism SCRAM-SHA-1 --password sesam -d
   - src/gsasl localhost 2000 --smtp --mechanism SCRAM-SHA-256 --password sesam -d
-  - ! src/gsasl localhost 2000 --smtp --mechanism PLAIN --password wrong -d
-  - ! src/gsasl localhost 2000 --smtp --mechanism LOGIN --password wrong -d
-  - ! src/gsasl localhost 2000 --smtp --mechanism CRAM-MD5 --password wrong -d
-  - ! src/gsasl localhost 2000 --smtp --mechanism DIGEST-MD5 --password wrong -d --quality-of-protection="" --realm=""
-  - ! src/gsasl localhost 2000 --smtp --mechanism SCRAM-SHA-1 --password wrong -d
-  - ! src/gsasl localhost 2000 --smtp --mechanism SCRAM-SHA-256 --password wrong -d
-  - ! swaks --to user@example.com --server 127.0.0.1:2000 --auth CRAM-MD5 --auth-user jas --auth-password wrong
-  - ! swaks --to user@example.com --server 127.0.0.1:2000 --auth DIGEST-MD5 --auth-user jas --auth-password wrong
-  - ! swaks --to user@example.com --server 127.0.0.1:2000 --auth PLAIN --auth-user jas --auth-password wrong
-  - ! swaks --to user@example.com --server 127.0.0.1:2000 --auth LOGIN --auth-user jas --auth-password wrong
+  - src/gsasl localhost 2000 --smtp --mechanism PLAIN --password wrong -d | grep '^gsasl: server error'
+  - src/gsasl localhost 2000 --smtp --mechanism LOGIN --password wrong -d | grep '^gsasl: server error'
+  - src/gsasl localhost 2000 --smtp --mechanism CRAM-MD5 --password wrong -d | grep '^gsasl: server error'
+  - src/gsasl localhost 2000 --smtp --mechanism DIGEST-MD5 --password wrong -d --quality-of-protection="" --realm="" | grep '^gsasl: server error'
+  - src/gsasl localhost 2000 --smtp --mechanism SCRAM-SHA-1 --password wrong -d | grep '^gsasl: server error'
+  - src/gsasl localhost 2000 --smtp --mechanism SCRAM-SHA-256 --password wrong -d | grep '^gsasl: server error'
+  - swaks --to user@example.com --server 127.0.0.1:2000 --auth CRAM-MD5 --auth-user jas --auth-password wrong 2>&1 | grep 'No authentication type succeeded'
+  - swaks --to user@example.com --server 127.0.0.1:2000 --auth DIGEST-MD5 --auth-user jas --auth-password wrong 2>&1 | grep 'No authentication type succeeded'
+  - swaks --to user@example.com --server 127.0.0.1:2000 --auth PLAIN --auth-user jas --auth-password wrong 2>&1 | grep 'No authentication type succeeded'
+  - swaks --to user@example.com --server 127.0.0.1:2000 --auth LOGIN --auth-user jas --auth-password wrong 2>&1 | grep 'No authentication type succeeded'
   - swaks --to user@example.com --server 127.0.0.1:2000 --auth CRAM-MD5 --auth-user jas --auth-password sesam
   - swaks --to user@example.com --server 127.0.0.1:2000 --auth DIGEST-MD5 --auth-user jas --auth-password sesam
   - swaks --to user@example.com --server 127.0.0.1:2000 --auth PLAIN --auth-user jas --auth-password sesam
