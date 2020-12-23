@@ -19,11 +19,15 @@
  */
 
 /* This is a minimal SMTP server with GNU SASL authentication support.
+
    The only valid password is "sesam".  This server will complete
-   authentications using LOGIN, PLAIN, DIGEST-MD5, CRAM-MD5, and
-   SCRAM-SHA-1.  It accepts an optional command line parameter
-   specifying the service name (i.e., a numerical port number or
-   /etc/services name).  By default it listens on port "2000".  */
+   authentications using LOGIN, PLAIN, DIGEST-MD5, CRAM-MD5,
+   SCRAM-SHA-1 and SCRAM-SHA-256.
+
+   It accepts an optional command line parameter specifying the
+   service name (i.e., a numerical port number or /etc/services name).
+   By default it listens on port "2000".
+*/
 
 #include <config.h>
 #include <string.h>
@@ -31,6 +35,7 @@
 #include <stdarg.h>
 #include <netdb.h>
 #include <signal.h>
+#include <errno.h>
 
 #include <gsasl.h>
 
@@ -78,17 +83,18 @@ gettrimline (char **line, size_t * n, FILE * fh)
   printf ("S: "), printf (__VA_ARGS__), fprintf (fh, __VA_ARGS__)
 
 static void
-server_auth (FILE * fh, Gsasl_session * session)
+server_auth (FILE * fh, Gsasl_session * session, char *initial_challenge)
 {
-  char *line = NULL;
+  char *line = initial_challenge != NULL ? strdup (initial_challenge) : NULL;
   size_t n = 0;
   char *p;
   int rc;
 
   /* The ordering and the type of checks in the following loop has to
      be adapted for each protocol depending on its SASL properties.
-     SMTP is a "server-first" SASL protocol.  This implementation do
-     not support piggy-backing of the initial client challenge nor
+     SMTP is normally a "server-first" SASL protocol, but if
+     INITIAL_CHALLENGE is supplied by the client it turns into a
+     client-first SASL protocol.  This implementation do not support
      piggy-backing of the terminating server response.  See RFC 2554
      and RFC 4422 for terminology.  That profile results in the
      following loop structure.  Ask on the help-gsasl list if you are
@@ -147,7 +153,7 @@ smtp (FILE * fh, Gsasl * ctx)
 	    {
 	      print (fh, "221 localhost gsasl_server_mechlist (%d): %s\n",
 		     rc, gsasl_strerror (rc));
-	      goto done;
+	      continue;
 	    }
 
 	  print (fh, "250-localhost\n");
@@ -159,31 +165,47 @@ smtp (FILE * fh, Gsasl * ctx)
 	       || strncmp (line, "auth ", 5) == 0)
 	{
 	  Gsasl_session *session = NULL;
+	  char *p = strchr (line + 5, ' ');
+
+	  if (p)
+	    *p++ = '\0';
 
 	  if ((rc = gsasl_server_start (ctx, line + 5, &session)) != GSASL_OK)
 	    {
-	      print (fh, "221 localhost gsasl_server_start (%d): %s\n",
-		     rc, gsasl_strerror (rc));
-	      goto done;
+	      print (fh, "221 localhost gsasl_server_start (%d): %s: %s\n",
+		     rc, gsasl_strerror (rc), line + 5);
+	      continue;
 	    }
 
-	  server_auth (fh, session);
+	  server_auth (fh, session, p);
 
 	  gsasl_finish (session);
+	}
+      else if (strncmp (line, "MAIL", 4) == 0)
+	print (fh, "250 localhost OK\n");
+      else if (strncmp (line, "RCPT", 4) == 0)
+	print (fh, "250 localhost OK\n");
+      else if (strncmp (line, "DATA", 4) == 0)
+	{
+	  print (fh, "354 OK\n");
+	  while (gettrimline (&line, &n, fh) >= 0
+		 && strncmp (line, ".", 2) != 0)
+	    ;
+	  print (fh, "250 OK\n");
 	}
       else if (strncmp (line, "QUIT", 4) == 0
 	       || strncmp (line, "quit", 4) == 0)
 	{
 	  print (fh, "221 localhost QUIT\n");
-	  goto done;
+	  break;
 	}
       else
 	print (fh, "500 unrecognized command\n");
     }
 
-  print (fh, "221 localhost getline failure\n");
+  if (errno)
+    print (fh, "221 localhost getline failure: %s\n", strerror (errno));
 
-done:
   free (line);
 }
 
