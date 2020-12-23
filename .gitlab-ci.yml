@@ -86,6 +86,18 @@ CentOS:
   - ./configure --enable-gcc-warnings || (cat config.log; exit 1)
   - make check V=1 || (find . -name test-suite.log -exec cat {} +; exit 1)
 
+CentOS-krb5:
+  image: centos:latest
+  stage: test
+  needs: [Debian]
+  before_script:
+  - yum -y install make gcc diffutils krb5-devel
+  script:
+  - tar xfa gsasl-*.tar.gz
+  - cd `ls -d gsasl-* | grep -v tar.gz`
+  - ./configure --enable-gcc-warnings --with-gssapi-impl=krb5 || (cat config.log; exit 1)
+  - make check V=1 || (find . -name test-suite.log -exec cat {} +; exit 1)
+
 Alpine:
   image: alpine:latest
   stage: test
@@ -98,6 +110,20 @@ Alpine:
   - tar xfz gsasl-*.tar.gz
   - cd `ls -d gsasl-* | grep -v tar.gz`
   - ./configure --enable-gcc-warnings || (cat config.log; exit 1)
+  - make check V=1 || (find . -name test-suite.log -exec cat {} +; exit 1)
+
+Alpine-heimdal:
+  image: alpine:latest
+  stage: test
+  needs: [Debian]
+  before_script:
+  - echo "ipv6" >> /etc/modules
+  - apk update
+  - apk add build-base gettext gettext-dev heimdal-dev
+  script:
+  - tar xfz gsasl-*.tar.gz
+  - cd `ls -d gsasl-* | grep -v tar.gz`
+  - ./configure --enable-gcc-warnings --with-gssapi-impl=heimdal || (cat config.log; exit 1)
   - make check V=1 || (find . -name test-suite.log -exec cat {} +; exit 1)
 
 ArchLinux:
