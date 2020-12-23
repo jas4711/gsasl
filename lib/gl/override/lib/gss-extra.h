@@ -26,12 +26,15 @@
 /* Get GSS-API functions. */
 #ifdef HAVE_LIBGSS
 # include <gss.h>
-#elif HAVE_GSSAPI_H
-# include <gssapi.h>
-#elif HAVE_GSSAPI_GSSAPI_H
-# include <gssapi/gssapi.h>
-#elif HAVE_GSSAPI_GSSAPI_EXT_H
-# include <gssapi/gssapi_ext.h>
+#else
+# if HAVE_GSSAPI_H
+#  include <gssapi.h>
+# elif HAVE_GSSAPI_GSSAPI_H
+#  include <gssapi/gssapi.h>
+# endif
+# if HAVE_GSSAPI_GSSAPI_EXT_H
+#  include <gssapi/gssapi_ext.h>
+# endif
 #endif
 
 #ifndef HAVE_GSS_OID_EQUAL
