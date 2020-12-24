@@ -12,6 +12,17 @@ SASL.  That include the manual, the command line tool, and self tests.
 Patch from Enrico Scholz <enrico.scholz@sigma-chemnitz.de> in:
 https://lists.gnu.org/archive/html/help-gsasl/2020-08/msg00000.html
 
+** gsasl: Use GnuTLS system trust settings by default for X.509 server
+** certificate validation.
+Before it was documented behaviour that unless --x509-ca-file was
+used, no verification of the server-side certificate was performed.
+Now instead it will use the system trust settings, which on properly
+configured systems results in verification of the server certificate.
+As a result, you may now start to get server certificate verification
+errors in situations where you didn't expect them.  Use --x509-ca-file
+with the empty string ("") as a file name to use the old behaviour to
+not abort on server certificate verification failures.
+
 ** SCRAM, GS2 and GSSAPI retrieve properties later in
 ** the authentication process.
 Before the property GSASL_CB_TLS_UNIQUE was retrieved during SCRAM

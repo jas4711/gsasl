@@ -27,6 +27,7 @@
 
 #ifdef HAVE_LIBGNUTLS
 #include <gnutls/gnutls.h>
+#include <gnutls/x509.h>
 gnutls_session_t session;
 bool using_tls = false;
 #endif
@@ -696,6 +697,13 @@ main (int argc, char *argv[])
 	error (EXIT_FAILURE, 0, _("setting GnuTLS defaults failed: %s"),
 	       gnutls_strerror (res));
 
+      res =
+	gnutls_server_name_set (session, GNUTLS_NAME_DNS, connect_hostname,
+				strlen (connect_hostname));
+      if (res < 0)
+	error (EXIT_FAILURE, 0, _("setting GnuTLS server name failed: %s"),
+	       gnutls_strerror (res));
+
       res = gnutls_anon_allocate_client_credentials (&anoncred);
       if (res < 0)
 	error (EXIT_FAILURE, 0,
@@ -720,7 +728,7 @@ main (int argc, char *argv[])
 	error (EXIT_FAILURE, 0, _("loading X.509 GnuTLS credential: %s"),
 	       gnutls_strerror (res));
 
-      if (args_info.x509_ca_file_arg)
+      if (args_info.x509_ca_file_arg && *args_info.x509_ca_file_arg)
 	{
 	  res = gnutls_certificate_set_x509_trust_file
 	    (x509cred, args_info.x509_ca_file_arg, GNUTLS_X509_FMT_PEM);
@@ -730,12 +738,23 @@ main (int argc, char *argv[])
 	  if (res == 0)
 	    error (EXIT_FAILURE, 0, _("no X.509 CAs found"));
 	}
+      else if (!args_info.x509_ca_file_arg)
+	{
+	  res = gnutls_certificate_set_x509_system_trust (x509cred);
+	  if (res < 0)
+	    error (EXIT_FAILURE, 0, _("setting GnuTLS system trust: %s"),
+		   gnutls_strerror (res));
+	}
 
       res = gnutls_credentials_set (session, GNUTLS_CRD_CERTIFICATE,
 				    x509cred);
       if (res < 0)
 	error (EXIT_FAILURE, 0, _("setting X.509 GnuTLS credential: %s"),
 	       gnutls_strerror (res));
+
+      if (args_info.x509_ca_file_arg == NULL
+	  || *args_info.x509_ca_file_arg)
+	gnutls_session_set_verify_cert (session, connect_hostname, 0);
 
       if (args_info.priority_arg)
 	{
@@ -755,12 +774,68 @@ main (int argc, char *argv[])
       if (!starttls ())
 	return 1;
 
-      res = gnutls_handshake (session);
+      do
+	{
+	  res = gnutls_handshake (session);
+	}
+      while (res < 0 && gnutls_error_is_fatal (res) == 0);
+
+      if (!args_info.quiet_given)
+	{
+	int type;
+	unsigned status;
+	gnutls_datum_t out;
+
+	type = gnutls_certificate_type_get (session);
+	status = gnutls_session_get_verify_cert_status (session);
+	gnutls_certificate_verification_status_print (status, type, &out, 0);
+	fprintf (stderr, _("TLS X.509 Verification: %s\n"), out.data);
+	gnutls_free (out.data);
+      }
+
       if (res < 0)
 	error (EXIT_FAILURE, 0, _("GnuTLS handshake failed: %s"),
 	       gnutls_strerror (res));
 
-      if (args_info.x509_ca_file_arg)
+      if (args_info.verbose_given)
+	{
+	  char *desc = gnutls_session_get_desc (session);
+	  const gnutls_datum_t *cert_list;
+	  unsigned int cert_list_size = 0, i;
+	  gnutls_x509_crt_t cert;
+	  gnutls_datum_t out;
+
+	  fprintf (stderr, _("TLS session info: %s\n"), desc);
+	  gnutls_free (desc);
+	  fflush (stderr);
+
+	  cert_list = gnutls_certificate_get_peers (session, &cert_list_size);
+
+	  for (i = 0; i < cert_list_size; i++)
+	    {
+	      res = gnutls_x509_crt_init (&cert);
+	      if (res < 0)
+		continue;
+
+	      res = gnutls_x509_crt_import (cert, &cert_list[i],
+					    GNUTLS_X509_FMT_DER);
+	      if (res < 0)
+		continue;
+
+	      res = gnutls_x509_crt_print (cert, GNUTLS_CRT_PRINT_ONELINE,
+					   &out);
+	      if (res == 0)
+		{
+		  fprintf (stderr, _("TLS X.509 Certificate %u: %s\n"), i,
+			   out.data);
+		  gnutls_free (out.data);
+		}
+
+	      gnutls_x509_crt_deinit (cert);
+	    }
+	}
+
+      if (args_info.x509_ca_file_arg && *args_info.x509_ca_file_arg)
 	{
 	  unsigned int status;
 
