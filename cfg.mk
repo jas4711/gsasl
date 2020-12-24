@@ -99,46 +99,6 @@ htmldir = ../www-$(PACKAGE)
 i18n:
 	-$(MAKE) update-po
 
-coverage-my:
-	ln -s . gl/unistr/unistr
-	ln -s . gltests/glthread/glthread
-	ln -s . gltests/unistr/unistr
-	$(MAKE) coverage WERROR_CFLAGS= VALGRIND=
-
-coverage-copy:
-	rm -fv `find $(htmldir)/coverage -type f | grep -v CVS`
-	mkdir -p $(htmldir)/coverage/
-	cp -rv $(COVERAGE_OUT)/* $(htmldir)/coverage/
-
-coverage-upload:
-	cd $(htmldir) && \
-	find coverage -type d -! -name CVS -! -name '.' \
-		-exec cvs add {} \; && \
-	find coverage -type d -! -name CVS -! -name '.' \
-		-exec sh -c "cvs add -kb {}/*.png" \; && \
-	find coverage -type d -! -name CVS -! -name '.' \
-		-exec sh -c "cvs add {}/*.html" \; && \
-	cvs add coverage/$(PACKAGE).info coverage/gcov.css || true && \
-	cvs commit -m "Update." coverage
-
-clang:
-	make clean
-	scan-build ./configure
-	rm -rf scan.tmp
-	scan-build -o scan.tmp make
-
-clang-copy:
-	rm -fv `find $(htmldir)/clang-analyzer -type f | grep -v CVS`
-	mkdir -p $(htmldir)/clang-analyzer/
-	cp -rv scan.tmp/*/* $(htmldir)/clang-analyzer/
-
-clang-upload:
-	cd $(htmldir) && \
-		cvs add clang-analyzer || true && \
-		cvs add clang-analyzer/*.css clang-analyzer/*.js \
-			clang-analyzer/*.html || true && \
-		cvs commit -m "Update." clang-analyzer
-
 cyclo-copy:
 	cp -v doc/cyclo/cyclo-$(PACKAGE).html $(htmldir)/cyclo/index.html
 
@@ -212,9 +172,9 @@ binaries:
 source:
 	git tag -s -m $(VERSION) $(tag)
 
-release-check: syntax-check i18n tarball cyclo-copy gendoc-copy gtkdoc-copy doxygen-copy coverage-my coverage-copy clang clang-copy
+release-check: syntax-check i18n tarball cyclo-copy gendoc-copy gtkdoc-copy doxygen-copy
 
-release-upload-www: cyclo-upload gendoc-upload gtkdoc-upload doxygen-upload coverage-upload clang-upload
+release-upload-www: cyclo-upload gendoc-upload gtkdoc-upload doxygen-upload
 
 site = ftp.gnu.org
 
