@@ -99,12 +99,6 @@ htmldir = ../www-$(PACKAGE)
 i18n:
 	-$(MAKE) update-po
 
-cyclo-copy:
-	cp -v doc/cyclo/cyclo-$(PACKAGE).html $(htmldir)/cyclo/index.html
-
-cyclo-upload:
-	cd $(htmldir) && cvs commit -m "Update." cyclo/index.html
-
 gendoc-copy:
 	cd doc && env MAKEINFO="makeinfo -I ../examples" \
 		      TEXI2DVI="texi2dvi -I ../examples" \
@@ -172,9 +166,9 @@ binaries:
 source:
 	git tag -s -m $(VERSION) $(tag)
 
-release-check: syntax-check i18n tarball cyclo-copy gendoc-copy gtkdoc-copy doxygen-copy
+release-check: syntax-check i18n tarball gendoc-copy gtkdoc-copy doxygen-copy
 
-release-upload-www: cyclo-upload gendoc-upload gtkdoc-upload doxygen-upload
+release-upload-www: gendoc-upload gtkdoc-upload doxygen-upload
 
 site = ftp.gnu.org
 

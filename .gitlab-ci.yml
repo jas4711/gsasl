@@ -20,13 +20,13 @@ Debian:
     paths:
       - gsasl-*.tar.gz
 
-Ubuntu-coverage:
+Ubuntu-coverage-cyclo:
   image: ubuntu:devel
   stage: build
   before_script:
     - apt-get update -qq
     - env DEBIAN_FRONTEND=noninteractive apt-get install -y -qq git autoconf automake libtool gettext make texinfo texlive-font-utils help2man gtk-doc-tools libglib2.0-dev valgrind libidn11-dev libntlm0-dev libgnutls28-dev libkrb5-dev gengetopt gperf
-    - env DEBIAN_FRONTEND=noninteractive apt-get install -y -qq lcov
+    - env DEBIAN_FRONTEND=noninteractive apt-get install -y -qq lcov pmccabe
   script:
     - make autoreconf
     - ./configure --enable-gcc-warnings --disable-silent-rules --enable-valgrind-tests CFLAGS="-g --coverage" || (cat config.log; exit 1)
@@ -36,10 +36,13 @@ Ubuntu-coverage:
     - lcov --directory . --output-file coverage/gsasl.info --capture
     - lcov --remove coverage/gsasl.info '/usr/include/*' '*/gl/*' '*/gltests/*' '*/lib/gl/*' '*/lib/gltests/*' -o coverage/gsasl_filtered.info
     - genhtml --output-directory coverage coverage/gsasl_filtered.info --highlight --frames --legend --title "GNU SASL"
+    - mkdir cyclo
+    - cp -v doc/cyclo/cyclo-gsasl.html cyclo/index.html
   artifacts:
     when: on_success
     paths:
       - coverage
+      - cyclo
   only:
     - master
 
@@ -62,10 +65,10 @@ Fedora-clanganalyzer:
 
 pages:
   stage: deploy
-  needs: ["Ubuntu-coverage", "Fedora-clanganalyzer"]
+  needs: ["Ubuntu-coverage-cyclo", "Fedora-clanganalyzer"]
   script:
     - mkdir public
-    - mv coverage/ public/
+    - mv coverage/ cyclo/ public/
     - mv clang-analyzer/* public/clang-analyzer
   artifacts:
     paths:
