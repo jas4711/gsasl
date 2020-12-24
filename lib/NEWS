@@ -2,6 +2,8 @@ GNU SASL LIBRARY NEWS -- History of user-visible changes.
 Copyright (C) 2002-2020 Simon Josefsson
 See the end for copying conditions.
 
+* Version 1.9.3 (unreleased) [beta]
+
 * Version 1.9.2 (released 2020-12-24) [beta]
 
 ** SCRAM, GS2, and GSSAPI no longer retrieve the TLS channel binding

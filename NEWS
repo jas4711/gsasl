@@ -6,6 +6,8 @@ Note that changes to the GNU SASL Library is documented in lib/NEWS.
 This file track changes to the remaining, non-library, parts of GNU
 SASL.  That include the manual, the command line tool, and self tests.
 
+* Version 1.9.3 (unreleased) [beta]
+
 * Version 1.9.2 (released 2020-12-24) [beta]
 
 ** gsasl: Don't abort command on some exepected TLS events (for TLS 1.3).
