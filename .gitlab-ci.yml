@@ -162,8 +162,6 @@ Debian-interop:
   - echo amFzOntQTEFJTn1zZXNhbTo6OjoK | base64 -d > /etc/dovecot/users
   - echo bG9nX3BhdGggPSAvdmFyL2xvZy9kb3ZlY290LmxvZwpwcm90b2NvbCBpbWFwIHsKfQpwYXNzZGIgewogIGRyaXZlciA9IHBhc3N3ZC1maWxlCiAgYXJncyA9IC9ldGMvZG92ZWNvdC91c2Vycwp9CnVzZXJkYiB7CiAgZHJpdmVyID0gc3RhdGljCiAgYXJncyA9IHVpZD1ub2JvZHkgZ2lkPW5vZ3JvdXAgaG9tZT0vdG1wL2RvdmVjb3QvJWQvJXUKfQpkaXNhYmxlX3BsYWludGV4dF9hdXRoPW5vCmF1dGhfbWVjaGFuaXNtcyA9IHBsYWluIGxvZ2luIGRpZ2VzdC1tZDUgY3JhbS1tZDUgc2NyYW0tc2hhLTEgc2NyYW0tc2hhLTI1NiBudGxtIHJwYSBhcG9wIGFub255bW91cyBleHRlcm5hbCB4b2F1dGgyCg== | base64 -d > /etc/dovecot/local.conf
   - service dovecot restart
-  - doveadm log find
-  - tail -F /var/log/dovecot.log &
   - src/gsasl localhost --no-starttls --mechanism PLAIN -a jas --password sesam -d
   - src/gsasl localhost --no-starttls --mechanism LOGIN -a jas --password sesam -d
   - src/gsasl localhost --no-starttls --mechanism CRAM-MD5 -a jas --password sesam -d
@@ -172,6 +170,7 @@ Debian-interop:
   - src/gsasl localhost --no-starttls --mechanism SCRAM-SHA-256 -a jas --password sesam -d
   - src/gsasl localhost --no-starttls --mechanism NTLM -a jas --password sesam -d --realm ""
   - src/gsasl localhost --no-starttls --mechanism ANONYMOUS -n user -d
+  - cat /var/log/dovecot.log
   - src/gsasl localhost 2000 --smtp --mechanism PLAIN --password sesam -d
   - src/gsasl localhost 2000 --smtp --mechanism LOGIN --password sesam -d
   - src/gsasl localhost 2000 --smtp --mechanism CRAM-MD5 --password sesam -d
