@@ -37,85 +37,98 @@ struct gengetopt_args_info args_info;
 int sockfd = 0;
 
 #ifdef HAVE_LIBGNUTLS
-static bool _handle_tlserror(int error)
+static bool
+_handle_tlserror (int error)
 {
   int rc;
 
-  switch (error) {
-  case GNUTLS_E_REHANDSHAKE:
-    for (;;) {
-      rc = gnutls_handshake(session);
-      switch (rc) {
-      case GNUTLS_E_INTERRUPTED:
-      case GNUTLS_E_AGAIN:
-	continue;
+  switch (error)
+    {
+    case GNUTLS_E_REHANDSHAKE:
+      for (;;)
+	{
+	  rc = gnutls_handshake (session);
+	  switch (rc)
+	    {
+	    case GNUTLS_E_INTERRUPTED:
+	    case GNUTLS_E_AGAIN:
+	      continue;
 
-      case GNUTLS_E_GOT_APPLICATION_DATA:
-	/* TODO: signal this somehow? */
-	continue;
+	    case GNUTLS_E_GOT_APPLICATION_DATA:
+	      /* TODO: signal this somehow? */
+	      continue;
 
-      case GNUTLS_E_WARNING_ALERT_RECEIVED:
-	fprintf(stderr, "ALERT: %s\n",
-		gnutls_alert_get_name(gnutls_alert_get(session)));
-	continue;
+	    case GNUTLS_E_WARNING_ALERT_RECEIVED:
+	      fprintf (stderr, "ALERT: %s\n",
+		       gnutls_alert_get_name (gnutls_alert_get (session)));
+	      continue;
 
-      default:
-	fprintf(stderr, "TLS rehandshake failed: %s\n", gnutls_strerror(rc));
-	/* make every error fatal */
-	return false;
-      }
+	    default:
+	      fprintf (stderr, "TLS rehandshake failed: %s\n",
+		       gnutls_strerror (rc));
+	      /* make every error fatal */
+	      return false;
+	    }
 
+	  return true;
+	}
+
+    case GNUTLS_E_INTERRUPTED:
+    case GNUTLS_E_AGAIN:
+      /* not fatal */
       return true;
+
+    default:
+      fprintf (stderr, "TLS error: %s\n", gnutls_strerror (error));
+      return false;
     }
-
-  case GNUTLS_E_INTERRUPTED:
-  case GNUTLS_E_AGAIN:
-    /* not fatal */
-    return true;
-
-  default:
-    fprintf(stderr, "TLS error: %s\n", gnutls_strerror(error));
-    return false;
-  }
 }
 #endif
 
-static ssize_t _recv(void *dst, size_t cnt)
+static ssize_t
+_recv (void *dst, size_t cnt)
 {
 #ifdef HAVE_LIBGNUTLS
-  if (using_tls) {
-    ssize_t	l = 0;
-    do {
-      l = gnutls_record_recv(session, dst, cnt);
+  if (using_tls)
+    {
+      ssize_t l = 0;
+      do
+	{
+	  l = gnutls_record_recv (session, dst, cnt);
 
-      if (l < 0 && !_handle_tlserror(l))
-	break;
-    } while (l < 0);
+	  if (l < 0 && !_handle_tlserror (l))
+	    break;
+	}
+      while (l < 0);
 
-    return l;
-  }
+      return l;
+    }
 #endif
 
-  return recv(sockfd, dst, cnt, 0);
+  return recv (sockfd, dst, cnt, 0);
 }
 
-static ssize_t _send(void const *src, size_t cnt)
+static ssize_t
+_send (void const *src, size_t cnt)
 {
 #ifdef HAVE_LIBGNUTLS
-  if (using_tls) {
-    ssize_t	l;
-    do {
-      if (cnt > 0)
-	l = gnutls_record_send (session, src, cnt);
-      else
-	l = 0;
+  if (using_tls)
+    {
+      ssize_t l;
+      do
+	{
+	  if (cnt > 0)
+	    l = gnutls_record_send (session, src, cnt);
+	  else
+	    l = 0;
 
-      if (l < 0 && !_handle_tlserror(l))
-	break;
-    } while (l < 0);
+	  if (l < 0 && !_handle_tlserror (l))
+	    break;
+	}
+      while (l < 0);
 
-    return l;
-  }
+      return l;
+    }
 #endif
 
   return write (sockfd, src, cnt);
@@ -130,13 +143,13 @@ writeln (const char *str)
     {
       ssize_t len = strlen (str);
 
-      len = _send(str, len);
+      len = _send (str, len);
       if (len != (ssize_t) strlen (str))
 	return 0;
 
 #define CRLF "\r\n"
 
-      len = _send(CRLF, strlen(CRLF));
+      len = _send (CRLF, strlen (CRLF));
       if (len != strlen (CRLF))
 	return 0;
     }
@@ -161,7 +174,7 @@ readln (char **out)
 	  if (used == allocated)
 	    input = x2realloc (input, &allocated);
 
-	  nread = _recv(&input[used], 1);
+	  nread = _recv (&input[used], 1);
 	  if (nread <= 0)
 	    return 0;
 
@@ -962,7 +975,7 @@ main (int argc, char *argv[])
 
 		  if (sockfd)
 		    {
-		      len = _send(out, output_len);
+		      len = _send (out, output_len);
 		      if (len != (ssize_t) output_len)
 			error (EXIT_FAILURE, errno, "write");
 		    }
@@ -1001,7 +1014,7 @@ main (int argc, char *argv[])
 		    sockbuf = x2realloc (sockbuf, &sockalloc1);
 		  sockalloc = sockalloc1;
 
-		  len = _recv(&sockbuf[sockpos], sockalloc - sockpos);
+		  len = _recv (&sockbuf[sockpos], sockalloc - sockpos);
 		  if (len <= 0)
 		    break;
 
