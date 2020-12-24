@@ -36,6 +36,91 @@ char *b64cbtlsunique = NULL;
 struct gengetopt_args_info args_info;
 int sockfd = 0;
 
+#ifdef HAVE_LIBGNUTLS
+static bool _handle_tlserror(int error)
+{
+  int rc;
+
+  switch (error) {
+  case GNUTLS_E_REHANDSHAKE:
+    for (;;) {
+      rc = gnutls_handshake(session);
+      switch (rc) {
+      case GNUTLS_E_INTERRUPTED:
+      case GNUTLS_E_AGAIN:
+	continue;
+
+      case GNUTLS_E_GOT_APPLICATION_DATA:
+	/* TODO: signal this somehow? */
+	continue;
+
+      case GNUTLS_E_WARNING_ALERT_RECEIVED:
+	fprintf(stderr, "ALERT: %s\n",
+		gnutls_alert_get_name(gnutls_alert_get(session)));
+	continue;
+
+      default:
+	fprintf(stderr, "TLS rehandshake failed: %s\n", gnutls_strerror(rc));
+	/* make every error fatal */
+	return false;
+      }
+
+      return true;
+    }
+
+  case GNUTLS_E_INTERRUPTED:
+  case GNUTLS_E_AGAIN:
+    /* not fatal */
+    return true;
+
+  default:
+    fprintf(stderr, "TLS error: %s\n", gnutls_strerror(error));
+    return false;
+  }
+}
+#endif
+
+static ssize_t _recv(void *dst, size_t cnt)
+{
+#ifdef HAVE_LIBGNUTLS
+  if (using_tls) {
+    ssize_t	l = 0;
+    do {
+      l = gnutls_record_recv(session, dst, cnt);
+
+      if (l < 0 && !_handle_tlserror(l))
+	break;
+    } while (l < 0);
+
+    return l;
+  }
+#endif
+
+  return recv(sockfd, dst, cnt, 0);
+}
+
+static ssize_t _send(void const *src, size_t cnt)
+{
+#ifdef HAVE_LIBGNUTLS
+  if (using_tls) {
+    ssize_t	l;
+    do {
+      if (cnt > 0)
+	l = gnutls_record_send (session, src, cnt);
+      else
+	l = 0;
+
+      if (l < 0 && !_handle_tlserror(l))
+	break;
+    } while (l < 0);
+
+    return l;
+  }
+#endif
+
+  return write (sockfd, src, cnt);
+}
+
 int
 writeln (const char *str)
 {
@@ -45,30 +130,13 @@ writeln (const char *str)
     {
       ssize_t len = strlen (str);
 
-#ifdef HAVE_LIBGNUTLS
-      if (using_tls)
-	{
-	  /* GnuTLS < 1.2.9 cannot handle data != NULL && count == 0,
-	     it will return an error. */
-	  if (len > 0)
-	    len = gnutls_record_send (session, str, len);
-	  else
-	    len = 0;
-	}
-      else
-#endif
-	len = write (sockfd, str, len);
+      len = _send(str, len);
       if (len != (ssize_t) strlen (str))
 	return 0;
 
 #define CRLF "\r\n"
 
-#ifdef HAVE_LIBGNUTLS
-      if (using_tls)
-	len = gnutls_record_send (session, CRLF, strlen (CRLF));
-      else
-#endif
-	len = write (sockfd, CRLF, strlen (CRLF));
+      len = _send(CRLF, strlen(CRLF));
       if (len != strlen (CRLF))
 	return 0;
     }
@@ -93,12 +161,7 @@ readln (char **out)
 	  if (used == allocated)
 	    input = x2realloc (input, &allocated);
 
-#ifdef HAVE_LIBGNUTLS
-	  if (using_tls)
-	    nread = gnutls_record_recv (session, &input[used], 1);
-	  else
-#endif
-	    nread = recv (sockfd, &input[used], 1, 0);
+	  nread = _recv(&input[used], 1);
 	  if (nread <= 0)
 	    return 0;
 
@@ -899,12 +962,7 @@ main (int argc, char *argv[])
 
 		  if (sockfd)
 		    {
-#ifdef HAVE_LIBGNUTLS
-		      if (using_tls)
-			len = gnutls_record_send (session, out, output_len);
-		      else
-#endif
-			len = write (sockfd, out, output_len);
+		      len = _send(out, output_len);
 		      if (len != (ssize_t) output_len)
 			error (EXIT_FAILURE, errno, "write");
 		    }
@@ -943,14 +1001,7 @@ main (int argc, char *argv[])
 		    sockbuf = x2realloc (sockbuf, &sockalloc1);
 		  sockalloc = sockalloc1;
 
-#ifdef HAVE_LIBGNUTLS
-		  if (using_tls)
-		    len = gnutls_record_recv (session, &sockbuf[sockpos],
-					      sockalloc - sockpos);
-		  else
-#endif
-		    len = recv (sockfd, &sockbuf[sockpos],
-				sockalloc - sockpos, 0);
+		  len = _recv(&sockbuf[sockpos], sockalloc - sockpos);
 		  if (len <= 0)
 		    break;
 
