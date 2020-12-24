@@ -160,16 +160,17 @@ Debian-interop:
   - examples/smtp-server &
   - rm /etc/dovecot/conf.d/10-auth.conf
   - echo amFzOntQTEFJTn1zZXNhbTo6OjoK | base64 -d > /etc/dovecot/users
-  - echo cHJvdG9jb2wgaW1hcCB7CiAgbWFpbF9tYXhfdXNlcmlwX2Nvbm5lY3Rpb25zID0gMTAwCn0KcGFzc2RiIHsKICBkcml2ZXIgPSBwYXNzd2QtZmlsZQogIGFyZ3MgPSAvZXRjL2RvdmVjb3QvdXNlcnMKfQp1c2VyZGIgewogIGRyaXZlciA9IHN0YXRpYwogIGFyZ3MgPSB1aWQ9bm9ib2R5IGdpZD1ub2dyb3VwIGhvbWU9L3RtcC9kb3ZlY290LyVkLyV1Cn0KZGlzYWJsZV9wbGFpbnRleHRfYXV0aD1ubwphdXRoX21lY2hhbmlzbXMgPSBwbGFpbiBsb2dpbiBkaWdlc3QtbWQ1IGNyYW0tbWQ1IHNjcmFtLXNoYS0xIHNjcmFtLXNoYS0yNTYgbnRsbSBycGEgYXBvcCBhbm9ueW1vdXMgZXh0ZXJuYWwgeG9hdXRoMgo= | base64 -d > /etc/dovecot/local.conf
+  - echo bG9nX3BhdGggPSAvdmFyL2xvZy9kb3ZlY290LmxvZwpwcm90b2NvbCBpbWFwIHsKfQpwYXNzZGIgewogIGRyaXZlciA9IHBhc3N3ZC1maWxlCiAgYXJncyA9IC9ldGMvZG92ZWNvdC91c2Vycwp9CnVzZXJkYiB7CiAgZHJpdmVyID0gc3RhdGljCiAgYXJncyA9IHVpZD1ub2JvZHkgZ2lkPW5vZ3JvdXAgaG9tZT0vdG1wL2RvdmVjb3QvJWQvJXUKfQpkaXNhYmxlX3BsYWludGV4dF9hdXRoPW5vCmF1dGhfbWVjaGFuaXNtcyA9IHBsYWluIGxvZ2luIGRpZ2VzdC1tZDUgY3JhbS1tZDUgc2NyYW0tc2hhLTEgc2NyYW0tc2hhLTI1NiBudGxtIHJwYSBhcG9wIGFub255bW91cyBleHRlcm5hbCB4b2F1dGgyCg== | base64 -d > /etc/dovecot/local.conf
   - service dovecot restart
-  - tail -F /var/log/syslog &
-  - src/gsasl localhost --no-starttls --mechanism PLAIN --password sesam -d
-  - src/gsasl localhost --no-starttls --mechanism LOGIN --password sesam -d
-  - src/gsasl localhost --no-starttls --mechanism CRAM-MD5 --password sesam -d
-  - src/gsasl localhost --no-starttls --mechanism DIGEST-MD5 --password sesam -d --quality-of-protection="" --realm=""
-  - src/gsasl localhost --no-starttls --mechanism SCRAM-SHA-1 --password sesam -d
-  - src/gsasl localhost --no-starttls --mechanism SCRAM-SHA-256 --password sesam -d
-  - src/gsasl localhost --no-starttls --mechanism NTLM --password sesam -d --realm ""
+  - doveadm log find
+  - tail -F /var/log/dovecot.log &
+  - src/gsasl localhost --no-starttls --mechanism PLAIN -a jas --password sesam -d
+  - src/gsasl localhost --no-starttls --mechanism LOGIN -a jas --password sesam -d
+  - src/gsasl localhost --no-starttls --mechanism CRAM-MD5 -a jas --password sesam -d
+  - src/gsasl localhost --no-starttls --mechanism DIGEST-MD5 -a jas --password sesam -d --quality-of-protection="" --realm=""
+  - src/gsasl localhost --no-starttls --mechanism SCRAM-SHA-1 -a jas --password sesam -d
+  - src/gsasl localhost --no-starttls --mechanism SCRAM-SHA-256 -a jas --password sesam -d
+  - src/gsasl localhost --no-starttls --mechanism NTLM -a jas --password sesam -d --realm ""
   - src/gsasl localhost --no-starttls --mechanism ANONYMOUS -n user -d
   - src/gsasl localhost 2000 --smtp --mechanism PLAIN --password sesam -d
   - src/gsasl localhost 2000 --smtp --mechanism LOGIN --password sesam -d
