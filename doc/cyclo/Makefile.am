@@ -18,18 +18,19 @@
 EXTRA_DIST = cyclo-$(PACKAGE).html
 
 cyclo-$(PACKAGE).html:
-	$(PMCCABE) `find $(top_srcdir)/lib -name \*.[ch] \
+	(cd $(top_srcdir)/lib && \
+	$(PMCCABE) `find . -name \*.[ch] | sed 's,^./,,' \
 		| grep -v \
-			-e ../gl \
+			-e ^gl/ \
+			-e ^gltests/ \
 			-e test-parser.c \
 			-e test-errors.c \
 			-e obsolete.c \
 			-e kerberos_v5` \
 		| sort -nr \
-		| $(AWK) -f ${top_srcdir}/lib/build-aux/pmccabe2html \
+		| $(AWK) -f ../lib/build-aux/pmccabe2html \
 			-v lang=html -v name="$(PACKAGE_NAME)" \
-			-v vcurl="http://git.savannah.gnu.org/gitweb/?p=$(PACKAGE).git;a=blob;f=%FILENAME%;hb=HEAD" \
-			-v url="http://www.gnu.org/software/$(PACKAGE)/" \
-                       -v css=${top_srcdir}/lib/build-aux/pmccabe.css \
-			> $@-tmp
+			-v vcurl="https://git.savannah.gnu.org/gitweb/?p=$(PACKAGE).git;a=blob;f=lib/%FILENAME%;hb=HEAD" \
+			-v url="https://www.gnu.org/software/$(PACKAGE)/" \
+                       -v css=../lib/build-aux/pmccabe.css) > $@-tmp
 	mv $@-tmp $@

@@ -37,6 +37,7 @@ Ubuntu-coverage-cyclo:
     - lcov --remove coverage/gsasl.info '/usr/include/*' '*/gl/*' '*/gltests/*' '*/lib/gl/*' '*/lib/gltests/*' -o coverage/gsasl_filtered.info
     - genhtml --output-directory coverage coverage/gsasl_filtered.info --highlight --frames --legend --title "GNU SASL"
     - mkdir cyclo
+    - make -C doc/cyclo/ cyclo-gsasl.html
     - cp -v doc/cyclo/cyclo-gsasl.html cyclo/index.html
   artifacts:
     when: on_success
