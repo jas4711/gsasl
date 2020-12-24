@@ -51,6 +51,8 @@ client) mechanism for the GSASL_SERVICE and GSASL_HOSTNAME properties.
 Thanks to Jeremy Harris for noticing the problem and discussion, see
 https://lists.gnu.org/archive/html/help-gsasl/2020-01/msg00035.html
 
+** gsasl: The --mkpasswd output format follows Dovecot 'doveadm pw'.
+
 ** Filenames of images in the manual are now prefixed with 'gsasl-'.
 This makes /usr/share/info more understandable, and it is suggested by
 at least Debian to do this in upstream.

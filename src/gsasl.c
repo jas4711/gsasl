@@ -444,9 +444,12 @@ mkpasswd (void)
   if (res != GSASL_OK)
     error (EXIT_FAILURE, 0, "%s", gsasl_strerror (res));
 
-  printf ("%s:%d:%s:%s:%s:%s\n", args_info.mechanism_arg,
+  printf ("{%s}%d,%s,%s,%s", args_info.mechanism_arg,
 	  args_info.iteration_count_arg,
-	  b64salt, hexsaltedpassword, b64serverkey, b64storedkey);
+	  b64salt, b64storedkey, b64serverkey);
+  if (args_info.verbose_given)
+    printf (",%s", hexsaltedpassword);
+  printf ("\n");
 
   if (salt != salt_buf)
     free (salt);
