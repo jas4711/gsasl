@@ -381,6 +381,14 @@ gltests/test-float
 gltests/test-float.log
 gltests/test-float.o
 gltests/test-float.trs
+gltests/test-fopen
+gltests/test-fopen-gnu
+gltests/test-fopen-gnu.log
+gltests/test-fopen-gnu.o
+gltests/test-fopen-gnu.trs
+gltests/test-fopen.log
+gltests/test-fopen.o
+gltests/test-fopen.trs
 gltests/test-fpurge
 gltests/test-fpurge.o
 gltests/test-fputc
@@ -1681,6 +1689,7 @@ lib/login/mechinfo.o
 lib/login/server.lo
 lib/login/server.o
 lib/m4/libtool.m4
+lib/m4/libtool.m4.orig
 lib/m4/ltoptions.m4
 lib/m4/ltsugar.m4
 lib/m4/ltversion.m4
@@ -1830,6 +1839,7 @@ lib/tests/test-error.trs
 lib/tests/test-suite.log
 libtool
 m4/libtool.m4
+m4/libtool.m4.orig
 m4/ltoptions.m4
 m4/ltsugar.m4
 m4/ltversion.m4
