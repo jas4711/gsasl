@@ -92,12 +92,6 @@ scram_start (Gsasl_session * sctx _GL_UNUSED, void **mech_data,
     goto end;
 
   rc = gsasl_base64_to (buf, SNONCE_ENTROPY_BYTES, &state->snonce, NULL);
-#if SCRAMDEBUG
-  if (hash == GSASL_HASH_SHA1)
-    state->snonce = strdup ("3rfcNHYJY1ZVvWVs7j");	// SCRAM-SHA1
-  else
-    state->snonce = strdup ("%hvYDpWUa2RaTCAfuxFIlj)hNlF$k0");	// SCRAM-SHA256
-#endif
   if (rc != GSASL_OK)
     goto end;
 

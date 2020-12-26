@@ -92,13 +92,6 @@ scram_start (Gsasl_session * sctx _GL_UNUSED,
       return rc;
     }
 
-#if SCRAMDEBUG
-  if (state->hash == GSASL_HASH_SHA1)
-    state->cf.client_nonce = strdup ("fyko+d2lbbFgONRv9qkxdawL");
-  else
-    state->cf.client_nonce = strdup ("rOprNGfwEbeRWgbNEkqO");
-#endif
-
   *mech_data = state;
 
   return GSASL_OK;
