@@ -31,8 +31,7 @@ AC_PROG_CC
 gl_EARLY
 m4_pattern_allow([AM_PROG_AR])
 AM_PROG_AR
-AC_LIBTOOL_WIN32_DLL
-AC_PROG_LIBTOOL
+LT_INIT([win32-dll])
 AM_MISSING_PROG(PERL, perl, $missing_dir)
 AM_MISSING_PROG(HELP2MAN, help2man, $missing_dir)
 AM_MISSING_PROG(DIA, dia, $missing_dir)

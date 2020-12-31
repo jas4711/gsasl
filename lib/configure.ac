@@ -45,8 +45,7 @@ AC_PROG_CC
 gl_EARLY
 m4_pattern_allow([AM_PROG_AR])
 AM_PROG_AR
-AC_LIBTOOL_WIN32_DLL
-AC_PROG_LIBTOOL
+LT_INIT([win32-dll])
 
 # Internationalization.
 AM_GNU_GETTEXT([external])
