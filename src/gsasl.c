@@ -445,8 +445,7 @@ mkpasswd (void)
     error (EXIT_FAILURE, 0, "%s", gsasl_strerror (res));
 
   printf ("{%s}%d,%s,%s,%s", args_info.mechanism_arg,
-	  args_info.iteration_count_arg,
-	  b64salt, b64storedkey, b64serverkey);
+	  args_info.iteration_count_arg, b64salt, b64storedkey, b64serverkey);
   if (args_info.verbose_given)
     printf (",%s", hexsaltedpassword);
   printf ("\n");
@@ -755,8 +754,7 @@ main (int argc, char *argv[])
 	error (EXIT_FAILURE, 0, _("setting X.509 GnuTLS credential: %s"),
 	       gnutls_strerror (res));
 
-      if (args_info.x509_ca_file_arg == NULL
-	  || *args_info.x509_ca_file_arg)
+      if (args_info.x509_ca_file_arg == NULL || *args_info.x509_ca_file_arg)
 	gnutls_session_set_verify_cert (session, connect_hostname, 0);
 
       if (args_info.priority_arg)
@@ -785,16 +783,17 @@ main (int argc, char *argv[])
 
       if (!args_info.quiet_given)
 	{
-	int type;
-	unsigned status;
-	gnutls_datum_t out;
+	  int type;
+	  unsigned status;
+	  gnutls_datum_t out;
 
-	type = gnutls_certificate_type_get (session);
-	status = gnutls_session_get_verify_cert_status (session);
-	gnutls_certificate_verification_status_print (status, type, &out, 0);
-	fprintf (stderr, _("TLS X.509 Verification: %s\n"), out.data);
-	gnutls_free (out.data);
-      }
+	  type = gnutls_certificate_type_get (session);
+	  status = gnutls_session_get_verify_cert_status (session);
+	  gnutls_certificate_verification_status_print (status, type, &out,
+							0);
+	  fprintf (stderr, _("TLS X.509 Verification: %s\n"), out.data);
+	  gnutls_free (out.data);
+	}
 
       if (res < 0)
 	error (EXIT_FAILURE, 0, _("GnuTLS handshake failed: %s"),
