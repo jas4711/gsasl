@@ -1,5 +1,5 @@
 /* readnz.c --- Check out-of-bounds reads on non-zero terminated strings.
- * Copyright (C) 2010-2020 Simon Josefsson
+ * Copyright (C) 2010-2021 Simon Josefsson
  *
  * This file is part of GNU SASL.
  *
@@ -78,7 +78,7 @@ doit2 (bool server_p)
 	      return;
 	    }
 
-	  p = malloc (len);
+	  p = malloc (len + 1);
 	  if (!p)
 	    {
 	      fail ("out of memory\n");
