@@ -28,9 +28,9 @@ AC_CONFIG_MACRO_DIR([m4])
 # Interfaces changed/added/removed:   CURRENT++       REVISION=0
 # Interfaces added:                             AGE++
 # Interfaces removed:                           AGE=0
-AC_SUBST(LT_CURRENT, 17)
-AC_SUBST(LT_REVISION, 1)
-AC_SUBST(LT_AGE, 10)
+AC_SUBST(LT_CURRENT, 18)
+AC_SUBST(LT_REVISION, 0)
+AC_SUBST(LT_AGE, 0)
 
 # Used when creating libgsasl-XX.def.
 DLL_VERSION=`expr ${LT_CURRENT} - ${LT_AGE}`
@@ -364,20 +364,6 @@ AC_MSG_RESULT($server)
 AM_CONDITIONAL(CLIENT, test x$client = xyes)
 AM_CONDITIONAL(SERVER, test x$server = xyes)
 
-# Allow disabling of obsolete stuff.
-AC_ARG_ENABLE(obsolete,
-  AS_HELP_STRING([--disable-obsolete], [disable backwards compatibility code]),
-    obsolete=$enableval)
-if test "$obsolete" = "no"; then
-  AC_DEFINE(GSASL_NO_OBSOLETE, 1,
-    [Define to 1 if you don't want backwards compatibility code.])
-else
-  obsolete=yes
-fi
-AC_MSG_CHECKING([if backwards compatibility code should be present])
-AC_MSG_RESULT($obsolete)
-AM_CONDITIONAL(OBSOLETE, test "$obsolete" = "yes")
-
 # For gnulib stuff in gl/ which may modify gssapi_impl, see gl/m4/gss-extra.m4.
 gl_INIT
 AC_DEFINE([GNULIB_NO_VLA], 1, [Disable VLA usage in gettext.h.])
@@ -491,8 +477,6 @@ AC_MSG_NOTICE([summary of library build options:
   Valgrind:           $opt_valgrind_tests ${VALGRIND}
   Library types:      Shared=${enable_shared}, Static=${enable_static}
   Warning flags:      $gl_gcc_warnings werror $WERROR_CFLAGS wstack $WSTACK_CFLAGS warn $WARN_CFLAGS
-
-  Obsolete functions: $obsolete
 
   Client side:        $client
   Server side:        $server

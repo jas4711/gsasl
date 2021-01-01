@@ -1794,10 +1794,7 @@ lib/src/free.lo
 lib/src/free.o
 lib/src/init.lo
 lib/src/init.o
-lib/src/libgsasl-obsolete.la
 lib/src/libgsasl.la
-lib/src/libgsasl_obsolete_la-obsolete.lo
-lib/src/libgsasl_obsolete_la-obsolete.o
 lib/src/listmech.lo
 lib/src/listmech.o
 lib/src/md5pwd.lo
@@ -1806,8 +1803,6 @@ lib/src/mechname.lo
 lib/src/mechname.o
 lib/src/mechtools.lo
 lib/src/mechtools.o
-lib/src/obsolete.lo
-lib/src/obsolete.o
 lib/src/property.lo
 lib/src/property.o
 lib/src/register.lo

@@ -48,20 +48,6 @@ AC_CHECK_HEADERS(pwd.h)
 AC_SEARCH_LIBS(socket, socket)
 AC_CHECK_FUNCS(getpwuid)
 
-# Allow disabling of obsolete stuff.
-AC_ARG_ENABLE(obsolete,
-  AS_HELP_STRING([--disable-obsolete], [disable backwards compatibility code]),
-    obsolete=$enableval)
-if test "$obsolete" = "no"; then
-  AC_DEFINE([GSASL_NO_OBSOLETE], 1,
-    [Define to 1 if you don't want backwards compatibility code.])
-else
-  obsolete=yes
-fi
-AC_MSG_CHECKING([if backwards compatibility code should be present])
-AC_MSG_RESULT($obsolete)
-AM_CONDITIONAL(OBSOLETE, test "$obsolete" = "yes")
-
 # Check for GnuTLS.
 AC_ARG_WITH(gnutls,
   AS_HELP_STRING([--without-gnutls], [disable GnuTLS support]),
@@ -176,8 +162,6 @@ AC_MSG_NOTICE([summary of main build options:
   Valgrind:           $opt_valgrind_tests ${VALGRIND}
   Library types:      Shared=${enable_shared}, Static=${enable_static}
   Warning flags:      $gl_gcc_warnings werror $WERROR_CFLAGS wstack $WSTACK_CFLAGS warn $WARN_CFLAGS
-
-  Obsolete functions: $obsolete
 
   GnuTLS support:     $gnutls
         CPPFLAGS:     $INCLIBGNUTLS

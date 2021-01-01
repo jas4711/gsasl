@@ -61,11 +61,6 @@ gsasl_callback_set (Gsasl * ctx, Gsasl_callback_function cb)
  * mechanism to use.  See the manual for the meaning of all
  * parameters.
  *
- * Note that if no callback has been set by the application, but the
- * obsolete callback interface has been used, this function will
- * translate the old callback interface into the new.  This interface
- * should be sufficient to invoke all callbacks, both new and old.
- *
  * Return value: Returns whatever the application callback returns, or
  *   %GSASL_NO_CALLBACK if no application was known.
  *
@@ -82,10 +77,6 @@ gsasl_callback (Gsasl * ctx, Gsasl_session * sctx, Gsasl_property prop)
 
   if (ctx->cb)
     return ctx->cb (ctx, sctx, prop);
-
-#ifndef GSASL_NO_OBSOLETE
-  return _gsasl_obsolete_callback (ctx, sctx, prop);
-#endif
 
   return GSASL_NO_CALLBACK;
 }

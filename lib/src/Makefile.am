@@ -26,7 +26,7 @@ AM_CPPFLAGS += -DLOCALEDIR=\"$(datadir)/locale\"
 
 EXTRA_DIST = doxygen.c
 
-include_HEADERS = gsasl.h gsasl-mech.h gsasl-compat.h
+include_HEADERS = gsasl.h gsasl-mech.h
 
 libgsasl_la_LDFLAGS = -version-info $(LT_CURRENT):$(LT_REVISION):$(LT_AGE) \
 	-no-undefined
@@ -52,17 +52,6 @@ libgsasl_la_LDFLAGS += -Wl,--output-def,libgsasl-$(DLL_VERSION).def
 defexecdir = $(bindir)
 defexec_DATA = libgsasl-$(DLL_VERSION).def
 DISTCLEANFILES = $(defexec_DATA)
-endif
-
-if OBSOLETE
-noinst_LTLIBRARIES = libgsasl-obsolete.la
-libgsasl_obsolete_la_SOURCES = obsolete.c
-libgsasl_obsolete_la_CFLAGS = $(AM_CFLAGS) $(WOBSOLETE_CFLAGS)
-libgsasl_obsolete_la_CPPFLAGS = $(AM_CPPFLAGS)
-if DIGEST_MD5
-libgsasl_obsolete_la_CPPFLAGS += -I$(srcdir)/../digest-md5
-endif
-libgsasl_la_LIBADD += libgsasl-obsolete.la
 endif
 
 # Plugins:

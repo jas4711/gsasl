@@ -73,7 +73,6 @@ Documentation License''.
 Appendices
 
 * Protocol Clarifications::     Our notes on the SASL protocol.
-* Old Functions::               Descriptions of old API functions.
 * Copying Information::		How you can copy and share GNU SASL.
 
 Indices
@@ -497,10 +496,6 @@ to disable the client or the server part of the code.  This does not
 remove symbols from the library, so if you attempt to call an
 application that uses server functions in a library built with
 @code{--disable-server}, the function will return an error code.
-
-@item --disable-obsolete
-Remove backwards compatibility (@pxref{Old Functions}).  Use if you
-want to limit the size of the library.
 
 @item --disable-anonymous
 @itemx --disable-external
@@ -2677,82 +2672,6 @@ The non-standard mechanism LOGIN presumably does not support
 non-ASCII.  We suggest that the client should send unprepared UTF-8
 and that the server apply SASLprep with the AllowUnassigned bit
 cleared on the received username and password.
-
-@c **********************************************************
-@c *******************  Old Functions  **********************
-@c **********************************************************
-@node Old Functions
-@appendix Old Functions
-@cindex Deprecated functions
-@cindex Obsolete functions
-
-As GNU SASL is still under heavy development, some API functions have
-been found to be less useful.  Those old API functions will be
-supported during a transition period.  Refer to the NEWS file to find
-out since when a function has been deprecated.
-
-@include texi/obsolete.c.texi
-
-@section Obsolete callback function prototypes
-
-@deftypefn Prototype int (*Gsasl_client_callback_anonymous) (Gsasl_session_ctx * @var{ctx}, char * @var{out}, size_t * @var{outlen})
-
-@var{ctx}:  libgsasl handle.
-
-@var{out}:  output array with client token.
-
-@var{outlen}:  on input the maximum size of the output array, on output
-contains the actual size of the output array.
-
-Type of callback function the application implements.  It should
-populate the output array with some input from the user and set the
-output array length, and return @code{GSASL_OK}, or fail with an error
-code.
-
-If OUT is NULL, the function should only populate the output length
-field with the length, and return GSASL_OK.  This usage may be used by
-the caller to allocate the proper buffer size.
-
-@end deftypefn
-
-@deftypefn Prototype int (*Gsasl_server_callback_anonymous) (Gsasl_session_ctx * @var{ctx}, const char * @var{token})
-
-@var{ctx}:  libgsasl handle.
-
-@var{ctx}:  output array with client token.
-
-@var{ctx}:  on input the maximum size of the output array, on output
-contains the actual size of the output array.  If OUT is
-
-Type of callback function the application implements.  It should
-return @code{GSASL_OK} if user should be permitted anonymous access,
-otherwise @code{GSASL_AUTHENTICATION_ERROR}.
-
-@end deftypefn
-
-@include gsasl-callback-authentication.texi
-@include gsasl-callback-authorization.texi
-@include gsasl-callback-client-service.texi
-@include gsasl-callback-cram-md5.texi
-@include gsasl-callback-digest-md5.texi
-
-@deftypefn Prototype int (*Gsasl_server_callback_external) (Gsasl_session_ctx * @var{ctx})
-
-@var{ctx}:  libgsasl handle.
-
-Type of callback function the application implements.  It should
-return @code{GSASL_OK} if user is authenticated by out of band means,
-otherwise @code{GSASL_AUTHENTICATION_ERROR}.
-
-@end deftypefn
-
-@include gsasl-callback-gssapi.texi
-@include gsasl-callback-passcode.texi
-@include gsasl-callback-password.texi
-@include gsasl-callback-retrieve.texi
-@include gsasl-callback-securid.texi
-@include gsasl-callback-server-service.texi
-@include gsasl-callback-validate.texi
 
 @node Copying Information
 @appendix Copying Information

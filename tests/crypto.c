@@ -66,47 +66,5 @@ doit (void)
   success ("gsasl_random\n");
 #endif
 
-#ifndef GSASL_NO_OBSOLETE
-  rc = gsasl_md5 ("abc", 3, &hash);
-  if (rc != GSASL_OK)
-    fail ("gsasl_md5 %d: %s\n", rc, gsasl_strerror (rc));
-  if (memcmp (hash, "\x90\x01\x50\x98\x3C\xD2\x4F\xB0"
-	      "\xD6\x96\x3F\x7D\x28\xE1\x7F\x72", 16) != 0)
-    fail ("gsasl_md5 memcmp fail\n");
-  success ("gsasl_md5\n");
-  gsasl_free (hash);
-
-  rc = gsasl_hmac_md5 ("\x0b\x0b\x0b\x0b\x0b\x0b\x0b\x0b"
-		       "\x0b\x0b\x0b\x0b\x0b\x0b\x0b\x0b", 16,
-		       "Hi There", 8, &hash);
-  if (rc != GSASL_OK)
-    fail ("gsasl_hmac_md5 %d: %s\n", rc, gsasl_strerror (rc));
-  if (memcmp (hash, "\x92\x94\x72\x7a\x36\x38\xbb\x1c"
-	      "\x13\xf4\x8e\xf8\x15\x8b\xfc\x9d", 16) != 0)
-    fail ("gsasl_hmac_md5 memcmp fail\n");
-  success ("gsasl_hmac_md5\n");
-  gsasl_free (hash);
-
-  rc = gsasl_sha1 ("abc", 3, &hash);
-  if (rc != GSASL_OK)
-    fail ("gsasl_sha1 %d: %s\n", rc, gsasl_strerror (rc));
-  if (memcmp (hash, "\xa9\x99\x3e\x36\x47\x06\x81\x6a\xba\x3e\x25"
-	      "\x71\x78\x50\xc2\x6c\x9c\xd0\xd8\x9d", 20) != 0)
-    fail ("gsasl_sha1 memcmp fail\n");
-  success ("gsasl_sha1\n");
-  gsasl_free (hash);
-
-  rc = gsasl_hmac_sha1 ("\x0b\x0b\x0b\x0b\x0b\x0b\x0b\x0b"
-			"\x0b\x0b\x0b\x0b\x0b\x0b\x0b\x0b", 16,
-			"Hi There", 8, &hash);
-  if (rc != GSASL_OK)
-    fail ("gsasl_hmac_sha1 %d: %s\n", rc, gsasl_strerror (rc));
-  if (memcmp (hash, "\x67\x5b\x0b\x3a\x1b\x4d\xdf\x4e\x12\x48\x72"
-	      "\xda\x6c\x2f\x63\x2b\xfe\xd9\x57\xe9", 20) != 0)
-    fail ("gsasl_hmac_sha1 memcmp fail\n");
-  success ("gsasl_hmac_sha1\n");
-  gsasl_free (hash);
-#endif
-
   gsasl_done (ctx);
 }

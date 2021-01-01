@@ -46,32 +46,6 @@ struct Gsasl
   /* Callback. */
   Gsasl_callback_function cb;
   void *application_hook;
-#ifndef GSASL_NO_OBSOLETE
-  /* Obsolete stuff. */
-  Gsasl_client_callback_authorization_id cbc_authorization_id;
-  Gsasl_client_callback_authentication_id cbc_authentication_id;
-  Gsasl_client_callback_password cbc_password;
-  Gsasl_client_callback_passcode cbc_passcode;
-  Gsasl_client_callback_pin cbc_pin;
-  Gsasl_client_callback_anonymous cbc_anonymous;
-  Gsasl_client_callback_qop cbc_qop;
-  Gsasl_client_callback_maxbuf cbc_maxbuf;
-  Gsasl_client_callback_service cbc_service;
-  Gsasl_client_callback_realm cbc_realm;
-  Gsasl_server_callback_validate cbs_validate;
-  Gsasl_server_callback_securid cbs_securid;
-  Gsasl_server_callback_retrieve cbs_retrieve;
-  Gsasl_server_callback_cram_md5 cbs_cram_md5;
-  Gsasl_server_callback_digest_md5 cbs_digest_md5;
-  Gsasl_server_callback_external cbs_external;
-  Gsasl_server_callback_anonymous cbs_anonymous;
-  Gsasl_server_callback_realm cbs_realm;
-  Gsasl_server_callback_qop cbs_qop;
-  Gsasl_server_callback_maxbuf cbs_maxbuf;
-  Gsasl_server_callback_cipher cbs_cipher;
-  Gsasl_server_callback_service cbs_service;
-  Gsasl_server_callback_gssapi cbs_gssapi;
-#endif
 };
 
 /* Per-session library handle. */
@@ -110,18 +84,6 @@ struct Gsasl_session
   char *openid20_outcome_data;
   /* If you add anything here, remember to change change
      gsasl_finish() in xfinish.c and map() in property.c.  */
-
-#ifndef GSASL_NO_OBSOLETE
-  /* Obsolete stuff. */
-  void *application_data;
-#endif
 };
-
-#ifndef GSASL_NO_OBSOLETE
-const char *_gsasl_obsolete_property_map (Gsasl_session * sctx,
-					  Gsasl_property prop);
-int _gsasl_obsolete_callback (Gsasl * ctx, Gsasl_session * sctx,
-			      Gsasl_property prop);
-#endif
 
 #endif /* INTERNAL_H */

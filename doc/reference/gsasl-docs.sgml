@@ -99,7 +99,6 @@ mechanism interact is shown in <xref linkend="abstraction"/>.
 
     <xi:include href="xml/gsasl.xml"/>
     <xi:include href="xml/gsasl-mech.xml"/>
-    <xi:include href="xml/gsasl-compat.xml"/>
   </chapter>
 
   <index id="api-index-full">

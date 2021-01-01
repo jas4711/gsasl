@@ -21,4 +21,4 @@ EXTRA_DIST = cfg.mk maint.mk .clcopying
 
 ACLOCAL_AMFLAGS = -I m4
 
-DISTCHECK_CONFIGURE_FLAGS = --enable-gtk-doc --disable-obsolete --with-gssapi-impl=no
+DISTCHECK_CONFIGURE_FLAGS = --enable-gtk-doc --with-gssapi-impl=no

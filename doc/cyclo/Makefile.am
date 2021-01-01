@@ -23,7 +23,6 @@ cyclo-$(PACKAGE).html:
 			-e ^gltests/ \
 			-e test-parser.c \
 			-e test-errors.c \
-			-e obsolete.c \
 			-e kerberos_v5` \
 		| sort -nr \
 		| $(AWK) -f ../lib/build-aux/pmccabe2html \

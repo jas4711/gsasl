@@ -248,13 +248,6 @@ gsasl_property_fast (Gsasl_session * sctx, Gsasl_property prop)
  * This function will invoke the application callback, using
  * gsasl_callback(), when a property value is not known.
  *
- * If no value is known, and no callback is specified or if the
- * callback fail to return data, and if any obsolete callback
- * functions has been set by the application, this function will try
- * to call these obsolete callbacks, and store the returned data as
- * the corresponding property.  This behaviour of this function will
- * be removed when the obsolete callback interfaces are removed.
- *
  * Return value: Return data for property, or NULL if no value known.
  *
  * Since: 0.2.0
@@ -269,11 +262,6 @@ gsasl_property_get (Gsasl_session * sctx, Gsasl_property prop)
       gsasl_callback (NULL, sctx, prop);
       p = gsasl_property_fast (sctx, prop);
     }
-
-#ifndef GSASL_NO_OBSOLETE
-  if (!p)
-    p = _gsasl_obsolete_property_map (sctx, prop);
-#endif
 
   return p;
 }

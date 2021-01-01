@@ -520,11 +520,6 @@ extern "C"
   /* Get the mechanism API. */
 #include <gsasl-mech.h>
 
-#ifndef GSASL_NO_OBSOLETE
-  /* For compatibility with earlier versions. */
-#include <gsasl-compat.h>
-#endif
-
 #ifdef __cplusplus
 }
 #endif
