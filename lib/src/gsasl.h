@@ -95,7 +95,7 @@ extern "C"
    *
    * Since: 1.1
    */
-#define GSASL_VERSION_NUMBER 0x010A00
+#define GSASL_VERSION_NUMBER 0x010a00
 
   /* RFC 2222: SASL mechanisms are named by strings, from 1 to 20
    * characters in length, consisting of upper-case letters, digits,
