@@ -1898,8 +1898,8 @@ tests/gs2-krb5
 tests/gs2-krb5.log
 tests/gs2-krb5.o
 tests/gs2-krb5.trs
-tests/gsasl-scram-pbkdf2.log
-tests/gsasl-scram-pbkdf2.trs
+tests/gsasl-scram-pbkdf2.sh.log
+tests/gsasl-scram-pbkdf2.sh.trs
 tests/gssapi
 tests/gssapi.log
 tests/gssapi.o
@@ -1982,8 +1982,8 @@ tests/symbols.log
 tests/symbols.o
 tests/symbols.trs
 tests/test-suite.log
-tests/threadsafety.log
-tests/threadsafety.trs
+tests/threadsafety.sh.log
+tests/threadsafety.sh.trs
 tests/utils.lo
 tests/utils.o
 windows/build-x64/
