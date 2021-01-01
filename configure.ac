@@ -68,11 +68,11 @@ AC_ARG_WITH(gnutls,
 	gnutls=$withval, gnutls=yes)
 if test "$gnutls" != "no"; then
   AC_LIB_HAVE_LINKFLAGS(gnutls,, [#include <gnutls/gnutls.h>],
-    [gnutls_priority_set_direct (0, 0, 0);])
+    [gnutls_session_set_verify_cert (NULL, NULL, 0);])
 fi
 if test "$ac_cv_libgnutls" != yes; then
   gnutls=no
-  AC_MSG_WARN([GnuTLS not found.  STARTTLS support disabled.])
+  AC_MSG_WARN([GnuTLS >= 3.4 not found.  STARTTLS support disabled.])
 fi
 AC_MSG_CHECKING([if STARTTLS support via GnuTLS should be built])
 AC_MSG_RESULT($gnutls)
