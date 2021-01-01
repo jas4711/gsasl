@@ -17,7 +17,7 @@ SASL.  That include the manual, the command line tool, and self tests.
 *** New 'gsasl --mkpasswd' command to prepare SCRAM salted/hashed passwords.
 
 *** Various cleanups, portability and other bug fixes.
-See the NEWS entries during the 1.9.x branch for details.
+See the entries in NEWS and lib/NEWS covering the 1.9.x branch for details.
 
 * Version 1.9.3 (released 2021-01-01) [beta]
 
