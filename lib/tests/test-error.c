@@ -1,5 +1,5 @@
 /* test-error.c --- Check consistency of error.c error definitions.
- * Copyright (C) 2008-2020 Simon Josefsson
+ * Copyright (C) 2008-2021 Simon Josefsson
  *
  * This file is part of GNU SASL Library.
  *

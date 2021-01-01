@@ -1,5 +1,5 @@
 /* simple.c --- Test the simple SASL mechanisms, using old APIs.
- * Copyright (C) 2002-2020 Simon Josefsson
+ * Copyright (C) 2002-2021 Simon Josefsson
  *
  * This file is part of GNU SASL.
  *

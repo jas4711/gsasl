@@ -1,5 +1,5 @@
 /* client.c --- Experimental SASL mechanism KERBEROS_V5, client side.
- * Copyright (C) 2003-2020 Simon Josefsson
+ * Copyright (C) 2003-2021 Simon Josefsson
  *
  * This file is part of GNU SASL Library.
  *

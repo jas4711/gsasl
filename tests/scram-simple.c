@@ -1,5 +1,5 @@
 /* scram-simple.c --- Test the SCRAM-SHA256 mechanism.
- * Copyright (C) 2009-2020 Simon Josefsson
+ * Copyright (C) 2009-2021 Simon Josefsson
  *
  * This file is part of GNU SASL.
  *

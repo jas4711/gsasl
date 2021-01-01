@@ -1,5 +1,5 @@
 /* saml20.c --- Test the SAML20 mechanism.
- * Copyright (C) 2010-2020 Simon Josefsson
+ * Copyright (C) 2010-2021 Simon Josefsson
  *
  * This file is part of GNU SASL.
  *

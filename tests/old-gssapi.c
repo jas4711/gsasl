@@ -1,5 +1,5 @@
 /* old-gssapi.c --- Test the GSSAPI mechanism, using old callback API.
- * Copyright (C) 2002-2020 Simon Josefsson
+ * Copyright (C) 2002-2021 Simon Josefsson
  *
  * This file is part of GNU SASL.
  *

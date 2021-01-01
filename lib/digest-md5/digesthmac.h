@@ -1,5 +1,5 @@
 /* digesthmac.h --- Compute DIGEST-MD5 response value.
- * Copyright (C) 2004-2020 Simon Josefsson
+ * Copyright (C) 2004-2021 Simon Josefsson
  *
  * This file is part of GNU SASL Library.
  *

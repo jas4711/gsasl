@@ -1,5 +1,5 @@
 /* client.c --- SASL SCRAM client side functions.
- * Copyright (C) 2009-2020 Simon Josefsson
+ * Copyright (C) 2009-2021 Simon Josefsson
  *
  * This file is part of GNU SASL Library.
  *

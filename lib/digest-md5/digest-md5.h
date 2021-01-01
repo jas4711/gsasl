@@ -1,5 +1,5 @@
 /* digest-md5.h --- Prototypes for DIGEST-MD5 mechanism as defined in RFC 2831.
- * Copyright (C) 2002-2020 Simon Josefsson
+ * Copyright (C) 2002-2021 Simon Josefsson
  *
  * This file is part of GNU SASL Library.
  *
