@@ -2,6 +2,13 @@ GNU SASL LIBRARY NEWS -- History of user-visible changes.
 Copyright (C) 2002-2021 Simon Josefsson
 See the end for copying conditions.
 
+* Version 1.10.0 (unreleased) [stable]
+
+** This is a new major stable release.
+See ../NEWS for summary.  This file will no longer be used to document
+user-visible changes in the library, instead ../NEWS will be used to
+document everything in order to make the information coherent.
+
 * Version 1.9.3 (released 2021-01-01) [beta]
 
 ** API and ABI modifications.
