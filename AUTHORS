@@ -14,32 +14,6 @@ Fixed digest-md5 to not add excessive commas.
 Adam Strzelecki <ono@java.pl>
 Contributed Windows Visual Studio project files.
 
------BEGIN PGP PUBLIC KEY BLOCK-----
-URL: http://josefsson.org/key-20190320.txt
-Comment: GNU SASL sig key B1D2BD1375BECB784CF4F8C4D73CF638C53C06BE
-
-mDMEXJLOtBYJKwYBBAHaRw8BAQdACIcrZIvhrxDBkK9fV+QlTmXxo2naObDuGtw5
-8YaxlOu0JVNpbW9uIEpvc2Vmc3NvbiA8c2ltb25Aam9zZWZzc29uLm9yZz6IlgQT
-FggAPhYhBLHSvRN1vst4TPT4xNc89jjFPAa+BQJcks60AhsDBQkBHMQABQsJCAcC
-BhUICQoLAgQWAgMBAh4BAheAAAoJENc89jjFPAa+mrABAM8bSSGjIEtriABJteUo
-A/GAWJ+VnLoR44kc5QmQxhKsAQCNdRzLXCvDvYIAOIblRRetsGdFI0zdXA/Ey/NA
-0B9yALg4BFySz2oSCisGAQQBl1UBBQEBB0AxlRumDW6nZY7A+VCfek9VpEx6PJmd
-JyYPt3lNHMd6HAMBCAeIfgQYFggAJhYhBLHSvRN1vst4TPT4xNc89jjFPAa+BQJc
-ks9qAhsMBQkBHMQAAAoJENc89jjFPAa+4kMBAILG9rwrhcPSAvay4XDgJ8SqDHm8
-AsKA3E7zirxVq5X9AQCNlXB+RWh7yX61utkJrziBqQti/j3vHKX6c3yU4FLNC7gz
-BFySz3UWCSsGAQQB2kcPAQEHQLzCFcHHrKzVSPDDarZPYqn89H5TPaxwcORgRg+4
-DagEiH4EGBYIACYWIQSx0r0Tdb7LeEz0+MTXPPY4xTwGvgUCXJLPdQIbIAUJARzE
-AAAKCRDXPPY4xTwGvuSSAP9+QE0ODSVcRYsmSMXzEEOaCwlthh22A1CmXoV5s1yu
-mwD/aVUqVN1Q0mSE6iab47Q2EklsCBTl8cSq/A1DcewQKQi4MwRcks+BFgkrBgEE
-AdpHDwEBB0DsUwiDmnlwMSNoSF+ByvW0E6TVXou9PKDa9SpZvKghioj1BBgWCAAm
-FiEEsdK9E3W+y3hM9PjE1zz2OMU8Br4FAlySz4ECGwIFCQEcxAAAgQkQ1zz2OMU8
-Br52IAQZFggAHRYhBKPMnIcLnTEKutTPL1FyKwj+R0WiBQJcks+BAAoJEFFyKwj+
-R0Wip0wBAKAfjlqx5mAivAo69Q4D1B+yZ4TwZkdg24UeYz0URBLoAPoDjHlpi+hj
-qWj3ymC3DYc8OGZwJcUi2NcKtXgDQaYkDgouAQC5P99kv6H+PL9Bb3J9KLgFPno8
-ZTuf8yhTOM7Abx+WPgEA4Kb5+ouGszRJDPOMDSp0KuxMr/usFJn3Ty1s1g5rCA4=
-=CBvd
------END PGP PUBLIC KEY BLOCK-----
-
 ----------------------------------------------------------------------
 Copying and distribution of this file, with or without modification,
 are permitted in any medium without royalty provided the copyright
