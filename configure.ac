@@ -1,6 +1,6 @@
 dnl Process this file with autoconf to produce a configure script.
 
-# Copyright (C) 2002-2020 Simon Josefsson
+# Copyright (C) 2002-2021 Simon Josefsson
 #
 # This file is part of GNU SASL.
 #
@@ -22,7 +22,7 @@ AC_INIT([GNU SASL], [1.9.3], [bug-gsasl@gnu.org], [gsasl])
 AC_CONFIG_AUX_DIR([lib/build-aux])
 AC_CONFIG_MACRO_DIR([m4])
 
-AM_INIT_AUTOMAKE([1.10 -Wall -Wno-override])
+AM_INIT_AUTOMAKE([1.13 -Wall -Wno-override])
 AM_SILENT_RULES([yes])
 AC_CONFIG_HEADERS([config.h])
 

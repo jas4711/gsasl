@@ -1,5 +1,5 @@
 ## Process this file with automake to produce Makefile.in
-# Copyright (C) 2002-2020 Simon Josefsson
+# Copyright (C) 2002-2021 Simon Josefsson
 #
 # This file is part of GNU SASL.
 #
@@ -55,5 +55,6 @@ endif
 # old-gssapi
 
 check_PROGRAMS = $(ctests)
-dist_check_SCRIPTS = threadsafety gsasl-scram-pbkdf2
+dist_check_SCRIPTS = threadsafety.sh gsasl-scram-pbkdf2.sh
+TEST_EXTENSIONS = .sh
 TESTS = $(dist_check_SCRIPTS) $(ctests)
