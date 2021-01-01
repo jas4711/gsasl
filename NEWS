@@ -6,7 +6,7 @@ Note that changes to the GNU SASL Library is documented in lib/NEWS.
 This file track changes to the remaining, non-library, parts of GNU
 SASL.  That include the manual, the command line tool, and self tests.
 
-* Version 1.9.3 (unreleased) [beta]
+* Version 1.9.3 (released 2021-01-01) [beta]
 
 ** Fix build/portability problems.  GnuTLS >= 3.4 is required.
 Thanks to Bruno Haible for reports.
