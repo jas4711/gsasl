@@ -73,7 +73,7 @@ imap_select_mechanism (char **mechlist)
   if (args_info.server_flag)
     {
       if (!args_info.quiet_given)
-	fprintf (stderr, _("Chose SASL mechanisms:\n"));
+	fprintf (stderr, _("Input list of SASL mechanisms:\n"));
       if (!readln (&in))
 	return 0;
       *mechlist = in;
