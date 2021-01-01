@@ -51,7 +51,7 @@ extern "C"
    * version number.  Used together with gsasl_check_version() to
    * verify header file and run-time library consistency.
    */
-#define GSASL_VERSION "1.10.0"
+#define GSASL_VERSION "1.11.0"
 
   /**
    * GSASL_VERSION_MAJOR
@@ -73,7 +73,7 @@ extern "C"
    *
    * Since: 1.1
    */
-#define GSASL_VERSION_MINOR 10
+#define GSASL_VERSION_MINOR 11
 
   /**
    * GSASL_VERSION_PATCH
@@ -95,7 +95,7 @@ extern "C"
    *
    * Since: 1.1
    */
-#define GSASL_VERSION_NUMBER 0x010a00
+#define GSASL_VERSION_NUMBER 0x010b00
 
   /* RFC 2222: SASL mechanisms are named by strings, from 1 to 20
    * characters in length, consisting of upper-case letters, digits,
