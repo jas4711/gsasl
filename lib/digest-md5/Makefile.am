@@ -44,7 +44,7 @@ if SERVER
 libgsasl_digest_md5_la_SOURCES += server.c
 endif
 
-LDADD = libgsasl-digest_md5.la ../gl/libgl.la
+LDADD = libgsasl-digest_md5.la ../gl/liblgl.la
 
 test_parser_CFLAGS = $(WERROR_CFLAGS) $(WARN_CFLAGS)
 ctests = test-parser

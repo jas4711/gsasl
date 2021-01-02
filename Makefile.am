@@ -19,6 +19,8 @@ SUBDIRS = lib po gl src examples tests doc gltests
 
 EXTRA_DIST = cfg.mk maint.mk .clcopying
 
-ACLOCAL_AMFLAGS = -I m4
+EXTRA_DIST += m4/gnulib-cache.m4
+
+ACLOCAL_AMFLAGS = -I m4 -I lib/m4
 
 DISTCHECK_CONFIGURE_FLAGS = --enable-gtk-doc --with-gssapi-impl=no

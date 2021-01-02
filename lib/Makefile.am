@@ -17,21 +17,19 @@
 # Software Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston,
 # MA 02110-1301, USA.
 
-ACLOCAL_AMFLAGS = -I m4
-
 pkgconfigdir = $(libdir)/pkgconfig
 pkgconfig_DATA = libgsasl.pc
 
-EXTRA_DIST = cfg.mk maint.mk
-
 # Visual Studio project files.
-EXTRA_DIST += win32/libgsasl.sln win32/libgsasl.vcproj		\
+EXTRA_DIST = win32/libgsasl.sln win32/libgsasl.vcproj		\
 	win32/include/ac-stdint.h win32/include/alloca.h	\
 	win32/include/idn-int.h win32/include/stdbool.h		\
 	win32/include/stdint.h win32/include/unistd.h		\
 	win32/include/config.h
 
-SUBDIRS = po gl
+EXTRA_DIST += m4/gnulib-cache.m4
+
+SUBDIRS = gl gltests
 
 # Plugins:
 if EXTERNAL
@@ -86,4 +84,4 @@ if SECURID
 SUBDIRS += securid
 endif
 
-SUBDIRS += src tests gltests
+SUBDIRS += src tests

@@ -22,7 +22,8 @@ AM_CFLAGS = $(WERROR_CFLAGS) $(WARN_CFLAGS) $(WEASY_CFLAGS)
 AM_CPPFLAGS = -I$(top_srcdir)/gl -I$(top_builddir)/gl \
 	 -I$(top_srcdir)/lib/src -I$(top_builddir)/lib/src
 AM_LDFLAGS = -no-install
-LDADD = ../lib/src/libgsasl.la ../gl/libgl.la libutils.la
+LDADD = ../lib/src/libgsasl.la libutils.la
+LDADD += ../lib/gl/liblgl.la ../gl/libgl.la
 
 EXTRA_DIST = libgsasl.supp gssapi.key gssapi.tkt shishi.conf
 
@@ -38,7 +39,7 @@ AM_TESTS_ENVIRONMENT = \
 	THREADSAFETY_FILES=`ls $(top_srcdir)/lib/*/*.c | $(GREP) -v -e lib/gl/vasnprintf.c -e lib/gl/getdelim.c -e lib/gltests/` \
 	MD5FILE=$(srcdir)/cram-md5.pwd \
 	EGREP="$(EGREP)" \
-	GNUGSS=`if grep 'HAVE_LIBGSS 1' ../lib/config.h > /dev/null; then echo yes; else echo no; fi`; \
+	GNUGSS="$(HAVE_LIBGSS)" \
 	VALGRIND="$(VALGRIND)" \
 	export SHISHI_KEYS SHISHI_TICKETS SHISHI_CONFIG SHISHI_HOME SHISHI_USER THREADSAFETY_FILES MD5FILE EGREP GNUGSS VALGRIND;
 

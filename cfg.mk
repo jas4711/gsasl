@@ -15,17 +15,7 @@
 # You should have received a copy of the GNU General Public License
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-WFLAGS ?= --enable-gcc-warnings
-ADDFLAGS ?=
-CFGFLAGS ?= --enable-gtk-doc --enable-gtk-doc-pdf $(ADDFLAGS) $(WFLAGS)
-
-_build-aux = lib/build-aux
-
 INDENT_SOURCES = `find . -name '*.[chly]' | grep -v -e /gl -e build-aux -e /win32/ -e /examples/`
-
-ifeq ($(.DEFAULT_GOAL),abort-due-to-no-makefile)
-.DEFAULT_GOAL := bootstrap
-endif
 
 local-checks-to-skip = sc_prohibit_strcmp sc_error_message_uppercase	\
 	sc_prohibit_have_config_h sc_require_config_h			\
@@ -53,39 +43,6 @@ exclude_file_name_regexp--sc_prohibit_test_minus_ao = ^lib/m4/libgcrypt.m4$$
 
 update-copyright-env = UPDATE_COPYRIGHT_HOLDER="Simon Josefsson" UPDATE_COPYRIGHT_USE_INTERVALS=2 UPDATE_COPYRIGHT_FORCE=1
 
-autoreconf:
-	for f in po/*.po.in lib/po/*.po.in; do \
-		cp $$f `echo $$f | sed 's/.in//'`; \
-	done
-	touch ChangeLog lib/ChangeLog
-	if ! test -f ./configure; then \
-		libtoolize --copy --install; \
-		cd lib && libtoolize --copy --install && cd ..; \
-		patch -d m4 < gl/override/0001-Fix-export-symbols-and-export-symbols-regex-support-.patch; \
-		patch -d lib/m4 < gl/override/0001-Fix-export-symbols-and-export-symbols-regex-support-.patch; \
-		AUTOPOINT=true LIBTOOLIZE=true autoreconf --install --verbose; \
-	fi
-
-update-po:
-	$(MAKE) -C lib refresh-po PACKAGE=libgsasl
-	$(MAKE) refresh-po PACKAGE=gsasl
-	for f in `ls lib/po/*.po po/*.po | grep -v quot.po`; do \
-		cp $$f $$f.in; \
-	done
-	git add po/*.po.in lib/po/*.po.in
-	git commit -m "Sync with TP." \
-		po/LINGUAS po/*.po.in lib/po/LINGUAS lib/po/*.po.in
-
-bootstrap: autoreconf
-	./configure $(CFGFLAGS)
-
-glimport:
-	gtkdocize --copy
-	autopoint --force
-	cd lib && autopoint --force
-	gnulib-tool --add-import
-	cd lib && gnulib-tool --add-import
-
 review-diff:
 	git diff `git describe --abbrev=0`.. \
 	| grep -v -e ^index -e '^diff --git' \
@@ -95,9 +52,6 @@ review-diff:
 # Release
 
 htmldir = ../www-$(PACKAGE)
-
-i18n:
-	-$(MAKE) update-po
 
 gendoc-copy:
 	cd doc && env MAKEINFO="makeinfo -I ../examples" \
@@ -166,7 +120,7 @@ binaries:
 source:
 	git tag -s -m $(VERSION) $(tag)
 
-release-check: syntax-check i18n tarball gendoc-copy gtkdoc-copy doxygen-copy
+release-check: syntax-check tarball gendoc-copy gtkdoc-copy doxygen-copy
 
 release-upload-www: gendoc-upload gtkdoc-upload doxygen-upload
 
