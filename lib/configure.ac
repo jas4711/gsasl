@@ -298,25 +298,6 @@ fi
 AC_SUBST([GSS_CFLAGS])
 AC_SUBST([GSS_LIBS])
 
-# KERBEROS_V5
-AC_ARG_ENABLE(kerberos_v5,
-  AS_HELP_STRING([--enable-kerberos_v5],
-    [use the KERBEROS_V5 mechanism]),
-  kerberos_v5=$enableval, kerberos_v5=no)
-if test "$kerberos_v5" != "no" ; then
-  AC_LIB_HAVE_LINKFLAGS(shishi,, [#include <shishi.h>], [shishi ();])
-  if test "$ac_cv_libshishi" != yes; then
-    kerberos_v5=no
-    AC_MSG_WARN([GNU Shishi not found, disabling KERBEROS_V5])
-  else
-    kerberos_v5=yes
-    AC_DEFINE(USE_KERBEROS_V5, 1, [Define to 1 if you want KERBEROS_V5.])
-  fi
-fi
-AC_MSG_CHECKING([if KERBEROS_V5 should be used])
-AC_MSG_RESULT($kerberos_v5)
-AM_CONDITIONAL(KERBEROS_V5, test x$kerberos_v5 = xyes)
-
 # Check for libidn
 AC_ARG_WITH(stringprep,
   AS_HELP_STRING([--without-stringprep], [disable non-ASCII support]),
@@ -455,7 +436,6 @@ AC_CONFIG_FILES([
   gltests/Makefile
   gs2/Makefile
   gssapi/Makefile
-  kerberos_v5/Makefile
   libgsasl.pc
   login/Makefile
   ntlm/Makefile

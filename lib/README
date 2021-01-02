@@ -40,7 +40,6 @@ Currently there is some support for the following mechanisms:
   - OPENID20 (RFC 6616)
   - LOGIN (non-standard)
   - NTLM (non-standard, client only, requires Libntlm)
-  - KERBEROS_V5 (experimental, requires Shishi)
 
 The library should be portable to all C89 platforms.
 

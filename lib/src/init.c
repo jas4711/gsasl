@@ -40,7 +40,6 @@
 
 #include "login/login.h"
 #include "ntlm/x-ntlm.h"
-#include "kerberos_v5/kerberos_v5.h"
 
 /**
  * GSASL_VALID_MECHANISM_CHARACTERS:

@@ -22,8 +22,7 @@ cyclo-$(PACKAGE).html:
 			-e ^gl/ \
 			-e ^gltests/ \
 			-e test-parser.c \
-			-e test-errors.c \
-			-e kerberos_v5` \
+			-e test-errors.c` \
 		| sort -nr \
 		| $(AWK) -f ../lib/build-aux/pmccabe2html \
 			-v lang=html -v name="$(PACKAGE_NAME)" \

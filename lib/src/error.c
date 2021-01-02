@@ -114,10 +114,8 @@ static struct
   ERR (GSASL_GSSAPI_UNSUPPORTED_PROTECTION_ERROR,
        N_("Other entity requested integrity or confidentiality protection "
 	  "in GSSAPI mechanism but this is currently not implemented.")),
-  ERR (GSASL_KERBEROS_V5_INIT_ERROR,
-       N_("Kerberos V5 initialization failure.")),
-  ERR (GSASL_KERBEROS_V5_INTERNAL_ERROR,
-       N_("Kerberos V5 internal error.")),
+  { 46, NULL, NULL },
+  { 47, NULL, NULL },
   ERR (GSASL_SECURID_SERVER_NEED_ADDITIONAL_PASSCODE,
        N_("SecurID needs additional passcode.")),
   ERR (GSASL_SECURID_SERVER_NEED_NEW_PIN,

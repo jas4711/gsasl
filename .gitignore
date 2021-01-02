@@ -1671,9 +1671,6 @@ lib/gssapi/mechinfo.lo
 lib/gssapi/mechinfo.o
 lib/gssapi/server.lo
 lib/gssapi/server.o
-lib/kerberos_v5/.deps/
-lib/kerberos_v5/Makefile
-lib/kerberos_v5/Makefile.in
 lib/libgsasl-*.tar.gz*
 lib/libgsasl.pc
 lib/libtool

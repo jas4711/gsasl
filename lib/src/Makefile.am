@@ -106,7 +106,3 @@ endif
 if SECURID
 libgsasl_la_LIBADD += ../securid/libgsasl-securid.la
 endif
-
-if KERBEROS_V5
-libgsasl_la_LIBADD += ../kerberos_v5/libgsasl-kerberos_v5.la
-endif
