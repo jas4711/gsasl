@@ -35,7 +35,6 @@ doit (void)
 #define SIZE 10
   char tmp[SIZE];
   char savetmp[SIZE];
-  char *hash;
   size_t tmplen;
   int rc;
   Gsasl *ctx;
