@@ -418,3 +418,5 @@
 /windows/tmp/
 Makefile
 Makefile.in
+/GNUmakefile
+/maint.mk

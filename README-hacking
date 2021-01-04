@@ -33,7 +33,7 @@ system, and the instructions for installing them differ.  Here are
 some hints:
 
 Debian:
-apt-get install git autoconf automake libtool gettext cvs make
+apt-get install git autoconf automake libtool autopoint gettext cvs make
 apt-get install texinfo texlive texlive-plain-generic texlive-extra-utils texlive-font-utils
 apt-get install help2man gtk-doc-tools valgrind
 apt-get install dia libgnutls28-dev gengetopt gperf liblasso3-dev
