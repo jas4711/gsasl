@@ -95,7 +95,7 @@ doit (void)
   char *s1 = NULL, *s2 = NULL;
   int rc, res1, res2;
 
-  if (getenv ("GNUGSS") && strcmp (getenv ("GNUGSS"), "no") == 0)
+  if (getenv ("GNUGSS") == NULL || strcmp (getenv ("GNUGSS"), "yes") != 0)
     {
       fail ("Not using GNU GSS, skipping self-test.\n");
       exit (77);
