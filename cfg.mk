@@ -40,6 +40,7 @@ exclude_file_name_regexp--sc_trailing_blank = ^(lib/)?ABOUT-NLS|doc/.*\.(eps|png
 exclude_file_name_regexp--sc_space_tab = ^(lib/)?m4/lib-prefix.m4$$
 exclude_file_name_regexp--sc_useless_cpp_parens = ^(lib/)?m4/.*$$
 exclude_file_name_regexp--sc_prohibit_test_minus_ao = ^lib/m4/libgcrypt.m4$$
+exclude_file_name_regexp--sc_prohibit_doubled_word = ^ABOUT-NLS$$
 
 update-copyright-env = UPDATE_COPYRIGHT_HOLDER="Simon Josefsson" UPDATE_COPYRIGHT_USE_INTERVALS=2 UPDATE_COPYRIGHT_FORCE=1
 

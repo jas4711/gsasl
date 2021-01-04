@@ -45,7 +45,7 @@
  *   hostname   = 1*(ALPHA / DIGIT) *("." / "-" / ALPHA / DIGIT)
  *
  * This implementation avoid the information leakage by always using 0
- * as the time stamp and a fixed host name.  This should be
+ * as the time-stamp and a fixed host name.  This should be
  * unproblematic, as any client that try to validate the challenge
  * string somehow, would violate the same specification:
  *
