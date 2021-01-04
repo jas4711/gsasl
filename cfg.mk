@@ -44,10 +44,11 @@ exclude_file_name_regexp--sc_prohibit_doubled_word = ^ABOUT-NLS$$
 
 update-copyright-env = UPDATE_COPYRIGHT_HOLDER="Simon Josefsson" UPDATE_COPYRIGHT_USE_INTERVALS=2 UPDATE_COPYRIGHT_FORCE=1
 
+review-tag ?= $(shell git describe --abbrev=0)
 review-diff:
-	git diff `git describe --abbrev=0`.. \
-	| grep -v -e ^index -e '^diff --git' \
-	| filterdiff -p 1 -x 'gl/*' -x 'm4/*' -x 'gltests/*' -x 'lib/build-aux/*' -x 'lib/gl*' -x 'lib/m4/*' -x 'lib/gltests/*' -x 'po/*' -x 'lib/po/*' -x 'maint.mk' -x 'lib/maint.mk' -x '.gitignore' -x '.x-sc*' -x ChangeLog -x GNUmakefile -x ABOUT-NLS -x lib/ABOUT-NLS \
+	git diff $(review-tag).. \
+	| grep -v -e '^index' -e '^deleted file mode' -e '^diff --git' \
+	| filterdiff -p 1 -x 'gl/*' -x 'm4/*' -x 'gltests/*' -x 'lib/build-aux/*' -x 'lib/gl*' -x 'lib/m4/*' -x 'lib/gltests/*' -x 'po/*' -x 'lib/po/*' -x 'maint.mk' -x 'lib/maint.mk' -x '.gitignore' -x '.x-sc*' -x 'doc/specification/*' -x ChangeLog -x GNUmakefile -x ABOUT-NLS -x lib/ABOUT-NLS \
 	| less
 
 # Release
