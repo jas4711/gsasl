@@ -7,6 +7,7 @@
 .deps/
 .libs/
 /ChangeLog
+/GNUmakefile
 /INSTALL
 /TAGS
 /aclocal.m4
@@ -335,7 +336,13 @@
 /m4/.gitignore
 /m4/gnulib-cache.m4
 /m4/gtk-doc.m4
+/m4/libtool.m4.orig
+/maint.mk
+/po/*.gmo
+/po/*.po
 /po/.gitignore
+/po/.reference/
+/po/LINGUAS
 /po/Makevars
 /po/POTFILES
 /po/gsasl.pot
@@ -418,5 +425,3 @@
 /windows/tmp/
 Makefile
 Makefile.in
-/GNUmakefile
-/maint.mk
