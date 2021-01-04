@@ -24,9 +24,9 @@ cyclo-$(PACKAGE).html:
 			-e test-parser.c \
 			-e test-errors.c` \
 		| sort -nr \
-		| $(AWK) -f ../lib/build-aux/pmccabe2html \
+		| $(AWK) -f ../build-aux/pmccabe2html \
 			-v lang=html -v name="$(PACKAGE_NAME)" \
 			-v vcurl="https://git.savannah.gnu.org/gitweb/?p=$(PACKAGE).git;a=blob;f=lib/%FILENAME%;hb=HEAD" \
 			-v url="https://www.gnu.org/software/$(PACKAGE)/" \
-                       -v css=../lib/build-aux/pmccabe.css) > $@-tmp
+                       -v css=../build-aux/pmccabe.css) > $@-tmp
 	mv $@-tmp $@
