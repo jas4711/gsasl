@@ -405,22 +405,6 @@ AC_MSG_CHECKING([if GSSAPI should be used])
 AC_MSG_RESULT($gssapi)
 AM_CONDITIONAL(GSSAPI, test x$gssapi = xyes)
 
-# Check for Lasso.  For examples/saml20/.  Disabled by default on Windows.
-lasso_default=yes
-if test "$gl_cv_func_wsastartup" = "yes"; then
-  lasso_default=no
-fi
-AC_ARG_WITH(lasso,
-  AS_HELP_STRING([--without-lasso],
-                 [disable Lasso (used by examples/saml20/)]),
-  lasso=$withval, lasso=$lasso_default)
-if test "$lasso" != "no"; then
-  PKG_CHECK_MODULES(LASSO, lasso >= 2.2.1, [lasso=yes], [lasso=no])
-  AC_SUBST(LASSO_CFLAGS)
-  LASSO_CFLAGS=`echo $pkg_cv_LASSO_CFLAGS | sed -e 's,\\\\,,g'`
-fi
-AM_CONDITIONAL(LASSO, test "$lasso" = "yes")
-
 sj_UPDATE_HEADER_VERSION([$srcdir/lib/src/gsasl.h])
 
 MAJOR_VERSION=`echo $PACKAGE_VERSION | sed 's/\(.*\)\..*\..*/\1/g'`
@@ -526,17 +510,6 @@ AC_MSG_NOTICE([summary of main build options:
   Library types:      Shared=${enable_shared}, Static=${enable_static}
   Warning flags:      $gl_gcc_warnings werror $WERROR_CFLAGS wstack $WSTACK_CFLAGS warn $WARN_CFLAGS
 
-  Readline support:   $gl_cv_lib_readline
-             LDADD:   $LIBREADLINE
-
-  GnuTLS support:     $gnutls
-        CPPFLAGS:     $INCLIBGNUTLS
-           LDADD:     $LTLIBGNUTLS
-
-  Lasso support:      $lasso
-       CPPFLAGS:      $LASSO_CFLAGS
-          LDADD:      $LASSO_LIBS
-
   Client side:        $client
   Server side:        $server
 
@@ -559,4 +532,11 @@ AC_MSG_NOTICE([summary of main build options:
   OPENID20:           $openid20
   GS2:                $gs2
   GSSAPI:             $gssapi
+
+  Readline support:   $gl_cv_lib_readline
+             LDADD:   $LIBREADLINE
+
+  GnuTLS support:     $gnutls
+        CPPFLAGS:     $INCLIBGNUTLS
+           LDADD:     $LTLIBGNUTLS
 ])

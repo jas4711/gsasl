@@ -18,18 +18,17 @@
 
 AM_CFLAGS = $(WERROR_CFLAGS) $(WARN_CFLAGS)
 AM_CPPFLAGS = -I$(top_srcdir)/gl -I$(top_builddir)/gl \
-	-I$(top_srcdir)/lib/src -I$(top_builddir)/lib/src \
-	$(LASSO_CFLAGS)
+	-I$(top_srcdir)/lib/src -I$(top_builddir)/lib/src
 AM_LDFLAGS = -no-install
-LDADD = $(top_builddir)/lib/src/libgsasl.la $(top_builddir)/gl/libgl.la \
-	$(LASSO_LIBS)
+LDADD = $(top_builddir)/lib/src/libgsasl.la $(top_builddir)/gl/libgl.la
 
 EXTRA_DIST = README
 EXTRA_DIST += gsasl-saml20-sp.php
 EXTRA_DIST += sp-metadata.xml sp-key.pem sp-crt.pem
 EXTRA_DIST += openidp.feide.no/idp-metadata.xml
 EXTRA_DIST += idp.protectnetwork.org/idp-metadata.xml
+EXTRA_DIST += gsasl-saml20-request.c
 
-if LASSO
-noinst_PROGRAMS = smtp-server-saml20 gsasl-saml20-request
+if !WINDOWS
+noinst_PROGRAMS = smtp-server-saml20
 endif

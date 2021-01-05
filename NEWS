@@ -13,6 +13,12 @@ git, see README-hacking (in git) for more information.
 It has not been enabled by default and was never standardized nor
 widely deployed.
 
+** Lasso is no longer an optional dependency.
+It was only used for building the 'gsasl-saml20-request' helper-tool
+for the example code for the SAML20 mechanism.  The example is still
+shipped as part of this package, but the helper tool will now have to
+be built manually by anyone interested in this.
+
 ** All deprecated interfaces have been removed.
 
 *** The following functions have been removed:
