@@ -29,7 +29,7 @@ EXTRA_DIST = win32/libgsasl.sln win32/libgsasl.vcproj		\
 
 EXTRA_DIST += m4/gnulib-cache.m4
 
-SUBDIRS = gl gltests
+SUBDIRS = gl
 
 # Plugins:
 if EXTERNAL

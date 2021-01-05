@@ -1,3 +1,4 @@
+*.exe
 *.gcda
 *.gcno
 *.gcov
@@ -107,7 +108,10 @@
 /gl/.gitignore
 /gl/alloca.h
 /gl/arpa/inet.h
+/gl/errno.h
 /gl/fcntl.h
+/gl/getopt-cdefs.h
+/gl/getopt.h
 /gl/iconv.h
 /gl/iconv_open-aix.h
 /gl/iconv_open-hpux.h
@@ -120,8 +124,10 @@
 /gl/limits.h
 /gl/locale.h
 /gl/netdb.h
+/gl/netinet/
 /gl/poll.h
 /gl/signal.h
+/gl/stdint.h
 /gl/stdio.h
 /gl/stdlib.h
 /gl/string.h
@@ -195,18 +201,19 @@
 /lib/external/server.o
 /lib/gl/.gitignore
 /lib/gl/alloca.h
+/lib/gl/byteswap.h
+/lib/gl/errno.h
 /lib/gl/fcntl.h
 /lib/gl/inttypes.h
 /lib/gl/liblgl.la
 /lib/gl/limits.h
+/lib/gl/stdint.h
 /lib/gl/stdio.h
 /lib/gl/string.h
 /lib/gl/sys/
 /lib/gl/time.h
 /lib/gl/unistd.h
 /lib/gl/wchar.h
-/lib/gltests/
-/lib/gltests/.gitignore
 /lib/gs2/client.lo
 /lib/gs2/client.o
 /lib/gs2/gs2asn1.lo
@@ -298,6 +305,7 @@
 /lib/src/free.o
 /lib/src/init.lo
 /lib/src/init.o
+/lib/src/libgsasl-*.def
 /lib/src/libgsasl.la
 /lib/src/listmech.lo
 /lib/src/listmech.o

@@ -486,7 +486,6 @@ AC_CONFIG_FILES([
   lib/openid20/Makefile
   lib/external/Makefile
   lib/gl/Makefile
-  lib/gltests/Makefile
   lib/gs2/Makefile
   lib/gssapi/Makefile
   lib/libgsasl.pc
