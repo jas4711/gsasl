@@ -32,7 +32,7 @@
 int
 main (void)
 {
-  const char *this = NULL, *last = NULL;
+  const char *errstr;
   const char *name;
   size_t i = 0;
 
@@ -41,20 +41,18 @@ main (void)
 
   do
     {
-      last = this;
-
-      this = gsasl_strerror (i);
       name = gsasl_strerror_name (i);
+      errstr = gsasl_strerror (i);
 
       if (name != NULL)
-	printf ("\n@item @code{%s}\n%s\n", name, this);
+	printf ("\n@item @code{%s}\n%s\n", name, errstr);
 
-      if (this == NULL)
+      if (name == NULL && errstr == NULL)
 	return EXIT_FAILURE;
 
       i++;
     }
-  while (this != last);
+  while (i < 100);
 
   return EXIT_SUCCESS;
 }
