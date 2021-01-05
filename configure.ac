@@ -526,6 +526,9 @@ AC_MSG_NOTICE([summary of main build options:
   Library types:      Shared=${enable_shared}, Static=${enable_static}
   Warning flags:      $gl_gcc_warnings werror $WERROR_CFLAGS wstack $WSTACK_CFLAGS warn $WARN_CFLAGS
 
+  Readline support:   $gl_cv_lib_readline
+             LDADD:   $LIBREADLINE
+
   GnuTLS support:     $gnutls
         CPPFLAGS:     $INCLIBGNUTLS
            LDADD:     $LTLIBGNUTLS
