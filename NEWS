@@ -158,7 +158,7 @@ Gsasl_server_callback_securid
 Gsasl_server_callback_service
 Gsasl_server_callback_validate
 
-* Version 1.10.0 (released 2021-01-01) [stable]
+* Noteworthy changes in release 1.10.0 (2021-01-01) [stable]
 
 ** This is a new major stable release.  Brief changes compared to 1.8.x:
 
@@ -173,12 +173,12 @@ Gsasl_server_callback_validate
 *** Various cleanups, portability and other bug fixes.
 See the entries in NEWS and lib/NEWS covering the 1.9.x branch for details.
 
-* Version 1.9.3 (released 2021-01-01) [beta]
+* Noteworthy changes in release 1.9.3 (2021-01-01) [beta]
 
 ** Fix build/portability problems.  GnuTLS >= 3.4 is required.
 Thanks to Bruno Haible for reports.
 
-* Version 1.9.2 (released 2020-12-24) [beta]
+* Noteworthy changes in release 1.9.2 (2020-12-24) [beta]
 
 ** gsasl: Don't abort command on some exepected TLS events (for TLS 1.3).
 Patch from Enrico Scholz <enrico.scholz@sigma-chemnitz.de> in:
@@ -233,14 +233,14 @@ at least Debian to do this in upstream.
 Some more compiler warnings used and code fixed.  Improved ./configure
 diagnostics.
 
-* Version 1.9.1 (released 2020-01-14) [beta]
+* Noteworthy changes in release 1.9.1 (2020-01-14) [beta]
 
 ** gsasl: New --mkpasswd argument to prepare salted/hashed passwords.
 Currently mechanisms SCRAM-SHA-1 and SCRAM-SHA-256 are supported.  New
 parameter --iteration-count to indicate number of PBKDF2 rounds,
 default being 65536.  New parameter --salt to specify PBKDF2 salt.
 
-* Version 1.9.0 (released 2020-01-03) [beta]
+* Noteworthy changes in release 1.9.0 (2020-01-03) [beta]
 
 ** Client and server support for SCRAM-SHA-256 and SCRAM-SHA-256-PLUS.
 
@@ -248,7 +248,7 @@ default being 65536.  New parameter --salt to specify PBKDF2 salt.
 Further, unrecognized PORT arguments will now on raise an error to
 specify --smtp or --imap.
 
-* Version 1.8.1 (released 2019-08-02) [stable]
+* Noteworthy changes in release 1.8.1 (2019-08-02) [stable]
 
 ** gsasl: IMAP client code now permits empty SASL tokens prefixed with '+'.
 Normally servers should send '+ '.  Buggy servers include Microsoft
@@ -263,7 +263,7 @@ Update of gnulib, including how it is bootstrapped.
 
 ** i18n: Updated translations.
 
-* Version 1.8.0 (released 2012-05-28) [stable]
+* Noteworthy changes in release 1.8.0 (2012-05-28) [stable]
 
 ** This is a new major stable release.  Brief changes compared to 1.6.x:
 
@@ -276,26 +276,26 @@ Update of gnulib, including how it is bootstrapped.
 *** Various cleanups, portability and other bug fixes.
 See the NEWS entries during the 1.7.x branch for details.
 
-* Version 1.7.6 (released 2012-05-23) [beta]
+* Noteworthy changes in release 1.7.6 (2012-05-23) [beta]
 
 ** i18n: Updated translations.
 
 ** Build fixes.
 
-* Version 1.7.5 (released 2012-05-22) [beta]
+* Noteworthy changes in release 1.7.5 (2012-05-22) [beta]
 
 ** i18n: Updated translations.
 
 ** Build fixes.
 
-* Version 1.7.4 (released 2012-05-16) [alpha]
+* Noteworthy changes in release 1.7.4 (2012-05-16) [alpha]
 
 ** Doc fixes and updates for the callback/property change in the library.
 See lib/NEWS for details.  This affects SAML and OpenID.
 
 ** Slight fixes to Windows build script.
 
-* Version 1.7.3 (released 2012-04-03) [alpha]
+* Noteworthy changes in release 1.7.3 (2012-04-03) [alpha]
 
 ** The SAML20 mechanism has been updated and is now enabled by default.
 
@@ -308,7 +308,7 @@ You may disable Lasso by using --without-lasso.  Note that Lasso is
 only needed for this example server, it is not needed by the GNU SASL
 library or command line tools itself.
 
-* Version 1.7.2 (released 2012-03-28) [alpha]
+* Noteworthy changes in release 1.7.2 (2012-03-28) [alpha]
 
 ** gsasl: The client lets the server decide when authentication is complete.
 Before the client quit from the authentication loop when the local
@@ -329,7 +329,7 @@ clients.
 ** examples: Added example SMTP server with OpenID 2.0 support.
 See examples/openid20/README.
 
-* Version 1.7.1 (released 2012-02-09) [alpha]
+* Noteworthy changes in release 1.7.1 (2012-02-09) [alpha]
 
 ** gsasl: Don't crash after getpass() on Mac OS X.
 Reported by Wim Lewis <wiml@hhhh.org>.
@@ -357,7 +357,7 @@ Michelsen <dam@opencsw.org>.
 ** examples: Added client-xmpp-saml20 and server-xmpp-saml20.
 The examples illustrates a sample SAML20 client and server.
 
-* Version 1.7.0 (released 2010-10-22) [alpha]
+* Noteworthy changes in release 1.7.0 (2010-10-22) [alpha]
 
 ** Support for SAML20 mechanism as per -01 IETF draft.  See lib/NEWS.
 Implements draft-ietf-kitten-sasl-saml-01.
@@ -366,7 +366,7 @@ Implements draft-ietf-kitten-sasl-saml-01.
 
 ** tests: New tests/saml20.c file.
 
-* Version 1.6.1 (released 2011-05-01) [stable]
+* Noteworthy changes in release 1.6.1 (2011-05-01) [stable]
 
 ** build: Demand gettext >= 0.18.1 in order to get newer M4 files.
 The old M4 files associated with 0.17 caused problems on Solaris,
@@ -377,22 +377,22 @@ Michelsen <dam@opencsw.org>.
 
 ** i18n: Updated translations.
 
-* Version 1.6.0 (released 2010-12-14) [beta]
+* Noteworthy changes in release 1.6.0 (2010-12-14) [beta]
 
 ** No changes since release candidate 1.5.5.
 
-* Version 1.5.5 (released 2010-12-09) [beta]
+* Noteworthy changes in release 1.5.5 (2010-12-09) [beta]
 
 ** gsasl: Add --no-cb to disable use of TLS channel bindings.
 
 ** build: Use silent build rules via automake.
 Use 'make V=99' to see the command lines used.
 
-* Version 1.5.4 (released 2010-11-14) [beta]
+* Noteworthy changes in release 1.5.4 (2010-11-14) [beta]
 
 ** Update gnulib files.
 
-* Version 1.5.3 (released 2010-11-14) [beta]
+* Noteworthy changes in release 1.5.3 (2010-11-14) [beta]
 
 ** gsasl: Support for TLS channel bindings.
 Requires GnuTLS 2.11.4 or later for the gnutls_session_channel_binding
@@ -402,7 +402,7 @@ function.  Used by the SCRAM-SHA-1-PLUS mechanism.
 
 ** tests: Added self-tests for SCRAM-SHA-1-PLUS.
 
-* Version 1.5.2 (released 2010-09-27) [beta]
+* Noteworthy changes in release 1.5.2 (2010-09-27) [beta]
 
 ** gsasl: Avoid fixed size buffers.
 This caused problems on Windows where the BUFSIZ was too small for
@@ -420,11 +420,11 @@ Thanks to Benno Schulenberg.
 
 ** Update gnulib files.
 
-* Version 1.5.1 (released 2010-04-21) [beta]
+* Noteworthy changes in release 1.5.1 (2010-04-21) [beta]
 
 ** Update gnulib files.
 
-* Version 1.5.0 (released 2010-03-31) [beta]
+* Noteworthy changes in release 1.5.0 (2010-03-31) [beta]
 
 ** doc: Explain GS2-related changes.
 
@@ -437,19 +437,19 @@ Now almost all symbols and types are explained.
 
 ** tests: Self checks are improved.
 
-* Version 1.4.4 (released 2010-03-25) [stable]
+* Noteworthy changes in release 1.4.4 (2010-03-25) [stable]
 
 ** See lib/NEWS.
 
-* Version 1.4.3 (released 2010-03-25) [stable]
+* Noteworthy changes in release 1.4.3 (2010-03-25) [stable]
 
 ** See lib/NEWS.
 
-* Version 1.4.2 (released 2010-03-15) [stable]
+* Noteworthy changes in release 1.4.2 (2010-03-15) [stable]
 
 ** i18n: Updated translations.
 
-* Version 1.4.1 (released 2010-02-16) [stable]
+* Noteworthy changes in release 1.4.1 (2010-02-16) [stable]
 
 ** gsasl: Improve application data throughput.
 Patch from Enrico Scholz <enrico.scholz@informatik.tu-chemnitz.de> in
@@ -459,7 +459,7 @@ Patch from Enrico Scholz <enrico.scholz@informatik.tu-chemnitz.de> in
 
 ** i18n: Updated German translation.
 
-* Version 1.4.0 (released 2009-11-17) [stable]
+* Noteworthy changes in release 1.4.0 (2009-11-17) [stable]
 
 ** No changes since 1.3.91 release candidate.
 The release numbering scheme has changed compared to the last stable
@@ -473,11 +473,11 @@ there is a need.  Other changes or new features will (typically) not
 be back-ported to a stable branch but instead will have to wait for
 the next stable branch to be released.
 
-* Version 1.3.91 (released 2009-11-06) [experimental]
+* Noteworthy changes in release 1.3.91 (2009-11-06) [experimental]
 
 ** doc: Fix doc/cyclo/ output.
 
-* Version 1.3.90 (released 2009-11-06) [experimental]
+* Noteworthy changes in release 1.3.90 (2009-11-06) [experimental]
 
 ** tests/crypto: Also test newly added SHA-1 interfaces.
 
@@ -487,7 +487,7 @@ This code path triggered a crash in v1.3.
 ** i18n: Added Finnish translation.
 Thanks to Jorma Karvonen <karvonen.jorma@gmail.com>.
 
-* Version 1.3 (released 2009-10-08)
+* Noteworthy changes in release 1.3 (2009-10-08)
 
 ** Experimental support for SCRAM-SHA-1 added.
 Please test it but don't put it into production use, the RFC have not
@@ -507,7 +507,7 @@ Based on report by Marco Maggi <marco.maggi-ipsu@poste.it> in
 
 ** tests: New self-test 'crypto' to increase code coverage.
 
-* Version 1.2 (released 2009-06-13)
+* Noteworthy changes in release 1.2 (2009-06-13)
 
 ** gsasl: Fix out of bounds write when in IMAP/SMTP mode.
 Reported by Enrico Scholz <enrico.scholz@informatik.tu-chemnitz.de> in
@@ -532,7 +532,7 @@ The parameters are --with-packager, --with-packager-version, and
 <http://article.gmane.org/gmane.comp.lib.gnulib.bugs/17791> for more
 details.
 
-* Version 1.1 (released 2009-03-25)
+* Noteworthy changes in release 1.1 (2009-03-25)
 
 ** gsasl: Reading integrity protected data from server now works.
 Before it didn't decode data.
@@ -544,7 +544,7 @@ the parameter value have been modified to match the library keywords.
 ** Only detect sufficiently recent GnuTLS versions.
 Version 2.2.x or later is required.
 
-* Version 1.0 (released 2009-01-23)
+* Noteworthy changes in release 1.0 (2009-01-23)
 
 ** gsasl: New parameter --priority to specify GnuTLS priority strings.
 Can be used to change TLS settings, which may be needed to talk to
@@ -560,7 +560,7 @@ some servers.
 
 ** doc: Change license on the manual to GFDLv1.3+.
 
-* Version 0.2.29 (released 2008-10-21)
+* Noteworthy changes in release 0.2.29 (2008-10-21)
 
 ** gsasl: Don't use poll with POLLOUT to avoid busy-waiting.
 Reported by Enrico Scholz <enrico.scholz@informatik.tu-chemnitz.de>.
@@ -575,7 +575,7 @@ See doc/cyclo/.
 ** Update gnulib files.
 Improves Windows compatibility.
 
-* Version 0.2.28 (released 2008-08-20)
+* Noteworthy changes in release 0.2.28 (2008-08-20)
 
 ** gsasl: Rewrite to use poll instead of select.
 Will allow easier porting to Mingw32 in the future.
@@ -584,7 +584,7 @@ Will allow easier porting to Mingw32 in the future.
 
 ** tests: New self test of gsasl_mechanism_name function.
 
-* Version 0.2.27 (released 2008-07-01)
+* Noteworthy changes in release 0.2.27 (2008-07-01)
 
 ** Fix SASL operations through TLS.
 Report and tiny patch from Enrico Scholz
@@ -595,7 +595,7 @@ Report and tiny patch from Enrico Scholz
 
 ** Update translations.
 
-* Version 0.2.26 (released 2008-05-05)
+* Noteworthy changes in release 0.2.26 (2008-05-05)
 
 ** Translations files not stored directly in git to avoid merge conflicts.
 This allows us to avoid use of --no-location which makes the
@@ -605,7 +605,7 @@ translation teams happier.
 
 ** Update gnulib files.
 
-* Version 0.2.25 (released 2008-03-10)
+* Noteworthy changes in release 0.2.25 (2008-03-10)
 
 ** gsasl: Fix buffering issue to avoid mixing stdout/stderr outputs.
 This would manifest itself when redirecting output to a pipe, such as
@@ -615,11 +615,11 @@ when used with Gnus.  Reported by Enrico Scholz
 
 ** Fix non-portable use of brace expansion in makefiles.
 
-* Version 0.2.24 (released 2008-01-15)
+* Noteworthy changes in release 0.2.24 (2008-01-15)
 
 ** Link self-tests with gnulib, to fix link failures under MinGW.
 
-* Version 0.2.23 (released 2008-01-15)
+* Noteworthy changes in release 0.2.23 (2008-01-15)
 
 ** Improve CRAM-MD5 self-test to detect if challenges are the same.
 
@@ -629,7 +629,7 @@ when used with Gnus.  Reported by Enrico Scholz
 
 ** Update gnulib files.
 
-* Version 0.2.22 (released 2007-10-08)
+* Noteworthy changes in release 0.2.22 (2007-10-08)
 
 ** Development git tree moved to savannah.
 See <https://savannah.gnu.org/projects/gsasl/>.
@@ -638,18 +638,18 @@ See <https://savannah.gnu.org/projects/gsasl/>.
 
 ** Update gnulib files.
 
-* Version 0.2.21 (released 2007-08-22)
+* Noteworthy changes in release 0.2.21 (2007-08-22)
 
 ** Fix typos in manual.
 Tiny patch from Brad Hards <bradh@frogmouth.net>.
 
 ** Update gnulib files.
 
-* Version 0.2.20 (released 2007-08-11)
+* Noteworthy changes in release 0.2.20 (2007-08-11)
 
 ** Update gnulib files.
 
-* Version 0.2.19 (released 2007-08-09)
+* Noteworthy changes in release 0.2.19 (2007-08-09)
 
 ** Command-line tools, examples, etc are now licensed under the
 ** GPL version 3 (or later).
@@ -661,12 +661,12 @@ The library remains licensed under LGPL version 2.1 (or later).
 
 ** Update translations.
 
-* Version 0.2.18 (released 2007-06-07)
+* Noteworthy changes in release 0.2.18 (2007-06-07)
 
 ** Update gnulib files.
 Fixes cross-compilation to uClinux.
 
-* Version 0.2.17 (released 2007-06-01)
+* Noteworthy changes in release 0.2.17 (2007-06-01)
 
 ** GNU SASL is now developed using Git instead of CVS.
 A public git mirror is available from <http://repo.or.cz/w/gsasl.git>.
@@ -676,7 +676,7 @@ A public git mirror is available from <http://repo.or.cz/w/gsasl.git>.
 ** Polish, Swedish and Vietnamese translations updated.
 Thanks to Jakub Bogusz, Daniel Nylander, and Clytie Siddall.
 
-* Version 0.2.16 (released 2007-04-20)
+* Noteworthy changes in release 0.2.16 (2007-04-20)
 
 ** Fix IMAP protocol usage in the 'gsasl' command-line tool server.
 
@@ -690,20 +690,20 @@ Thanks to Jakub Bogusz, Daniel Nylander, and Clytie Siddall.
 
 ** Now uses autoconf 2.61, automake 1.10, gettext 0.16.1.
 
-* Version 0.2.15 (released 2006-08-22)
+* Noteworthy changes in release 0.2.15 (2006-08-22)
 
 ** Changed libgsasl shared library version.
 The shared library version was not incremented correctly in the last
 release, even though new APIs were added.
 
-* Version 0.2.14 (released 2006-08-19)
+* Noteworthy changes in release 0.2.14 (2006-08-19)
 
 ** New section "Requirements" in the manual, lists the external components.
 Suggested by James Mansion.
 
 ** Update of gnulib files.
 
-* Version 0.2.13 (released 2006-06-14)
+* Noteworthy changes in release 0.2.13 (2006-06-14)
 
 ** Update of gnulib files.
 Further improves portability to MinGW.
@@ -716,12 +716,12 @@ disabled by default for cross compiles.
 
 ** Various minor fixes.
 
-* Version 0.2.12 (released 2006-03-08)
+* Noteworthy changes in release 0.2.12 (2006-03-08)
 
 ** Update of gnulib files.
 Improves portability to Mingw32.
 
-* Version 0.2.11 (released 2006-02-07)
+* Noteworthy changes in release 0.2.11 (2006-02-07)
 
 ** Ported to Windows by cross-compiling using Mingw32.
 Using Debian's mingw32 compiler, you can build it for Windows by invoking
@@ -729,7 +729,7 @@ Using Debian's mingw32 compiler, you can build it for Windows by invoking
 
 ** Update of gnulib files.
 
-* Version 0.2.10 (released 2005-10-23)
+* Noteworthy changes in release 0.2.10 (2005-10-23)
 
 ** Work around bug in GnuTLS that made the command line tool exit after
 ** failing to write a zero length message to the peer.
@@ -738,11 +738,11 @@ Using Debian's mingw32 compiler, you can build it for Windows by invoking
 
 ** Update of gnulib files.
 
-* Version 0.2.9 (released 2005-10-07)
+* Noteworthy changes in release 0.2.9 (2005-10-07)
 
 ** Update of gnulib files.
 
-* Version 0.2.8 (released 2005-09-08)
+* Noteworthy changes in release 0.2.8 (2005-09-08)
 
 ** The gsasl tool now support STARTTLS for IMAP and SMTP using GnuTLS.
 
@@ -754,13 +754,13 @@ Using Debian's mingw32 compiler, you can build it for Windows by invoking
 
 ** Kinyarwanda translation added.
 
-* Version 0.2.7 (released 2005-08-25)
+* Noteworthy changes in release 0.2.7 (2005-08-25)
 
 ** Fix build problems when cross-compiling to uClibc and Mingw32 platforms.
 
 ** Detecting and using the readline library has been improved.
 
-* Version 0.2.6 (released 2005-08-08)
+* Noteworthy changes in release 0.2.6 (2005-08-08)
 
 ** The gsasl tool now try to connect to all addresses for a server name.
 
@@ -770,13 +770,13 @@ Using Debian's mingw32 compiler, you can build it for Windows by invoking
 
 ** Update of gnulib files.
 
-* Version 0.2.5 (released 2005-02-08)
+* Noteworthy changes in release 0.2.5 (2005-02-08)
 
 ** Added self test of EXTERNAL mechanism.
 
 ** Vietnamese translation added, thanks to Clytie Siddall.
 
-* Version 0.2.4 (released 2005-01-01)
+* Noteworthy changes in release 0.2.4 (2005-01-01)
 
 ** The CRAM-MD5 mechanism is now preferred over DIGEST-MD5.
 This decision was based on recent public research that suggest MD5 is
@@ -801,7 +801,7 @@ constrained memory/space resources.
 
 ** Update of gnulib files.
 
-* Version 0.2.3 (released 2004-12-15)
+* Noteworthy changes in release 0.2.3 (2004-12-15)
 
 ** Fix example code to handle base64 encoded data properly.
 
@@ -819,15 +819,15 @@ objections, it will be removed completely in future versions.
 
 ** Fix self test bugs.
 
-* Version 0.2.2 (released 2004-11-29)
+* Noteworthy changes in release 0.2.2 (2004-11-29)
 
 ** Update of gnulib files.
 
-* Version 0.2.1 (released 2004-11-19)
+* Noteworthy changes in release 0.2.1 (2004-11-19)
 
 ** Documentation fixes; the old callback API functions are marked as obsolete.
 
-* Version 0.2.0 (released 2004-11-07)
+* Noteworthy changes in release 0.2.0 (2004-11-07)
 
 ** Added new directory examples/ with complete examples for new API.
 
@@ -840,7 +840,7 @@ For example, you can now browse the GNU SASL API manual using DevHelp.
 
 ** Translation fixes.
 
-* Version 0.1.4 (released 2004-08-08)
+* Noteworthy changes in release 0.1.4 (2004-08-08)
 
 ** Revamp of gnulib compatibility files.
 
@@ -850,7 +850,7 @@ Michel Robitaille), Irish (by Kevin Patrick Scannell), Dutch (by Elros
 Cyriatan), Polish (by Jakub Bogusz), Romanian (by Laurentiu Buzdugan),
 and Serbian (by Aleksandar Jelenak).
 
-* Version 0.1.3 (released 2004-08-04)
+* Noteworthy changes in release 0.1.3 (2004-08-04)
 
 ** Command line tool support IPv6 (and other protocol families).
 Requires that your system has `getaddrinfo'.
@@ -863,7 +863,7 @@ is not specified, the username of the user invoking gsasl is used
 usage, as in `gsasl mail.example.com' to connect, via IMAP, to
 mail.example.com.
 
-* Version 0.1.2 (released 2004-07-16)
+* Noteworthy changes in release 0.1.2 (2004-07-16)
 
 ** The SMTP mode in `gsasl' should now work.
 
@@ -875,11 +875,11 @@ platform is uClibc/uClinux on Motorola Coldfire.
 
 ** Passwords read from stdin are not echoed to the terminal.
 
-* Version 0.1.1 (released 2004-06-26)
+* Noteworthy changes in release 0.1.1 (2004-06-26)
 
 ** In the command line client, the default quality of protection is now none.
 
-* Version 0.1.0 (released 2004-04-16)
+* Noteworthy changes in release 0.1.0 (2004-04-16)
 
 ** The library re-licensed to LGPL and distributed as a separate package.
 This means a fork of this NEWS file, all the entries below relate to
@@ -888,7 +888,7 @@ document user visible changes for the library ("libgsasl"), for that
 see NEWS in the lib/ sub-directory, which is also distributed as a
 stand-alone package.
 
-* Version 0.0.14 (released 2004-01-22)
+* Noteworthy changes in release 0.0.14 (2004-01-22)
 
 ** Moved all mechanism specific code into sub-directories of lib/.
 Each backend is built into its own library (e.g., libgsasl-plain.so),
@@ -897,13 +897,13 @@ backends.
 
 ** Moved compatibility files (getopt*) to gl/, and added more (strdup*).
 
-* Version 0.0.13 (released 2004-01-17)
+* Noteworthy changes in release 0.0.13 (2004-01-17)
 
 ** Nettle (the crypto functionality, crypto/) has been updated.
 This fixes two portability issues, the new code should work on
 platforms that doesn't have inttypes.h and alloca.
 
-* Version 0.0.12 (released 2004-01-15)
+* Noteworthy changes in release 0.0.12 (2004-01-15)
 
 ** Protocol line parser in 'gsasl' tool more reliable.
 Earlier it assumed two lines were sent in one packet in one place, and
@@ -911,7 +911,7 @@ sent as two packets in another place.
 
 ** Various bugfixes.
 
-* Version 0.0.11 (released 2004-01-06)
+* Noteworthy changes in release 0.0.11 (2004-01-06)
 
 ** The client part of CRAM-MD5 now uses SASLprep instead of NFKC.
 This aligns with draft-ietf-sasl-crammd5-01.
@@ -928,7 +928,7 @@ future, if I can get the tools to work.
 ** API and ABI modifications.
 GSASL_SASLPREP_ERROR: ADD.
 
-* Version 0.0.10 (released 2003-11-22)
+* Noteworthy changes in release 0.0.10 (2003-11-22)
 
 ** The CRAM-MD5 server now reject invalid passwords.
 The logic flaw was introduced in 0.0.9, after blindly making code
@@ -937,7 +937,7 @@ changes to shut up valgrind just before the release.
 ** Various build improvements.
 Pkg-config is no longer needed.  GTK-DOC is only used if present.
 
-* Version 0.0.9 (released 2003-11-21)
+* Noteworthy changes in release 0.0.9 (2003-11-21)
 
 ** Command line client can talk to SMTP servers with --smtp.
 
@@ -1004,7 +1004,7 @@ GSASL_SHISHI_ERROR: DEPRECATED: use GSASL_KERBEROS_V5_INTERNAL_ERROR instead.
 
 GSASL_INVALID_HANDLE: ADD.
 
-* Version 0.0.8 (released 2003-10-11)
+* Noteworthy changes in release 0.0.8 (2003-10-11)
 
 ** Improved GSSAPI implementation detection.
 Auto detection should work, unless you have both MIT and Heimdal, or
@@ -1053,7 +1053,7 @@ gsasl_stringprep_nfkc: NEW.
 gsasl_stringprep_saslprep: NEW.
 gsasl_stringprep_trace: NEW.
 
-* Version 0.0.7 (released 2003-06-02)
+* Noteworthy changes in release 0.0.7 (2003-06-02)
 
 ** Two new GSS libraries supported for the GSS-API mechanism.
 See http://josefsson.org/gss/ for GSS, which uses Shishi for Kerberos 5.
@@ -1061,7 +1061,7 @@ See http://www.pdc.kth.se/heimdal/ for Heimdal (Kerberos 5).
 
 ** Bug fixes.
 
-* Version 0.0.6 (released 2003-03-17)
+* Noteworthy changes in release 0.0.6 (2003-03-17)
 
 ** Gettext not included.
 Due to some conflicts between libtool and gettext, if you want i18n on
@@ -1082,7 +1082,7 @@ User visible aspects includes not building the API Reference Manual
 with GTK-DOC by default, if you want it use configure parameter
 --enable-gtk-doc.
 
-* Version 0.0.5 (released 2003-01-27)
+* Noteworthy changes in release 0.0.5 (2003-01-27)
 
 ** Command line application "gsasl" now supports --imap and --connect.
 The --imap parameter makes it use a IMAP-like negotiation on
@@ -1105,19 +1105,19 @@ reasons.
 
 ** Bug fixes for DIGEST-MD5 and GSSAPI.
 
-* Version 0.0.4 (released 2002-12-13)
+* Noteworthy changes in release 0.0.4 (2002-12-13)
 
 ** License changed to GPL.
 
 ** Official GNU project.
 
-* Version 0.0.3 (released 2002-12-05)
+* Noteworthy changes in release 0.0.3 (2002-12-05)
 
 ** New gsasl arguments --application-data and --no-client-first.
 
 ** Bug fixes (client sends first, memory leaks, compiler warnings, more).
 
-* Version 0.0.2 (released 2002-11-07)
+* Noteworthy changes in release 0.0.2 (2002-11-07)
 
 ** Includes a copy of libstringprep 0.0.2 for Unicode NFKC
 normalization and locale charset to UTF-8 string conversion, and
@@ -1136,14 +1136,14 @@ GSASL_OK (earlier only on GSASL_NEEDS_MORE).
 
 ** Bug fixes.
 
-* Version 0.0.1 (released 2002-10-12)
+* Noteworthy changes in release 0.0.1 (2002-10-12)
 
 ** APIs for integrity and confidentiality protection of application
 payload data.
 
 ** DIGEST-MD5 support for integrity protection.
 
-* Version 0.0.0 (released 2002-10-07)
+* Noteworthy changes in release 0.0.0 (2002-10-07)
 
 ** Initial release.
 
