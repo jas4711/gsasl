@@ -40,7 +40,7 @@ AC_CONFIG_HEADERS([config.h])
 
 # Checks for programs.
 AC_PROG_CC
-GTK_DOC_CHECK
+GTK_DOC_CHECK([1.14],[--flavour no-tmpl])
 gl_EARLY
 lgl_EARLY
 AM_PROG_AR

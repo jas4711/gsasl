@@ -1,0 +1,118 @@
+<?xml version="1.0"?>
+<!DOCTYPE book PUBLIC "-//OASIS//DTD DocBook XML V4.3//EN"
+               "http://www.oasis-open.org/docbook/xml/4.3/docbookx.dtd"
+[
+  <!ENTITY % local.common.attrib "xmlns:xi  CDATA  #FIXED 'http://www.w3.org/2003/XInclude'">
+  <!ENTITY % gtkdocentities SYSTEM "xml/gtkdocentities.ent">
+  %gtkdocentities;
+]>
+<book id="index">
+  <bookinfo>
+    <title>&package_name; Reference Manual</title>
+    <releaseinfo>
+      for &package_string;.
+      The latest version of this documentation can be found on-line at
+      <ulink role="online-location" url="&package_url;reference/">
+	&package_url;reference/</ulink>.
+    </releaseinfo>
+  </bookinfo>
+
+  <chapter id="intro">
+    <title>&package_name; Reference Manual</title>
+
+    <para>
+      GNU SASL is an implementation of the Simple Authentication and
+      Security Layer framework and a few common SASL mechanisms.
+    </para>
+
+    <para>
+      GNU SASL consists of a library (libgsasl), a command line
+      utility (gsasl) to access the library from the shell, and a
+      manual.  The library includes support for the framework (with
+      authentication functions and application data privacy and
+      integrity functions) and at least partial support for the
+      ANONYMOUS, CRAM-MD5, DIGEST-MD5, EXTERNAL, GS2-KRB5, GSSAPI,
+      LOGIN, NTLM, PLAIN, SCRAM-SHA-1, SCRAM-SHA-1-PLUS,
+      SCRAM-SHA-256, SCRAM-SHA-256-PLUS, SAML20, OPENID20, and SECURID
+      mechanisms.
+    </para>
+
+    <para>
+      The design of the library and the intended interaction between
+      applications and the library through the official API is shown
+      in <xref linkend="abstraction"/>.
+    </para>
+
+    <figure id="abstraction">
+      <title>Illustration of separation between application and
+      individual mechanism</title>
+      <graphic fileref="gsasl-abstraction.png" format="PNG"></graphic>
+    </figure>
+
+    <para>
+      The operation of an application using the library can best be
+      understood in terms of a flow chart diagram, as shown in <xref
+      linkend="controlflow"/>.  The details on how the actual
+      negotiation are carried out are illustrated in <xref
+      linkend="controlflow2"/>.
+    </para>
+
+    <figure id="controlflow">
+      <title>High-level control flow of SASL application</title>
+      <graphic fileref="gsasl-controlflow.png" format="PNG"></graphic>
+    </figure>
+
+    <figure id="controlflow2">
+      <title>Low-level control flow of SASL application</title>
+      <graphic fileref="gsasl-controlflow2.png" format="PNG"></graphic>
+    </figure>
+
+    <xi:include href="xml/gsasl.xml"/>
+    <xi:include href="xml/gsasl-mech.xml"/>
+  </chapter>
+
+  <index id="api-index-full">
+    <title>API Index</title>
+    <xi:include href="xml/api-index-full.xml"><xi:fallback /></xi:include>
+  </index>
+  <index id="deprecated-api-index" role="deprecated">
+    <title>Index of deprecated API</title>
+    <xi:include href="xml/api-index-deprecated.xml"><xi:fallback /></xi:include>
+  </index>
+  <index id="api-index-0-2-0" role="0.2.0">
+    <title>Index of new API in 0.2.0</title>
+    <xi:include href="xml/api-index-0.2.0.xml"><xi:fallback /></xi:include>
+  </index>
+  <index id="api-index-0-2-2" role="0.2.2">
+    <title>Index of new API in 0.2.2</title>
+    <xi:include href="xml/api-index-0.2.2.xml"><xi:fallback /></xi:include>
+  </index>
+  <index id="api-index-0-2-3" role="0.2.3">
+    <title>Index of new API in 0.2.3</title>
+    <xi:include href="xml/api-index-0.2.3.xml"><xi:fallback /></xi:include>
+  </index>
+  <index id="api-index-0-2-14" role="0.2.14">
+    <title>Index of new API in 0.2.14</title>
+    <xi:include href="xml/api-index-0.2.14.xml"><xi:fallback /></xi:include>
+  </index>
+  <index id="api-index-0-2-19" role="0.2.19">
+    <title>Index of new API in 0.2.19</title>
+    <xi:include href="xml/api-index-0.2.19.xml"><xi:fallback /></xi:include>
+  </index>
+  <index id="api-index-0-2-28" role="0.2.28">
+    <title>Index of new API in 0.2.28</title>
+    <xi:include href="xml/api-index-0.2.28.xml"><xi:fallback /></xi:include>
+  </index>
+  <index id="api-index-0-2-29" role="0.2.29">
+    <title>Index of new API in 0.2.29</title>
+    <xi:include href="xml/api-index-0.2.29.xml"><xi:fallback /></xi:include>
+  </index>
+  <index id="api-index-1-1" role="1.1">
+    <title>Index of new API in 1.1</title>
+    <xi:include href="xml/api-index-1.1.xml"><xi:fallback /></xi:include>
+  </index>
+  <index id="api-index-1-10" role="1.10">
+    <title>Index of new API in 1.10</title>
+    <xi:include href="xml/api-index-1.10.xml"><xi:fallback /></xi:include>
+  </index>
+</book>

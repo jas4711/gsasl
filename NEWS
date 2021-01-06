@@ -6,8 +6,11 @@ See the end for copying conditions.
 
 ** Stop shipping a separate tarball for libgsasl.
 This allowed us to avoid the second lib/configure scripts which slow
-down builds.  We now use gnulib's bootstrap script for building from
-git, see README-hacking (in git) for more information.
+down builds.
+
+** Build modernization.
+Among other improvements, gsasl now use gnulib's bootstrap script for
+building from git, see README-hacking (in git) for more information.
 
 ** The KERBEROS_V5 mechanism was removed.
 It has not been enabled by default and was never standardized nor
