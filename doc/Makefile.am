@@ -22,7 +22,7 @@ endif
 
 EXTRA_DIST = gdoc \
 	gsasl-controlflow.dia gsasl-controlflow2.dia gsasl-abstraction.dia \
-	gsasl.html gsasl.ps gsasl.pdf texinfo.css \
+	gsasl.html gsasl.ps gsasl.pdf \
 	doxygen/Doxyfile.in doxygen/gdoc2doxygen
 
 .dia.png:
@@ -54,7 +54,7 @@ AM_MAKEINFOFLAGS = -I $(top_srcdir)/doc \
 	-I $(top_builddir)/doc -I $(top_srcdir)/examples
 TEXI2DVI = texi2dvi $(AM_MAKEINFOFLAGS)
 AM_MAKEINFOHTMLFLAGS = $(AM_MAKEINFOFLAGS) \
-	--no-split --number-sections --css-include=texinfo.css
+	--no-split --number-sections
 
 dist_man_MANS = gsasl.1 $(gdoc_MANS)
 MAINTAINERCLEANFILES = $(dist_man_MANS)

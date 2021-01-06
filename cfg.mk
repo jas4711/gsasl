@@ -16,7 +16,7 @@
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 manual_title = Simple Authentication and Security Layer
-gendocs_options_ = --html "--css-include=texinfo.css" -I ../examples
+gendocs_options_ = -I ../examples
 
 INDENT_SOURCES = `find . -name '*.[chly]' | grep -v -e /gl -e build-aux -e /win32/ -e /examples/`
 
