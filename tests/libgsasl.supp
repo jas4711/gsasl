@@ -226,3 +226,1122 @@
    fun:start
    fun:gsasl_server_start
 }
+
+# Shishi/GSS leaks for 'gssapi' (debug these later)
+
+{
+  <insert_a_suppression_name_here>
+   Memcheck:Leak
+   match-leak-kinds: definite
+   fun:malloc
+   fun:base64_encode_alloc
+   fun:gsasl_base64_to
+   fun:gsasl_step64
+   fun:doit
+   fun:main
+}
+
+{
+  <insert_a_suppression_name_here>
+   Memcheck:Leak
+   match-leak-kinds: definite
+   fun:malloc
+   fun:xmalloc
+   fun:shishi_des_cbc_mac
+   fun:gss_des_checksum
+   fun:shishi_checksum
+   fun:gss_krb5_unwrap
+   fun:_gsasl_gssapi_client_step
+   fun:gsasl_step64
+   fun:doit
+   fun:main
+}
+
+{
+  <insert_a_suppression_name_here>
+   Memcheck:Leak
+   match-leak-kinds: definite
+   fun:malloc
+   fun:xmalloc
+   fun:shishi_des_cbc_mac
+   fun:gss_des_checksum
+   fun:shishi_checksum
+   fun:gss_krb5_unwrap
+   fun:_gsasl_gssapi_server_step
+   fun:gsasl_step64
+   fun:doit
+   fun:main
+}
+
+{
+  <insert_a_suppression_name_here>
+   Memcheck:Leak
+   match-leak-kinds: definite
+   fun:malloc
+   fun:xmalloc
+   fun:shishi_asn1_read
+   fun:shishi_authenticator_get_subkey
+   fun:shishi_ap_key
+   fun:gss_krb5_init_sec_context
+   fun:gss_init_sec_context
+   fun:_gsasl_gssapi_client_step
+   fun:gsasl_step64
+   fun:doit
+   fun:main
+}
+
+{
+  <insert_a_suppression_name_here>
+   Memcheck:Leak
+   match-leak-kinds: definite
+   fun:malloc
+   fun:xmalloc
+   fun:shishi_asn1_read
+   fun:shishi_authenticator_get_subkey
+   fun:shishi_ap_key
+   fun:gss_krb5_accept_sec_context
+   fun:gss_accept_sec_context
+   fun:_gsasl_gssapi_server_step
+   fun:gsasl_step64
+   fun:doit
+   fun:main
+}
+
+{
+  <insert_a_suppression_name_here>
+   Memcheck:Leak
+   match-leak-kinds: definite
+   fun:malloc
+   fun:base64_decode_alloc_ctx
+   fun:shishi_key_parse
+   fun:shishi_keys_for_serverrealm_in_file
+   fun:acquire_cred1
+   fun:gss_krb5_acquire_cred
+   fun:gss_acquire_cred
+   fun:_gsasl_gssapi_server_step
+   fun:gsasl_step64
+   fun:doit
+   fun:main
+}
+
+{
+  <insert_a_suppression_name_here>
+   Memcheck:Leak
+   match-leak-kinds: definite
+   fun:malloc
+   fun:xmalloc
+   fun:shishi_des_cbc_mac
+   fun:gss_des_checksum
+   fun:shishi_checksum
+   fun:gss_krb5_unwrap
+   fun:_gsasl_gssapi_client_step
+   fun:gsasl_step64
+   fun:doit
+   fun:main
+}
+
+{
+  <insert_a_suppression_name_here>
+   Memcheck:Leak
+   match-leak-kinds: definite
+   fun:malloc
+   fun:xmalloc
+   fun:shishi_des_cbc_mac
+   fun:gss_des_checksum
+   fun:shishi_checksum
+   fun:gss_krb5_unwrap
+   fun:_gsasl_gssapi_server_step
+   fun:gsasl_step64
+   fun:doit
+   fun:main
+}
+
+{
+  <insert_a_suppression_name_here>
+   Memcheck:Leak
+   match-leak-kinds: definite
+   fun:malloc
+   fun:xmalloc
+   fun:shishi_asn1_read
+   fun:shishi_authenticator_get_subkey
+   fun:shishi_ap_key
+   fun:gss_krb5_init_sec_context
+   fun:gss_init_sec_context
+   fun:_gsasl_gssapi_client_step
+   fun:gsasl_step64
+   fun:doit
+   fun:main
+}
+
+{
+  <insert_a_suppression_name_here>
+   Memcheck:Leak
+   match-leak-kinds: definite
+   fun:malloc
+   fun:xmalloc
+   fun:shishi_asn1_read
+   fun:shishi_authenticator_get_subkey
+   fun:shishi_ap_key
+   fun:gss_krb5_accept_sec_context
+   fun:gss_accept_sec_context
+   fun:_gsasl_gssapi_server_step
+   fun:gsasl_step64
+   fun:doit
+   fun:main
+}
+
+{
+  <insert_a_suppression_name_here>
+   Memcheck:Leak
+   match-leak-kinds: definite
+   fun:malloc
+   fun:base64_decode_alloc_ctx
+   fun:shishi_key_parse
+   fun:shishi_keys_for_serverrealm_in_file
+   fun:acquire_cred1
+   fun:gss_krb5_acquire_cred
+   fun:gss_acquire_cred
+   fun:_gsasl_gssapi_server_step
+   fun:gsasl_step64
+   fun:doit
+   fun:main
+}
+
+{
+  <insert_a_suppression_name_here>
+   Memcheck:Leak
+   match-leak-kinds: definite
+   fun:malloc
+   fun:xmalloc
+   fun:shishi_asn1_read
+   fun:shishi_asn1_read_bitstring
+   fun:shishi_apreq_mutual_required_p
+   fun:gss_krb5_accept_sec_context
+   fun:gss_accept_sec_context
+   fun:_gsasl_gssapi_server_step
+   fun:gsasl_step64
+   fun:doit
+   fun:main
+}
+{
+  <insert_a_suppression_name_here>
+   Memcheck:Leak
+   match-leak-kinds: definite
+   fun:malloc
+   fun:gss_krb5_wrap
+   fun:_gsasl_gssapi_server_step
+   fun:gsasl_step64
+   fun:doit
+   fun:main
+}
+{
+  <insert_a_suppression_name_here>
+   Memcheck:Leak
+   match-leak-kinds: definite
+   fun:malloc
+   fun:gss_decapsulate_token
+   fun:gss_krb5_unwrap
+   fun:_gsasl_gssapi_client_step
+   fun:gsasl_step64
+   fun:doit
+   fun:main
+}
+{
+  <insert_a_suppression_name_here>
+   Memcheck:Leak
+   match-leak-kinds: definite
+   fun:malloc
+   fun:gss_krb5_wrap
+   fun:_gsasl_gssapi_client_step
+   fun:gsasl_step64
+   fun:doit
+   fun:main
+}
+
+{
+  <insert_a_suppression_name_here>
+   Memcheck:Leak
+   match-leak-kinds: definite
+   fun:malloc
+   fun:gss_decapsulate_token
+   fun:gss_krb5_unwrap
+   fun:_gsasl_gssapi_server_step
+   fun:gsasl_step64
+   fun:doit
+   fun:main
+}
+
+{
+  <insert_a_suppression_name_here>
+   Memcheck:Leak
+   match-leak-kinds: definite
+   fun:malloc
+   fun:xmalloc
+   fun:shishi_asn1_read
+   fun:shishi_asn1_read_bitstring
+   fun:shishi_apreq_mutual_required_p
+   fun:gss_krb5_accept_sec_context
+   fun:gss_accept_sec_context
+   fun:_gsasl_gssapi_server_step
+   fun:gsasl_step64
+   fun:doit
+   fun:main
+}
+
+{
+  <insert_a_suppression_name_here>
+   Memcheck:Leak
+   match-leak-kinds: definite
+   fun:malloc
+   fun:gss_krb5_wrap
+   fun:_gsasl_gssapi_server_step
+   fun:gsasl_step64
+   fun:doit
+   fun:main
+}
+
+{
+  <insert_a_suppression_name_here>
+   Memcheck:Leak
+   match-leak-kinds: definite
+   fun:malloc
+   fun:gss_decapsulate_token
+   fun:gss_krb5_unwrap
+   fun:_gsasl_gssapi_client_step
+   fun:gsasl_step64
+   fun:doit
+   fun:main
+}
+
+{
+  <insert_a_suppression_name_here>
+   Memcheck:Leak
+   match-leak-kinds: definite
+   fun:malloc
+   fun:gss_krb5_wrap
+   fun:_gsasl_gssapi_client_step
+   fun:gsasl_step64
+   fun:doit
+   fun:main
+}
+
+{
+  <insert_a_suppression_name_here>
+   Memcheck:Leak
+   match-leak-kinds: definite
+   fun:malloc
+   fun:gss_decapsulate_token
+   fun:gss_krb5_unwrap
+   fun:_gsasl_gssapi_server_step
+   fun:gsasl_step64
+   fun:doit
+   fun:main
+}
+
+{
+  <insert_a_suppression_name_here>
+   Memcheck:Leak
+   match-leak-kinds: definite
+   fun:calloc
+   fun:xcalloc
+   fun:shishi_key
+   fun:shishi_authenticator_get_subkey
+   fun:shishi_ap_key
+   fun:gss_krb5_init_sec_context
+   fun:gss_init_sec_context
+   fun:_gsasl_gssapi_client_step
+   fun:gsasl_step64
+   fun:doit
+   fun:main
+}
+
+{
+  <insert_a_suppression_name_here>
+   Memcheck:Leak
+   match-leak-kinds: definite
+   fun:calloc
+   fun:xcalloc
+   fun:shishi_key
+   fun:shishi_key_from_value
+   fun:shishi_encticketpart_get_key
+   fun:shishi_ap_req_process_keyusage
+   fun:shishi_ap_req_process_keyusage
+   fun:gss_krb5_accept_sec_context
+   fun:gss_accept_sec_context
+   fun:_gsasl_gssapi_server_step
+   fun:gsasl_step64
+   fun:doit
+   fun:main
+}
+
+{
+  <insert_a_suppression_name_here>
+   Memcheck:Leak
+   match-leak-kinds: definite
+   fun:calloc
+   fun:xcalloc
+   fun:shishi_key
+   fun:shishi_authenticator_get_subkey
+   fun:shishi_ap_key
+   fun:gss_krb5_accept_sec_context
+   fun:gss_accept_sec_context
+   fun:_gsasl_gssapi_server_step
+   fun:gsasl_step64
+   fun:doit
+   fun:main
+}
+
+{
+  <insert_a_suppression_name_here>
+   Memcheck:Leak
+   match-leak-kinds: definite
+   fun:malloc
+   fun:xmalloc
+   fun:shishi_asn1_to_der_field
+   fun:gss_krb5_accept_sec_context
+   fun:gss_accept_sec_context
+   fun:_gsasl_gssapi_server_step
+   fun:gsasl_step64
+   fun:doit
+   fun:main
+}
+
+{
+  <insert_a_suppression_name_here>
+   Memcheck:Leak
+   match-leak-kinds: definite
+   fun:calloc
+   fun:xcalloc
+   fun:shishi_key
+   fun:shishi_authenticator_get_subkey
+   fun:shishi_ap_key
+   fun:gss_krb5_init_sec_context
+   fun:gss_init_sec_context
+   fun:_gsasl_gssapi_client_step
+   fun:gsasl_step64
+   fun:doit
+   fun:main
+}
+
+{
+  <insert_a_suppression_name_here>
+   Memcheck:Leak
+   match-leak-kinds: definite
+   fun:calloc
+   fun:xcalloc
+   fun:shishi_key
+   fun:shishi_key_from_value
+   fun:shishi_encticketpart_get_key
+   fun:shishi_ap_req_process_keyusage
+   fun:shishi_ap_req_process_keyusage
+   fun:gss_krb5_accept_sec_context
+   fun:gss_accept_sec_context
+   fun:_gsasl_gssapi_server_step
+   fun:gsasl_step64
+   fun:doit
+   fun:main
+}
+
+{
+  <insert_a_suppression_name_here>
+   Memcheck:Leak
+   match-leak-kinds: definite
+   fun:calloc
+   fun:xcalloc
+   fun:shishi_key
+   fun:shishi_authenticator_get_subkey
+   fun:shishi_ap_key
+   fun:gss_krb5_accept_sec_context
+   fun:gss_accept_sec_context
+   fun:_gsasl_gssapi_server_step
+   fun:gsasl_step64
+   fun:doit
+   fun:main
+}
+{
+  <insert_a_suppression_name_here>
+   Memcheck:Leak
+   match-leak-kinds: definite
+   fun:malloc
+   fun:xmalloc
+   fun:shishi_asn1_to_der_field
+   fun:gss_krb5_accept_sec_context
+   fun:gss_accept_sec_context
+   fun:_gsasl_gssapi_server_step
+   fun:gsasl_step64
+   fun:doit
+   fun:main
+}
+
+{
+  <insert_a_suppression_name_here>
+   Memcheck:Leak
+   match-leak-kinds: definite
+   fun:malloc
+   fun:xmalloc
+   fun:libgcrypt_dencrypt.constprop.0
+   fun:shishi_des
+   fun:_shishi_simplified_dencrypt
+   fun:_shishi_simplified_decrypt
+   fun:des_decrypt_verify.isra.2
+   fun:shishi_decrypt_ivupdate_etype
+   fun:shishi_decrypt
+   fun:shishi_aprep_decrypt
+   fun:shishi_ap_rep_verify
+   fun:init_reply
+   fun:gss_krb5_init_sec_context
+}
+
+{
+  <insert_a_suppression_name_here>
+   Memcheck:Leak
+   match-leak-kinds: definite
+   fun:calloc
+   fun:xcalloc
+   fun:shishi_key
+   fun:shishi_key_from_value
+   fun:shishi_encticketpart_get_key
+   fun:shishi_aprep_enc_part_add
+   fun:shishi_aprep_enc_part_make
+   fun:shishi_ap_rep_build
+   fun:shishi_ap_rep_asn1
+   fun:gss_krb5_accept_sec_context
+   fun:gss_accept_sec_context
+   fun:_gsasl_gssapi_server_step
+}
+
+{
+  <insert_a_suppression_name_here>
+   Memcheck:Leak
+   match-leak-kinds: definite
+   fun:malloc
+   fun:xmalloc
+   fun:libgcrypt_dencrypt.constprop.0
+   fun:shishi_des
+   fun:_shishi_simplified_dencrypt
+   fun:_shishi_simplified_decrypt
+   fun:des_decrypt_verify.isra.2
+   fun:shishi_decrypt_ivupdate_etype
+   fun:shishi_decrypt
+   fun:shishi_ticket_decrypt
+   fun:shishi_tkt_decrypt
+   fun:shishi_ap_req_process_keyusage
+}
+
+{
+  <insert_a_suppression_name_here>
+   Memcheck:Leak
+   match-leak-kinds: definite
+   fun:malloc
+   fun:xmalloc
+   fun:libgcrypt_dencrypt.constprop.0
+   fun:shishi_des
+   fun:_shishi_simplified_dencrypt
+   fun:_shishi_simplified_encrypt
+   fun:des_encrypt_checksum.isra.3
+   fun:shishi_encrypt_ivupdate_etype
+   fun:shishi_encrypt
+   fun:shishi_apreq_add_authenticator
+   fun:shishi_ap_req_build
+   fun:shishi_ap_req_der
+}
+
+{
+  <insert_a_suppression_name_here>
+   Memcheck:Leak
+   match-leak-kinds: definite
+   fun:malloc
+   fun:xmalloc
+   fun:libgcrypt_dencrypt.constprop.0
+   fun:shishi_des
+   fun:_shishi_simplified_dencrypt
+   fun:_shishi_simplified_decrypt
+   fun:des_decrypt_verify.isra.2
+   fun:shishi_decrypt_ivupdate_etype
+   fun:shishi_decrypt
+   fun:shishi_apreq_decrypt
+   fun:shishi_ap_req_process_keyusage
+   fun:shishi_ap_req_process_keyusage
+   fun:gss_krb5_accept_sec_context
+}
+
+{
+  <insert_a_suppression_name_here>
+   Memcheck:Leak
+   match-leak-kinds: definite
+   fun:calloc
+   fun:_asn1_add_single_node
+   fun:_asn1_copy_structure3
+   fun:_asn1_copy_structure2
+   fun:asn1_create_element
+   fun:asn1_new.isra.0
+   fun:shishi_encapreppart
+   fun:shishi_ap_nosubkey
+   fun:shishi_ap_etype
+   fun:shishi_ap_tktoptionsraw
+   fun:init_request
+   fun:gss_krb5_init_sec_context
+   fun:gss_init_sec_context
+   fun:_gsasl_gssapi_client_step
+   fun:gsasl_step64
+}
+
+{
+  <insert_a_suppression_name_here>
+   Memcheck:Leak
+   match-leak-kinds: definite
+   fun:calloc
+   fun:_asn1_add_single_node
+   fun:_asn1_copy_structure3
+   fun:_asn1_copy_structure2
+   fun:asn1_create_element
+   fun:asn1_new.isra.0
+   fun:shishi_aprep
+   fun:shishi_ap_nosubkey
+   fun:shishi_ap_etype
+   fun:shishi_ap_tktoptionsraw
+   fun:init_request
+   fun:gss_krb5_init_sec_context
+   fun:gss_init_sec_context
+   fun:_gsasl_gssapi_client_step
+   fun:gsasl_step64
+}
+
+{
+  <insert_a_suppression_name_here>
+   Memcheck:Leak
+   match-leak-kinds: definite
+   fun:calloc
+   fun:_asn1_add_single_node
+   fun:_asn1_copy_structure3
+   fun:_asn1_copy_structure2
+   fun:asn1_create_element
+   fun:asn1_new.isra.0
+   fun:shishi_apreq
+   fun:shishi_ap_nosubkey
+   fun:shishi_ap
+   fun:gss_krb5_accept_sec_context
+   fun:gss_accept_sec_context
+   fun:_gsasl_gssapi_server_step
+   fun:gsasl_step64
+   fun:doit
+}
+
+{
+  <insert_a_suppression_name_here>
+   Memcheck:Leak
+   match-leak-kinds: definite
+   fun:calloc
+   fun:_asn1_add_single_node
+   fun:_asn1_copy_structure3
+   fun:_asn1_copy_structure2
+   fun:asn1_create_element
+   fun:asn1_new.isra.0
+   fun:shishi_authenticator
+   fun:shishi_ap_nosubkey
+   fun:shishi_ap
+   fun:gss_krb5_accept_sec_context
+   fun:gss_accept_sec_context
+   fun:_gsasl_gssapi_server_step
+   fun:gsasl_step64
+   fun:doit
+}
+
+{
+  <insert_a_suppression_name_here>
+   Memcheck:Leak
+   match-leak-kinds: definite
+   fun:calloc
+   fun:xcalloc
+   fun:shishi_tkt2
+   fun:shishi_tkts_new
+   fun:shishi_tkts_read
+   fun:shishi_tkts_from_file
+   fun:init_read
+   fun:gss_krb5_init_sec_context
+   fun:gss_init_sec_context
+   fun:_gsasl_gssapi_client_step
+   fun:gsasl_step64
+   fun:doit
+}
+
+{
+  <insert_a_suppression_name_here>
+   Memcheck:Leak
+   match-leak-kinds: definite
+   fun:calloc
+   fun:_asn1_add_single_node
+   fun:_asn1_copy_structure3
+   fun:_asn1_copy_structure2
+   fun:asn1_create_element
+   fun:asn1_new.isra.0
+   fun:shishi_apreq
+   fun:shishi_ap_nosubkey
+   fun:shishi_ap
+   fun:gss_krb5_accept_sec_context
+   fun:gss_accept_sec_context
+   fun:_gsasl_gssapi_server_step
+   fun:gsasl_step64
+   fun:doit
+}
+
+{
+  <insert_a_suppression_name_here>
+   Memcheck:Leak
+   match-leak-kinds: definite
+   fun:calloc
+   fun:_asn1_add_single_node
+   fun:_asn1_copy_structure3
+   fun:_asn1_copy_structure2
+   fun:asn1_create_element
+   fun:asn1_new.isra.0
+   fun:shishi_authenticator
+   fun:shishi_ap_nosubkey
+   fun:shishi_ap
+   fun:gss_krb5_accept_sec_context
+   fun:gss_accept_sec_context
+   fun:_gsasl_gssapi_server_step
+   fun:gsasl_step64
+   fun:doit
+}
+
+{
+  <insert_a_suppression_name_here>
+   Memcheck:Leak
+   match-leak-kinds: definite
+   fun:calloc
+   fun:xcalloc
+   fun:shishi_tkt2
+   fun:shishi_tkts_new
+   fun:shishi_tkts_read
+   fun:shishi_tkts_from_file
+   fun:init_read
+   fun:gss_krb5_init_sec_context
+   fun:gss_init_sec_context
+   fun:_gsasl_gssapi_client_step
+   fun:gsasl_step64
+   fun:doit
+}
+
+{
+  <insert_a_suppression_name_here>
+   Memcheck:Leak
+   match-leak-kinds: definite
+   fun:calloc
+   fun:_asn1_add_single_node
+   fun:_asn1_copy_structure3
+   fun:_asn1_copy_structure2
+   fun:asn1_create_element
+   fun:asn1_new.isra.0
+   fun:shishi_encticketpart
+   fun:shishi_tkt
+   fun:shishi_ap_req_decode
+   fun:shishi_ap_req_process_keyusage
+   fun:gss_krb5_accept_sec_context
+   fun:gss_accept_sec_context
+   fun:_gsasl_gssapi_server_step
+   fun:gsasl_step64
+}
+
+{
+  <insert_a_suppression_name_here>
+   Memcheck:Leak
+   match-leak-kinds: definite
+   fun:calloc
+   fun:_asn1_add_single_node
+   fun:_asn1_copy_structure3
+   fun:_asn1_copy_structure2
+   fun:asn1_create_element
+   fun:der2asn1.isra.1
+   fun:_shishi_kdcrep_input
+   fun:shishi_tkts_read
+   fun:shishi_tkts_from_file
+   fun:init_read
+   fun:gss_krb5_init_sec_context
+   fun:gss_init_sec_context
+   fun:_gsasl_gssapi_client_step
+   fun:gsasl_step64
+}
+
+{
+  <insert_a_suppression_name_here>
+   Memcheck:Leak
+   match-leak-kinds: definite
+   fun:calloc
+   fun:_asn1_add_single_node
+   fun:_asn1_copy_structure3
+   fun:_asn1_copy_structure2
+   fun:asn1_create_element
+   fun:der2asn1.isra.1
+   fun:_shishi_kdcrep_input
+   fun:shishi_tkts_read
+   fun:shishi_tkts_from_file
+   fun:init_read
+   fun:gss_krb5_init_sec_context
+   fun:gss_init_sec_context
+   fun:_gsasl_gssapi_client_step
+   fun:gsasl_step64
+}
+
+{
+  <insert_a_suppression_name_here>
+   Memcheck:Leak
+   match-leak-kinds: definite
+   fun:calloc
+   fun:xcalloc
+   fun:shishi_tkt
+   fun:shishi_ap_req_decode
+   fun:shishi_ap_req_process_keyusage
+   fun:gss_krb5_accept_sec_context
+   fun:gss_accept_sec_context
+   fun:_gsasl_gssapi_server_step
+   fun:gsasl_step64
+   fun:doit
+   fun:main
+}
+
+{
+  <insert_a_suppression_name_here>
+   Memcheck:Leak
+   match-leak-kinds: definite
+   fun:calloc
+   fun:_asn1_add_single_node
+   fun:_asn1_copy_structure3
+   fun:_asn1_copy_structure2
+   fun:asn1_create_element
+   fun:der2asn1.isra.1
+   fun:_shishi_enckdcreppart_input
+   fun:shishi_tkts_read
+   fun:shishi_tkts_from_file
+   fun:init_read
+   fun:gss_krb5_init_sec_context
+   fun:gss_init_sec_context
+   fun:_gsasl_gssapi_client_step
+   fun:gsasl_step64
+}
+
+{
+  <insert_a_suppression_name_here>
+   Memcheck:Leak
+   match-leak-kinds: definite
+   fun:calloc
+   fun:xcalloc
+   fun:shishi_tkt
+   fun:shishi_ap_req_decode
+   fun:shishi_ap_req_process_keyusage
+   fun:gss_krb5_accept_sec_context
+   fun:gss_accept_sec_context
+   fun:_gsasl_gssapi_server_step
+   fun:gsasl_step64
+   fun:doit
+   fun:main
+}
+
+# Shishi/GSS leaks for 'gs2-krb5' (debug these later)
+
+{
+   <insert_a_suppression_name_here>
+   Memcheck:Leak
+   match-leak-kinds: definite
+   fun:malloc
+   fun:xmalloc
+   fun:shishi_asn1_read
+   fun:shishi_authenticator_get_subkey
+   fun:shishi_ap_key
+   fun:gss_krb5_init_sec_context
+   fun:gss_init_sec_context
+   fun:_gsasl_gs2_client_step
+   fun:gsasl_step64
+   fun:doit
+   fun:main
+}
+
+{
+   <insert_a_suppression_name_here>
+   Memcheck:Leak
+   match-leak-kinds: definite
+   fun:malloc
+   fun:gss_display_name
+   fun:_gsasl_gs2_server_step
+   fun:gsasl_step64
+   fun:doit
+   fun:main
+}
+
+{
+   <insert_a_suppression_name_here>
+   Memcheck:Leak
+   match-leak-kinds: definite
+   fun:malloc
+   fun:xmalloc
+   fun:shishi_asn1_read
+   fun:shishi_authenticator_get_subkey
+   fun:shishi_ap_key
+   fun:gss_krb5_init_sec_context
+   fun:gss_init_sec_context
+   fun:_gsasl_gs2_client_step
+   fun:gsasl_step64
+   fun:doit
+   fun:main
+}
+
+{
+   <insert_a_suppression_name_here>
+   Memcheck:Leak
+   match-leak-kinds: definite
+   fun:malloc
+   fun:xmalloc
+   fun:shishi_asn1_read
+   fun:shishi_authenticator_get_subkey
+   fun:shishi_ap_key
+   fun:gss_krb5_accept_sec_context
+   fun:gss_accept_sec_context
+   fun:_gsasl_gs2_server_step
+   fun:gsasl_step64
+   fun:doit
+   fun:main
+}
+
+{
+   <insert_a_suppression_name_here>
+   Memcheck:Leak
+   match-leak-kinds: definite
+   fun:malloc
+   fun:base64_decode_alloc_ctx
+   fun:shishi_key_parse
+   fun:shishi_keys_for_serverrealm_in_file
+   fun:acquire_cred1
+   fun:gss_krb5_acquire_cred
+   fun:gss_acquire_cred
+   fun:gs2_get_cred
+   fun:_gsasl_gs2_server_step
+   fun:gsasl_step64
+   fun:doit
+   fun:main
+}
+
+{
+   <insert_a_suppression_name_here>
+   Memcheck:Leak
+   match-leak-kinds: definite
+   fun:calloc
+   fun:xcalloc
+   fun:shishi_key
+   fun:shishi_authenticator_get_subkey
+   fun:shishi_ap_key
+   fun:gss_krb5_init_sec_context
+   fun:gss_init_sec_context
+   fun:_gsasl_gs2_client_step
+   fun:gsasl_step64
+   fun:doit
+   fun:main
+}
+
+{
+   <insert_a_suppression_name_here>
+   Memcheck:Leak
+   match-leak-kinds: definite
+   fun:malloc
+   fun:xmalloc
+   fun:shishi_asn1_read
+   fun:shishi_asn1_read_bitstring
+   fun:shishi_apreq_mutual_required_p
+   fun:gss_krb5_accept_sec_context
+   fun:gss_accept_sec_context
+   fun:_gsasl_gs2_server_step
+   fun:gsasl_step64
+   fun:doit
+   fun:main
+}
+
+{
+   <insert_a_suppression_name_here>
+   Memcheck:Leak
+   match-leak-kinds: definite
+   fun:calloc
+   fun:xcalloc
+   fun:shishi_key
+   fun:shishi_authenticator_get_subkey
+   fun:shishi_ap_key
+   fun:gss_krb5_init_sec_context
+   fun:gss_init_sec_context
+   fun:_gsasl_gs2_client_step
+   fun:gsasl_step64
+   fun:doit
+   fun:main
+}
+
+{
+   <insert_a_suppression_name_here>
+   Memcheck:Leak
+   match-leak-kinds: definite
+   fun:calloc
+   fun:xcalloc
+   fun:shishi_key
+   fun:shishi_key_from_value
+   fun:shishi_encticketpart_get_key
+   fun:shishi_ap_req_process_keyusage
+   fun:shishi_ap_req_process_keyusage
+   fun:gss_krb5_accept_sec_context
+   fun:gss_accept_sec_context
+   fun:_gsasl_gs2_server_step
+   fun:gsasl_step64
+   fun:doit
+   fun:main
+}
+
+{
+   <insert_a_suppression_name_here>
+   Memcheck:Leak
+   match-leak-kinds: definite
+   fun:calloc
+   fun:xcalloc
+   fun:shishi_key
+   fun:shishi_authenticator_get_subkey
+   fun:shishi_ap_key
+   fun:gss_krb5_accept_sec_context
+   fun:gss_accept_sec_context
+   fun:_gsasl_gs2_server_step
+   fun:gsasl_step64
+   fun:doit
+   fun:main
+}
+
+{
+   <insert_a_suppression_name_here>
+   Memcheck:Leak
+   match-leak-kinds: definite
+   fun:calloc
+   fun:xcalloc
+   fun:shishi_key
+   fun:shishi_key_from_value
+   fun:shishi_encticketpart_get_key
+   fun:shishi_aprep_enc_part_add
+   fun:shishi_aprep_enc_part_make
+   fun:shishi_ap_rep_build
+   fun:shishi_ap_rep_asn1
+   fun:gss_krb5_accept_sec_context
+   fun:gss_accept_sec_context
+   fun:_gsasl_gs2_server_step
+}
+
+{
+   <insert_a_suppression_name_here>
+   Memcheck:Leak
+   match-leak-kinds: definite
+   fun:malloc
+   fun:xmalloc
+   fun:shishi_asn1_to_der_field
+   fun:gss_krb5_accept_sec_context
+   fun:gss_accept_sec_context
+   fun:_gsasl_gs2_server_step
+   fun:gsasl_step64
+   fun:doit
+   fun:main
+}
+
+{
+   <insert_a_suppression_name_here>
+   Memcheck:Leak
+   match-leak-kinds: definite
+   fun:calloc
+   fun:xcalloc
+   fun:shishi_tkt2
+   fun:shishi_tkts_new
+   fun:shishi_tkts_read
+   fun:shishi_tkts_from_file
+   fun:init_read
+   fun:gss_krb5_init_sec_context
+   fun:gss_init_sec_context
+   fun:_gsasl_gs2_client_step
+   fun:gsasl_step64
+   fun:doit
+}
+
+{
+   <insert_a_suppression_name_here>
+   Memcheck:Leak
+   match-leak-kinds: definite
+   fun:calloc
+   fun:xcalloc
+   fun:shishi_tkt2
+   fun:shishi_tkts_new
+   fun:shishi_tkts_read
+   fun:shishi_tkts_from_file
+   fun:init_read
+   fun:gss_krb5_init_sec_context
+   fun:gss_init_sec_context
+   fun:_gsasl_gs2_client_step
+   fun:gsasl_step64
+   fun:doit
+}
+
+{
+   <insert_a_suppression_name_here>
+   Memcheck:Leak
+   match-leak-kinds: definite
+   fun:calloc
+   fun:_asn1_add_single_node
+   fun:_asn1_copy_structure3
+   fun:_asn1_copy_structure2
+   fun:asn1_create_element
+   fun:asn1_new.isra.0
+   fun:shishi_apreq
+   fun:shishi_ap_nosubkey
+   fun:shishi_ap
+   fun:gss_krb5_accept_sec_context
+   fun:gss_accept_sec_context
+   fun:_gsasl_gs2_server_step
+   fun:gsasl_step64
+   fun:doit
+}
+
+{
+   <insert_a_suppression_name_here>
+   Memcheck:Leak
+   match-leak-kinds: definite
+   fun:calloc
+   fun:_asn1_add_single_node
+   fun:_asn1_copy_structure3
+   fun:_asn1_copy_structure2
+   fun:asn1_create_element
+   fun:asn1_new.isra.0
+   fun:shishi_authenticator
+   fun:shishi_ap_nosubkey
+   fun:shishi_ap
+   fun:gss_krb5_accept_sec_context
+   fun:gss_accept_sec_context
+   fun:_gsasl_gs2_server_step
+   fun:gsasl_step64
+   fun:doit
+}
+
+{
+   <insert_a_suppression_name_here>
+   Memcheck:Leak
+   match-leak-kinds: definite
+   fun:calloc
+   fun:xcalloc
+   fun:shishi_tkt
+   fun:shishi_ap_req_decode
+   fun:shishi_ap_req_process_keyusage
+   fun:gss_krb5_accept_sec_context
+   fun:gss_accept_sec_context
+   fun:_gsasl_gs2_server_step
+   fun:gsasl_step64
+   fun:doit
+   fun:main
+}
+
+{
+   <insert_a_suppression_name_here>
+   Memcheck:Leak
+   match-leak-kinds: definite
+   fun:calloc
+   fun:gss_acquire_cred
+   fun:gs2_get_cred
+   fun:_gsasl_gs2_server_step
+   fun:gsasl_step64
+   fun:doit
+   fun:main
+}
