@@ -67,6 +67,7 @@
       <graphic fileref="gsasl-controlflow2.png" format="PNG"></graphic>
     </figure>
 
+    <xi:include href="xml/gsasl-version.xml"/>
     <xi:include href="xml/gsasl.xml"/>
     <xi:include href="xml/gsasl-mech.xml"/>
   </chapter>
