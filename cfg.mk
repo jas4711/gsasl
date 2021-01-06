@@ -15,6 +15,9 @@
 # You should have received a copy of the GNU General Public License
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
+manual_title = Simple Authentication and Security Layer
+gendocs_options_ = --html "--css-include=texinfo.css" -I ../examples
+
 INDENT_SOURCES = `find . -name '*.[chly]' | grep -v -e /gl -e build-aux -e /win32/ -e /examples/`
 
 local-checks-to-skip = sc_prohibit_strcmp sc_error_message_uppercase	\
@@ -54,22 +57,6 @@ review-diff:
 # Release
 
 htmldir = ../www-$(PACKAGE)
-
-gendoc-copy:
-	cd doc && env MAKEINFO="makeinfo -I ../examples" \
-		      TEXI2DVI="texi2dvi -I ../examples" \
-		$(SHELL) ../$(_build-aux)/gendocs.sh \
-			--html "--css-include=texinfo.css" \
-			-o ../$(htmldir)/manual/ $(PACKAGE) "$(PACKAGE_NAME)"
-
-gendoc-upload:
-	cd $(htmldir) && \
-		cvs add manual || true && \
-		cvs add manual/html_node || true && \
-		cvs add -kb manual/*.gz manual/*.pdf || true && \
-		cvs add manual/*.txt manual/*.html \
-			manual/html_node/*.html || true && \
-		cvs commit -m "Update." manual/
 
 gtkdoc-copy:
 	mkdir -p $(htmldir)/reference/
@@ -122,9 +109,9 @@ binaries:
 source:
 	git tag -s -m $(VERSION) $(tag)
 
-release-check: syntax-check tarball gendoc-copy gtkdoc-copy doxygen-copy
+release-check: syntax-check tarball gtkdoc-copy doxygen-copy
 
-release-upload-www: gendoc-upload gtkdoc-upload doxygen-upload
+release-upload-www: gtkdoc-upload doxygen-upload
 
 site = ftp.gnu.org
 
