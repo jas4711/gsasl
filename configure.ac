@@ -37,13 +37,17 @@ AC_SUBST(LT_AGE, 0)
 DLL_VERSION=`expr ${LT_CURRENT} - ${LT_AGE}`
 AC_SUBST(DLL_VERSION)
 
+AC_SUBST(MAJOR_VERSION, [[`echo $PACKAGE_VERSION | sed 's/\([0-9]\+\)\..*/\1/'`]])
+AC_SUBST(MINOR_VERSION, [[`echo $PACKAGE_VERSION | sed 's/[^.]*\.\([0-9]\+\)\..*/\1/'`]])
+AC_SUBST(PATCH_VERSION, [[`echo $PACKAGE_VERSION | sed 's/[^.]*\.[^.]*\.\([0-9]\+\).*/\1/'`]])
+AC_SUBST(NUMBER_VERSION, `printf "0x%02x%02x%02x" $MAJOR_VERSION $MINOR_VERSION $PATCH_VERSION`)
+
 AM_INIT_AUTOMAKE([1.13 -Wall -Wno-override])
 AM_SILENT_RULES([yes])
 AC_CONFIG_HEADERS([config.h])
 
 # Checks for programs.
 AC_PROG_CC
-GTK_DOC_CHECK([1.14],[--flavour no-tmpl])
 gl_EARLY
 lgl_EARLY
 AM_PROG_AR
@@ -56,6 +60,9 @@ AM_MISSING_PROG(EPSTOPDF, epstopdf, $missing_dir)
 # Internationalization.
 AM_GNU_GETTEXT([external])
 AM_GNU_GETTEXT_VERSION([0.19.8])
+
+# See doc/reference/
+GTK_DOC_CHECK([1.14],[--flavour no-tmpl])
 
 # ANONYMOUS
 AC_ARG_ENABLE(anonymous,
@@ -408,21 +415,6 @@ AC_MSG_CHECKING([if GSSAPI should be used])
 AC_MSG_RESULT($gssapi)
 AM_CONDITIONAL(GSSAPI, test x$gssapi = xyes)
 
-sj_UPDATE_HEADER_VERSION([$srcdir/lib/src/gsasl.h])
-
-MAJOR_VERSION=`echo $PACKAGE_VERSION | sed 's/\(.*\)\..*\..*/\1/g'`
-MINOR_VERSION=`echo $PACKAGE_VERSION | sed 's/.*\.\(.*\)\..*/\1/g'`
-PATCH_VERSION=`echo $PACKAGE_VERSION | sed 's/.*\..*\.\(.*\)/\1/g'`
-NUMBER_VERSION=`printf "0x%02x%02x%02x" $MAJOR_VERSION $MINOR_VERSION $PATCH_VERSION`
-sj_UPDATE_HEADER([$srcdir/lib/src/gsasl.h],
-		 "s/VERSION_MAJOR .*/VERSION_MAJOR $MAJOR_VERSION/")
-sj_UPDATE_HEADER([$srcdir/lib/src/gsasl.h],
-		 "s/VERSION_MINOR .*/VERSION_MINOR $MINOR_VERSION/")
-sj_UPDATE_HEADER([$srcdir/lib/src/gsasl.h],
-		 "s/VERSION_PATCH .*/VERSION_PATCH $PATCH_VERSION/")
-sj_UPDATE_HEADER([$srcdir/lib/src/gsasl.h],
-		 "s/VERSION_NUMBER .*/VERSION_NUMBER $NUMBER_VERSION/")
-
 AC_ARG_ENABLE([gcc-warnings],
   [AS_HELP_STRING([--enable-gcc-warnings],
 		  [turn on lots of GCC warnings (for developers)])],
@@ -497,13 +489,17 @@ AC_CONFIG_FILES([
   lib/plain/Makefile
   lib/securid/Makefile
   lib/src/Makefile
+  lib/src/gsasl-version.h
   lib/tests/Makefile
 ])
 AC_OUTPUT
 
 AC_MSG_NOTICE([summary of main build options:
 
-  version:            ${VERSION} shared $LT_CURRENT:$LT_REVISION:$LT_AGE
+  version:            ${VERSION}
+  Libtool version     $LT_CURRENT:$LT_REVISION:$LT_AGE
+  DLL version:        $DLL_VERSION
+  Header version:     major $MAJOR_VERSION minor $MINOR_VERSION patch $PATCH_VERSION number $NUMBER_VERSION
   Host/Target system: ${host}
   Build system:       ${build}
   Install prefix:     ${prefix}

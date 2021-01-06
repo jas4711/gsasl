@@ -27,6 +27,9 @@
 #include <stddef.h>		/* size_t */
 #include <unistd.h>		/* ssize_t */
 
+/* Get version symbols. */
+#include <gsasl-version.h>
+
 #ifndef GSASL_API
 #if defined GSASL_BUILDING && defined HAVE_VISIBILITY && HAVE_VISIBILITY
 #define GSASL_API __attribute__((__visibility__("default")))
@@ -43,59 +46,6 @@
 extern "C"
 {
 #endif
-
-  /**
-   * GSASL_VERSION
-   *
-   * Pre-processor symbol with a string that describe the header file
-   * version number.  Used together with gsasl_check_version() to
-   * verify header file and run-time library consistency.
-   */
-#define GSASL_VERSION "1.11.0"
-
-  /**
-   * GSASL_VERSION_MAJOR
-   *
-   * Pre-processor symbol with a decimal value that describe the major
-   * level of the header file version number.  For example, when the
-   * header version is 1.2.3 this symbol will be 1.
-   *
-   * Since: 1.1
-   */
-#define GSASL_VERSION_MAJOR 1
-
-  /**
-   * GSASL_VERSION_MINOR
-   *
-   * Pre-processor symbol with a decimal value that describe the minor
-   * level of the header file version number.  For example, when the
-   * header version is 1.2.3 this symbol will be 2.
-   *
-   * Since: 1.1
-   */
-#define GSASL_VERSION_MINOR 11
-
-  /**
-   * GSASL_VERSION_PATCH
-   *
-   * Pre-processor symbol with a decimal value that describe the patch
-   * level of the header file version number.  For example, when the
-   * header version is 1.2.3 this symbol will be 3.
-   *
-   * Since: 1.1
-   */
-#define GSASL_VERSION_PATCH 0
-
-  /**
-   * GSASL_VERSION_NUMBER
-   *
-   * Pre-processor symbol with a hexadecimal value describing the
-   * header file version number.  For example, when the header version
-   * is 1.2.3 this symbol will have the value 0x010203.
-   *
-   * Since: 1.1
-   */
-#define GSASL_VERSION_NUMBER 0x010b00
 
   /* RFC 2222: SASL mechanisms are named by strings, from 1 to 20
    * characters in length, consisting of upper-case letters, digits,

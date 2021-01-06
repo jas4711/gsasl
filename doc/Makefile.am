@@ -40,7 +40,7 @@ gsasl_TEXINFOS = fdl-1.3.texi $(gdoc_TEXINFOS) \
 	gsasl-abstraction.eps gsasl-abstraction.png gsasl-abstraction.pdf \
 	gsasl-api-error-labels.texi
 
-AM_CPPFLAGS = -I$(top_srcdir)/lib/src
+AM_CPPFLAGS = -I$(top_builddir)/lib/src -I$(top_srcdir)/lib/src
 noinst_PROGRAMS = print-errors
 print_errors_LDADD = ../lib/src/libgsasl.la
 

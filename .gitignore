@@ -304,6 +304,7 @@
 /lib/src/error.o
 /lib/src/free.lo
 /lib/src/free.o
+/lib/src/gsasl-version.h
 /lib/src/init.lo
 /lib/src/init.o
 /lib/src/libgsasl-*.def
