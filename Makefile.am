@@ -24,3 +24,14 @@ EXTRA_DIST += m4/gnulib-cache.m4
 ACLOCAL_AMFLAGS = -I m4 -I lib/m4
 
 DISTCHECK_CONFIGURE_FLAGS = --enable-gtk-doc --with-gssapi-impl=no
+
+dist-hook: gen-ChangeLog
+
+.PHONY: gen-ChangeLog
+gen-ChangeLog:
+	$(AM_V_GEN)if test -d .git; then				\
+		git2cl > $(distdir)/cl-t &&				\
+		{ cat .clcopying >> $(distdir)/cl-t &&			\
+		  rm -f $(distdir)/ChangeLog &&				\
+		  mv $(distdir)/cl-t $(distdir)/ChangeLog; }		\
+	fi
