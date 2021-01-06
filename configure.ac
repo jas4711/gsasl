@@ -468,17 +468,10 @@ AC_CONFIG_FILES([
   examples/saml20/Makefile
   gl/Makefile
   gltests/Makefile
-  po/Makefile.in
-  src/Makefile
-  tests/Makefile
-
   lib/Makefile
   lib/anonymous/Makefile
   lib/cram-md5/Makefile
   lib/digest-md5/Makefile
-  lib/scram/Makefile
-  lib/saml20/Makefile
-  lib/openid20/Makefile
   lib/external/Makefile
   lib/gl/Makefile
   lib/gs2/Makefile
@@ -486,11 +479,16 @@ AC_CONFIG_FILES([
   lib/libgsasl.pc
   lib/login/Makefile
   lib/ntlm/Makefile
+  lib/openid20/Makefile
   lib/plain/Makefile
+  lib/saml20/Makefile
+  lib/scram/Makefile
   lib/securid/Makefile
   lib/src/Makefile
   lib/src/gsasl-version.h
-  lib/tests/Makefile
+  po/Makefile.in
+  src/Makefile
+  tests/Makefile
 ])
 AC_OUTPUT
 

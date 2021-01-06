@@ -84,4 +84,4 @@ if SECURID
 SUBDIRS += securid
 endif
 
-SUBDIRS += src tests
+SUBDIRS += src

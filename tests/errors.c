@@ -27,10 +27,12 @@
 #include <stdlib.h>
 #include <string.h>
 
-#include <gsasl.h>
+#include "utils.h"
 
-int
-main (void)
+#define ERRSTR(err) #err
+
+void
+doit (void)
 {
   const char *this = NULL, *last = NULL;
   const char *name;
@@ -46,14 +48,17 @@ main (void)
       printf ("%s (%d)\n\t%s\n", name ? name : "NULL", i, this);
 
       if (this == NULL)
-	{
-	  printf ("Null error string?!\n");
-	  return EXIT_FAILURE;
-	}
+	fail ("Null error string?!\n");
 
       i++;
     }
   while (this != last && this != NULL);
 
-  return EXIT_SUCCESS;
+  if (strcmp (gsasl_strerror_name (GSASL_OK), ERRSTR (GSASL_OK)) != 0)
+    fail ("names differ GSASL_OK != %s\n", gsasl_strerror_name (GSASL_OK));
+
+  if (strcmp (gsasl_strerror_name (GSASL_NO_HOSTNAME),
+	      ERRSTR (GSASL_NO_HOSTNAME)) != 0)
+    fail ("names differ GSASL_NO_HOSTNAME != %s\n",
+	  gsasl_strerror_name (GSASL_NO_HOSTNAME));
 }
