@@ -15,17 +15,22 @@
 # You should have received a copy of the GNU General Public License
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-SUBDIRS = lib po gl src examples tests doc gltests
-
-EXTRA_DIST = cfg.mk maint.mk .clcopying
-
-EXTRA_DIST += m4/gnulib-cache.m4
+DISTCHECK_CONFIGURE_FLAGS = --enable-gtk-doc --with-gssapi-impl=no
 
 ACLOCAL_AMFLAGS = -I m4 -I lib/m4
 
-DISTCHECK_CONFIGURE_FLAGS = --enable-gtk-doc --with-gssapi-impl=no
+SUBDIRS = lib po gl src examples tests doc gltests
 
+EXTRA_DIST = cfg.mk maint.mk .clcopying
+EXTRA_DIST += m4/gnulib-cache.m4
+
+# git-version-gen
+EXTRA_DIST += $(top_srcdir)/.version
+BUILT_SOURCES = $(top_srcdir)/.version
+$(top_srcdir)/.version:
+	echo $(VERSION) > $@-t && mv $@-t $@
 dist-hook: gen-ChangeLog
+	echo $(VERSION) > $(distdir)/.tarball-version
 
 .PHONY: gen-ChangeLog
 gen-ChangeLog:
