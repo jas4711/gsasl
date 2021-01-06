@@ -75,7 +75,7 @@ EXTRA_HFILES=
 
 # Header files or dirs to ignore when scanning. Use base file/dir names
 # e.g. IGNORE_HFILES=gtkdebug.h gtkintl.h private_code
-IGNORE_HFILES=internal.h
+IGNORE_HFILES=internal.h mechtools.h
 
 # Images to copy into HTML directory.
 # e.g. HTML_IMAGES=$(top_srcdir)/gtk/stock-icons/stock_about_24.png
@@ -106,7 +106,7 @@ if ENABLE_GTK_DOC
 TESTS_ENVIRONMENT = \
   DOC_MODULE=$(DOC_MODULE) DOC_MAIN_SGML_FILE=$(DOC_MAIN_SGML_FILE) \
   SRCDIR=$(abs_srcdir) BUILDDIR=$(abs_builddir)
-TESTS = $(GTKDOC_CHECK)
+#TESTS = $(GTKDOC_CHECK)
 endif
 
 -include $(top_srcdir)/git.mk
