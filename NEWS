@@ -1,8 +1,6 @@
-GNU SASL NEWS -- History of user-visible changes.
-Copyright (C) 2002-2021 Simon Josefsson
-See the end for copying conditions.
+GNU SASL NEWS -- History of user-visible changes.               -*- outline -*-
 
-* Version 1.11.0 (unreleased) [beta]
+* Noteworthy changes in release ?.? (????-??-??) [?]
 
 ** Stop shipping a separate tarball for libgsasl.
 This allowed us to avoid the second lib/configure scripts which slow
@@ -1150,11 +1148,8 @@ payload data.
 ** Initial release.
 
 ----------------------------------------------------------------------
+Copyright (C) 2002-2021 Simon Josefsson
+
 Copying and distribution of this file, with or without modification,
 are permitted in any medium without royalty provided the copyright
 notice and this notice are preserved.
-
-;;; Local Variables: ***
-;;; mode:outline ***
-;;; mode:flyspell ***
-;;; End: ***
