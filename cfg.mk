@@ -18,6 +18,8 @@
 manual_title = Simple Authentication and Security Layer
 gendocs_options_ = -I ../examples
 
+gnulib_dir = $(GNULIB_SRCDIR)
+
 INDENT_SOURCES = `find . -name '*.[chly]' | grep -v -e /gl -e build-aux -e /win32/ -e /examples/`
 
 local-checks-to-skip = sc_prohibit_strcmp sc_error_message_uppercase	\
