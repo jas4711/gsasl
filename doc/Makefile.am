@@ -49,10 +49,10 @@ gsasl-api-error-labels.texi: $(top_srcdir)/lib/src/error.c print-errors.c
 	$(builddir)/print-errors$(EXEEXT) > $@.new
 	mv $@.new $@
 
-AM_MAKEINFOFLAGS = --no-split \
-	-I $(top_srcdir)/doc -I $(top_builddir)/doc \
-	-I $(top_srcdir)/examples
+AM_MAKEINFOFLAGS = -I $(top_srcdir)/examples \
+	-I $(top_srcdir)/doc -I $(top_builddir)/doc
 TEXI2DVI = texi2dvi $(AM_MAKEINFOFLAGS)
+AM_MAKEINFOHTMLFLAGS = --no-split $(AM_MAKEINFOFLAGS)
 
 dist_man_MANS = gsasl.1 $(gdoc_MANS)
 MAINTAINERCLEANFILES = $(dist_man_MANS)
