@@ -22,7 +22,6 @@ endif
 
 EXTRA_DIST = gdoc \
 	gsasl-controlflow.dia gsasl-controlflow2.dia gsasl-abstraction.dia \
-	gsasl.html gsasl.ps gsasl.pdf \
 	doxygen/Doxyfile.in doxygen/gdoc2doxygen
 
 .dia.png:
@@ -50,11 +49,10 @@ gsasl-api-error-labels.texi: $(top_srcdir)/lib/src/error.c print-errors.c
 	$(builddir)/print-errors$(EXEEXT) > $@.new
 	mv $@.new $@
 
-AM_MAKEINFOFLAGS = -I $(top_srcdir)/doc \
-	-I $(top_builddir)/doc -I $(top_srcdir)/examples
+AM_MAKEINFOFLAGS = --no-split \
+	-I $(top_srcdir)/doc -I $(top_builddir)/doc \
+	-I $(top_srcdir)/examples
 TEXI2DVI = texi2dvi $(AM_MAKEINFOFLAGS)
-AM_MAKEINFOHTMLFLAGS = $(AM_MAKEINFOFLAGS) \
-	--no-split --number-sections
 
 dist_man_MANS = gsasl.1 $(gdoc_MANS)
 MAINTAINERCLEANFILES = $(dist_man_MANS)
