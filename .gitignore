@@ -8,6 +8,7 @@
 .deps/
 .libs/
 /.version
+/ABOUT-NLS
 /ChangeLog
 /GNUmakefile
 /INSTALL
