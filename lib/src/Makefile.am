@@ -27,6 +27,7 @@ AM_CPPFLAGS += -DLOCALEDIR=\"$(datadir)/locale\"
 EXTRA_DIST = doxygen.c
 
 include_HEADERS = gsasl.h gsasl-mech.h
+nodist_include_HEADERS = gsasl-version.h
 
 libgsasl_la_LDFLAGS = -version-info $(LT_CURRENT):$(LT_REVISION):$(LT_AGE) \
 	-no-undefined
