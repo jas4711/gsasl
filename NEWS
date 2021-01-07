@@ -3,8 +3,7 @@ GNU SASL NEWS -- History of user-visible changes.               -*- outline -*-
 * Noteworthy changes in release ?.? (????-??-??) [?]
 
 ** Stop shipping a separate tarball for libgsasl.
-This allowed us to avoid the second lib/configure scripts which slow
-down builds.
+This allowed us to avoid a second lib/configure script.
 
 ** Build modernization.
 Among other improvements, gsasl now use gnulib's bootstrap script for
@@ -51,7 +50,7 @@ Noticed by Daniel Stenberg in
 <https://github.com/curl/curl/pull/6372#discussion_r549001672>.
 
 ** New API gsasl_property_free().
-This is used to de
+This is used to deallocate resources associated with a property.
 
 ** All deprecated interfaces have been removed.
 
