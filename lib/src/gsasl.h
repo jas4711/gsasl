@@ -23,6 +23,14 @@
 #ifndef GSASL_H
 #define GSASL_H
 
+/**
+ * SECTION:gsasl
+ * @title: gsasl.h
+ * @short_description: main library interfaces
+ *
+ * The main library interfaces are declared in gsasl.h.
+ */
+
 #include <stdio.h>		/* FILE */
 #include <stddef.h>		/* size_t */
 #include <unistd.h>		/* ssize_t */
@@ -30,6 +38,14 @@
 /* Get version symbols. */
 #include <gsasl-version.h>
 
+/**
+ * GSASL_API:
+ *
+ * Symbol holding shared library API visibility decorator.
+ *
+ * This is used internally by the library header file and should never
+ * be used or modified by the application.
+ */
 #ifndef GSASL_API
 #if defined GSASL_BUILDING && defined HAVE_VISIBILITY && HAVE_VISIBILITY
 #define GSASL_API __attribute__((__visibility__("default")))
@@ -411,6 +427,22 @@ extern "C"
 				       int *stringpreprc);
 
   /* Crypto functions: crypto.c */
+
+  /**
+   * Gsasl_hash:
+   * @GSASL_HASH_SHA1: Hash function SHA-1.
+   * @GSASL_HASH_SHA256: Hash function SHA-256.
+   *
+   * Hash functions.  You may use gsasl_hash_length() to get the
+   * output size of a hash function.
+   *
+   * Currently only used as parameter to
+   * gsasl_scram_secrets_from_salted_password() and
+   * gsasl_scram_secrets_from_password() to specify for which SCRAM
+   * mechanism to prepare secrets for.
+   *
+   * Since: 1.10
+   */
   typedef enum
   {
     /* Hash algorithm identifiers. */
@@ -418,6 +450,19 @@ extern "C"
     GSASL_HASH_SHA256 = 3,
   } Gsasl_hash;
 
+  /**
+   * Gsasl_hash_length:
+   * @GSASL_HASH_SHA1_SIZE: Output size of hash function SHA-1.
+   * @GSASL_HASH_SHA256_SIZE: Output size of hash function SHA-256.
+   * @GSASL_HASH_MAX_SIZE: Maximum output size of any %Gsasl_hash_length.
+   *
+   * Identifiers specifying the output size of hash functions.
+   *
+   * These can be used when statically allocating the buffers needed
+   * for, e.g., gsasl_scram_secrets_from_password().
+   *
+   * Since: 1.10
+   */
   typedef enum
   {
     /* Output sizes of hashes. */

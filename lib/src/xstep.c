@@ -40,8 +40,8 @@
  * returns anything other than %GSASL_OK or %GSASL_NEEDS_MORE.  If
  * this function return %GSASL_OK or %GSASL_NEEDS_MORE, however, the
  * @output buffer is allocated by this function, and it is the
- * responsibility of caller to deallocate it by calling free
- * (@output).
+ * responsibility of caller to deallocate it by calling
+ * gsasl_free(@output).
  *
  * Return value: Returns %GSASL_OK if authenticated terminated
  *   successfully, %GSASL_NEEDS_MORE if more data is needed, or error
@@ -76,7 +76,7 @@ gsasl_step (Gsasl_session * sctx,
  * %GSASL_NEEDS_MORE.  If this function return %GSASL_OK or
  * %GSASL_NEEDS_MORE, however, the @b64output buffer is allocated by
  * this function, and it is the responsibility of caller to deallocate
- * it by calling free (@b64output).
+ * it by calling gsasl_free(@b64output).
  *
  * Return value: Returns %GSASL_OK if authenticated terminated
  *   successfully, %GSASL_NEEDS_MORE if more data is needed, or error

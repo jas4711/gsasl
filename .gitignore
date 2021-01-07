@@ -70,6 +70,9 @@
 /doc/reference/gsasl.prerequisites
 /doc/reference/gsasl.signals
 /doc/reference/gsasl.types
+/doc/reference/gtkdoc-check.log
+/doc/reference/gtkdoc-check.test
+/doc/reference/gtkdoc-check.trs
 /doc/reference/html-build.stamp
 /doc/reference/html.stamp
 /doc/reference/html/
@@ -79,6 +82,7 @@
 /doc/reference/setup-build.stamp
 /doc/reference/sgml-build.stamp
 /doc/reference/sgml.stamp
+/doc/reference/test-suite.log
 /doc/reference/tmpl-build.stamp
 /doc/reference/tmpl.stamp
 /doc/reference/tmpl/
@@ -338,11 +342,6 @@
 /lib/src/xstart.o
 /lib/src/xstep.lo
 /lib/src/xstep.o
-/lib/tests/test-error
-/lib/tests/test-error.log
-/lib/tests/test-error.o
-/lib/tests/test-error.trs
-/lib/tests/test-suite.log
 /libtool
 /m4/.gitignore
 /m4/gnulib-cache.m4

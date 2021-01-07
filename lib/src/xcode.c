@@ -49,13 +49,14 @@ _gsasl_code (Gsasl_session * sctx,
  * @input: input byte array.
  * @input_len: size of input byte array.
  * @output: newly allocated output byte array.
- * @output_len: size of output byte array.
+ * @output_len: pointer to output variable with size of output byte array.
  *
  * Encode data according to negotiated SASL mechanism.  This might mean
  * that data is integrity or privacy protected.
  *
  * The @output buffer is allocated by this function, and it is the
- * responsibility of caller to deallocate it by calling free(@output).
+ * responsibility of caller to deallocate it by calling
+ * gsasl_free(@output).
  *
  * Return value: Returns %GSASL_OK if encoding was successful,
  *   otherwise an error code.
@@ -81,13 +82,14 @@ gsasl_encode (Gsasl_session * sctx,
  * @input: input byte array.
  * @input_len: size of input byte array.
  * @output: newly allocated output byte array.
- * @output_len: size of output byte array.
+ * @output_len: pointer to output variable with size of output byte array.
  *
  * Decode data according to negotiated SASL mechanism.  This might mean
  * that data is integrity or privacy protected.
  *
  * The @output buffer is allocated by this function, and it is the
- * responsibility of caller to deallocate it by calling free(@output).
+ * responsibility of caller to deallocate it by calling
+ * gsasl_free(@output).
  *
  * Return value: Returns %GSASL_OK if encoding was successful,
  *   otherwise an error code.

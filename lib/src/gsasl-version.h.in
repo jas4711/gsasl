@@ -24,6 +24,15 @@
 #define GSASL_VERSION_H
 
 /**
+ * SECTION:gsasl-version
+ * @title: gsasl-version.h
+ * @short_description: version symbols
+ *
+ * The gsasl-version.h file contains version symbols.  It should not
+ * be included directly, only via gsasl.h.
+ */
+
+/**
  * GSASL_VERSION
  *
  * Pre-processor symbol with a string that describe the header file
