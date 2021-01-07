@@ -1,6 +1,6 @@
 GNU SASL NEWS -- History of user-visible changes.               -*- outline -*-
 
-* Noteworthy changes in release ?.? (????-??-??) [?]
+* Noteworthy changes in release 1.11.0 (2021-01-07) [alpha]
 
 ** Stop shipping a separate tarball for libgsasl.
 This allowed us to avoid a second lib/configure script.
