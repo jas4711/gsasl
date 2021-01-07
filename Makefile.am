@@ -21,7 +21,8 @@ ACLOCAL_AMFLAGS = -I m4 -I lib/m4
 
 SUBDIRS = lib po gl src examples tests doc gltests
 
-EXTRA_DIST = cfg.mk maint.mk .clcopying
+EXTRA_DIST = cfg.mk maint.mk
+EXTRA_DIST += build-aux/git2cl
 EXTRA_DIST += m4/gnulib-cache.m4
 
 # git-version-gen
@@ -35,8 +36,8 @@ dist-hook: gen-ChangeLog
 .PHONY: gen-ChangeLog
 gen-ChangeLog:
 	$(AM_V_GEN)if test -d .git; then				\
-		git2cl > $(distdir)/cl-t &&				\
-		{ cat .clcopying >> $(distdir)/cl-t &&			\
+		$(srcdir)/build-aux/git2cl > $(distdir)/cl-t &&		\
+		{ tail -7 NEWS >> $(distdir)/cl-t &&			\
 		  rm -f $(distdir)/ChangeLog &&				\
 		  mv $(distdir)/cl-t $(distdir)/ChangeLog; }		\
 	fi
