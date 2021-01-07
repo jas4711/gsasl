@@ -148,7 +148,7 @@ map (Gsasl_session * sctx, Gsasl_property prop)
  * After this call, gsasl_property_fast(@sctx, @prop) will always
  * return NULL.
  *
- * Since: 1.11.0
+ * Since: 2.0.0
  **/
 void
 gsasl_property_free (Gsasl_session * sctx, Gsasl_property prop)

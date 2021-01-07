@@ -116,4 +116,8 @@
     <title>Index of new API in 1.10</title>
     <xi:include href="xml/api-index-1.10.xml"><xi:fallback /></xi:include>
   </index>
+  <index id="api-index-2-0-0" role="2-0-0">
+    <title>Index of new API in 2.0.0</title>
+    <xi:include href="xml/api-index-2.0.0.xml"><xi:fallback /></xi:include>
+  </index>
 </book>
