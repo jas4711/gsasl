@@ -140,6 +140,29 @@ map (Gsasl_session * sctx, Gsasl_property prop)
 }
 
 /**
+ * gsasl_property_free:
+ * @sctx: session handle.
+ * @prop: enumerated value of %Gsasl_property type to clear
+ *
+ * Deallocate associated data with property @prop in session handle.
+ * After this call, gsasl_property_fast(@sctx, @prop) will always
+ * return NULL.
+ *
+ * Since: 1.11.0
+ **/
+void
+gsasl_property_free (Gsasl_session * sctx, Gsasl_property prop)
+{
+  char **p = map (sctx, prop);
+
+  if (p)
+    {
+      free (*p);
+      *p = NULL;
+    }
+}
+
+/**
  * gsasl_property_set:
  * @sctx: session handle.
  * @prop: enumerated value of Gsasl_property type, indicating the
@@ -152,13 +175,16 @@ map (Gsasl_session * sctx, Gsasl_property prop)
  * You can immediately deallocate @data after calling this function,
  * without affecting the data stored in the session handle.
  *
+ * Return value: %GSASL_OK iff successful, otherwise
+ * %GSASL_MALLOC_ERROR.
+ *
  * Since: 0.2.0
  **/
-void
+int
 gsasl_property_set (Gsasl_session * sctx, Gsasl_property prop,
 		    const char *data)
 {
-  gsasl_property_set_raw (sctx, prop, data, data ? strlen (data) : 0);
+  return gsasl_property_set_raw (sctx, prop, data, data ? strlen (data) : 0);
 }
 
 /**
@@ -178,9 +204,12 @@ gsasl_property_set (Gsasl_session * sctx, Gsasl_property prop,
  * Except for the length indicator, this function is identical to
  * gsasl_property_set.
  *
+ * Return value: %GSASL_OK iff successful, otherwise
+ * %GSASL_MALLOC_ERROR.
+ *
  * Since: 0.2.0
  **/
-void
+int
 gsasl_property_set_raw (Gsasl_session * sctx, Gsasl_property prop,
 			const char *data, size_t len)
 {
@@ -192,15 +221,17 @@ gsasl_property_set_raw (Gsasl_session * sctx, Gsasl_property prop,
       if (data)
 	{
 	  *p = malloc (len + 1);
-	  if (*p)
-	    {
-	      memcpy (*p, data, len);
-	      (*p)[len] = '\0';
-	    }
+	  if (!*p)
+	    return GSASL_MALLOC_ERROR;
+
+	  memcpy (*p, data, len);
+	  (*p)[len] = '\0';
 	}
       else
 	*p = NULL;
     }
+
+  return GSASL_OK;
 }
 
 /**

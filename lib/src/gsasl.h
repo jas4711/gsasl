@@ -375,12 +375,14 @@ extern "C"
   extern GSASL_API void *gsasl_session_hook_get (Gsasl_session * sctx);
 
   /* Property handling: property.c */
-  extern GSASL_API void gsasl_property_set (Gsasl_session * sctx,
-					    Gsasl_property prop,
-					    const char *data);
-  extern GSASL_API void gsasl_property_set_raw (Gsasl_session * sctx,
-						Gsasl_property prop,
-						const char *data, size_t len);
+  extern GSASL_API int gsasl_property_set (Gsasl_session * sctx,
+					   Gsasl_property prop,
+					   const char *data);
+  extern GSASL_API int gsasl_property_set_raw (Gsasl_session * sctx,
+					       Gsasl_property prop,
+					       const char *data, size_t len);
+  extern GSASL_API void gsasl_property_free (Gsasl_session * sctx,
+					     Gsasl_property prop);
   extern GSASL_API const char *gsasl_property_get (Gsasl_session * sctx,
 						   Gsasl_property prop);
   extern GSASL_API const char *gsasl_property_fast (Gsasl_session * sctx,

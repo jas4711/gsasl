@@ -250,11 +250,15 @@ _gsasl_scram_client_step (Gsasl_session * sctx,
 	  n = asprintf (&str, "%zu", state->sf.iter);
 	  if (n < 0 || str == NULL)
 	    return GSASL_MALLOC_ERROR;
-	  gsasl_property_set (sctx, GSASL_SCRAM_ITER, str);
+	  rc = gsasl_property_set (sctx, GSASL_SCRAM_ITER, str);
 	  free (str);
+	  if (rc != GSASL_OK)
+	    return rc;
 	}
 
-	gsasl_property_set (sctx, GSASL_SCRAM_SALT, state->sf.salt);
+	rc = gsasl_property_set (sctx, GSASL_SCRAM_SALT, state->sf.salt);
+	if (rc != GSASL_OK)
+	  return rc;
 
 	/* Generate ClientProof. */
 	{
@@ -300,7 +304,9 @@ _gsasl_scram_client_step (Gsasl_session * sctx,
 	      if (rc != 0)
 		return rc;
 
-	      set_saltedpassword (sctx, state->hash, saltedpassword);
+	      rc = set_saltedpassword (sctx, state->hash, saltedpassword);
+	      if (rc != GSASL_OK)
+		return rc;
 
 	      gsasl_free (salt);
 	    }

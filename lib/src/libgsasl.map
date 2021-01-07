@@ -156,3 +156,9 @@ LIBGSASL_1.10
     gsasl_scram_secrets_from_password;
     gsasl_scram_secrets_from_salted_password;
 } LIBGSASL_1.4;
+
+LIBGSASL_1.12
+{
+  global:
+    gsasl_property_free;
+} LIBGSASL_1.10;

@@ -77,10 +77,8 @@ callback (Gsasl * ctx _GL_UNUSED, Gsasl_session * sctx, Gsasl_property prop)
 	args_info.anonymous_token_arg =
 	  readutf8line ("Enter anonymous token (e.g., email address): ");
 
-      gsasl_property_set (sctx, GSASL_ANONYMOUS_TOKEN,
-			  args_info.anonymous_token_arg);
-
-      rc = GSASL_OK;
+      rc = gsasl_property_set (sctx, GSASL_ANONYMOUS_TOKEN,
+			       args_info.anonymous_token_arg);
       break;
 
     case GSASL_CB_TLS_UNIQUE:
@@ -88,27 +86,23 @@ callback (Gsasl * ctx _GL_UNUSED, Gsasl_session * sctx, Gsasl_property prop)
 	  && args_info.hostname_arg == NULL)
 	b64cbtlsunique =
 	  readutf8line ("Enter base64 encoded tls-unique channel binding: ");
-      if (!args_info.no_cb_flag && b64cbtlsunique && *b64cbtlsunique)
-	gsasl_property_set (sctx, prop, b64cbtlsunique);
       rc = GSASL_OK;
+      if (!args_info.no_cb_flag && b64cbtlsunique && *b64cbtlsunique)
+	rc = gsasl_property_set (sctx, prop, b64cbtlsunique);
       break;
 
     case GSASL_PASSWORD:
       if (args_info.password_arg == NULL)
 	args_info.password_arg = readutf8pass ("Enter password: ");
 
-      gsasl_property_set (sctx, GSASL_PASSWORD, args_info.password_arg);
-
-      rc = GSASL_OK;
+      rc = gsasl_property_set (sctx, GSASL_PASSWORD, args_info.password_arg);
       break;
 
     case GSASL_PASSCODE:
       if (args_info.passcode_arg == NULL)
 	args_info.passcode_arg = readutf8pass ("Enter passcode: ");
 
-      gsasl_property_set (sctx, GSASL_PASSCODE, args_info.passcode_arg);
-
-      rc = GSASL_OK;
+      rc = gsasl_property_set (sctx, GSASL_PASSCODE, args_info.passcode_arg);
       break;
 
     case GSASL_AUTHID:
@@ -133,15 +127,13 @@ callback (Gsasl * ctx _GL_UNUSED, Gsasl_session * sctx, Gsasl_property prop)
 	      readutf8line ("Enter authentication ID: ");
 	}
 
-      gsasl_property_set (sctx, GSASL_AUTHID,
-			  args_info.authentication_id_arg);
-      rc = GSASL_OK;
+      rc = gsasl_property_set (sctx, GSASL_AUTHID,
+			       args_info.authentication_id_arg);
       break;
 
     case GSASL_AUTHZID:
-      gsasl_property_set (sctx, GSASL_AUTHZID,
-			  args_info.authorization_id_arg);
-      rc = GSASL_OK;
+      rc = gsasl_property_set (sctx, GSASL_AUTHZID,
+			       args_info.authorization_id_arg);
       break;
 
     case GSASL_SERVICE:
@@ -149,18 +141,14 @@ callback (Gsasl * ctx _GL_UNUSED, Gsasl_session * sctx, Gsasl_property prop)
 	args_info.service_arg =
 	  readutf8line ("Enter GSSAPI service name (e.g. \"imap\"): ");
 
-      gsasl_property_set (sctx, GSASL_SERVICE, args_info.service_arg);
-
-      rc = GSASL_OK;
+      rc = gsasl_property_set (sctx, GSASL_SERVICE, args_info.service_arg);
       break;
 
     case GSASL_HOSTNAME:
       if (args_info.hostname_arg == NULL)
 	args_info.hostname_arg = readutf8line ("Enter hostname of server: ");
 
-      gsasl_property_set (sctx, GSASL_HOSTNAME, args_info.hostname_arg);
-
-      rc = GSASL_OK;
+      rc = gsasl_property_set (sctx, GSASL_HOSTNAME, args_info.hostname_arg);
       break;
 
     case GSASL_REALM:
@@ -168,21 +156,20 @@ callback (Gsasl * ctx _GL_UNUSED, Gsasl_session * sctx, Gsasl_property prop)
 	args_info.realm_arg =
 	  readutf8line ("Enter realm of server (optional): ");
 
-      if (args_info.realm_arg && *args_info.realm_arg)
-	gsasl_property_set (sctx, GSASL_REALM, args_info.realm_arg);
-
       rc = GSASL_OK;
+      if (args_info.realm_arg && *args_info.realm_arg)
+	rc = gsasl_property_set (sctx, GSASL_REALM, args_info.realm_arg);
       break;
 
     case GSASL_QOP:
       if (args_info.quality_of_protection_arg == NULL)
 	args_info.quality_of_protection_arg = readutf8line
 	  ("Enter quality of protection (optional, e.g. 'qop-int'): ");
+      rc = GSASL_OK;
       if (args_info.quality_of_protection_arg
 	  && *args_info.quality_of_protection_arg)
-	gsasl_property_set (sctx, GSASL_QOP,
-			    args_info.quality_of_protection_arg);
-      rc = GSASL_OK;
+	rc = gsasl_property_set (sctx, GSASL_QOP,
+				 args_info.quality_of_protection_arg);
       break;
 
     case GSASL_VALIDATE_GSSAPI:
@@ -204,14 +191,12 @@ callback (Gsasl * ctx _GL_UNUSED, Gsasl_session * sctx, Gsasl_property prop)
       break;
 
     case GSASL_SCRAM_ITER:
-      gsasl_property_set (sctx, GSASL_SCRAM_ITER,
-			  args_info.iteration_count_orig);
-      rc = GSASL_OK;
+      rc = gsasl_property_set (sctx, GSASL_SCRAM_ITER,
+			       args_info.iteration_count_orig);
       break;
 
     case GSASL_SCRAM_SALT:
-      gsasl_property_set (sctx, GSASL_SCRAM_SALT, args_info.salt_arg);
-      rc = GSASL_OK;
+      rc = gsasl_property_set (sctx, GSASL_SCRAM_SALT, args_info.salt_arg);
       break;
 
     case GSASL_SAML20_IDP_IDENTIFIER:
@@ -219,9 +204,7 @@ callback (Gsasl * ctx _GL_UNUSED, Gsasl_session * sctx, Gsasl_property prop)
 	char *str = readutf8line ("Enter SAML authentication identifier "
 				  "(e.g. \"http://example.org/\"): ");
 
-	gsasl_property_set (sctx, GSASL_SAML20_IDP_IDENTIFIER, str);
-
-	rc = GSASL_OK;
+	rc = gsasl_property_set (sctx, GSASL_SAML20_IDP_IDENTIFIER, str);
       }
       break;
 

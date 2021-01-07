@@ -83,13 +83,17 @@ _gsasl_plain_server_step (Gsasl_session * sctx,
     if (res != GSASL_OK)
       return res;
 
-    gsasl_property_set (sctx, GSASL_AUTHID, authidprep);
+    res = gsasl_property_set (sctx, GSASL_AUTHID, authidprep);
+    if (res != GSASL_OK)
+      return res;
 
     /* Store authzid, if absent, use SASLprep(authcid). */
     if (*authzidptr == '\0')
-      gsasl_property_set (sctx, GSASL_AUTHZID, authidprep);
+      res = gsasl_property_set (sctx, GSASL_AUTHZID, authidprep);
     else
-      gsasl_property_set (sctx, GSASL_AUTHZID, authzidptr);
+      res = gsasl_property_set (sctx, GSASL_AUTHZID, authzidptr);
+    if (res != GSASL_OK)
+      return res;
 
     free (authidprep);
   }
@@ -110,7 +114,9 @@ _gsasl_plain_server_step (Gsasl_session * sctx,
     if (res != GSASL_OK)
       return res;
 
-    gsasl_property_set (sctx, GSASL_PASSWORD, passprep);
+    res = gsasl_property_set (sctx, GSASL_PASSWORD, passprep);
+    if (res != GSASL_OK)
+      return res;
   }
 
   /* Authorization.  Let application verify credentials internally,
@@ -121,7 +127,9 @@ _gsasl_plain_server_step (Gsasl_session * sctx,
       const char *key;
       char *normkey;
 
-      gsasl_property_set (sctx, GSASL_PASSWORD, NULL);
+      gsasl_property_free (sctx, GSASL_PASSWORD);
+
+      /* The following will invoke a GSASL_PASSWORD callback. */
       key = gsasl_property_get (sctx, GSASL_PASSWORD);
       if (!key)
 	{
@@ -141,6 +149,7 @@ _gsasl_plain_server_step (Gsasl_session * sctx,
 	res = GSASL_OK;
       else
 	res = GSASL_AUTHENTICATION_ERROR;
+
       free (normkey);
     }
   free (passprep);

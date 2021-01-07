@@ -43,13 +43,11 @@ callback (Gsasl * ctx, Gsasl_session * sctx, Gsasl_property prop)
   switch (prop)
     {
     case GSASL_PASSWORD:
-      gsasl_property_set (sctx, prop, PASSWORD);
-      rc = GSASL_OK;
+      rc = gsasl_property_set (sctx, prop, PASSWORD);
       break;
 
     case GSASL_AUTHID:
-      gsasl_property_set (sctx, prop, USERNAME);
-      rc = GSASL_OK;
+      rc = gsasl_property_set (sctx, prop, USERNAME);
       break;
 
       /* SCRAM/SALT: Attempt to reproduce RFC 7677 test vector.
@@ -60,13 +58,11 @@ callback (Gsasl * ctx, Gsasl_session * sctx, Gsasl_property prop)
       if (strcmp (gsasl_property_fast (sctx, GSASL_AUTHID), USERNAME) != 0)
 	fail ("Username mismatch: %s",
 	      gsasl_property_fast (sctx, GSASL_AUTHID));
-      gsasl_property_set (sctx, prop, "4096");
-      rc = GSASL_OK;
+      rc = gsasl_property_set (sctx, prop, "4096");
       break;
 
     case GSASL_SCRAM_SALT:
-      gsasl_property_set (sctx, prop, "W22ZaJ0SNY7soEsUEjb6gQ==");
-      rc = GSASL_OK;
+      rc = gsasl_property_set (sctx, prop, "W22ZaJ0SNY7soEsUEjb6gQ==");
       break;
 
     case GSASL_CB_TLS_UNIQUE:

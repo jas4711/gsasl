@@ -82,13 +82,23 @@ _gsasl_securid_server_step (Gsasl_session * sctx,
   if (passcode == NULL)
     return GSASL_MECHANISM_PARSE_ERROR;
 
-  gsasl_property_set (sctx, GSASL_AUTHID, authentication_id);
-  gsasl_property_set (sctx, GSASL_AUTHZID, authorization_id);
-  gsasl_property_set (sctx, GSASL_PASSCODE, passcode);
+  res = gsasl_property_set (sctx, GSASL_AUTHID, authentication_id);
+  if (res != GSASL_OK)
+    return res;
+
+  res = gsasl_property_set (sctx, GSASL_AUTHZID, authorization_id);
+  if (res != GSASL_OK)
+    return res;
+  res = gsasl_property_set (sctx, GSASL_PASSCODE, passcode);
+  if (res != GSASL_OK)
+    return res;
+
   if (pin)
-    gsasl_property_set (sctx, GSASL_PIN, pin);
+    res = gsasl_property_set (sctx, GSASL_PIN, pin);
   else
-    gsasl_property_set (sctx, GSASL_PIN, NULL);
+    res = gsasl_property_set (sctx, GSASL_PIN, NULL);
+  if (res != GSASL_OK)
+    return res;
 
   res = gsasl_callback (NULL, sctx, GSASL_VALIDATE_SECURID);
   switch (res)

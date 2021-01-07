@@ -25,7 +25,7 @@
 
 #include <gsasl.h>
 
-extern void
+extern int
 set_saltedpassword (Gsasl_session * sctx,
 		    Gsasl_hash hash, const char *hashbuf);
 

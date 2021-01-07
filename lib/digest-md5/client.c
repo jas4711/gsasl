@@ -132,17 +132,23 @@ _gsasl_digest_md5_client_step (Gsasl_session * sctx,
 	   gsasl_property_get_array APIs, for those properties that
 	   may be used multiple times. */
 	if (state->challenge.nrealms > 0)
-	  gsasl_property_set (sctx, GSASL_REALM, state->challenge.realms[0]);
+	  res = gsasl_property_set (sctx, GSASL_REALM,
+				    state->challenge.realms[0]);
 	else
-	  gsasl_property_set (sctx, GSASL_REALM, NULL);
+	  res = gsasl_property_set (sctx, GSASL_REALM, NULL);
+	if (res != GSASL_OK)
+	  return res;
 
 	/* FIXME: cipher, maxbuf. */
 
 	/* Create response token. */
 	state->response.utf8 = 1;
 
-	gsasl_property_set (sctx, GSASL_QOPS,
-			    digest_md5_qops2qopstr (state->challenge.qops));
+	res = gsasl_property_set (sctx, GSASL_QOPS,
+				  digest_md5_qops2qopstr (state->
+							  challenge.qops));
+	if (res != GSASL_OK)
+	  return res;
 
 	{
 	  const char *qop = gsasl_property_get (sctx, GSASL_QOP);

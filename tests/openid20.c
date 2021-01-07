@@ -42,14 +42,13 @@ client_callback (Gsasl * ctx, Gsasl_session * sctx, Gsasl_property prop)
   switch (prop)
     {
     case GSASL_AUTHZID:
-      if (authzid)
-	gsasl_property_set (sctx, prop, authzid);
       rc = GSASL_OK;
+      if (authzid)
+	rc = gsasl_property_set (sctx, prop, authzid);
       break;
 
     case GSASL_AUTHID:
-      gsasl_property_set (sctx, prop, "http://user.example.org/");
-      rc = GSASL_OK;
+      rc = gsasl_property_set (sctx, prop, "http://user.example.org/");
       break;
 
     case GSASL_OPENID20_AUTHENTICATE_IN_BROWSER:
@@ -72,9 +71,8 @@ server_callback (Gsasl * ctx, Gsasl_session * sctx, Gsasl_property prop)
   switch (prop)
     {
     case GSASL_OPENID20_REDIRECT_URL:
-      gsasl_property_set (sctx, prop,
-			  "http://idp.example/NONCE/?openid.foo=bar");
-      rc = GSASL_OK;
+      rc = gsasl_property_set (sctx, prop,
+			       "http://idp.example/NONCE/?openid.foo=bar");
       break;
 
     case GSASL_VALIDATE_OPENID20:
@@ -82,9 +80,9 @@ server_callback (Gsasl * ctx, Gsasl_session * sctx, Gsasl_property prop)
       break;
 
     case GSASL_OPENID20_OUTCOME_DATA:
-      if (sreg)
-	gsasl_property_set (sctx, prop, sreg);
       rc = GSASL_OK;
+      if (sreg)
+	rc = gsasl_property_set (sctx, prop, sreg);
       break;
 
     default:

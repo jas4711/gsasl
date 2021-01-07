@@ -123,8 +123,18 @@ client (Gsasl * ctx)
 
   /* Set username and password in session handle.  This info will be
      lost when this session is deallocated below.  */
-  gsasl_property_set (session, GSASL_AUTHID, "jas");
-  gsasl_property_set (session, GSASL_PASSWORD, "secret");
+  rc = gsasl_property_set (session, GSASL_AUTHID, "jas");
+  if (rc != GSASL_OK)
+    {
+      printf ("Cannot set property (%d): %s\n", rc, gsasl_strerror (rc));
+      return;
+    }
+  rc = gsasl_property_set (session, GSASL_PASSWORD, "secret");
+  if (rc != GSASL_OK)
+    {
+      printf ("Cannot set property (%d): %s\n", rc, gsasl_strerror (rc));
+      return;
+    }
 
   /* Do it. */
   client_authenticate (session);

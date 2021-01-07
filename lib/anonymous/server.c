@@ -33,6 +33,8 @@ _gsasl_anonymous_server_step (Gsasl_session * sctx,
 			      const char *input, size_t input_len,
 			      char **output, size_t *output_len)
 {
+  int rc;
+
   *output = NULL;
   *output_len = 0;
 
@@ -48,7 +50,9 @@ _gsasl_anonymous_server_step (Gsasl_session * sctx,
 
   /* FIXME: Validate that input is UTF-8. */
 
-  gsasl_property_set_raw (sctx, GSASL_ANONYMOUS_TOKEN, input, input_len);
+  rc = gsasl_property_set_raw (sctx, GSASL_ANONYMOUS_TOKEN, input, input_len);
+  if (rc != GSASL_OK)
+    return rc;
 
   return gsasl_callback (NULL, sctx, GSASL_VALIDATE_ANONYMOUS);
 }

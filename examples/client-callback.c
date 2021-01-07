@@ -115,8 +115,7 @@ callback (Gsasl * ctx, Gsasl_session * sctx, Gsasl_property prop)
 	}
       buf[strlen (buf) - 1] = '\0';
 
-      gsasl_property_set (sctx, GSASL_PASSCODE, buf);
-      rc = GSASL_OK;
+      rc = gsasl_property_set (sctx, GSASL_PASSCODE, buf);
       break;
 
     case GSASL_AUTHID:
@@ -129,8 +128,7 @@ callback (Gsasl * ctx, Gsasl_session * sctx, Gsasl_property prop)
 	}
       buf[strlen (buf) - 1] = '\0';
 
-      gsasl_property_set (sctx, GSASL_AUTHID, buf);
-      rc = GSASL_OK;
+      rc = gsasl_property_set (sctx, GSASL_AUTHID, buf);
       break;
 
     default:

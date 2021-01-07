@@ -222,8 +222,14 @@ _gsasl_digest_md5_server_step (Gsasl_session * sctx,
       /* Store properties, from the client response. */
       if (state->response.utf8)
 	{
-	  gsasl_property_set (sctx, GSASL_AUTHID, state->response.username);
-	  gsasl_property_set (sctx, GSASL_REALM, state->response.realm);
+	  res = gsasl_property_set (sctx, GSASL_AUTHID,
+				    state->response.username);
+	  if (res != GSASL_OK)
+	    return res;
+
+	  res = gsasl_property_set (sctx, GSASL_REALM, state->response.realm);
+	  if (res != GSASL_OK)
+	    return res;
 	}
       else
 	{
@@ -234,16 +240,23 @@ _gsasl_digest_md5_server_step (Gsasl_session * sctx,
 	  tmp = latin1toutf8 (state->response.username);
 	  if (!tmp)
 	    return GSASL_MALLOC_ERROR;
-	  gsasl_property_set (sctx, GSASL_AUTHID, tmp);
+	  res = gsasl_property_set (sctx, GSASL_AUTHID, tmp);
 	  free (tmp);
+	  if (res != GSASL_OK)
+	    return res;
 
 	  tmp = latin1toutf8 (state->response.realm);
 	  if (!tmp)
 	    return GSASL_MALLOC_ERROR;
-	  gsasl_property_set (sctx, GSASL_REALM, tmp);
+	  res = gsasl_property_set (sctx, GSASL_REALM, tmp);
 	  free (tmp);
+	  if (res != GSASL_OK)
+	    return res;
 	}
-      gsasl_property_set (sctx, GSASL_AUTHZID, state->response.authzid);
+
+      res = gsasl_property_set (sctx, GSASL_AUTHZID, state->response.authzid);
+      if (res != GSASL_OK)
+	return res;
 
       /* FIXME: cipher, maxbuf.  */
 

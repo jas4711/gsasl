@@ -108,9 +108,13 @@ _gsasl_securid_client_step (Gsasl_session * sctx,
       if (do_pin)
 	{
 	  if (input_len > strlen (PIN))
-	    gsasl_property_set_raw (sctx, GSASL_SUGGESTED_PIN,
-				    &input[strlen (PIN)],
-				    input_len - strlen (PIN));
+	    {
+	      res = gsasl_property_set_raw (sctx, GSASL_SUGGESTED_PIN,
+					    &input[strlen (PIN)],
+					    input_len - strlen (PIN));
+	      if (res != GSASL_OK)
+		return res;
+	    }
 
 	  pin = gsasl_property_get (sctx, GSASL_PIN);
 	  if (!pin)

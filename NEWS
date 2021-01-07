@@ -20,6 +20,39 @@ for the example code for the SAML20 mechanism.  The example is still
 shipped as part of this package, but the helper tool will now have to
 be built manually by anyone interested in this.
 
+** Functions gsasl_property_set() and gsasl_property_set_raw() now
+** return GSASL_MALLOC_ERROR on memory allocation errors.
+Updating code to use the return value is not critical.  Everything
+will continue to work the same as before if you ignore the return
+value -- that is, if the property had to be set successfully, and
+memory allocation happened to occur, the application will get an error
+message later on about the missing property.
+
+If you want to support both new and old library versions, to report
+memory allocation errors as such, you may use a construct like this:
+
+#if GSASL_VERSION_NUMBER >= 0x010a00
+  res =
+#endif
+  gsasl_property_set (sctx, GSASL_AUTHID, "simon");
+#if GSASL_VERSION_NUMBER >= 0x010a00
+  if (res != GSASL_OK)
+    return res;
+#endif
+
+You may put this in a wrapper function to avoid repeating the
+construct elsewhere in your code.
+
+The function signatures are modified, before the return value was
+'void' now it is 'int'.  The shared library version has been
+incremented.
+
+Noticed by Daniel Stenberg in
+<https://github.com/curl/curl/pull/6372#discussion_r549001672>.
+
+** New API gsasl_property_free().
+This is used to de
+
 ** All deprecated interfaces have been removed.
 
 *** The following functions have been removed:

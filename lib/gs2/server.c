@@ -206,8 +206,10 @@ _gsasl_gs2_server_step (Gsasl_session * sctx,
 
 	if (authzid)
 	  {
-	    gsasl_property_set (sctx, GSASL_AUTHZID, authzid);
+	    res = gsasl_property_set (sctx, GSASL_AUTHZID, authzid);
 	    free (authzid);
+	    if (res != GSASL_OK)
+	      return res;
 	  }
 
 	state->cb.application_data.value = (char *) input;
@@ -256,8 +258,11 @@ _gsasl_gs2_server_step (Gsasl_session * sctx,
 	  if (GSS_ERROR (maj_stat))
 	    return GSASL_GSSAPI_DISPLAY_NAME_ERROR;
 
-	  gsasl_property_set_raw (sctx, GSASL_GSSAPI_DISPLAY_NAME,
-				  client_name.value, client_name.length);
+	  res = gsasl_property_set_raw (sctx, GSASL_GSSAPI_DISPLAY_NAME,
+					client_name.value,
+					client_name.length);
+	  if (res != GSASL_OK)
+	    return res;
 
 	  res = gsasl_callback (NULL, sctx, GSASL_VALIDATE_GSSAPI);
 	}

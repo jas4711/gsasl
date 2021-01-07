@@ -87,14 +87,18 @@ _gsasl_openid20_server_step (Gsasl_session * sctx,
 
 	if (authzid)
 	  {
-	    gsasl_property_set (sctx, GSASL_AUTHZID, authzid);
+	    res = gsasl_property_set (sctx, GSASL_AUTHZID, authzid);
 	    free (authzid);
+	    if (res != GSASL_OK)
+	      return res;
 	  }
 
 	input += headerlen;
 	input_len -= headerlen;
 
-	gsasl_property_set_raw (sctx, GSASL_AUTHID, input, input_len);
+	res = gsasl_property_set_raw (sctx, GSASL_AUTHID, input, input_len);
+	if (res != GSASL_OK)
+	  return res;
 
 	p = gsasl_property_get (sctx, GSASL_OPENID20_REDIRECT_URL);
 	if (!p || !*p)

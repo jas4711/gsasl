@@ -73,8 +73,7 @@ client_callback (Gsasl * ctx, Gsasl_session * sctx, Gsasl_property prop)
       break;
 
     case GSASL_SAML20_IDP_IDENTIFIER:
-      gsasl_property_set (sctx, prop, "https://saml.example.org/");
-      rc = GSASL_OK;
+      rc = gsasl_property_set (sctx, prop, "https://saml.example.org/");
       break;
 
     case GSASL_SAML20_AUTHENTICATE_IN_BROWSER:
@@ -105,8 +104,7 @@ server_callback (Gsasl * ctx, Gsasl_session * sctx, Gsasl_property prop)
     case GSASL_SAML20_REDIRECT_URL:
       printf ("server got identity: %s\n",
 	      gsasl_property_get (sctx, GSASL_SAML20_IDP_IDENTIFIER));
-      gsasl_property_set (sctx, prop, samlchallenge);
-      rc = GSASL_OK;
+      rc = gsasl_property_set (sctx, prop, samlchallenge);
       break;
 
     case GSASL_VALIDATE_SAML20:

@@ -140,7 +140,13 @@ callback (Gsasl * ctx, Gsasl_session * sctx, Gsasl_property prop)
 
 	/* We are done */
 	gsasl_session_hook_set (sctx, reqid);
-	gsasl_property_set (sctx, prop, redirect_url);
+	rc = gsasl_property_set (sctx, prop, redirect_url);
+	if (rc != GSASL_OK)
+	  {
+	    printf ("gsasl_property_set (%d): %s\n",
+		    rc, gsasl_strerror (rc));
+	    return GSASL_AUTHENTICATION_ERROR;
+	  }
 
 	printf ("read id: %s\n", reqid);
 	printf ("url: %s\n", redirect_url);
@@ -220,8 +226,14 @@ callback (Gsasl * ctx, Gsasl_session * sctx, Gsasl_property prop)
 	      }
 
 	    printf ("subject: %s\n", line);
-	    gsasl_property_set (sctx, GSASL_AUTHID, line);
+	    rc = gsasl_property_set (sctx, GSASL_AUTHID, line);
 	    free (line);
+	    if (rc != GSASL_OK)
+	      {
+		printf ("gsasl_property_set (%d): %s\n",
+			rc, gsasl_strerror (rc));
+		return GSASL_AUTHENTICATION_ERROR;
+	      }
 
 	    rc = fclose (fh);
 	    if (rc != 0)
@@ -243,8 +255,7 @@ callback (Gsasl * ctx, Gsasl_session * sctx, Gsasl_property prop)
       break;
 
     case GSASL_PASSWORD:
-      gsasl_property_set (sctx, prop, "sesam");
-      rc = GSASL_OK;
+      rc = gsasl_property_set (sctx, prop, "sesam");
       break;
 
     default:

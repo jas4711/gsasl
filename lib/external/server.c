@@ -36,6 +36,8 @@ _gsasl_external_server_step (Gsasl_session * sctx,
 			     const char *input, size_t input_len,
 			     char **output, size_t *output_len)
 {
+  int rc;
+
   *output_len = 0;
   *output = NULL;
 
@@ -52,9 +54,11 @@ _gsasl_external_server_step (Gsasl_session * sctx,
   /* FIXME: Validate that input is UTF-8. */
 
   if (input_len > 0)
-    gsasl_property_set_raw (sctx, GSASL_AUTHZID, input, input_len);
+    rc = gsasl_property_set_raw (sctx, GSASL_AUTHZID, input, input_len);
   else
-    gsasl_property_set (sctx, GSASL_AUTHZID, NULL);
+    rc = gsasl_property_set (sctx, GSASL_AUTHZID, NULL);
+  if (rc != GSASL_OK)
+    return rc;
 
   return gsasl_callback (NULL, sctx, GSASL_VALIDATE_EXTERNAL);
 }

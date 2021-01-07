@@ -56,21 +56,16 @@ callback (Gsasl * ctx, Gsasl_session * sctx, Gsasl_property prop)
   switch (prop)
     {
     case GSASL_PASSWORD:
-      gsasl_property_set (sctx, prop, PASSWORD);
-      rc = GSASL_OK;
+      rc = gsasl_property_set (sctx, prop, PASSWORD);
       break;
 
     case GSASL_AUTHID:
-      gsasl_property_set (sctx, prop, AUTHID[i % N_AUTHID]);
-      rc = GSASL_OK;
+      rc = gsasl_property_set (sctx, prop, AUTHID[i % N_AUTHID]);
       break;
 
     case GSASL_AUTHZID:
       if (i & 0x01)
-	{
-	  gsasl_property_set (sctx, prop, AUTHZID[i % N_AUTHZID]);
-	  rc = GSASL_OK;
-	}
+	rc = gsasl_property_set (sctx, prop, AUTHZID[i % N_AUTHZID]);
       break;
 
     case GSASL_SCRAM_ITER:
@@ -79,18 +74,12 @@ callback (Gsasl * ctx, Gsasl_session * sctx, Gsasl_property prop)
 	fail ("Username mismatch: %s",
 	      gsasl_property_fast (sctx, GSASL_AUTHID));
       if (i & 0x02)
-	{
-	  gsasl_property_set (sctx, prop, "1234");
-	  rc = GSASL_OK;
-	}
+	rc = gsasl_property_set (sctx, prop, "1234");
       break;
 
     case GSASL_SCRAM_SALT:
       if (i & 0x04)
-	{
-	  gsasl_property_set (sctx, prop, "c2FsdA==");
-	  rc = GSASL_OK;
-	}
+	rc = gsasl_property_set (sctx, prop, "c2FsdA==");
       break;
 
 #define SP1 "06bfd2d70a0fa425c20473722a93700df39f3cbd"
@@ -102,8 +91,7 @@ callback (Gsasl * ctx, Gsasl_session * sctx, Gsasl_property prop)
 	  const char *str[] = { SP1, SP2 };
 	  /* >>1 to mask out authzid. */
 	  size_t pos = (i & ~0x04 & ~0x08) >> 1;
-	  gsasl_property_set (sctx, prop, str[pos]);
-	  rc = GSASL_OK;
+	  rc = gsasl_property_set (sctx, prop, str[pos]);
 	}
       break;
 

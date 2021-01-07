@@ -83,5 +83,8 @@ doit (void)
   assert_symbol_exists ((const void *)
 			gsasl_scram_secrets_from_salted_password);
 
+  /* LIBGSASL_1.12 */
+  assert_symbol_exists ((const void *) gsasl_property_free);
+
   success ("all symbols exists\n");
 }

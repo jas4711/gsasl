@@ -91,8 +91,10 @@ _gsasl_saml20_client_step (Gsasl_session * sctx,
 
     case 1:
       {
-	gsasl_property_set_raw (sctx, GSASL_SAML20_REDIRECT_URL,
-				input, input_len);
+	res = gsasl_property_set_raw (sctx, GSASL_SAML20_REDIRECT_URL,
+				      input, input_len);
+	if (res != GSASL_OK)
+	  return res;
 
 	res = gsasl_callback (NULL, sctx,
 			      GSASL_SAML20_AUTHENTICATE_IN_BROWSER);

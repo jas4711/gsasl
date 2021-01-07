@@ -52,43 +52,37 @@ callback (Gsasl * ctx, Gsasl_session * sctx, Gsasl_property prop)
   switch (prop)
     {
     case GSASL_PASSWORD:
-      gsasl_property_set (sctx, prop, PASSWORD);
-      rc = GSASL_OK;
+      rc = gsasl_property_set (sctx, prop, PASSWORD);
       break;
 
     case GSASL_AUTHID:
-      gsasl_property_set (sctx, prop, USERNAME);
-      rc = GSASL_OK;
+      rc = gsasl_property_set (sctx, prop, USERNAME);
       break;
 
     case GSASL_AUTHZID:
       if (flip)
-	gsasl_property_set (sctx, prop, AUTHZID);
+	rc = gsasl_property_set (sctx, prop, AUTHZID);
       else
-	gsasl_property_set (sctx, prop, NULL);
+	rc = gsasl_property_set (sctx, prop, NULL);
       flip = !flip;
-      rc = GSASL_OK;
       break;
 
     case GSASL_SERVICE:
-      gsasl_property_set (sctx, prop, SERVICE);
-      rc = GSASL_OK;
+      rc = gsasl_property_set (sctx, prop, SERVICE);
       break;
 
     case GSASL_REALM:
       if (flip2)
-	gsasl_property_set (sctx, prop, REALM);
+	rc = gsasl_property_set (sctx, prop, REALM);
       else
-	gsasl_property_set (sctx, prop, NULL);
+	rc = gsasl_property_set (sctx, prop, NULL);
       flip2++;
       if (flip2 == 3)
 	flip2 = 0;
-      rc = GSASL_OK;
       break;
 
     case GSASL_HOSTNAME:
-      gsasl_property_set (sctx, prop, HOSTNAME);
-      rc = GSASL_OK;
+      rc = gsasl_property_set (sctx, prop, HOSTNAME);
       break;
 
     case GSASL_DIGEST_MD5_HASHED_PASSWORD:
@@ -100,7 +94,7 @@ callback (Gsasl * ctx, Gsasl_session * sctx, Gsasl_property prop)
       switch (i)
 	{
 	case 0:
-	  gsasl_property_set (sctx, prop, "qop-auth");
+	  rc = gsasl_property_set (sctx, prop, "qop-auth");
 	  break;
 
 	case 1:
@@ -108,11 +102,11 @@ callback (Gsasl * ctx, Gsasl_session * sctx, Gsasl_property prop)
 	  break;
 
 	case 2:
-	  gsasl_property_set (sctx, prop, "qop-int");
+	  rc = gsasl_property_set (sctx, prop, "qop-int");
 	  break;
 
 	case 3:
-	  gsasl_property_set (sctx, prop, "qop-auth");
+	  rc = gsasl_property_set (sctx, prop, "qop-auth");
 	  break;
 
 	case 4:
@@ -133,19 +127,19 @@ callback (Gsasl * ctx, Gsasl_session * sctx, Gsasl_property prop)
 	  break;
 
 	case 1:
-	  gsasl_property_set (sctx, prop, "qop-auth");
+	  rc = gsasl_property_set (sctx, prop, "qop-auth");
 	  break;
 
 	case 2:
-	  gsasl_property_set (sctx, prop, "qop-int");
+	  rc = gsasl_property_set (sctx, prop, "qop-int");
 	  break;
 
 	case 3:
-	  gsasl_property_set (sctx, prop, "qop-auth");
+	  rc = gsasl_property_set (sctx, prop, "qop-auth");
 	  break;
 
 	case 4:
-	  gsasl_property_set (sctx, prop, "qop-auth");
+	  rc = gsasl_property_set (sctx, prop, "qop-auth");
 	  break;
 
 	default:

@@ -94,9 +94,10 @@ _gsasl_cram_md5_server_step (Gsasl_session * sctx,
 
   memcpy (username, input, input_len - MD5LEN * 2 - 1);
 
-  gsasl_property_set (sctx, GSASL_AUTHID, username);
-
+  res = gsasl_property_set (sctx, GSASL_AUTHID, username);
   free (username);
+  if (res != GSASL_OK)
+    return res;
 
   password = gsasl_property_get (sctx, GSASL_PASSWORD);
   if (!password)

@@ -158,23 +158,19 @@ cb (Gsasl * ctx, Gsasl_session * sctx, Gsasl_property prop)
   switch (prop)
     {
     case GSASL_AUTHID:
-      gsasl_property_set (sctx, prop, sasltv[i].authid);
-      rc = GSASL_OK;
+      rc = gsasl_property_set (sctx, prop, sasltv[i].authid);
       break;
 
     case GSASL_AUTHZID:
-      gsasl_property_set (sctx, prop, sasltv[i].authzid);
-      rc = GSASL_OK;
+      rc = gsasl_property_set (sctx, prop, sasltv[i].authzid);
       break;
 
     case GSASL_PASSWORD:
-      gsasl_property_set (sctx, prop, sasltv[i].password);
-      rc = GSASL_OK;
+      rc = gsasl_property_set (sctx, prop, sasltv[i].password);
       break;
 
     case GSASL_ANONYMOUS_TOKEN:
-      gsasl_property_set (sctx, prop, sasltv[i].anonymous);
-      rc = GSASL_OK;
+      rc = gsasl_property_set (sctx, prop, sasltv[i].anonymous);
       break;
 
     case GSASL_SERVICE:
@@ -182,8 +178,7 @@ cb (Gsasl * ctx, Gsasl_session * sctx, Gsasl_property prop)
       break;
 
     case GSASL_PASSCODE:
-      gsasl_property_set (sctx, prop, sasltv[i].passcode);
-      rc = GSASL_OK;
+      rc = gsasl_property_set (sctx, prop, sasltv[i].passcode);
       break;
 
     case GSASL_SUGGESTED_PIN:
@@ -199,8 +194,7 @@ cb (Gsasl * ctx, Gsasl_session * sctx, Gsasl_property prop)
 	    (suggestion != NULL && sasltv[i].suggestpin == NULL))
 	  return GSASL_AUTHENTICATION_ERROR;
 
-	gsasl_property_set (sctx, prop, sasltv[i].pin);
-	rc = GSASL_OK;
+	rc = gsasl_property_set (sctx, prop, sasltv[i].pin);
       }
 
     case GSASL_REALM:
@@ -228,14 +222,17 @@ cb (Gsasl * ctx, Gsasl_session * sctx, Gsasl_property prop)
 
 	if (sasltv[i].securidrc == GSASL_SECURID_SERVER_NEED_NEW_PIN)
 	  {
-	    rc = sasltv[i].securidrc;
-	    sasltv[i].securidrc = GSASL_OK;
-
 	    if (sasltv[i].suggestpin)
 	      {
-		gsasl_property_set (sctx, GSASL_SUGGESTED_PIN,
-				    sasltv[i].suggestpin);
+		rc = gsasl_property_set (sctx, GSASL_SUGGESTED_PIN,
+					 sasltv[i].suggestpin);
+		if (rc != GSASL_OK)
+		  fail ("gsasl_property_set() failed (%d):\n%s\n",
+			rc, gsasl_strerror (rc));
 	      }
+
+	    rc = sasltv[i].securidrc;
+	    sasltv[i].securidrc = GSASL_OK;
 	  }
 	else if (sasltv[i].securidrc ==
 		 GSASL_SECURID_SERVER_NEED_ADDITIONAL_PASSCODE)

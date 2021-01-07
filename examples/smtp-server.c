@@ -47,8 +47,7 @@ callback (Gsasl * ctx, Gsasl_session * sctx, Gsasl_property prop)
   switch (prop)
     {
     case GSASL_PASSWORD:
-      gsasl_property_set (sctx, prop, "sesam");
-      rc = GSASL_OK;
+      rc = gsasl_property_set (sctx, prop, "sesam");
       break;
 
     default:

@@ -57,33 +57,27 @@ callback (Gsasl * ctx, Gsasl_session * sctx, Gsasl_property prop)
   switch (prop)
     {
     case GSASL_SCRAM_SALTED_PASSWORD:
-      gsasl_property_set (sctx, prop, SALTED_PASSWORD);
-      rc = GSASL_OK;
+      rc = gsasl_property_set (sctx, prop, SALTED_PASSWORD);
       break;
 
     case GSASL_SCRAM_SERVERKEY:
-      gsasl_property_set (sctx, prop, SERVERKEY);
-      rc = GSASL_OK;
+      rc = gsasl_property_set (sctx, prop, SERVERKEY);
       break;
 
     case GSASL_SCRAM_STOREDKEY:
-      gsasl_property_set (sctx, prop, STOREDKEY);
-      rc = GSASL_OK;
+      rc = gsasl_property_set (sctx, prop, STOREDKEY);
       break;
 
     case GSASL_SCRAM_ITER:
-      gsasl_property_set (sctx, prop, ITER);
-      rc = GSASL_OK;
+      rc = gsasl_property_set (sctx, prop, ITER);
       break;
 
     case GSASL_SCRAM_SALT:
-      gsasl_property_set (sctx, prop, SALT);
-      rc = GSASL_OK;
+      rc = gsasl_property_set (sctx, prop, SALT);
       break;
 
     case GSASL_AUTHID:
-      gsasl_property_set (sctx, prop, USERNAME);
-      rc = GSASL_OK;
+      rc = gsasl_property_set (sctx, prop, USERNAME);
       break;
 
     case GSASL_PASSWORD:

@@ -109,16 +109,20 @@ _gsasl_login_server_step (Gsasl_session * sctx,
       if (input_len != strlen (state->password))
 	return GSASL_MECHANISM_PARSE_ERROR;
 
-      gsasl_property_set (sctx, GSASL_AUTHID, state->username);
-      gsasl_property_set (sctx, GSASL_PASSWORD, state->password);
+      res = gsasl_property_set (sctx, GSASL_AUTHID, state->username);
+      if (res != GSASL_OK)
+	return res;
+      res = gsasl_property_set (sctx, GSASL_PASSWORD, state->password);
+      if (res != GSASL_OK)
+	return res;
 
       res = gsasl_callback (NULL, sctx, GSASL_VALIDATE_SIMPLE);
       if (res == GSASL_NO_CALLBACK)
 	{
 	  const char *key;
 
-	  gsasl_property_set (sctx, GSASL_AUTHZID, NULL);
-	  gsasl_property_set (sctx, GSASL_PASSWORD, NULL);
+	  gsasl_property_free (sctx, GSASL_AUTHZID);
+	  gsasl_property_free (sctx, GSASL_PASSWORD);
 
 	  key = gsasl_property_get (sctx, GSASL_PASSWORD);
 

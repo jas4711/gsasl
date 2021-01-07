@@ -78,10 +78,34 @@ doit (void)
       return;
     }
 
-  gsasl_property_set (client, GSASL_PASSWORD, PASSWORD);
-  gsasl_property_set (server, GSASL_PASSWORD, PASSWORD);
-  gsasl_property_set (client, GSASL_AUTHID, USERNAME);
-  gsasl_property_set (server, GSASL_AUTHID, USERNAME);
+  res = gsasl_property_set (client, GSASL_PASSWORD, PASSWORD);
+  if (res != GSASL_OK)
+    {
+      fail ("gsasl_property_set() failed (%d):\n%s\n",
+	    res, gsasl_strerror (res));
+      return;
+    }
+  res = gsasl_property_set (server, GSASL_PASSWORD, PASSWORD);
+  if (res != GSASL_OK)
+    {
+      fail ("gsasl_property_set() failed (%d):\n%s\n",
+	    res, gsasl_strerror (res));
+      return;
+    }
+  res = gsasl_property_set (client, GSASL_AUTHID, USERNAME);
+  if (res != GSASL_OK)
+    {
+      fail ("gsasl_property_set() failed (%d):\n%s\n",
+	    res, gsasl_strerror (res));
+      return;
+    }
+  res = gsasl_property_set (server, GSASL_AUTHID, USERNAME);
+  if (res != GSASL_OK)
+    {
+      fail ("gsasl_property_set() failed (%d):\n%s\n",
+	    res, gsasl_strerror (res));
+      return;
+    }
 
   s1 = NULL;
   s1len = 0;

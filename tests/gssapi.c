@@ -48,18 +48,15 @@ callback (Gsasl * ctx, Gsasl_session * sctx, Gsasl_property prop)
   switch (prop)
     {
     case GSASL_AUTHZID:
-      gsasl_property_set (sctx, GSASL_AUTHZID, USERNAME[i]);
-      rc = GSASL_OK;
+      rc = gsasl_property_set (sctx, GSASL_AUTHZID, USERNAME[i]);
       break;
 
     case GSASL_SERVICE:
-      gsasl_property_set (sctx, prop, SERVICE);
-      rc = GSASL_OK;
+      rc = gsasl_property_set (sctx, prop, SERVICE);
       break;
 
     case GSASL_HOSTNAME:
-      gsasl_property_set (sctx, prop, HOST);
-      rc = GSASL_OK;
+      rc = gsasl_property_set (sctx, prop, HOST);
       break;
 
     case GSASL_VALIDATE_GSSAPI:

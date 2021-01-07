@@ -1136,8 +1136,18 @@ void client (Gsasl *ctx)
 
   /* Set username and password in session handle.  This info will be
      lost when this session is deallocated below.  */
-  gsasl_property_set (session, GSASL_AUTHID, "jas");
-  gsasl_property_set (session, GSASL_PASSWORD, "secret");
+  rc = gsasl_property_set (session, GSASL_AUTHID, "jas");
+  if (rc != GSASL_OK)
+    @{
+      printf ("Cannot set property (%d): %s\n", rc, gsasl_strerror (rc));
+      return;
+    @}
+  rc = gsasl_property_set (session, GSASL_PASSWORD, "secret");
+  if (rc != GSASL_OK)
+    @{
+      printf ("Cannot set property (%d): %s\n", rc, gsasl_strerror (rc));
+      return;
+    @}
 
   /* Do it. */
   client_authenticate (session);
@@ -1358,8 +1368,7 @@ int callback (Gsasl * ctx, Gsasl_session * sctx, Gsasl_property prop)
       fgets (buf, sizeof (buf) - 1, stdin);
       buf[strlen (buf) - 1] = '\0';
 
-      gsasl_property_set (sctx, GSASL_PASSCODE, buf);
-      rc = GSASL_OK;
+      rc = gsasl_property_set (sctx, GSASL_PASSCODE, buf);
       break;
 
     case GSASL_AUTHID:
@@ -1367,8 +1376,7 @@ int callback (Gsasl * ctx, Gsasl_session * sctx, Gsasl_property prop)
       fgets (buf, sizeof (buf) - 1, stdin);
       buf[strlen (buf) - 1] = '\0';
 
-      gsasl_property_set (sctx, GSASL_AUTHID, buf);
-      rc = GSASL_OK;
+      rc = gsasl_property_set (sctx, GSASL_AUTHID, buf);
       break;
 
     default:

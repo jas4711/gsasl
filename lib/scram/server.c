@@ -265,8 +265,12 @@ _gsasl_scram_server_step (Gsasl_session * sctx,
 	  state->sf.nonce[cnlen + snlen] = '\0';
 	}
 
-	gsasl_property_set (sctx, GSASL_AUTHID, state->cf.username);
-	gsasl_property_set (sctx, GSASL_AUTHZID, state->cf.authzid);
+	rc = gsasl_property_set (sctx, GSASL_AUTHID, state->cf.username);
+	if (rc != GSASL_OK)
+	  return rc;
+	rc = gsasl_property_set (sctx, GSASL_AUTHZID, state->cf.authzid);
+	if (rc != GSASL_OK)
+	  return rc;
 
 	{
 	  const char *p = gsasl_property_get (sctx, GSASL_SCRAM_ITER);
@@ -284,8 +288,10 @@ _gsasl_scram_server_step (Gsasl_session * sctx,
 	    n = asprintf (&str, "%zu", state->sf.iter);
 	    if (n < 0 || str == NULL)
 	      return GSASL_MALLOC_ERROR;
-	    gsasl_property_set (sctx, GSASL_SCRAM_ITER, str);
+	    rc = gsasl_property_set (sctx, GSASL_SCRAM_ITER, str);
 	    free (str);
+	    if (rc != GSASL_OK)
+	      return rc;
 	  }
 	}
 
@@ -297,7 +303,12 @@ _gsasl_scram_server_step (Gsasl_session * sctx,
 	      state->sf.salt = strdup (p);
 	    }
 	  else
-	    gsasl_property_set (sctx, GSASL_SCRAM_SALT, state->sf.salt);
+	    {
+	      rc =
+		gsasl_property_set (sctx, GSASL_SCRAM_SALT, state->sf.salt);
+	      if (rc != GSASL_OK)
+		return rc;
+	    }
 	}
 
 	rc = scram_print_server_first (&state->sf, &state->sf_str);
@@ -408,24 +419,29 @@ _gsasl_scram_server_step (Gsasl_session * sctx,
 	      if (rc != GSASL_OK)
 		return rc;
 
-	      set_saltedpassword (sctx, state->hash, saltedpassword);
+	      rc = set_saltedpassword (sctx, state->hash, saltedpassword);
+	      if (rc != GSASL_OK)
+		return rc;
 
 	      rc = gsasl_base64_to (state->serverkey,
 				    gsasl_hash_length (state->hash),
 				    &b64str, NULL);
-	      if (rc != 0)
+	      if (rc != GSASL_OK)
 		return rc;
-	      gsasl_property_set (sctx, GSASL_SCRAM_SERVERKEY, b64str);
+	      rc = gsasl_property_set (sctx, GSASL_SCRAM_SERVERKEY, b64str);
 	      free (b64str);
-
+	      if (rc != GSASL_OK)
+		return rc;
 
 	      rc = gsasl_base64_to (state->storedkey,
 				    gsasl_hash_length (state->hash),
 				    &b64str, NULL);
 	      if (rc != 0)
 		return rc;
-	      gsasl_property_set (sctx, GSASL_SCRAM_STOREDKEY, b64str);
+	      rc = gsasl_property_set (sctx, GSASL_SCRAM_STOREDKEY, b64str);
 	      free (b64str);
+	      if (rc != GSASL_OK)
+		return rc;
 
 	      gsasl_free (salt);
 	    }

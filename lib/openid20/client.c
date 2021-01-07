@@ -91,8 +91,10 @@ _gsasl_openid20_client_step (Gsasl_session * sctx,
 
     case 1:
       {
-	gsasl_property_set_raw (sctx, GSASL_OPENID20_REDIRECT_URL,
-				input, input_len);
+	res = gsasl_property_set_raw (sctx, GSASL_OPENID20_REDIRECT_URL,
+				      input, input_len);
+	if (res != GSASL_OK)
+	  return res;
 
 	res = gsasl_callback (NULL, sctx,
 			      GSASL_OPENID20_AUTHENTICATE_IN_BROWSER);
@@ -114,8 +116,10 @@ _gsasl_openid20_client_step (Gsasl_session * sctx,
          some SREGs or error data and we end up here. */
     case 2:
       {
-	gsasl_property_set_raw (sctx, GSASL_OPENID20_OUTCOME_DATA,
-				input, input_len);
+	res = gsasl_property_set_raw (sctx, GSASL_OPENID20_OUTCOME_DATA,
+				      input, input_len);
+	if (res != GSASL_OK)
+	  return res;
 
 	/* In the case of failures, the response MUST follow this
 	   syntax:

@@ -215,10 +215,7 @@ callback (Gsasl * ctx, Gsasl_session * sctx, Gsasl_property prop)
 	if (line == NULL)
 	  rc = GSASL_AUTHENTICATION_ERROR;
 	else
-	  {
-	    rc = GSASL_OK;
-	    gsasl_property_set (sctx, prop, line);
-	  }
+	  rc = gsasl_property_set (sctx, prop, line);
       }
       break;
 
@@ -267,7 +264,13 @@ callback (Gsasl * ctx, Gsasl_session * sctx, Gsasl_property prop)
 	      printf ("claimed id: %s\n", line);
 	    fclose (fh);
 
-	    gsasl_property_set (sctx, GSASL_AUTHID, line);
+	    rc = gsasl_property_set (sctx, GSASL_AUTHID, line);
+	    if (rc != GSASL_OK)
+	      {
+		printf ("Failure in gsasl_property_set (%d): %s\n",
+			rc, gsasl_strerror (rc));
+		break;
+	      }
 
 	    rc = asprintf (&tmp, "%s/state/%s/sreg", store_path, nonce);
 	    if (rc <= 0)
@@ -282,8 +285,15 @@ callback (Gsasl * ctx, Gsasl_session * sctx, Gsasl_property prop)
 		if (getline (&line, &n, fh) > 0)
 		  {
 		    printf ("sreg: %s\n", line);
-		    gsasl_property_set (sctx, GSASL_OPENID20_OUTCOME_DATA,
-					line);
+		    rc = gsasl_property_set (sctx,
+					     GSASL_OPENID20_OUTCOME_DATA,
+					     line);
+		    if (rc != GSASL_OK)
+		      {
+			printf ("Failure in gsasl_property_set (%d): %s\n",
+				rc, gsasl_strerror (rc));
+			break;
+		      }
 		  }
 		fclose (fh);
 	      }
@@ -296,8 +306,7 @@ callback (Gsasl * ctx, Gsasl_session * sctx, Gsasl_property prop)
       break;
 
     case GSASL_PASSWORD:
-      gsasl_property_set (sctx, prop, "sesam");
-      rc = GSASL_OK;
+      rc = gsasl_property_set (sctx, prop, "sesam");
       break;
 
     default:

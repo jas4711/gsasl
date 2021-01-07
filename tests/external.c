@@ -63,8 +63,7 @@ callback (Gsasl * ctx, Gsasl_session * sctx, Gsasl_property prop)
   switch (prop)
     {
     case GSASL_AUTHZID:
-      gsasl_property_set (sctx, prop, tv[c++].sendauthzid);
-      rc = GSASL_OK;
+      rc = gsasl_property_set (sctx, prop, tv[c++].sendauthzid);
       break;
 
     case GSASL_VALIDATE_EXTERNAL:
