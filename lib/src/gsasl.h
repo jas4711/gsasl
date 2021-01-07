@@ -45,6 +45,8 @@
  *
  * This is used internally by the library header file and should never
  * be used or modified by the application.
+ *
+ * https://www.gnu.org/software/gnulib/manual/html_node/Exported-Symbols-of-Shared-Libraries.html
  */
 #ifndef GSASL_API
 #if defined GSASL_BUILDING && defined HAVE_VISIBILITY && HAVE_VISIBILITY
