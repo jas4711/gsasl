@@ -61,7 +61,7 @@ AM_MISSING_PROG(EPSTOPDF, epstopdf, $missing_dir)
 AM_GNU_GETTEXT([external])
 AM_GNU_GETTEXT_VERSION([0.19.8])
 
-# See doc/reference/
+# https://developer.gnome.org/gtk-doc-manual/stable/settingup_autoconf.html.en
 GTK_DOC_CHECK([1.14],[--flavour no-tmpl])
 
 # ANONYMOUS
