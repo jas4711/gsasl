@@ -6,6 +6,9 @@ GNU SASL NEWS -- History of user-visible changes.               -*- outline -*-
 
 ** Deprecated enum Gsasl_cipher removed (forgotten in last release).
 
+** Fix symbol versioning.
+The goal of the 1.11.x branch is now to release 2.0.0.
+
 * Noteworthy changes in release 1.11.0 (2021-01-07) [alpha]
 
 ** Stop shipping a separate tarball for libgsasl.
