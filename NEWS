@@ -2,6 +2,7 @@ GNU SASL NEWS -- History of user-visible changes.               -*- outline -*-
 
 * Noteworthy changes in release ?.? (????-??-??) [?]
 
+** Deprecated enum Gsasl_cipher removed (forgotten in last release).
 
 * Noteworthy changes in release 1.11.0 (2021-01-07) [alpha]
 

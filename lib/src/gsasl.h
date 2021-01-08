@@ -200,29 +200,6 @@ extern "C"
   } Gsasl_qop;
 
   /**
-   * Gsasl_cipher:
-   * @GSASL_CIPHER_DES: Cipher DES.
-   * @GSASL_CIPHER_3DES: Cipher 3DES.
-   * @GSASL_CIPHER_RC4: Cipher RC4.
-   * @GSASL_CIPHER_RC4_40: Cipher RC4 with 40-bit keys.
-   * @GSASL_CIPHER_RC4_56: Cipher RC4 with 56-bit keys.
-   * @GSASL_CIPHER_AES: Cipher AES.
-   *
-   * Encryption types (DIGEST-MD5) for confidentiality services of
-   * application data.  We recommend that you use TLS instead as it is
-   * generally more secure and have better chance of working.
-   */
-  typedef enum
-  {
-    GSASL_CIPHER_DES = 1,
-    GSASL_CIPHER_3DES = 2,
-    GSASL_CIPHER_RC4 = 4,
-    GSASL_CIPHER_RC4_40 = 8,
-    GSASL_CIPHER_RC4_56 = 16,
-    GSASL_CIPHER_AES = 32
-  } Gsasl_cipher;
-
-  /**
    * Gsasl_saslprep_flags:
    * @GSASL_ALLOW_UNASSIGNED: Allow unassigned code points.
    *
