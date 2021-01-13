@@ -50,7 +50,8 @@ endif
 
 if HAVE_LD_OUTPUT_DEF
 libgsasl_la_LDFLAGS += -Wl,--output-def,libgsasl-$(DLL_VERSION).def
-defexecdir = $(bindir)
+libgsasl-$(DLL_VERSION).def: libgsasl.la
+defexecdir = $(libdir)
 defexec_DATA = libgsasl-$(DLL_VERSION).def
 DISTCLEANFILES = $(defexec_DATA)
 endif
