@@ -26,34 +26,10 @@ bootstrap-tools = autoconf,automake,libtoolize,gnulib,makeinfo,help2man,gperf,ge
 
 INDENT_SOURCES = `find . -name '*.[chly]' | grep -v -e /gl -e build-aux -e /win32/ -e /examples/`
 
-local-checks-to-skip = sc_error_message_uppercase			\
-	sc_prohibit_gnu_make_extensions sc_prohibit_have_config_h	\
-	sc_prohibit_strcmp sc_require_config_h				\
-	sc_require_config_h_first
-
-VC_LIST_ALWAYS_EXCLUDE_REGEX = \
-	^((lib/)?GNUmakefile|gtk-doc.make|m4/pkg.m4|doc/gendocs_template|doc/fdl-1.3.texi|doc/specification|doc/doxygen/Doxyfile|(lib/)?po/.*.po.in|(lib/)?maint.mk|((lib/)?(gl|gltests|build-aux))/.*)
-
-# Explicit syntax-check exceptions.
-exclude_file_name_regexp--sc_prohibit_empty_lines_at_EOF = ^(lib/)?ABOUT-NLS|doc/.*\.(dia|png)|tests/gssapi.tkt$$
-exclude_file_name_regexp--sc_GPL_version = ^doc/lgpl-2.1.texi|lib/.*$$
-exclude_file_name_regexp--sc_copyright_check = ^doc/gsasl.texi$$
-exclude_file_name_regexp--sc_m4_quote_check = ^m4/.*|lib/m4/.*$$
-exclude_file_name_regexp-- = ^m4/.*|lib/m4/.*$$
-exclude_file_name_regexp--sc_unmarked_diagnostics = ^examples/.*|src/gsasl.c$$
-exclude_file_name_regexp--sc_makefile_TAB_only_indentation = ^(lib/)?po/Makefile.in.in$$
-exclude_file_name_regexp--sc_makefile_path_separator_check = ^(lib/)?po/Makefile.in.in$$
-exclude_file_name_regexp--sc_bindtextdomain = ^doc/print-errors.c|examples/.*|lib/digest-md5/test-parser.c|lib/tests/test-error.c|tests/.*$$
-exclude_file_name_regexp--sc_program_name = $(exclude_file_name_regexp--sc_bindtextdomain)
-exclude_file_name_regexp--sc_prohibit_magic_number_exit = ^(lib/)?m4/.*|doc/gsasl.texi|examples/(openid20|saml20)/.*.php|tests.*$$
-exclude_file_name_regexp--sc_trailing_blank = ^(lib/)?ABOUT-NLS|doc/.*\.(eps|png)|(lib/)?po/.*$$
-exclude_file_name_regexp--sc_space_tab = ^(lib/)?m4/lib-prefix.m4$$
-exclude_file_name_regexp--sc_useless_cpp_parens = ^(lib/)?m4/.*$$
-exclude_file_name_regexp--sc_prohibit_test_minus_ao = ^lib/m4/libgcrypt.m4$$
-exclude_file_name_regexp--sc_prohibit_doubled_word = ^ABOUT-NLS$$
-exclude_file_name_regexp--sc_prohibit_always_true_header_tests =^lib/win32/include/config.h$$
-
-update-copyright-env = UPDATE_COPYRIGHT_HOLDER="Simon Josefsson" UPDATE_COPYRIGHT_USE_INTERVALS=2 UPDATE_COPYRIGHT_FORCE=1
+update-copyright-env = \
+	UPDATE_COPYRIGHT_HOLDER="Simon Josefsson"	\
+	UPDATE_COPYRIGHT_USE_INTERVALS=2		\
+	UPDATE_COPYRIGHT_FORCE=1
 
 review-tag ?= $(shell git describe --abbrev=0)
 review-diff:
@@ -62,4 +38,17 @@ review-diff:
 	| filterdiff -p 1 -x 'gl/*' -x 'm4/*' -x 'gltests/*' -x 'lib/build-aux/*' -x 'lib/gl*' -x 'lib/m4/*' -x 'lib/gltests/*' -x 'po/*' -x 'lib/po/*' -x 'maint.mk' -x 'lib/maint.mk' -x '.gitignore' -x '.x-sc*' -x 'doc/specification/*' -x ChangeLog -x GNUmakefile -x ABOUT-NLS -x lib/ABOUT-NLS \
 	| less
 
-# FIXME: gtkdoc doxygen
+# syntax-check
+local-checks-to-skip = sc_error_message_uppercase			\
+	sc_prohibit_gnu_make_extensions sc_prohibit_have_config_h	\
+	sc_prohibit_strcmp sc_require_config_h				\
+	sc_require_config_h_first
+exclude_file_name_regexp--sc_GPL_version = ^build-aux/git2cl|lib/.*$$
+exclude_file_name_regexp--sc_bindtextdomain = ^doc/print-errors.c|examples/.*|lib/digest-md5/test-parser.c|lib/tests/test-error.c|tests/.*$$
+exclude_file_name_regexp--sc_file_system = ^doc/doxygen/Doxyfile.*$$
+exclude_file_name_regexp--sc_prohibit_always_true_header_tests = ^lib/win32/include/config.h$$
+exclude_file_name_regexp--sc_prohibit_defined_have_decl_tests = ^lib/gl/lib/gss-extra.c$$
+exclude_file_name_regexp--sc_prohibit_empty_lines_at_EOF = ^gl/0001-Fix-export-symbols-and-export-symbols-regex-support-.patch|doc/gsasl-[2a-z]*.(dia|png)|tests/gssapi.tkt$$
+exclude_file_name_regexp--sc_prohibit_magic_number_exit = ^doc/gsasl.texi|examples/(openid20|saml20)/.*.php$$
+exclude_file_name_regexp--sc_trailing_blank = ^gl/0001-Fix-export-symbols-and-export-symbols-regex-support-.patch|build-aux/git2cl|doc/gsasl-[2a-z]*.eps|doc/doxygen/Doxyfile.*|gl/doc/gendocs_template.diff|gl/top/README-release.diff$$
+exclude_file_name_regexp--sc_unmarked_diagnostics = ^examples/.*|src/gsasl.c$$

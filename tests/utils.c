@@ -41,7 +41,7 @@ fail (const char *format, ...)
   va_end (arg_ptr);
   error_count++;
   if (break_on_error)
-    exit (1);
+    exit (EXIT_FAILURE);
 }
 
 void
