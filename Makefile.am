@@ -37,7 +37,7 @@ dist-hook: gen-ChangeLog
 gen-ChangeLog:
 	$(AM_V_GEN)if test -d .git; then				\
 		$(srcdir)/build-aux/git2cl > $(distdir)/cl-t &&		\
-		{ tail -7 NEWS >> $(distdir)/cl-t &&			\
+		{ tail -6 NEWS >> $(distdir)/cl-t &&			\
 		  rm -f $(distdir)/ChangeLog &&				\
 		  mv $(distdir)/cl-t $(distdir)/ChangeLog; }		\
 	fi
