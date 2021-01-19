@@ -14,14 +14,13 @@
 # You should have received a copy of the GNU General Public License
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-GSASL_DLL_VERSION=7
-
 all:
 	@echo 'Usage examples:'
-	@echo '  make -f gsasl4win.mk gsasl4win VERSION=1.6.1'
-	@echo '  make -f gsasl4win.mk gsasl4win32 VERSION=1.6.1'
-	@echo '  make -f gsasl4win.mk gsasl4win64 VERSION=1.6.1'
-	@echo '  make -f gsasl4win.mk gsasl4win32kfw322 VERSION=1.6.1'
+	@echo '  make -f gsasl4win.mk clean'
+	@echo '  make -f gsasl4win.mk gsasl4win VERSION=1.11.0'
+	@echo '  make -f gsasl4win.mk gsasl4win32 VERSION=1.11.0'
+	@echo '  make -f gsasl4win.mk gsasl4win64 VERSION=1.11.0'
+	@echo '  make -f gsasl4win.mk gsasl4win32kfw322 VERSION=1.11.0'
 
 clean:
 	rm -rf src build-x86 build-x64 inst-x86 inst-x64 kfw322x86
@@ -31,12 +30,14 @@ gsasl4win32: gsasl-$(VERSION)-x86.zip
 gsasl4win64: gsasl-$(VERSION)-x64.zip
 gsasl4win32kfw322: gsasl-$(VERSION)-x86-kfw322.zip
 
+URL=https://ftp.gnu.org/gnu/gsasl
+
 # GNU SASL
 
 dist/gsasl-$(VERSION).tar.gz:
 	rm -rf tmp
 	mkdir tmp
-	cd tmp && wget -q ftp://ftp.gnu.org/gnu/gsasl/gsasl-$(VERSION).tar.gz ftp://ftp.gnu.org/gnu/gsasl/gsasl-$(VERSION).tar.gz.sig
+	cd tmp && wget -q $(URL)/gsasl-$(VERSION).tar.gz $(URL)/gsasl-$(VERSION).tar.gz.sig
 	gpg tmp/gsasl-$(VERSION).tar.gz.sig
 	-mkdir dist
 	mv tmp/gsasl-$(VERSION).tar.gz tmp/gsasl-$(VERSION).tar.gz.sig dist/
@@ -52,13 +53,13 @@ build-x86/gsasl-$(VERSION)/Makefile: src/gsasl-$(VERSION)/configure
 	rm -rf build-x86/gsasl-$(VERSION)
 	mkdir -p build-x86/gsasl-$(VERSION) && \
 	cd build-x86/gsasl-$(VERSION) && \
-	../../src/gsasl-$(VERSION)/configure --host=i686-w64-mingw32 --build=i686-pc-linux-gnu --prefix=$(PWD)/inst-x86 --without-libgcrypt --disable-obsolete
+	../../src/gsasl-$(VERSION)/configure --host=i686-w64-mingw32 CC='i686-w64-mingw32-gcc -static-libgcc' --prefix=$(PWD)/inst-x86 --without-libgcrypt --disable-valgrind-tests
 
-inst-x86/bin/libgsasl-$(GSASL_DLL_VERSION).dll: build-x86/gsasl-$(VERSION)/Makefile
+inst-x86/bin/gsasl.exe: build-x86/gsasl-$(VERSION)/Makefile
 	make -C build-x86/gsasl-$(VERSION) install
 	make -C build-x86/gsasl-$(VERSION)/tests check
 
-gsasl-$(VERSION)-x86.zip: inst-x86/bin/libgsasl-$(GSASL_DLL_VERSION).dll
+gsasl-$(VERSION)-x86.zip: inst-x86/bin/gsasl.exe
 	rm -f gsasl-$(VERSION)-x86.zip
 	cd inst-x86 && zip -r ../gsasl-$(VERSION)-x86.zip *
 
@@ -68,13 +69,13 @@ build-x64/gsasl-$(VERSION)/Makefile: src/gsasl-$(VERSION)/configure
 	rm -rf build-x64/gsasl-$(VERSION)
 	mkdir -p build-x64/gsasl-$(VERSION) && \
 	cd build-x64/gsasl-$(VERSION) && \
-	../../src/gsasl-$(VERSION)/configure --host=i686-w64-mingw32 --build=i686-pc-linux-gnu --prefix=$(PWD)/inst-x64 --without-libgcrypt --disable-obsolete
+	../../src/gsasl-$(VERSION)/configure --host=x86_64-w64-mingw32 --prefix=$(PWD)/inst-x64 --without-libgcrypt --disable-valgrind-tests
 
-inst-x64/bin/libgsasl-$(GSASL_DLL_VERSION).dll: build-x64/gsasl-$(VERSION)/Makefile
+inst-x64/bin/gsasl.exe: build-x64/gsasl-$(VERSION)/Makefile
 	make -C build-x64/gsasl-$(VERSION) install
 	make -C build-x64/gsasl-$(VERSION)/tests check
 
-gsasl-$(VERSION)-x64.zip: inst-x64/bin/libgsasl-$(GSASL_DLL_VERSION).dll
+gsasl-$(VERSION)-x64.zip: inst-x64/bin/gsasl.exe
 	rm -f gsasl-$(VERSION)-x64.zip
 	cd inst-x64 && zip -r ../gsasl-$(VERSION)-x64.zip *
 
@@ -84,13 +85,13 @@ build-x86-kfw322/gsasl-$(VERSION)/Makefile: src/gsasl-$(VERSION)/configure kfw32
 	rm -rf build-x86-kfw322/gsasl-$(VERSION)
 	mkdir -p build-x86-kfw322/gsasl-$(VERSION) && \
 	cd build-x86-kfw322/gsasl-$(VERSION) && \
-	lt_cv_deplibs_check_method=pass_all ../../src/gsasl-$(VERSION)/configure --host=i686-w64-mingw32 --build=i686-pc-linux-gnu --prefix=$(PWD)/inst-x86-kfw322 --without-libgcrypt --disable-obsolete --with-gssapi-impl=kfw LDFLAGS="-L$(PWD)/kfw322sdkx86/kfw-3-2-2-final/lib/i386" CPPFLAGS="-I$(PWD)/kfw322sdkx86/kfw-3-2-2-final/inc/krb5 -DSSIZE_T_DEFINED"
+	lt_cv_deplibs_check_method=pass_all ../../src/gsasl-$(VERSION)/configure --host=i686-w64-mingw32 --build=i686-pc-linux-gnu --prefix=$(PWD)/inst-x86-kfw322 --without-libgcrypt --disable-valgrind-tests --with-gssapi-impl=kfw LDFLAGS="-L$(PWD)/kfw322sdkx86/kfw-3-2-2-final/lib/i386" CPPFLAGS="-I$(PWD)/kfw322sdkx86/kfw-3-2-2-final/inc/krb5 -DSSIZE_T_DEFINED"
 
-inst-x86-kfw322/bin/libgsasl-$(GSASL_DLL_VERSION).dll: build-x86-kfw322/gsasl-$(VERSION)/Makefile install-kfw322
+inst-x86-kfw322/bin/gsasl.exe: build-x86-kfw322/gsasl-$(VERSION)/Makefile install-kfw322
 	make -C build-x86-kfw322/gsasl-$(VERSION) install
 	make -C build-x86-kfw322/gsasl-$(VERSION)/tests check
 
-gsasl-$(VERSION)-x86-kfw322.zip: inst-x86-kfw322/bin/libgsasl-$(GSASL_DLL_VERSION).dll
+gsasl-$(VERSION)-x86-kfw322.zip: inst-x86-kfw322/bin/gsasl.exe
 	rm -f gsasl-$(VERSION)-x86-kfw322.zip
 	cd inst-x86-kfw322 && zip -r ../gsasl-$(VERSION)-x86-kfw322.zip *
 
