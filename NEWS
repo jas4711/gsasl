@@ -1,6 +1,6 @@
 GNU SASL NEWS -- History of user-visible changes.               -*- outline -*-
 
-* Noteworthy changes in release ?.? (????-??-??) [?]
+* Noteworthy changes in release 1.11.1 (2021-01-19) [alpha]
 
 ** New header gsasl-version.h is now installed.
 
