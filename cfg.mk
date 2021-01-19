@@ -18,16 +18,19 @@
 manual_title = Simple Authentication and Security Layer
 gendocs_options_ = -I ../examples
 
+old_NEWS_hash = b7d3e53b0fe7030ba617c7010311aa92
+
 gnulib_dir = $(GNULIB_SRCDIR)
 
 bootstrap-tools = autoconf,automake,libtoolize,gnulib,makeinfo,help2man,gperf,gengetopt,gtkdocize,tar,gzip
 
 INDENT_SOURCES = `find . -name '*.[chly]' | grep -v -e /gl -e build-aux -e /win32/ -e /examples/`
 
-local-checks-to-skip = sc_prohibit_strcmp sc_error_message_uppercase	\
-	sc_prohibit_have_config_h sc_require_config_h			\
-	sc_require_config_h_first sc_immutable_NEWS sc_po_check		\
-	sc_prohibit_gnu_make_extensions
+local-checks-to-skip = sc_error_message_uppercase			\
+	sc_prohibit_gnu_make_extensions sc_prohibit_have_config_h	\
+	sc_prohibit_strcmp sc_require_config_h				\
+	sc_require_config_h_first
+
 VC_LIST_ALWAYS_EXCLUDE_REGEX = \
 	^((lib/)?GNUmakefile|gtk-doc.make|m4/pkg.m4|doc/gendocs_template|doc/fdl-1.3.texi|doc/specification|doc/doxygen/Doxyfile|(lib/)?po/.*.po.in|(lib/)?maint.mk|((lib/)?(gl|gltests|build-aux))/.*)
 
