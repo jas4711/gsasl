@@ -18,7 +18,7 @@
 manual_title = Simple Authentication and Security Layer
 gendocs_options_ = -I ../examples
 
-old_NEWS_hash = b7d3e53b0fe7030ba617c7010311aa92
+old_NEWS_hash = 230ab1731088bfeac878f9c5f5f25ea2
 
 gnulib_dir = $(GNULIB_SRCDIR)
 
