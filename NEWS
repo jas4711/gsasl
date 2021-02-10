@@ -42,11 +42,11 @@ message later on about the missing property.
 If you want to support both new and old library versions, to report
 memory allocation errors as such, you may use a construct like this:
 
-#if GSASL_VERSION_NUMBER >= 0x010a00
+#if GSASL_VERSION_NUMBER >= 0x010b00
   res =
 #endif
   gsasl_property_set (sctx, GSASL_AUTHID, "simon");
-#if GSASL_VERSION_NUMBER >= 0x010a00
+#if GSASL_VERSION_NUMBER >= 0x010b00
   if (res != GSASL_OK)
     return res;
 #endif
