@@ -58,8 +58,8 @@ dist_man_MANS = gsasl.1 $(gdoc_MANS)
 MAINTAINERCLEANFILES = $(dist_man_MANS)
 
 gsasl.1: $(top_srcdir)/src/gsasl.c $(top_srcdir)/src/gsasl.ggo \
-		$(top_srcdir)/configure.ac
-	$(HELP2MAN) \
+		$(top_srcdir)/.version
+	$(AM_V_GEN)$(HELP2MAN) \
 		--name="SASL library command line interface" \
 		--output=$@ $(top_builddir)/src/gsasl$(EXEEXT)
 
