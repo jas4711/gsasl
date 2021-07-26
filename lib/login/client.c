@@ -85,6 +85,8 @@ _gsasl_login_client_step (Gsasl_session * sctx _GL_UNUSED,
 	return GSASL_NO_PASSWORD;
 
       *output = strdup (p);
+      if (!*output)
+	return GSASL_MALLOC_ERROR;
       *output_len = strlen (*output);
 
       state->step++;
