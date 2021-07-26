@@ -71,6 +71,7 @@
 /doc/reference/gsasl-undeclared.txt
 /doc/reference/gsasl-undocumented.txt
 /doc/reference/gsasl-unused.txt
+/doc/reference/gsasl.actions
 /doc/reference/gsasl.args
 /doc/reference/gsasl.hierarchy
 /doc/reference/gsasl.interfaces
@@ -223,6 +224,7 @@
 /lib/gl/limits.h
 /lib/gl/stdint.h
 /lib/gl/stdio.h
+/lib/gl/stdlib.h
 /lib/gl/string.h
 /lib/gl/sys/
 /lib/gl/time.h
