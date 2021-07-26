@@ -110,3 +110,18 @@ TESTS = $(GTKDOC_CHECK)
 endif
 
 -include $(top_srcdir)/git.mk
+
+html-build.stamp: $(top_builddir)/.version
+pdf-build.stamp: $(top_builddir)/.version
+
+CLEANFILES ?=
+CLEANFILES += $(PACKAGE)-overrides.txt
+CLEANFILES += $(PACKAGE)-decl.txt $(PACKAGE)-decl-list.txt
+CLEANFILES += $(PACKAGE)-sections.txt $(PACKAGE).pdf
+
+clean-local: clean-local-junk
+.PHONY: clean-local-junk
+clean-local-junk:
+	-rm -rf xml html tmpl
+
+dist-hook-local: all-local
