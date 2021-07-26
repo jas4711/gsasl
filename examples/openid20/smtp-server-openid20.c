@@ -66,6 +66,7 @@ static int
 write_file (const char *filename, const char *data)
 {
   FILE *fh;
+  int rc = 0;
 
   fh = fopen (filename, "w");
   if (!fh)
@@ -75,12 +76,12 @@ write_file (const char *filename, const char *data)
     }
 
   if (fputs (data, fh) <= 0)
-    return -1;
+    rc = -1;
 
   if (fclose (fh) != 0)
     return -1;
 
-  return 0;
+  return rc;
 }
 
 static char *
