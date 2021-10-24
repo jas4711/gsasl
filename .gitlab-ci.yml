@@ -179,7 +179,7 @@ ArchLinux:
   stage: test
   needs: [Debian]
   before_script:
-  - pacman -Sy --noconfirm make gcc diffutils file
+  - pacman -Syu --noconfirm make gcc diffutils file
   script:
   - tar xfz gsasl-*.tar.gz
   - cd `ls -d gsasl-* | grep -v tar.gz`
