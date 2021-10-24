@@ -18,9 +18,7 @@
 manual_title = Simple Authentication and Security Layer
 gendocs_options_ = -I ../examples
 
-old_NEWS_hash = 230ab1731088bfeac878f9c5f5f25ea2
-
-gnulib_dir = $(GNULIB_SRCDIR)
+old_NEWS_hash = a636befc7b0fbc6a28f7240e80aa96e8
 
 bootstrap-tools = autoconf,automake,libtoolize,gnulib,makeinfo,help2man,gperf,gengetopt,gtkdocize,tar,gzip
 
@@ -41,12 +39,12 @@ local-checks-to-skip = sc_error_message_uppercase			\
 	sc_prohibit_gnu_make_extensions sc_prohibit_have_config_h	\
 	sc_prohibit_strcmp sc_require_config_h				\
 	sc_require_config_h_first
-exclude_file_name_regexp--sc_GPL_version = ^build-aux/git2cl|lib/.*$$
+exclude_file_name_regexp--sc_GPL_version = ^m4/pkg.m4|build-aux/git2cl|lib/.*$$
 exclude_file_name_regexp--sc_bindtextdomain = ^doc/print-errors.c|examples/.*|lib/digest-md5/test-parser.c|lib/tests/test-error.c|tests/.*$$
 exclude_file_name_regexp--sc_file_system = ^doc/doxygen/Doxyfile.*$$
 exclude_file_name_regexp--sc_prohibit_always_true_header_tests = ^lib/win32/include/config.h$$
 exclude_file_name_regexp--sc_prohibit_defined_have_decl_tests = ^lib/gl/lib/gss-extra.c$$
 exclude_file_name_regexp--sc_prohibit_empty_lines_at_EOF = ^gl/0001-Fix-export-symbols-and-export-symbols-regex-support-.patch|doc/gsasl-[2a-z]*.(dia|png)|tests/gssapi.tkt$$
 exclude_file_name_regexp--sc_prohibit_magic_number_exit = ^doc/gsasl.texi|examples/(openid20|saml20)/.*.php$$
-exclude_file_name_regexp--sc_trailing_blank = ^gl/0001-Fix-export-symbols-and-export-symbols-regex-support-.patch|build-aux/git2cl|doc/gsasl-[2a-z]*.eps|doc/doxygen/Doxyfile.*|gl/doc/gendocs_template.diff|gl/top/README-release.diff$$
+exclude_file_name_regexp--sc_trailing_blank = ^gl/0001-Fix-export-symbols-and-export-symbols-regex-support-.patch|build-aux/git2cl|doc/gsasl-[2a-z]*.(eps|png)|doc/doxygen/Doxyfile.*|gl/doc/gendocs_template.diff|gl/top/README-release.diff$$
 exclude_file_name_regexp--sc_unmarked_diagnostics = ^examples/.*|src/gsasl.c$$
