@@ -1,0 +1,333 @@
+variables:
+  GIT_DEPTH: 100
+
+stages:
+ - build
+ - test
+ - deploy
+
+Debian:
+  image: debian:bullseye-slim
+  stage: build
+  before_script:
+  - apt-get update -qq
+  - env DEBIAN_FRONTEND=noninteractive apt-get install -y -qq git autoconf automake libtool autopoint gettext cvs make texinfo texlive texlive-plain-generic texlive-extra-utils texlive-font-utils help2man gtk-doc-tools libglib2.0-dev dblatex valgrind libidn11-dev libntlm0-dev libgnutls28-dev libkrb5-dev gengetopt gperf wget
+  script:
+  - ./bootstrap
+  - ./configure --enable-gcc-warnings --disable-silent-rules
+  - make V=1 || (find . -name test-suite.log -exec cat {} +; exit 1)
+  - make dist
+  artifacts:
+    expire_in: 2 weeks
+    paths:
+      - gsasl-*.tar.gz
+
+Ubuntu-coverage-cyclo:
+  image: ubuntu:rolling
+  stage: build
+  before_script:
+  - apt-get update -qq
+  - env DEBIAN_FRONTEND=noninteractive apt-get install -y -qq git autoconf automake libtool autopoint gettext make texinfo texlive texlive-plain-generic texlive-extra-utils texlive-font-utils help2man gtk-doc-tools libglib2.0-dev valgrind libidn11-dev libntlm0-dev libgnutls28-dev libkrb5-dev gengetopt gperf wget
+  - env DEBIAN_FRONTEND=noninteractive apt-get install -y -qq lcov pmccabe
+  script:
+  - ./bootstrap
+  - ./configure --enable-gcc-warnings --disable-silent-rules CFLAGS="-g --coverage" || (cat config.log; exit 1)
+  - lcov --directory . --zerocounters
+  - make check || (find . -name test-suite.log -exec cat {} +; exit 1)
+  - make dist
+  - mkdir coverage
+  - lcov --directory . --output-file coverage/gsasl.info --capture
+  - lcov --remove coverage/gsasl.info '/usr/include/*' '*/gl/*' '*/gltests/*' '*/lib/gl/*' '*/lib/gltests/*' -o coverage/gsasl_filtered.info
+  - genhtml --output-directory coverage coverage/gsasl_filtered.info --highlight --frames --legend --title "GNU SASL"
+  - mkdir cyclo
+  - make -C doc/cyclo/ cyclo-gsasl.html
+  - cp -v doc/cyclo/cyclo-gsasl.html cyclo/index.html
+  artifacts:
+    when: on_success
+    paths:
+      - coverage
+      - cyclo
+      - gsasl-*.tar.gz
+  only:
+    - master
+
+Fedora-clanganalyzer:
+  image: fedora:latest
+  stage: build
+  before_script:
+  - dnf update -y
+  - dnf install -y git make diffutils file hostname patch autoconf automake libtool gettext-devel texinfo texinfo-tex texlive texlive-supertabular texlive-framed texlive-morefloats texlive-quotchap texlive-epstopdf help2man gtk-doc gengetopt gperf wget dblatex
+  - dnf install -y clang clang-analyzer
+  script:
+  - ./bootstrap
+  - scan-build ./configure --disable-silent-rules --enable-gtk-doc --enable-gtk-doc-pdf || (cat config.log; exit 1)
+  - scan-build -o clang-analyzer make V=1
+  - make web-manual
+  artifacts:
+    when: on_success
+    paths:
+      - clang-analyzer
+      - doc/reference
+      - doc/manual
+  only:
+    - master
+
+pages:
+  stage: deploy
+  needs: ["Ubuntu-coverage-cyclo", "Fedora-clanganalyzer"]
+  script:
+    - mkdir public
+    - mv coverage/ cyclo/ public/
+    - mv clang-analyzer/* public/clang-analyzer
+    - mv doc/manual public/manual
+    - mv doc/reference/html public/reference
+    - mv doc/reference/gsasl.pdf public/reference/
+    - mv doc/reference/gsasl.devhelp2 public/reference/
+  artifacts:
+    paths:
+    - public
+    expire_in: 30 days
+  only:
+  - master
+
+Ubuntu-14.04:
+  image: ubuntu:14.04
+  stage: test
+  needs: [Debian]
+  before_script:
+  - apt-get update -q
+  - env DEBIAN_FRONTEND=noninteractive apt-get install -y -q make gcc
+  script:
+  - tar xfa gsasl-*.tar.gz
+  - cd `ls -d gsasl-* | grep -v tar.gz`
+  - ./configure --enable-gcc-warnings || (cat config.log; exit 1)
+  - make WERROR_CFLAGS= check V=1 || (find . -name test-suite.log -exec cat {} +; exit 1)
+
+Ubuntu-distcheck:
+  image: ubuntu:latest
+  stage: test
+  needs: [Debian]
+  before_script:
+  - apt-get update -q
+  - env DEBIAN_FRONTEND=noninteractive apt-get install -y -q make gcc gtk-doc-tools texinfo texlive texlive-plain-generic
+  script:
+  - tar xfa gsasl-*.tar.gz
+  - cd `ls -d gsasl-* | grep -v tar.gz`
+  - ./configure --enable-gcc-warnings || (cat config.log; exit 1)
+  - make distcheck V=1 || (find . -name test-suite.log -exec cat {} +; exit 1)
+  artifacts:
+    expire_in: 2 weeks
+    paths:
+      - gsasl-*.tar.gz
+
+CentOS:
+  image: centos:latest
+  stage: test
+  needs: [Debian]
+  before_script:
+  - yum -y install make gcc diffutils
+  script:
+  - tar xfa gsasl-*.tar.gz
+  - cd `ls -d gsasl-* | grep -v tar.gz`
+  - ./configure --enable-gcc-warnings || (cat config.log; exit 1)
+  - make check V=1 || (find . -name test-suite.log -exec cat {} +; exit 1)
+
+CentOS-krb5:
+  image: centos:latest
+  stage: test
+  needs: [Debian]
+  before_script:
+  - yum -y install make gcc diffutils krb5-devel
+  script:
+  - tar xfa gsasl-*.tar.gz
+  - cd `ls -d gsasl-* | grep -v tar.gz`
+  - ./configure --enable-gcc-warnings --with-gssapi-impl=mit || (cat config.log; exit 1)
+  - grep 'USE_GS2 1' config.log
+  - make check V=1 || (find . -name test-suite.log -exec cat {} +; exit 1)
+
+Alpine:
+  image: alpine:latest
+  stage: test
+  needs: [Debian]
+  before_script:
+  - echo "ipv6" >> /etc/modules
+  - apk update
+  - apk add build-base gettext gettext-dev
+  script:
+  - tar xfz gsasl-*.tar.gz
+  - cd `ls -d gsasl-* | grep -v tar.gz`
+  - ./configure --enable-gcc-warnings || (cat config.log; exit 1)
+  - make check V=1 || (find . -name test-suite.log -exec cat {} +; exit 1)
+
+Alpine-heimdal:
+  image: alpine:latest
+  stage: test
+  needs: [Debian]
+  before_script:
+  - echo "ipv6" >> /etc/modules
+  - apk update
+  - apk add build-base gettext gettext-dev heimdal-dev
+  script:
+  - tar xfz gsasl-*.tar.gz
+  - cd `ls -d gsasl-* | grep -v tar.gz`
+  - ./configure --enable-gcc-warnings --with-gssapi-impl=heimdal || (cat config.log; exit 1)
+  - grep 'USE_GS2 1' config.log
+  - make check V=1 || (find . -name test-suite.log -exec cat {} +; exit 1)
+
+ArchLinux:
+  image: archlinux:latest
+  stage: test
+  needs: [Debian]
+  before_script:
+  - pacman -Sy --noconfirm make gcc diffutils file
+  script:
+  - tar xfz gsasl-*.tar.gz
+  - cd `ls -d gsasl-* | grep -v tar.gz`
+  - mkdir b
+  - cd b
+  - ../configure --enable-gcc-warnings || (cat config.log; exit 1)
+  - make check V=1 || (find . -name test-suite.log -exec cat {} +; exit 1)
+
+Debian8:
+  image: debian:stretch-slim
+  stage: test
+  needs: [Debian]
+  before_script:
+  - apt-get update -q
+  - env DEBIAN_FRONTEND=noninteractive apt-get install -y -q make gcc
+  script:
+  - tar xfz gsasl-*.tar.gz
+  - cd `ls -d gsasl-* | grep -v tar.gz`
+  - ./configure --enable-gcc-warnings || (cat config.log; exit 1)
+  - make check V=1 || (find . -name test-suite.log -exec cat {} +; exit 1)
+
+Debian9-gss:
+  image: debian:buster-slim
+  stage: test
+  needs: [Debian]
+  before_script:
+  - apt-get update -q
+  - env DEBIAN_FRONTEND=noninteractive apt-get install -y -q make gcc libgss-dev
+  script:
+  - tar xfz gsasl-*.tar.gz
+  - cd `ls -d gsasl-* | grep -v tar.gz`
+  - ./configure --with-gssapi-impl=gss --enable-gcc-warnings || (cat config.log; exit 1)
+  - make check V=1 || (find . -name test-suite.log -exec cat {} +; exit 1)
+
+Debian-gsasl4win:
+  image: debian:bullseye
+  stage: test
+  needs: [Debian]
+  before_script:
+    - dpkg --add-architecture i386
+    - apt-get update -q
+    - env DEBIAN_FRONTEND=noninteractive apt-get install -y -q make mingw-w64 wine wine32 wine64 libwine libwine:i386 binfmt-support wine-binfmt zip
+    - update-binfmts --enable wine
+  script:
+  - mkdir windows/dist
+  - cp gsasl-*.tar.gz windows/dist/
+  - cd windows/
+  - make -f gsasl4win.mk VERSION=`echo dist/gsasl-*.tar.gz | sed -e 's/.*gsasl-//g' -e 's/.tar.gz//g'` gsasl4win32 gsasl4win64
+  artifacts:
+    expire_in: 2 weeks
+    paths:
+      - windows/gsasl-*.zip
+
+Mingw32:
+  image: debian:latest
+  stage: test
+  needs: [Debian]
+  before_script:
+    - dpkg --add-architecture i386
+    - apt-get update -q
+    - env DEBIAN_FRONTEND=noninteractive apt-get install -y -q make mingw-w64 wine wine32 libwine libwine:i386 binfmt-support wine-binfmt
+    - update-binfmts --enable wine
+  script:
+  - tar xfz gsasl-*.tar.gz
+  - cd `ls -d gsasl-* | grep -v tar.gz`
+  - mkdir b
+  - cd b
+  - ../configure --host=i686-w64-mingw32 CC='i686-w64-mingw32-gcc -static-libgcc' --enable-gcc-warnings || (cat config.log; exit 1)
+  - make WERROR_CFLAGS= check V=1 || (find . -name test-suite.log -exec cat {} +; exit 1)
+
+Mingw64:
+  image: debian:latest
+  stage: test
+  needs: [Debian]
+  before_script:
+    - apt-get update -q
+    - env DEBIAN_FRONTEND=noninteractive apt-get install -y -q make mingw-w64 wine wine64 binfmt-support wine-binfmt
+    - update-binfmts --enable wine
+  script:
+  - tar xfz gsasl-*.tar.gz
+  - cd `ls -d gsasl-* | grep -v tar.gz`
+  - mkdir b
+  - cd b
+  - ../configure --host=x86_64-w64-mingw32 --enable-gcc-warnings || (cat config.log; exit 1)
+  - make WERROR_CFLAGS= check V=1 || (find . -name test-suite.log -exec cat {} +; exit 1)
+
+Debian-interop:
+  image: debian:sid
+  stage: test
+  needs: [Debian]
+  before_script:
+    - apt-get update -q
+    - env DEBIAN_FRONTEND=noninteractive apt-get install -y -q make gcc file libntlm0-dev
+    - env DEBIAN_FRONTEND=noninteractive apt-get install -y -q msmtp swaks libauthen-sasl-perl libmailutils-dev dovecot-imapd
+  script:
+  - tar xfz gsasl-*.tar.gz
+  - cd `ls -d gsasl-* | grep -v tar.gz`
+  - mkdir b
+  - cd b
+  - ../configure --enable-gcc-warnings || (cat config.log; exit 1)
+  - make V=1 || (find . -name test-suite.log -exec cat {} +; exit 1)
+  - examples/smtp-server &
+  - rm /etc/dovecot/conf.d/10-auth.conf
+  - echo amFzOntQTEFJTn1zZXNhbTo6OjoK | base64 -d > /etc/dovecot/users
+  - echo bG9nX3BhdGggPSAvdmFyL2xvZy9kb3ZlY290LmxvZwpwcm90b2NvbCBpbWFwIHsKfQpwYXNzZGIgewogIGRyaXZlciA9IHBhc3N3ZC1maWxlCiAgYXJncyA9IC9ldGMvZG92ZWNvdC91c2Vycwp9CnVzZXJkYiB7CiAgZHJpdmVyID0gc3RhdGljCiAgYXJncyA9IHVpZD1ub2JvZHkgZ2lkPW5vZ3JvdXAgaG9tZT0vdG1wL2RvdmVjb3QvJWQvJXUKfQpkaXNhYmxlX3BsYWludGV4dF9hdXRoPW5vCmF1dGhfbWVjaGFuaXNtcyA9IHBsYWluIGxvZ2luIGRpZ2VzdC1tZDUgY3JhbS1tZDUgc2NyYW0tc2hhLTEgc2NyYW0tc2hhLTI1NiBhbm9ueW1vdXMgZXh0ZXJuYWwgeG9hdXRoMgo= | base64 -d > /etc/dovecot/local.conf
+  - service dovecot restart
+  - src/gsasl localhost 2000 --smtp --mechanism PLAIN --password sesam -d
+  - src/gsasl localhost 2000 --smtp --mechanism LOGIN --password sesam -d
+  - src/gsasl localhost 2000 --smtp --mechanism CRAM-MD5 --password sesam -d
+  - src/gsasl localhost 2000 --smtp --mechanism DIGEST-MD5 --password sesam -d --quality-of-protection="" --realm=""
+  - src/gsasl localhost 2000 --smtp --mechanism SCRAM-SHA-1 --password sesam -d
+  - src/gsasl localhost 2000 --smtp --mechanism SCRAM-SHA-256 --password sesam -d
+  - (src/gsasl localhost 2000 --smtp --mechanism PLAIN --password wrong -d 2>&1 || true) | grep 'server error'
+  - (src/gsasl localhost 2000 --smtp --mechanism LOGIN --password wrong -d 2>&1 || true) | grep 'server error'
+  - (src/gsasl localhost 2000 --smtp --mechanism CRAM-MD5 --password wrong -d 2>&1 || true) | grep 'server error'
+  - (src/gsasl localhost 2000 --smtp --mechanism DIGEST-MD5 --password wrong -d --quality-of-protection="" --realm="" 2>&1 || true) | grep 'server error'
+  - (src/gsasl localhost 2000 --smtp --mechanism SCRAM-SHA-1 --password wrong -d 2>&1 || true) | grep 'server error'
+  - (src/gsasl localhost 2000 --smtp --mechanism SCRAM-SHA-256 --password wrong -d 2>&1 || true) | grep 'server error'
+  - printf "verbose on\nconnect 127.0.0.1 2000\nehlo foo\nset username jas\nset password sesam\nauth PLAIN\nquit\n" |mailutils smtp 2>&1 | grep '235 OK \[authid'
+  - printf "verbose on\nconnect 127.0.0.1 2000\nehlo foo\nset username jas\nset password sesam\nauth LOGIN\nquit\n" |mailutils smtp 2>&1 | grep '235 OK \[authid'
+  - printf "verbose on\nconnect 127.0.0.1 2000\nehlo foo\nset username jas\nset password sesam\nauth CRAM-MD5\nquit\n" |mailutils smtp 2>&1 | grep '235 OK \[authid'
+  - printf "verbose on\nconnect 127.0.0.1 2000\nehlo foo\nset username jas\nset password sesam\nauth DIGEST-MD5\nquit\n" |mailutils smtp 2>&1 | grep '235 OK \[authid'
+  - printf "verbose on\nconnect 127.0.0.1 2000\nehlo foo\nset username jas\nset password sesam\nauth SCRAM-SHA-1\nquit\n" |mailutils smtp 2>&1 | grep '235 OK \[authid'
+  - printf "verbose on\nconnect 127.0.0.1 2000\nehlo foo\nset username jas\nset password sesam\nauth SCRAM-SHA-256\nquit\n" | LD_PRELOAD=lib/src/.libs/libgsasl.so mailutils smtp 2>&1 | grep '235 OK \[authid'
+  - printf "verbose on\nconnect 127.0.0.1 2000\nehlo foo\nset username jas\nset password wrong\nauth PLAIN\nquit\n" |mailutils smtp 2>&1 | grep 'Error authenticating user'
+  - printf "verbose on\nconnect 127.0.0.1 2000\nehlo foo\nset username jas\nset password wrong\nauth LOGIN\nquit\n" |mailutils smtp 2>&1 | grep 'Error authenticating user'
+  - printf "verbose on\nconnect 127.0.0.1 2000\nehlo foo\nset username jas\nset password wrong\nauth CRAM-MD5\nquit\n" |mailutils smtp 2>&1 | grep 'Error authenticating user'
+  - printf "verbose on\nconnect 127.0.0.1 2000\nehlo foo\nset username jas\nset password wrong\nauth DIGEST-MD5\nquit\n" |mailutils smtp 2>&1 | grep 'Error authenticating user'
+  - printf "verbose on\nconnect 127.0.0.1 2000\nehlo foo\nset username jas\nset password wrong\nauth SCRAM-SHA-1\nquit\n" |mailutils smtp 2>&1 | grep 'Error authenticating user'
+  - printf "verbose on\nconnect 127.0.0.1 2000\nehlo foo\nset username jas\nset password wrong\nauth SCRAM-SHA-256\nquit\n" | LD_PRELOAD=lib/src/.libs/libgsasl.so mailutils smtp 2>&1 | grep 'Error authenticating user'
+  - (swaks --to user@example.com --server 127.0.0.1:2000 --auth CRAM-MD5 --auth-user jas --auth-password wrong 2>&1 || true) | grep 'No authentication type succeeded'
+  - (swaks --to user@example.com --server 127.0.0.1:2000 --auth DIGEST-MD5 --auth-user jas --auth-password wrong 2>&1 || true) | grep 'No authentication type succeeded'
+  - (swaks --to user@example.com --server 127.0.0.1:2000 --auth PLAIN --auth-user jas --auth-password wrong 2>&1 || true) | grep 'No authentication type succeeded'
+  - (swaks --to user@example.com --server 127.0.0.1:2000 --auth LOGIN --auth-user jas --auth-password wrong 2>&1 || true) | grep 'No authentication type succeeded'
+  - swaks --to user@example.com --server 127.0.0.1:2000 --auth CRAM-MD5 --auth-user jas --auth-password sesam
+  - swaks --to user@example.com --server 127.0.0.1:2000 --auth DIGEST-MD5 --auth-user jas --auth-password sesam
+  - swaks --to user@example.com --server 127.0.0.1:2000 --auth PLAIN --auth-user jas --auth-password sesam
+  - swaks --to user@example.com --server 127.0.0.1:2000 --auth LOGIN --auth-user jas --auth-password sesam
+  - echo foo | msmtp --host=localhost --port=2000 --auth=cram-md5 --debug -f user@example.com user@example.com --user=jas  --passwordeval 'echo sesam'
+  - echo foo | msmtp --host=localhost --port=2000 --auth=digest-md5 --debug -f user@example.com user@example.com --user=jas  --passwordeval 'echo sesam'
+  - echo foo | msmtp --host=localhost --port=2000 --auth=scram-sha-1 --debug -f user@example.com user@example.com --user=jas  --passwordeval 'echo sesam'
+  - echo foo | msmtp --host=localhost --port=2000 --auth=plain --debug -f user@example.com user@example.com --user=jas  --passwordeval 'echo sesam'
+  - echo foo | msmtp --host=localhost --port=2000 --auth=login --debug -f user@example.com user@example.com --user=jas  --passwordeval 'echo sesam'
+  - tail -F /var/log/dovecot.log &
+  - src/gsasl localhost --no-starttls --mechanism PLAIN -a jas --password sesam -d
+  - src/gsasl localhost --no-starttls --mechanism LOGIN -a jas --password sesam -d
+  - src/gsasl localhost --no-starttls --mechanism CRAM-MD5 -a jas --password sesam -d
+  - src/gsasl localhost --no-starttls --mechanism DIGEST-MD5 -a jas --password sesam -d --quality-of-protection="" --realm=""
+  - src/gsasl localhost --no-starttls --mechanism SCRAM-SHA-1 -a jas --password sesam -d
+  - src/gsasl localhost --no-starttls --mechanism SCRAM-SHA-256 -a jas --password sesam -d
+  - src/gsasl localhost --no-starttls --mechanism ANONYMOUS -n user -d
