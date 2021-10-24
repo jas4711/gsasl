@@ -27,7 +27,7 @@
 
 # define GSASL_EXTERNAL_NAME "EXTERNAL"
 
-extern Gsasl_mechanism gsasl_external_mechanism;
+extern Gsasl_mechanism _gsasl_external_mechanism;
 
 extern int _gsasl_external_client_step (Gsasl_session * sctx,
 					void *mech_data,

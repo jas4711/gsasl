@@ -27,7 +27,7 @@
 /* Get specification. */
 #include "x-ntlm.h"
 
-Gsasl_mechanism gsasl_ntlm_mechanism = {
+Gsasl_mechanism _gsasl_ntlm_mechanism = {
   GSASL_NTLM_NAME,
   {
    NULL,

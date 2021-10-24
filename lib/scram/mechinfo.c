@@ -28,7 +28,7 @@
 #include "scram.h"
 
 #ifdef USE_SCRAM_SHA1
-Gsasl_mechanism gsasl_scram_sha1_mechanism = {
+Gsasl_mechanism _gsasl_scram_sha1_mechanism = {
   GSASL_SCRAM_SHA1_NAME,
   {
    NULL,
@@ -64,7 +64,7 @@ Gsasl_mechanism gsasl_scram_sha1_mechanism = {
 
 
 #ifdef USE_SCRAM_SHA1
-Gsasl_mechanism gsasl_scram_sha1_plus_mechanism = {
+Gsasl_mechanism _gsasl_scram_sha1_plus_mechanism = {
   GSASL_SCRAM_SHA1_PLUS_NAME,
   {
    NULL,
@@ -99,7 +99,7 @@ Gsasl_mechanism gsasl_scram_sha1_plus_mechanism = {
 #endif
 
 #ifdef USE_SCRAM_SHA256
-Gsasl_mechanism gsasl_scram_sha256_mechanism = {
+Gsasl_mechanism _gsasl_scram_sha256_mechanism = {
   GSASL_SCRAM_SHA256_NAME,
   {
    NULL,
@@ -135,7 +135,7 @@ Gsasl_mechanism gsasl_scram_sha256_mechanism = {
 
 
 #ifdef USE_SCRAM_SHA256
-Gsasl_mechanism gsasl_scram_sha256_plus_mechanism = {
+Gsasl_mechanism _gsasl_scram_sha256_plus_mechanism = {
   GSASL_SCRAM_SHA256_PLUS_NAME,
   {
    NULL,

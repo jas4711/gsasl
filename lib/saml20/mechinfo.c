@@ -27,7 +27,7 @@
 /* Get specification. */
 #include "saml20.h"
 
-Gsasl_mechanism gsasl_saml20_mechanism = {
+Gsasl_mechanism _gsasl_saml20_mechanism = {
   GSASL_SAML20_NAME,
   {
    NULL,

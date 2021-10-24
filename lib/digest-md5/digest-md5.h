@@ -27,7 +27,7 @@
 
 # define GSASL_DIGEST_MD5_NAME "DIGEST-MD5"
 
-extern Gsasl_mechanism gsasl_digest_md5_mechanism;
+extern Gsasl_mechanism _gsasl_digest_md5_mechanism;
 
 extern int _gsasl_digest_md5_client_start (Gsasl_session * sctx,
 					   void **mech_data);

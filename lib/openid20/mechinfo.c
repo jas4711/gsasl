@@ -27,7 +27,7 @@
 /* Get specification. */
 #include "openid20.h"
 
-Gsasl_mechanism gsasl_openid20_mechanism = {
+Gsasl_mechanism _gsasl_openid20_mechanism = {
   GSASL_OPENID20_NAME,
   {
    NULL,

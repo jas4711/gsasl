@@ -27,7 +27,7 @@
 /* Get specification. */
 #include "login.h"
 
-Gsasl_mechanism gsasl_login_mechanism = {
+Gsasl_mechanism _gsasl_login_mechanism = {
   GSASL_LOGIN_NAME,
   {
    NULL,

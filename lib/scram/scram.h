@@ -30,8 +30,8 @@
 #  define GSASL_SCRAM_SHA1_NAME "SCRAM-SHA-1"
 #  define GSASL_SCRAM_SHA1_PLUS_NAME "SCRAM-SHA-1-PLUS"
 
-extern Gsasl_mechanism gsasl_scram_sha1_mechanism;
-extern Gsasl_mechanism gsasl_scram_sha1_plus_mechanism;
+extern Gsasl_mechanism _gsasl_scram_sha1_mechanism;
+extern Gsasl_mechanism _gsasl_scram_sha1_plus_mechanism;
 
 int _gsasl_scram_sha1_client_start (Gsasl_session * sctx, void **mech_data);
 
@@ -67,8 +67,8 @@ void _gsasl_scram_server_finish (Gsasl_session * sctx, void *mech_data);
 #  define GSASL_SCRAM_SHA256_NAME "SCRAM-SHA-256"
 #  define GSASL_SCRAM_SHA256_PLUS_NAME "SCRAM-SHA-256-PLUS"
 
-extern Gsasl_mechanism gsasl_scram_sha256_mechanism;
-extern Gsasl_mechanism gsasl_scram_sha256_plus_mechanism;
+extern Gsasl_mechanism _gsasl_scram_sha256_mechanism;
+extern Gsasl_mechanism _gsasl_scram_sha256_plus_mechanism;
 
 int _gsasl_scram_sha256_client_start (Gsasl_session * sctx, void **mech_data);
 

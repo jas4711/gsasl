@@ -27,7 +27,7 @@
 /* Get specification. */
 #include "external.h"
 
-Gsasl_mechanism gsasl_external_mechanism = {
+Gsasl_mechanism _gsasl_external_mechanism = {
   GSASL_EXTERNAL_NAME,
   {
    NULL,

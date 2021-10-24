@@ -27,7 +27,7 @@
 
 # define GSASL_ANONYMOUS_NAME "ANONYMOUS"
 
-extern Gsasl_mechanism gsasl_anonymous_mechanism;
+extern Gsasl_mechanism _gsasl_anonymous_mechanism;
 
 extern int _gsasl_anonymous_client_step (Gsasl_session * sctx,
 					 void *mech_data,

@@ -27,7 +27,7 @@
 /* Get specification. */
 #include "anonymous.h"
 
-Gsasl_mechanism gsasl_anonymous_mechanism = {
+Gsasl_mechanism _gsasl_anonymous_mechanism = {
   GSASL_ANONYMOUS_NAME,
   {
    NULL,

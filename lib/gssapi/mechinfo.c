@@ -27,7 +27,7 @@
 /* Get specification. */
 #include "x-gssapi.h"
 
-Gsasl_mechanism gsasl_gssapi_mechanism = {
+Gsasl_mechanism _gsasl_gssapi_mechanism = {
   GSASL_GSSAPI_NAME,
   {
    NULL,

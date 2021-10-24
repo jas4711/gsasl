@@ -27,7 +27,7 @@
 
 # define GSASL_GSSAPI_NAME "GSSAPI"
 
-extern Gsasl_mechanism gsasl_gssapi_mechanism;
+extern Gsasl_mechanism _gsasl_gssapi_mechanism;
 
 extern int _gsasl_gssapi_client_start (Gsasl_session * sctx,
 				       void **mech_data);

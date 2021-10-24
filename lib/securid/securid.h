@@ -27,7 +27,7 @@
 
 # define GSASL_SECURID_NAME "SECURID"
 
-extern Gsasl_mechanism gsasl_securid_mechanism;
+extern Gsasl_mechanism _gsasl_securid_mechanism;
 
 extern int _gsasl_securid_client_start (Gsasl_session * sctx,
 					void **mech_data);

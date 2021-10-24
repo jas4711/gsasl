@@ -27,7 +27,7 @@
 
 # define GSASL_LOGIN_NAME "LOGIN"
 
-extern Gsasl_mechanism gsasl_login_mechanism;
+extern Gsasl_mechanism _gsasl_login_mechanism;
 
 extern int _gsasl_login_client_start (Gsasl_session * sctx, void **mech_data);
 extern int _gsasl_login_client_step (Gsasl_session * sctx,

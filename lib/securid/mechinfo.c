@@ -27,7 +27,7 @@
 /* Get specification. */
 #include "securid.h"
 
-Gsasl_mechanism gsasl_securid_mechanism = {
+Gsasl_mechanism _gsasl_securid_mechanism = {
   GSASL_SECURID_NAME,
   {
    NULL,

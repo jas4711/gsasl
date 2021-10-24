@@ -27,7 +27,7 @@
 
 # define GSASL_GS2_KRB5_NAME "GS2-KRB5"
 
-extern Gsasl_mechanism gsasl_gs2_krb5_mechanism;
+extern Gsasl_mechanism _gsasl_gs2_krb5_mechanism;
 
 extern int _gsasl_gs2_client_start (Gsasl_session * sctx, void **mech_data);
 extern int _gsasl_gs2_client_step (Gsasl_session * sctx,

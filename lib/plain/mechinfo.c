@@ -27,7 +27,7 @@
 /* Get specification. */
 #include "plain.h"
 
-Gsasl_mechanism gsasl_plain_mechanism = {
+Gsasl_mechanism _gsasl_plain_mechanism = {
   GSASL_PLAIN_NAME,
   {
    NULL,

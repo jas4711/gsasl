@@ -27,7 +27,7 @@
 
 # define GSASL_SAML20_NAME "SAML20"
 
-extern Gsasl_mechanism gsasl_saml20_mechanism;
+extern Gsasl_mechanism _gsasl_saml20_mechanism;
 
 extern int _gsasl_saml20_client_start (Gsasl_session * sctx,
 				       void **mech_data);

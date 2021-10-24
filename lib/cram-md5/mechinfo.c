@@ -27,7 +27,7 @@
 /* Get specification. */
 #include "cram-md5.h"
 
-Gsasl_mechanism gsasl_cram_md5_mechanism = {
+Gsasl_mechanism _gsasl_cram_md5_mechanism = {
   GSASL_CRAM_MD5_NAME,
   {
    NULL,

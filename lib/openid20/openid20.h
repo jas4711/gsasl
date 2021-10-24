@@ -27,7 +27,7 @@
 
 # define GSASL_OPENID20_NAME "OPENID20"
 
-extern Gsasl_mechanism gsasl_openid20_mechanism;
+extern Gsasl_mechanism _gsasl_openid20_mechanism;
 
 extern int _gsasl_openid20_client_start (Gsasl_session * sctx,
 					 void **mech_data);

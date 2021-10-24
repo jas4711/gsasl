@@ -27,7 +27,7 @@
 
 # define GSASL_NTLM_NAME "NTLM"
 
-extern Gsasl_mechanism gsasl_ntlm_mechanism;
+extern Gsasl_mechanism _gsasl_ntlm_mechanism;
 
 extern int _gsasl_ntlm_client_start (Gsasl_session * sctx, void **mech_data);
 extern int _gsasl_ntlm_client_step (Gsasl_session * sctx,

@@ -27,7 +27,7 @@
 /* Get specification. */
 #include "digest-md5.h"
 
-Gsasl_mechanism gsasl_digest_md5_mechanism = {
+Gsasl_mechanism _gsasl_digest_md5_mechanism = {
   GSASL_DIGEST_MD5_NAME,
   {
    NULL,
