@@ -179,7 +179,7 @@ callback (Gsasl * ctx _GL_UNUSED, Gsasl_session * sctx, Gsasl_property prop)
 		gsasl_property_fast (sctx, GSASL_AUTHZID),
 		gsasl_property_fast (sctx, GSASL_GSSAPI_DISPLAY_NAME));
 	str = readutf8line ("Validate GSS-API user? (y/n) ");
-	if (strcmp (str, "y") == 0 || strcmp (str, "Y") == 0)
+	if (str && (strcmp (str, "y") == 0 || strcmp (str, "Y") == 0))
 	  rc = GSASL_OK;
 	else
 	  rc = GSASL_AUTHENTICATION_ERROR;
