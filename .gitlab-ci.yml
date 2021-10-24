@@ -225,7 +225,7 @@ Debian9-gss:
 Debian11-armcross:
   image: debian:bullseye-slim
   stage: test
-  needs: [Debian11]
+  needs: [Debian]
   before_script:
   - apt-get update -qq
   - env DEBIAN_FRONTEND=noninteractive apt-get install -y -q make gcc-arm-linux-gnueabi qemu-user qemu-user-binfmt file
