@@ -21,11 +21,11 @@
  */
 
 #ifndef X_NTLM_H
-#define X_NTLM_H
+# define X_NTLM_H
 
-#include <gsasl.h>
+# include <gsasl.h>
 
-#define GSASL_NTLM_NAME "NTLM"
+# define GSASL_NTLM_NAME "NTLM"
 
 extern Gsasl_mechanism gsasl_ntlm_mechanism;
 

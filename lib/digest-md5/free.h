@@ -21,10 +21,10 @@
  */
 
 #ifndef DIGEST_MD5_FREE_H
-#define DIGEST_MD5_FREE_H
+# define DIGEST_MD5_FREE_H
 
 /* Get token types. */
-#include "tokens.h"
+# include "tokens.h"
 
 extern void digest_md5_free_challenge (digest_md5_challenge * c);
 

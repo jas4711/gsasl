@@ -21,10 +21,10 @@
  */
 
 #ifndef SCRAM_TOKENS_H
-#define SCRAM_TOKENS_H
+# define SCRAM_TOKENS_H
 
 /* Get size_t. */
-#include <stddef.h>
+# include <stddef.h>
 
 struct scram_client_first
 {

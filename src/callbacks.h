@@ -19,9 +19,9 @@
  */
 
 #ifndef CALLBACKS_H
-#define CALLBACKS_H
+# define CALLBACKS_H
 
-#include <gsasl.h>		/* Gsasl_session_ctx */
+# include <gsasl.h>		/* Gsasl_session_ctx */
 
 extern int callback (Gsasl * ctx, Gsasl_session * sctx, Gsasl_property prop);
 extern char *readutf8pass (const char *prompt);

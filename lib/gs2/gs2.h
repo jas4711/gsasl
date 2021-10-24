@@ -21,11 +21,11 @@
  */
 
 #ifndef GS2_H
-#define GS2_H
+# define GS2_H
 
-#include <gsasl.h>
+# include <gsasl.h>
 
-#define GSASL_GS2_KRB5_NAME "GS2-KRB5"
+# define GSASL_GS2_KRB5_NAME "GS2-KRB5"
 
 extern Gsasl_mechanism gsasl_gs2_krb5_mechanism;
 

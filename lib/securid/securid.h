@@ -21,11 +21,11 @@
  */
 
 #ifndef SECURID_H
-#define SECURID_H
+# define SECURID_H
 
-#include <gsasl.h>
+# include <gsasl.h>
 
-#define GSASL_SECURID_NAME "SECURID"
+# define GSASL_SECURID_NAME "SECURID"
 
 extern Gsasl_mechanism gsasl_securid_mechanism;
 

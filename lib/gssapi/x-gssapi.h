@@ -21,11 +21,11 @@
  */
 
 #ifndef X_GSSAPI_H
-#define X_GSSAPI_H
+# define X_GSSAPI_H
 
-#include <gsasl.h>
+# include <gsasl.h>
 
-#define GSASL_GSSAPI_NAME "GSSAPI"
+# define GSASL_GSSAPI_NAME "GSSAPI"
 
 extern Gsasl_mechanism gsasl_gssapi_mechanism;
 

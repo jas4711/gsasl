@@ -21,11 +21,11 @@
  */
 
 #ifndef LOGIN_H
-#define LOGIN_H
+# define LOGIN_H
 
-#include <gsasl.h>
+# include <gsasl.h>
 
-#define GSASL_LOGIN_NAME "LOGIN"
+# define GSASL_LOGIN_NAME "LOGIN"
 
 extern Gsasl_mechanism gsasl_login_mechanism;
 

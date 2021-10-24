@@ -21,10 +21,10 @@
  */
 
 #ifndef SCRAM_PRINTER_H
-#define SCRAM_PRINTER_H
+# define SCRAM_PRINTER_H
 
 /* Get token types. */
-#include "tokens.h"
+# include "tokens.h"
 
 extern int
 scram_print_client_first (struct scram_client_first *cf, char **out);

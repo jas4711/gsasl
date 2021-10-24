@@ -21,9 +21,9 @@
  */
 
 #ifndef SCRAM_TOOLS_H
-#define SCRAM_TOOLS_H
+# define SCRAM_TOOLS_H
 
-#include <gsasl.h>
+# include <gsasl.h>
 
 extern int
 set_saltedpassword (Gsasl_session * sctx,

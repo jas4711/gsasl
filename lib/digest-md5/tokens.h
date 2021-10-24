@@ -21,13 +21,13 @@
  */
 
 #ifndef DIGEST_MD5_TOKENS_H
-#define DIGEST_MD5_TOKENS_H
+# define DIGEST_MD5_TOKENS_H
 
 /* Get size_t. */
-#include <stddef.h>
+# include <stddef.h>
 
 /* Length of MD5 output. */
-#define DIGEST_MD5_LENGTH 16
+# define DIGEST_MD5_LENGTH 16
 
 /* Quality of Protection types. */
 enum digest_md5_qop
@@ -92,7 +92,7 @@ struct digest_md5_challenge
 };
 typedef struct digest_md5_challenge digest_md5_challenge;
 
-#define DIGEST_MD5_RESPONSE_LENGTH 32
+# define DIGEST_MD5_RESPONSE_LENGTH 32
 
 /*
  * digest-response  = 1#( username | realm | nonce | cnonce |

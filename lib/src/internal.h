@@ -21,20 +21,20 @@
  */
 
 #ifndef INTERNAL_H
-#define INTERNAL_H
+# define INTERNAL_H
 
-#ifdef HAVE_CONFIG_H
-#include "config.h"
-#endif
+# ifdef HAVE_CONFIG_H
+#  include "config.h"
+# endif
 
 /* Get specifications. */
-#include "gsasl.h"
+# include "gsasl.h"
 
 /* Get malloc, free, ... */
-#include <stdlib.h>
+# include <stdlib.h>
 
 /* Get strlen, strcpy, ... */
-#include <string.h>
+# include <string.h>
 
 /* Main library handle. */
 struct Gsasl

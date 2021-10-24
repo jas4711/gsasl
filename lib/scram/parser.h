@@ -21,10 +21,10 @@
  */
 
 #ifndef SCRAM_PARSER_H
-#define SCRAM_PARSER_H
+# define SCRAM_PARSER_H
 
 /* Get token types. */
-#include "tokens.h"
+# include "tokens.h"
 
 extern int scram_parse_client_first (const char *str, size_t len,
 				     struct scram_client_first *cf);

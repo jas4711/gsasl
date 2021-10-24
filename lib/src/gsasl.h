@@ -21,7 +21,7 @@
  */
 
 #ifndef GSASL_H
-#define GSASL_H
+# define GSASL_H
 
 /**
  * SECTION:gsasl
@@ -31,12 +31,12 @@
  * The main library interfaces are declared in gsasl.h.
  */
 
-#include <stdio.h>		/* FILE */
-#include <stddef.h>		/* size_t */
-#include <unistd.h>		/* ssize_t */
+# include <stdio.h>		/* FILE */
+# include <stddef.h>		/* size_t */
+# include <unistd.h>		/* ssize_t */
 
 /* Get version symbols. */
-#include <gsasl-version.h>
+# include <gsasl-version.h>
 
 /**
  * GSASL_API:
@@ -48,22 +48,22 @@
  *
  * https://www.gnu.org/software/gnulib/manual/html_node/Exported-Symbols-of-Shared-Libraries.html
  */
-#ifndef GSASL_API
-#if defined GSASL_BUILDING && defined HAVE_VISIBILITY && HAVE_VISIBILITY
-#define GSASL_API __attribute__((__visibility__("default")))
-#elif defined GSASL_BUILDING && defined _MSC_VER && ! defined GSASL_STATIC
-#define GSASL_API __declspec(dllexport)
-#elif defined _MSC_VER && ! defined GSASL_STATIC
-#define GSASL_API __declspec(dllimport)
-#else
-#define GSASL_API
-#endif
-#endif
+# ifndef GSASL_API
+#  if defined GSASL_BUILDING && defined HAVE_VISIBILITY && HAVE_VISIBILITY
+#   define GSASL_API __attribute__((__visibility__("default")))
+#  elif defined GSASL_BUILDING && defined _MSC_VER && ! defined GSASL_STATIC
+#   define GSASL_API __declspec(dllexport)
+#  elif defined _MSC_VER && ! defined GSASL_STATIC
+#   define GSASL_API __declspec(dllimport)
+#  else
+#   define GSASL_API
+#  endif
+# endif
 
-#ifdef __cplusplus
+# ifdef __cplusplus
 extern "C"
 {
-#endif
+# endif
 
   /* RFC 2222: SASL mechanisms are named by strings, from 1 to 20
    * characters in length, consisting of upper-case letters, digits,
@@ -488,10 +488,10 @@ extern "C"
   extern GSASL_API void gsasl_free (void *ptr);
 
   /* Get the mechanism API. */
-#include <gsasl-mech.h>
+# include <gsasl-mech.h>
 
-#ifdef __cplusplus
+# ifdef __cplusplus
 }
-#endif
+# endif
 
 #endif				/* GSASL_H */

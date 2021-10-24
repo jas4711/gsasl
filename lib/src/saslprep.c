@@ -24,12 +24,12 @@
 
 #if HAVE_LIBIDN
 
-#include <stringprep.h>
+# include <stringprep.h>
 
-#if defined HAVE_PR29_H && defined HAVE_PR29_8Z
-#include <pr29.h>
+# if defined HAVE_PR29_H && defined HAVE_PR29_8Z
+#  include <pr29.h>
 
-#endif
+# endif
 
 /**
  * gsasl_saslprep:
@@ -65,7 +65,7 @@ gsasl_saslprep (const char *in, Gsasl_saslprep_flags flags,
       return GSASL_SASLPREP_ERROR;
     }
 
-#if defined HAVE_PR29_8Z && defined HAVE_PR29_H
+# if defined HAVE_PR29_8Z && defined HAVE_PR29_H
   if (pr29_8z (*out) != PR29_SUCCESS)
     {
       free (*out);
@@ -75,7 +75,7 @@ gsasl_saslprep (const char *in, Gsasl_saslprep_flags flags,
 
       return GSASL_SASLPREP_ERROR;
     }
-#endif
+# endif
 
   return GSASL_OK;
 }

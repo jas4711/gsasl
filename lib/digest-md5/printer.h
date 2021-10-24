@@ -21,10 +21,10 @@
  */
 
 #ifndef DIGEST_MD5_PRINTER_H
-#define DIGEST_MD5_PRINTER_H
+# define DIGEST_MD5_PRINTER_H
 
 /* Get token types. */
-#include "tokens.h"
+# include "tokens.h"
 
 extern char *digest_md5_print_challenge (digest_md5_challenge * challenge);
 

@@ -21,11 +21,11 @@
  */
 
 #ifndef EXTERNAL_H
-#define EXTERNAL_H
+# define EXTERNAL_H
 
-#include <gsasl.h>
+# include <gsasl.h>
 
-#define GSASL_EXTERNAL_NAME "EXTERNAL"
+# define GSASL_EXTERNAL_NAME "EXTERNAL"
 
 extern Gsasl_mechanism gsasl_external_mechanism;
 

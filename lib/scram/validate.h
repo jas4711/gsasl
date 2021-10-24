@@ -21,13 +21,13 @@
  */
 
 #ifndef SCRAM_VALIDATE_H
-#define SCRAM_VALIDATE_H
+# define SCRAM_VALIDATE_H
 
 /* Get token types. */
-#include "tokens.h"
+# include "tokens.h"
 
 /* Get bool. */
-#include <stdbool.h>
+# include <stdbool.h>
 
 extern bool scram_valid_client_first (struct scram_client_first *cf);
 

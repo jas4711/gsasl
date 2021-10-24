@@ -21,10 +21,10 @@
  */
 
 #ifndef DIGEST_MD5_VALIDATE_H
-#define DIGEST_MD5_VALIDATE_H
+# define DIGEST_MD5_VALIDATE_H
 
 /* Get token types. */
-#include "tokens.h"
+# include "tokens.h"
 
 extern int digest_md5_validate_challenge (digest_md5_challenge * c);
 

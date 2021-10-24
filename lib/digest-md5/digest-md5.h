@@ -21,11 +21,11 @@
  */
 
 #ifndef DIGEST_MD5_H
-#define DIGEST_MD5_H
+# define DIGEST_MD5_H
 
-#include <gsasl.h>
+# include <gsasl.h>
 
-#define GSASL_DIGEST_MD5_NAME "DIGEST-MD5"
+# define GSASL_DIGEST_MD5_NAME "DIGEST-MD5"
 
 extern Gsasl_mechanism gsasl_digest_md5_mechanism;
 

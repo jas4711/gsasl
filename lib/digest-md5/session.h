@@ -21,10 +21,10 @@
  */
 
 #ifndef DIGEST_MD5_SESSION_H
-#define DIGEST_MD5_SESSION_H
+# define DIGEST_MD5_SESSION_H
 
 /* Get token types. */
-#include "tokens.h"
+# include "tokens.h"
 
 extern int digest_md5_encode (const char *input, size_t input_len,
 			      char **output, size_t *output_len,

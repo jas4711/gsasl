@@ -21,15 +21,15 @@
  */
 
 #ifndef MECHTOOLS_H
-#define MECHTOOLS_H
+# define MECHTOOLS_H
 
 /* Get size_t. */
-#include <stddef.h>
+# include <stddef.h>
 
 /* Get bool. */
-#include <stdbool.h>
+# include <stdbool.h>
 
-#include <gsasl.h>
+# include <gsasl.h>
 
 extern int _gsasl_parse_gs2_header (const char *data, size_t len,
 				    char **authzid, size_t *headerlen);

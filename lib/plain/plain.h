@@ -21,11 +21,11 @@
  */
 
 #ifndef PLAIN_H
-#define PLAIN_H
+# define PLAIN_H
 
-#include <gsasl.h>
+# include <gsasl.h>
 
-#define GSASL_PLAIN_NAME "PLAIN"
+# define GSASL_PLAIN_NAME "PLAIN"
 
 extern Gsasl_mechanism gsasl_plain_mechanism;
 

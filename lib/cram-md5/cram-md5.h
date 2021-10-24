@@ -21,11 +21,11 @@
  */
 
 #ifndef CRAM_MD5_H
-#define CRAM_MD5_H
+# define CRAM_MD5_H
 
-#include <gsasl.h>
+# include <gsasl.h>
 
-#define GSASL_CRAM_MD5_NAME "CRAM-MD5"
+# define GSASL_CRAM_MD5_NAME "CRAM-MD5"
 
 extern Gsasl_mechanism gsasl_cram_md5_mechanism;
 

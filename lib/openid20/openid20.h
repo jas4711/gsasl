@@ -21,11 +21,11 @@
  */
 
 #ifndef OPENID20_H
-#define OPENID20_H
+# define OPENID20_H
 
-#include <gsasl.h>
+# include <gsasl.h>
 
-#define GSASL_OPENID20_NAME "OPENID20"
+# define GSASL_OPENID20_NAME "OPENID20"
 
 extern Gsasl_mechanism gsasl_openid20_mechanism;
 

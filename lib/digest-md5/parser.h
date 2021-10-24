@@ -21,10 +21,10 @@
  */
 
 #ifndef DIGEST_MD5_PARSER_H
-#define DIGEST_MD5_PARSER_H
+# define DIGEST_MD5_PARSER_H
 
 /* Get token types. */
-#include "tokens.h"
+# include "tokens.h"
 
 extern int digest_md5_getsubopt (char **optionp,
 				 const char *const *tokens, char **valuep);

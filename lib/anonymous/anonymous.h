@@ -21,11 +21,11 @@
  */
 
 #ifndef ANONYMOUS_H
-#define ANONYMOUS_H
+# define ANONYMOUS_H
 
-#include <gsasl.h>
+# include <gsasl.h>
 
-#define GSASL_ANONYMOUS_NAME "ANONYMOUS"
+# define GSASL_ANONYMOUS_NAME "ANONYMOUS"
 
 extern Gsasl_mechanism gsasl_anonymous_mechanism;
 

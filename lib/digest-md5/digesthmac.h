@@ -21,10 +21,10 @@
  */
 
 #ifndef DIGEST_MD5_DIGESTHMAC_H
-#define DIGEST_MD5_DIGESTHMAC_H
+# define DIGEST_MD5_DIGESTHMAC_H
 
 /* Get token types. */
-#include "tokens.h"
+# include "tokens.h"
 
 /* Compute in 33 bytes large array OUTPUT the DIGEST-MD5 response
    value.  SECRET holds the 16 bytes MD5 hash SS, i.e.,

@@ -21,7 +21,7 @@
  */
 
 #ifndef GSASL_MECH_H
-#define GSASL_MECH_H
+# define GSASL_MECH_H
 
 /**
  * SECTION:gsasl-mech

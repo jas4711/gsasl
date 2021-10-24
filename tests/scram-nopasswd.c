@@ -22,7 +22,7 @@
    password both in client and server mode. */
 
 #ifdef HAVE_CONFIG_H
-#include "config.h"
+# include "config.h"
 #endif
 
 #include <stdio.h>

@@ -21,7 +21,7 @@
  */
 
 #ifdef HAVE_CONFIG_H
-#include "config.h"
+# include "config.h"
 #endif
 
 /* Get specification. */
@@ -33,30 +33,30 @@ Gsasl_mechanism gsasl_scram_sha1_mechanism = {
   {
    NULL,
    NULL,
-#ifdef USE_CLIENT
+# ifdef USE_CLIENT
    _gsasl_scram_sha1_client_start,
    _gsasl_scram_client_step,
    _gsasl_scram_client_finish,
-#else
+# else
    NULL,
    NULL,
    NULL,
-#endif
+# endif
    NULL,
    NULL}
   ,
   {
    NULL,
    NULL,
-#ifdef USE_SERVER
+# ifdef USE_SERVER
    _gsasl_scram_sha1_server_start,
    _gsasl_scram_server_step,
    _gsasl_scram_server_finish,
-#else
+# else
    NULL,
    NULL,
    NULL,
-#endif
+# endif
    NULL,
    NULL}
 };
@@ -69,30 +69,30 @@ Gsasl_mechanism gsasl_scram_sha1_plus_mechanism = {
   {
    NULL,
    NULL,
-#ifdef USE_CLIENT
+# ifdef USE_CLIENT
    _gsasl_scram_sha1_plus_client_start,
    _gsasl_scram_client_step,
    _gsasl_scram_client_finish,
-#else
+# else
    NULL,
    NULL,
    NULL,
-#endif
+# endif
    NULL,
    NULL}
   ,
   {
    NULL,
    NULL,
-#ifdef USE_SERVER
+# ifdef USE_SERVER
    _gsasl_scram_sha1_plus_server_start,
    _gsasl_scram_server_step,
    _gsasl_scram_server_finish,
-#else
+# else
    NULL,
    NULL,
    NULL,
-#endif
+# endif
    NULL,
    NULL}
 };
@@ -104,30 +104,30 @@ Gsasl_mechanism gsasl_scram_sha256_mechanism = {
   {
    NULL,
    NULL,
-#ifdef USE_CLIENT
+# ifdef USE_CLIENT
    _gsasl_scram_sha256_client_start,
    _gsasl_scram_client_step,
    _gsasl_scram_client_finish,
-#else
+# else
    NULL,
    NULL,
    NULL,
-#endif
+# endif
    NULL,
    NULL}
   ,
   {
    NULL,
    NULL,
-#ifdef USE_SERVER
+# ifdef USE_SERVER
    _gsasl_scram_sha256_server_start,
    _gsasl_scram_server_step,
    _gsasl_scram_server_finish,
-#else
+# else
    NULL,
    NULL,
    NULL,
-#endif
+# endif
    NULL,
    NULL}
 };
@@ -140,30 +140,30 @@ Gsasl_mechanism gsasl_scram_sha256_plus_mechanism = {
   {
    NULL,
    NULL,
-#ifdef USE_CLIENT
+# ifdef USE_CLIENT
    _gsasl_scram_sha256_plus_client_start,
    _gsasl_scram_client_step,
    _gsasl_scram_client_finish,
-#else
+# else
    NULL,
    NULL,
    NULL,
-#endif
+# endif
    NULL,
    NULL}
   ,
   {
    NULL,
    NULL,
-#ifdef USE_SERVER
+# ifdef USE_SERVER
    _gsasl_scram_sha256_plus_server_start,
    _gsasl_scram_server_step,
    _gsasl_scram_server_finish,
-#else
+# else
    NULL,
    NULL,
    NULL,
-#endif
+# endif
    NULL,
    NULL}
 };
