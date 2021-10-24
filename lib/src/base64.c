@@ -43,7 +43,7 @@
 int
 gsasl_base64_to (const char *in, size_t inlen, char **out, size_t *outlen)
 {
-  size_t len = base64_encode_alloc (in, inlen, out);
+  idx_t len = base64_encode_alloc (in, inlen, out);
 
   if (outlen)
     *outlen = len;
@@ -73,10 +73,14 @@ gsasl_base64_to (const char *in, size_t inlen, char **out, size_t *outlen)
 int
 gsasl_base64_from (const char *in, size_t inlen, char **out, size_t *outlen)
 {
-  int ok = base64_decode_alloc (in, inlen, out, outlen);
+  idx_t ol;
+  int ok = base64_decode_alloc (in, inlen, out, &ol);
 
   if (!ok)
     return GSASL_BASE64_ERROR;
+
+  if (outlen)
+    *outlen = ol;
 
   if (*out == NULL)
     return GSASL_MALLOC_ERROR;
