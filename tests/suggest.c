@@ -45,6 +45,30 @@ doit (void)
       return;
     }
 
+  if (gsasl_is_mechanism_name_valid (NULL))
+    fail ("FAIL: NULL is a valid mechanism name?!\n");
+
+  if (gsasl_is_mechanism_name_valid (""))
+    fail ("FAIL: empty string is a valid mechanism name?!\n");
+
+  if (!gsasl_is_mechanism_name_valid ("1"))
+    fail ("FAIL: 1 is not a valid mechanism name?!\n");
+
+  if (!gsasl_is_mechanism_name_valid ("12345678901234567890"))
+    fail ("FAIL: 20chars is not a valid mechanism name?!\n");
+
+  if (gsasl_is_mechanism_name_valid ("123456789012345678901"))
+    fail ("FAIL: 21chars is a valid mechanism name?!\n");
+
+  if (gsasl_is_mechanism_name_valid ("lower"))
+    fail ("FAIL: lowercase string is a valid mechanism name?!\n");
+
+  if (!gsasl_is_mechanism_name_valid ("A0-_Z9"))
+    fail ("FAIL: weird string is not a valid mechanism name?!\n");
+
+  if (!gsasl_is_mechanism_name_valid ("PLAIN"))
+    fail ("FAIL: PLAIN is not a valid mechanism name?!\n");
+
   str = "FOO BAR FOO";
   p = gsasl_client_suggest_mechanism (ctx, str);
   if (debug)

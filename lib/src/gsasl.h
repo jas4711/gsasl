@@ -75,7 +75,6 @@ extern "C"
     GSASL_MIN_MECHANISM_SIZE = 1,
     GSASL_MAX_MECHANISM_SIZE = 20
   };
-  extern GSASL_API const char *GSASL_VALID_MECHANISM_CHARACTERS;
 
   /**
    * Gsasl_rc:
@@ -376,6 +375,7 @@ extern "C"
 
   extern GSASL_API int gsasl_server_mechlist (Gsasl * ctx, char **out);
   extern GSASL_API int gsasl_server_support_p (Gsasl * ctx, const char *name);
+  extern GSASL_API int gsasl_is_mechanism_name_valid (const char *mech);
 
   /* Authentication functions: xstart.c, xstep.c, xfinish.c */
   extern GSASL_API int gsasl_client_start (Gsasl * ctx, const char *mech,

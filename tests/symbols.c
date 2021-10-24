@@ -37,7 +37,6 @@ void
 doit (void)
 {
   /* LIBGSASL_1.1 */
-  assert_symbol_exists ((const void *) GSASL_VALID_MECHANISM_CHARACTERS);
   assert_symbol_exists ((const void *) gsasl_base64_from);
   assert_symbol_exists ((const void *) gsasl_base64_to);
   assert_symbol_exists ((const void *) gsasl_callback);
@@ -85,6 +84,7 @@ doit (void)
 
   /* LIBGSASL_2.0 */
   assert_symbol_exists ((const void *) gsasl_property_free);
+  assert_symbol_exists ((const void *) gsasl_is_mechanism_name_valid);
 
   success ("all symbols exists\n");
 }

@@ -830,7 +830,7 @@ sub dump_function {
 #	    print STDERR "param = '$param', type = '$type'\n";
 	}
     } else {
-	print STDERR "warning: $lineno: Cannot understand prototype: '$prototype'\n" if (!($prototype  =~ m,GSASL_VALID_MECHANISM_CHARACTERS,));
+	print STDERR "warning: $lineno: Cannot understand prototype: '$prototype'\n";
 	return;
     }
 

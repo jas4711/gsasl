@@ -22,6 +22,54 @@
 
 #include "internal.h"
 
+/*
+ * _GSASL_VALID_MECHANISM_CHARACTERS:
+ *
+ * A zero-terminated character array, or string, with all ASCII
+ * characters that may be used within a SASL mechanism name.
+ **/
+const char *_GSASL_VALID_MECHANISM_CHARACTERS =
+  "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789-_";
+
+/**
+ * gsasl_is_mechanism_name_valid:
+ * @mech: input variable with mechanism name string.
+ *
+ * Check if the mechanism name string @mech follows syntactical rules.
+ * It does not check that the name is registered with IANA.
+ *
+ * SASL mechanisms are named by strings, from 1 to 20 characters in
+ * length, consisting of upper-case letters, digits, hyphens, and/or
+ * underscores.
+ *
+ * Returns: non-zero when mechanism name string @mech conforms to
+ *   rules, zero when it does not meet the requirements.
+ *
+ * Since: 2.0.0
+ **/
+int
+gsasl_is_mechanism_name_valid (const char *mech)
+{
+  size_t l;
+
+  if (mech == NULL)
+    return 0;
+
+  l = strlen (mech);
+
+  if (l < GSASL_MIN_MECHANISM_SIZE)
+    return 0;
+
+  if (l > GSASL_MAX_MECHANISM_SIZE)
+    return 0;
+
+  while (*mech)
+    if (strchr (_GSASL_VALID_MECHANISM_CHARACTERS, *mech++) == NULL)
+      return 0;
+
+  return 1;
+}
+
 /**
  * gsasl_client_suggest_mechanism:
  * @ctx: libgsasl handle.
@@ -46,7 +94,7 @@ gsasl_client_suggest_mechanism (Gsasl * ctx, const char *mechlist)
     {
       size_t len;
 
-      len = strspn (mechlist + i, GSASL_VALID_MECHANISM_CHARACTERS);
+      len = strspn (mechlist + i, _GSASL_VALID_MECHANISM_CHARACTERS);
       if (!len)
 	++i;
       else

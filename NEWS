@@ -2,6 +2,16 @@ GNU SASL NEWS -- History of user-visible changes.               -*- outline -*-
 
 * Noteworthy changes in release ?.? (????-??-??) [?]
 
+** New API gsasl_is_mechanism_name_valid().
+This can be used to check if a mechanism name string is valid, i.e.,
+validate string length and characters used.  This function is the
+recommended upgrade path for code using
+GSASL_VALID_MECHANISM_CHARACTERS, in the majority of use-cases.
+
+*** The following variables have been removed:
+GSASL_VALID_MECHANISM_CHARACTERS: The reason for removing this is that
+exporting static global variables from shared libraries has
+portability concerns, and this is not a widely used variable anyway.
 
 * Noteworthy changes in release 1.11.1 (2021-01-19) [alpha]
 
