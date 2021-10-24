@@ -37,8 +37,9 @@
 /* MIT Kerberos for Windows version 3.2.2 lacks this. */
 static gss_OID_desc tmp = {
   10,
-  (void *)"\x2a\x86\x48\x86\xf7\x12\x01\x02\x01\x04"
+  (void *) "\x2a\x86\x48\x86\xf7\x12\x01\x02\x01\x04"
 };
+
 gss_OID GSS_C_NT_HOSTBASED_SERVICE = &tmp;
 
 #endif
@@ -100,7 +101,7 @@ gss_inquire_mech_for_saslname (OM_uint32 * minor_status,
 #ifndef HAVE_GSS_ENCAPSULATE_TOKEN
 
 static void
-_gss_asn1_length_der (size_t len, unsigned char *ans, size_t * ans_len)
+_gss_asn1_length_der (size_t len, unsigned char *ans, size_t *ans_len)
 {
   size_t k;
   unsigned char temp[sizeof (len)];
@@ -136,7 +137,7 @@ static OM_uint32
 _gss_encapsulate_token_prefix (const char *prefix, size_t prefixlen,
 			       const char *in, size_t inlen,
 			       const char *oid, OM_uint32 oidlen,
-			       void **out, size_t * outlen)
+			       void **out, size_t *outlen)
 {
   size_t oidlenlen;
   size_t asn1len, asn1lenlen;
@@ -203,7 +204,7 @@ gss_encapsulate_token (const gss_buffer_t input_token,
 #ifndef HAVE_GSS_ENCAPSULATE_TOKEN
 
 static size_t
-_gss_asn1_get_length_der (const char *der, size_t der_len, size_t * len)
+_gss_asn1_get_length_der (const char *der, size_t der_len, size_t *len)
 {
   size_t ans;
   size_t k, punt;
@@ -248,8 +249,8 @@ _gss_asn1_get_length_der (const char *der, size_t der_len, size_t * len)
 
 static int
 _gss_decapsulate_token (const char *in, size_t inlen,
-			char **oid, size_t * oidlen,
-			char **out, size_t * outlen)
+			char **oid, size_t *oidlen,
+			char **out, size_t *outlen)
 {
   size_t i;
   size_t asn1lenlen;

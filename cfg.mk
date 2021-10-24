@@ -24,8 +24,6 @@ gnulib_dir = $(GNULIB_SRCDIR)
 
 bootstrap-tools = autoconf,automake,libtoolize,gnulib,makeinfo,help2man,gperf,gengetopt,gtkdocize,tar,gzip
 
-INDENT_SOURCES = `find . -name '*.[chly]' | grep -v -e /gl -e build-aux -e /win32/ -e /examples/`
-
 update-copyright-env = \
 	UPDATE_COPYRIGHT_HOLDER="Simon Josefsson"	\
 	UPDATE_COPYRIGHT_USE_INTERVALS=2		\

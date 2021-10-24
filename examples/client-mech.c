@@ -45,15 +45,15 @@ client_authenticate (Gsasl_session * session)
 	  return;
 	}
       if (buf[strlen (buf) - 1] == '\n')
-        buf[strlen (buf) - 1] = '\0';
+	buf[strlen (buf) - 1] = '\0';
 
       rc = gsasl_step64 (session, buf, &p);
 
       if (rc == GSASL_NEEDS_MORE || rc == GSASL_OK)
-        {
-          printf ("Output:\n%s\n", p);
-          gsasl_free (p);
-        }
+	{
+	  printf ("Output:\n%s\n", p);
+	  gsasl_free (p);
+	}
     }
   while (rc == GSASL_NEEDS_MORE);
 

@@ -57,7 +57,7 @@ server_xmpp (Gsasl_session * session)
 	  break;
 	}
       if (buf[strlen (buf) - 1] == '\n')
-        buf[strlen (buf) - 1] = '\0';
+	buf[strlen (buf) - 1] = '\0';
 
       b64 = xmltob64 (buf);
 

@@ -21,7 +21,7 @@
  */
 
 #ifndef GSASL_VERSION_H
-#define GSASL_VERSION_H
+# define GSASL_VERSION_H
 
 /**
  * SECTION:gsasl-version
@@ -39,7 +39,7 @@
  * version number.  Used together with gsasl_check_version() to
  * verify header file and run-time library consistency.
  */
-#define GSASL_VERSION "@VERSION@"
+# define GSASL_VERSION "@VERSION@"
 
 /**
  * GSASL_VERSION_MAJOR
@@ -50,7 +50,7 @@
  *
  * Since: 1.1
  */
-#define GSASL_VERSION_MAJOR @MAJOR_VERSION@
+# define GSASL_VERSION_MAJOR @MAJOR_VERSION@
 
 /**
  * GSASL_VERSION_MINOR
@@ -61,7 +61,7 @@
  *
  * Since: 1.1
  */
-#define GSASL_VERSION_MINOR @MINOR_VERSION@
+# define GSASL_VERSION_MINOR @MINOR_VERSION@
 
 /**
  * GSASL_VERSION_PATCH
@@ -72,7 +72,7 @@
  *
  * Since: 1.1
  */
-#define GSASL_VERSION_PATCH @PATCH_VERSION@
+# define GSASL_VERSION_PATCH @PATCH_VERSION@
 
 /**
  * GSASL_VERSION_NUMBER
@@ -83,6 +83,6 @@
  *
  * Since: 1.1
  */
-#define GSASL_VERSION_NUMBER @NUMBER_VERSION@
+# define GSASL_VERSION_NUMBER @NUMBER_VERSION@
 
-#endif				/* GSASL_VERSION_H */
+#endif /* GSASL_VERSION_H */

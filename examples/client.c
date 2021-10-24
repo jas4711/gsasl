@@ -41,25 +41,25 @@ client_authenticate (Gsasl_session * session)
       rc = gsasl_step64 (session, buf, &p);
 
       if (rc == GSASL_NEEDS_MORE || rc == GSASL_OK)
-        {
-          /* If sucessful, print it. */
-          printf ("Output:\n%s\n", p);
-          gsasl_free (p);
-        }
+	{
+	  /* If sucessful, print it. */
+	  printf ("Output:\n%s\n", p);
+	  gsasl_free (p);
+	}
 
       if (rc == GSASL_NEEDS_MORE)
-        {
-          /* If the client need more data from server, get it here. */
-          printf ("Input base64 encoded data from server:\n");
-          p = fgets (buf, sizeof (buf) - 1, stdin);
+	{
+	  /* If the client need more data from server, get it here. */
+	  printf ("Input base64 encoded data from server:\n");
+	  p = fgets (buf, sizeof (buf) - 1, stdin);
 	  if (p == NULL)
 	    {
 	      perror ("fgets");
 	      return;
 	    }
-          if (buf[strlen (buf) - 1] == '\n')
-            buf[strlen (buf) - 1] = '\0';
-        }
+	  if (buf[strlen (buf) - 1] == '\n')
+	    buf[strlen (buf) - 1] = '\0';
+	}
     }
   while (rc == GSASL_NEEDS_MORE);
 

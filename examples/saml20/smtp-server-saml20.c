@@ -143,8 +143,7 @@ callback (Gsasl * ctx, Gsasl_session * sctx, Gsasl_property prop)
 	rc = gsasl_property_set (sctx, prop, redirect_url);
 	if (rc != GSASL_OK)
 	  {
-	    printf ("gsasl_property_set (%d): %s\n",
-		    rc, gsasl_strerror (rc));
+	    printf ("gsasl_property_set (%d): %s\n", rc, gsasl_strerror (rc));
 	    return GSASL_AUTHENTICATION_ERROR;
 	  }
 
@@ -269,7 +268,7 @@ callback (Gsasl * ctx, Gsasl_session * sctx, Gsasl_property prop)
 }
 
 static ssize_t
-gettrimline (char **line, size_t * n, FILE * fh)
+gettrimline (char **line, size_t *n, FILE * fh)
 {
   ssize_t s = getline (line, n, fh);
 

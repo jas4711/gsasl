@@ -61,7 +61,7 @@ callback (Gsasl * ctx, Gsasl_session * sctx, Gsasl_property prop)
 }
 
 static ssize_t
-gettrimline (char **line, size_t * n, FILE * fh)
+gettrimline (char **line, size_t *n, FILE * fh)
 {
   ssize_t s = getline (line, n, fh);
 
