@@ -82,7 +82,6 @@ Fedora-clanganalyzer:
     - mv doc/manual public/manual
     - mv doc/reference/html public/reference
     - mv doc/reference/gsasl.pdf public/reference/
-    - mv doc/reference/html/gsasl.devhelp2 public/reference/
   artifacts:
     paths:
     - public
