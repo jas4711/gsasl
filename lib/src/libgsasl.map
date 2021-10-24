@@ -62,7 +62,6 @@ LIBGSASL_1.1 {
 
 LIBGSASL_1.4
 {
-  global:
 } LIBGSASL_1.1;
 
 LIBGSASL_1.10
