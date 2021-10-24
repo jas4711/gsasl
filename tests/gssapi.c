@@ -154,7 +154,10 @@ doit (void)
 		    s2, res1 == GSASL_OK ? 'O' : 'N');
 
 	  if (res1 == GSASL_OK && strcmp (s2, "") == 0)
-	    break;
+	    {
+	      gsasl_free (s2);
+	      break;
+	    }
 
 	  res2 = gsasl_step64 (server_first ? client : server, s2, &s1);
 	  gsasl_free (s2);
