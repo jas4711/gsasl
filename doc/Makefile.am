@@ -25,10 +25,10 @@ EXTRA_DIST = gdoc \
 	doxygen/Doxyfile.in doxygen/gdoc2doxygen
 
 .dia.png:
-	$(DIA) --export=$@ --export-to-format=png $<
+	$(DIA) --export=$@ $<
 
 .dia.eps:
-	$(DIA) --export=$@ --export-to-format=eps $<
+	$(DIA) --export=$@ $<
 
 .eps.pdf:
 	$(EPSTOPDF) $<
