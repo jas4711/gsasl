@@ -50,7 +50,7 @@ SCANGOBJ_OPTIONS=
 
 # Extra options to supply to gtkdoc-scan.
 # e.g. SCAN_OPTIONS=--deprecated-guards="GTK_DISABLE_DEPRECATED"
-SCAN_OPTIONS=--ignore-decorators=GSASL_API
+SCAN_OPTIONS=--ignore-decorators=_GSASL_API
 
 # Extra options to supply to gtkdoc-mkdb
 # e.g. MKDB_OPTIONS=--xml-mode --output-format=xml

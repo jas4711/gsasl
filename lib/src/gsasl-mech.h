@@ -178,7 +178,7 @@ struct Gsasl_mechanism
 typedef struct Gsasl_mechanism Gsasl_mechanism;
 
 /* Register new mechanism: register.c. */
-extern GSASL_API int gsasl_register (Gsasl * ctx,
-				     const Gsasl_mechanism * mech);
+extern _GSASL_API int gsasl_register (Gsasl * ctx,
+				      const Gsasl_mechanism * mech);
 
 #endif /* GSASL_MECH_H */
