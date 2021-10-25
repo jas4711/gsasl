@@ -13,7 +13,7 @@ GSASL_VALID_MECHANISM_CHARACTERS: The reason for removing this is that
 exporting static global variables from shared libraries has
 portability concerns, and this is not a widely used variable anyway.
 
-*** Various cleanups, bug and portability fixes and improvements.
+*** Various cleanups, build/bug fixes and portability improvements.
 
 * Noteworthy changes in release 1.11.1 (2021-01-19) [alpha]
 

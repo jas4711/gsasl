@@ -64,7 +64,11 @@ AM_GNU_GETTEXT([external])
 AM_GNU_GETTEXT_VERSION([0.19.8])
 
 # https://developer.gnome.org/gtk-doc-manual/stable/settingup_autoconf.html.en
+m4_ifdef([GTK_DOC_CHECK], [
 GTK_DOC_CHECK([1.14],[--flavour no-tmpl])
+],[
+AM_CONDITIONAL([ENABLE_GTK_DOC], false)
+])
 
 # ANONYMOUS
 AC_ARG_ENABLE(anonymous,
