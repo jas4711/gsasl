@@ -141,6 +141,9 @@ doit (void)
 	{
 	  fail ("gsasl_server_start() failed (%d):\n%s\n",
 		rc, gsasl_strerror (rc));
+	  /* likely gss without krb5 */
+	  if (rc == GSASL_GSSAPI_INQUIRE_MECH_FOR_SASLNAME_ERROR)
+	    exit (77);
 	  return;
 	}
       rc = gsasl_client_start (ctx, "GS2-KRB5", &client);
@@ -148,6 +151,9 @@ doit (void)
 	{
 	  fail ("gsasl_client_start() failed (%d):\n%s\n",
 		rc, gsasl_strerror (rc));
+	  /* likely gss without krb5 */
+	  if (rc == GSASL_GSSAPI_INQUIRE_MECH_FOR_SASLNAME_ERROR)
+	    exit (77);
 	  return;
 	}
 

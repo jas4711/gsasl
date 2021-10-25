@@ -165,6 +165,9 @@ doit (void)
 	    {
 	      fail ("gsasl_step64 (2) failed (%d):\n%s\n", res2,
 		    gsasl_strerror (res2));
+	      /* likely gss without krb5 */
+	      if (res2 == GSASL_GSSAPI_INIT_SEC_CONTEXT_ERROR)
+		exit (77);
 	      return;
 	    }
 
