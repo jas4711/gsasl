@@ -1,5 +1,6 @@
 variables:
   GIT_DEPTH: 100
+  GIT_SUBMODULE_STRATEGY: normal
 
 stages:
  - build
@@ -11,9 +12,9 @@ Debian:
   stage: build
   before_script:
   - apt-get update -qq
-  - env DEBIAN_FRONTEND=noninteractive apt-get install -y -qq git autoconf automake libtool autopoint gettext cvs make texinfo texlive texlive-plain-generic texlive-extra-utils texlive-font-utils help2man gtk-doc-tools libglib2.0-dev dblatex valgrind libidn11-dev libntlm0-dev libgnutls28-dev libkrb5-dev gengetopt gperf wget
+  - env DEBIAN_FRONTEND=noninteractive apt-get install -y -qq git autoconf automake libtool autopoint gettext cvs make texinfo texlive-font-utils help2man libidn11-dev libntlm0-dev libgnutls28-dev libkrb5-dev gengetopt gperf
   script:
-  - ./bootstrap
+  - ./bootstrap --skip-po
   - ./configure --enable-gcc-warnings --disable-silent-rules
   - make V=1 || (find . -name test-suite.log -exec cat {} +; exit 1)
   - make dist
@@ -21,6 +22,19 @@ Debian:
     expire_in: 2 weeks
     paths:
       - gsasl-*.tar.gz
+
+Centos7:
+  image: centos:7
+  stage: build
+  before_script:
+  - yum update -y
+  - yum -y install epel-release
+  - yum install -y git make diffutils file hostname patch autoconf automake libtool gettext-devel texinfo help2man gengetopt gperf
+  script:
+  - ./bootstrap --skip-po
+  - ./configure --enable-gcc-warnings --disable-silent-rules
+  - make check V=1 || (find . -name test-suite.log -exec cat {} +; exit 1)
+  - make install
 
 Ubuntu-coverage-cyclo:
   image: ubuntu:rolling
@@ -48,8 +62,6 @@ Ubuntu-coverage-cyclo:
       - coverage
       - cyclo
       - gsasl-*.tar.gz
-  only:
-    - master
 
 Fedora-clanganalyzer:
   image: fedora:latest
@@ -63,14 +75,14 @@ Fedora-clanganalyzer:
   - scan-build ./configure --disable-silent-rules --enable-gtk-doc --enable-gtk-doc-pdf || (cat config.log; exit 1)
   - scan-build -o clang-analyzer make V=1
   - make web-manual
+  - make dist
   artifacts:
     when: on_success
     paths:
       - clang-analyzer
       - doc/reference
       - doc/manual
-  only:
-    - master
+      - gsasl-*.tar.gz
 
 .pages:
   stage: deploy
@@ -127,8 +139,8 @@ Ubuntu-distcheck:
     paths:
       - gsasl-*.tar.gz
 
-CentOS:
-  image: centos:latest
+CentOS8:
+  image: centos:8
   stage: test
   needs: [Debian]
   before_script:
@@ -139,8 +151,8 @@ CentOS:
   - ./configure --enable-gcc-warnings || (cat config.log; exit 1)
   - make check V=1 || (find . -name test-suite.log -exec cat {} +; exit 1)
 
-CentOS-krb5:
-  image: centos:latest
+CentOS8-krb5:
+  image: centos:8
   stage: test
   needs: [Debian]
   before_script:
