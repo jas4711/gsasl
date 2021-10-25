@@ -55,16 +55,19 @@ extern "C"
 {
 # endif
 
-  /* RFC 2222: SASL mechanisms are named by strings, from 1 to 20
-   * characters in length, consisting of upper-case letters, digits,
-   * hyphens, and/or underscores.  SASL mechanism names must be
-   * registered with the IANA.
+  /**
+   * Gsasl:
+   *
+   * Handle to global library context.
    */
-  enum
-  {
-    GSASL_MIN_MECHANISM_SIZE = 1,
-    GSASL_MAX_MECHANISM_SIZE = 20
-  };
+  typedef struct Gsasl Gsasl;
+
+  /**
+   * Gsasl_session:
+   *
+   * Handle to SASL session context.
+   */
+  typedef struct Gsasl_session Gsasl_session;
 
   /**
    * Gsasl_rc:
@@ -168,51 +171,6 @@ extern "C"
       /* When adding new values, note that integers are not necessarily
          assigned monotonously increasingly. */
   } Gsasl_rc;
-
-  /**
-   * Gsasl_qop:
-   * @GSASL_QOP_AUTH: Authentication only.
-   * @GSASL_QOP_AUTH_INT: Authentication and integrity.
-   * @GSASL_QOP_AUTH_CONF: Authentication, integrity and confidentiality.
-   *
-   * Quality of Protection types (DIGEST-MD5 and GSSAPI).  The
-   * integrity and confidentiality values is about application data
-   * wrapping.  We recommend that you use @GSASL_QOP_AUTH with TLS as
-   * that combination is generally more secure and have better chance
-   * of working than the integrity/confidentiality layers of SASL.
-   */
-  typedef enum
-  {
-    GSASL_QOP_AUTH = 1,
-    GSASL_QOP_AUTH_INT = 2,
-    GSASL_QOP_AUTH_CONF = 4
-  } Gsasl_qop;
-
-  /**
-   * Gsasl_saslprep_flags:
-   * @GSASL_ALLOW_UNASSIGNED: Allow unassigned code points.
-   *
-   * Flags for the SASLprep function, see gsasl_saslprep().  For
-   * background, see the GNU Libidn documentation.
-   */
-  typedef enum
-  {
-    GSASL_ALLOW_UNASSIGNED = 1
-  } Gsasl_saslprep_flags;
-
-  /**
-   * Gsasl:
-   *
-   * Handle to global library context.
-   */
-  typedef struct Gsasl Gsasl;
-
-  /**
-   * Gsasl_session:
-   *
-   * Handle to SASL session context.
-   */
-  typedef struct Gsasl_session Gsasl_session;
 
   /**
    * Gsasl_property:
@@ -323,6 +281,52 @@ extern "C"
    **/
   typedef int (*Gsasl_callback_function) (Gsasl * ctx, Gsasl_session * sctx,
 					  Gsasl_property prop);
+
+  /**
+   * Gsasl_mechname_limits:
+   * @GSASL_MIN_MECHANISM_SIZE: Minimum size of mechanism name strings.
+   * @GSASL_MAX_MECHANISM_SIZE: Maximum size of mechanism name strings.
+   *
+   * SASL mechanisms are named by strings, from 1 to 20 characters in
+   * length, consisting of upper-case letters, digits, hyphens, and/or
+   * underscores.  See also gsasl_is_mechanism_name_valid().
+   */
+  typedef enum
+  {
+    GSASL_MIN_MECHANISM_SIZE = 1,
+    GSASL_MAX_MECHANISM_SIZE = 20
+  } Gsasl_mechname_limits;
+
+  /**
+   * Gsasl_qop:
+   * @GSASL_QOP_AUTH: Authentication only.
+   * @GSASL_QOP_AUTH_INT: Authentication and integrity.
+   * @GSASL_QOP_AUTH_CONF: Authentication, integrity and confidentiality.
+   *
+   * Quality of Protection types (DIGEST-MD5 and GSSAPI).  The
+   * integrity and confidentiality values is about application data
+   * wrapping.  We recommend that you use @GSASL_QOP_AUTH with TLS as
+   * that combination is generally more secure and have better chance
+   * of working than the integrity/confidentiality layers of SASL.
+   */
+  typedef enum
+  {
+    GSASL_QOP_AUTH = 1,
+    GSASL_QOP_AUTH_INT = 2,
+    GSASL_QOP_AUTH_CONF = 4
+  } Gsasl_qop;
+
+  /**
+   * Gsasl_saslprep_flags:
+   * @GSASL_ALLOW_UNASSIGNED: Allow unassigned code points.
+   *
+   * Flags for the SASLprep function, see gsasl_saslprep().  For
+   * background, see the GNU Libidn documentation.
+   */
+  typedef enum
+  {
+    GSASL_ALLOW_UNASSIGNED = 1
+  } Gsasl_saslprep_flags;
 
   /* Library entry and exit points: version.c, init.c, done.c */
   extern _GSASL_API int gsasl_init (Gsasl ** ctx);
