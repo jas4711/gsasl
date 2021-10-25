@@ -46,5 +46,6 @@ exclude_file_name_regexp--sc_prohibit_always_true_header_tests = ^lib/win32/incl
 exclude_file_name_regexp--sc_prohibit_defined_have_decl_tests = ^lib/gl/lib/gss-extra.c$$
 exclude_file_name_regexp--sc_prohibit_empty_lines_at_EOF = ^gl/0001-Fix-export-symbols-and-export-symbols-regex-support-.patch|doc/gsasl-[2a-z]*.(dia|png)|tests/gssapi.tkt$$
 exclude_file_name_regexp--sc_prohibit_magic_number_exit = ^doc/gsasl.texi|examples/(openid20|saml20)/.*.php$$
-exclude_file_name_regexp--sc_trailing_blank = ^gl/0001-Fix-export-symbols-and-export-symbols-regex-support-.patch|build-aux/git2cl|doc/gsasl-[2a-z]*.(eps|png)|doc/doxygen/Doxyfile.*|gl/doc/gendocs_template.diff|gl/top/README-release.diff$$
+exclude_file_name_regexp--sc_trailing_blank = ^gl/0001-Fix-export-symbols-and-export-symbols-regex-support-.patch|build-aux/git2cl|doc/gsasl-[2a-z]*.(eps|png|pdf|dia)|doc/doxygen/Doxyfile.*|gl/doc/gendocs_template.diff|gl/top/README-release.diff$$
+exclude_file_name_regexp--sc_space_tab = ^doc/gsasl-controlflow.pdf$$
 exclude_file_name_regexp--sc_unmarked_diagnostics = ^examples/.*|src/gsasl.c$$
