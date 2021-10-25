@@ -1,5 +1,8 @@
 GNU SASL NEWS -- History of user-visible changes.               -*- outline -*-
 
+* Noteworthy changes in release ?.? (????-??-??) [?]
+
+
 * Noteworthy changes in release 1.11.2 (2021-10-25) [beta]
 
 ** libgsasl: New API gsasl_is_mechanism_name_valid().
