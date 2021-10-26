@@ -271,11 +271,38 @@ doit (void)
   int i, j;
   int res;
 
+  success ("Header version %s library version %s\n",
+	   GSASL_VERSION, gsasl_check_version (NULL));
+
   if (!gsasl_check_version (GSASL_VERSION))
     fail ("gsasl_check_version failure");
 
-  success ("Header version %s library version %s\n",
-	   GSASL_VERSION, gsasl_check_version (NULL));
+  if (!gsasl_check_version ("1.11.2"))
+    fail ("gsasl_check_version(1.11.2) failure");
+
+  if (strcmp (GSASL_VERSION, gsasl_check_version (NULL)) != 0)
+    fail ("header version mismatch library version\n");
+
+  i = GSASL_VERSION_MAJOR * 256 * 256 +
+    GSASL_VERSION_MINOR * 256 +
+    GSASL_VERSION_PATCH;
+
+  asprintf (&out, "%d.%d.%d", GSASL_VERSION_MAJOR,
+	    GSASL_VERSION_MINOR, GSASL_VERSION_PATCH);
+
+  success ("Header version %s number %x derived %x\n", out,
+	   GSASL_VERSION_NUMBER, i);
+
+  if (GSASL_VERSION_NUMBER != i)
+    fail ("header version number mismatch\n");
+
+  if (!gsasl_check_version (out))
+    fail ("gsasl_check_version(%s) failure\n", out);
+
+  if (strncmp (GSASL_VERSION, out, strlen (out)) != 0)
+    fail ("header version numbers mismatch library version\n");
+
+  free (out);
 
   {
     char *tmp;
