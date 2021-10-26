@@ -20,11 +20,11 @@ set -x
 
 : ${GSASL=../src/gsasl${EXEEXT}}
 
-if ! test -x "${GSASL}"; then
+if test ! -x "${GSASL}"; then
     exit 77
 fi
 
-if ! test -z "${VALGRIND}"; then
+if test ! -z "${VALGRIND}"; then
     VALGRIND="${LIBTOOL:-../libtool} --mode=execute ${VALGRIND} --leak-check=full --error-exitcode=1"
 fi
 
@@ -45,7 +45,7 @@ ${VALGRIND} "${GSASL}" --mkpasswd --password password --mechanism SCRAM-SHA-256
 #            f3 a9 b5 24 af 60 12 06
 #            2f e0 37 a6             (20 octets)
 
-OUT=$(${VALGRIND} "${GSASL}" --mkpasswd --password password --mechanism SCRAM-SHA-1 --iteration-count 1 --salt c2FsdA== --verbose)
+OUT=`${VALGRIND} "${GSASL}" --mkpasswd --password password --mechanism SCRAM-SHA-1 --iteration-count 1 --salt c2FsdA== --verbose`
 EXP="{SCRAM-SHA-1}1,c2FsdA==,vVnp0FhQZmQRSMvw9oq1LFMCh8E=,gEBmhcREcU59nXxkDhCePwlgRbY=,0c60c80f961f0e71f3a9b524af6012062fe037a6"
 if test "$OUT" != "$EXP"; then
     echo expected $EXP got $OUT
@@ -63,7 +63,7 @@ fi
 #            cd 1e d9 2a ce 1d 41 f0
 #            d8 de 89 57             (20 octets)
 
-OUT=$(${VALGRIND} "${GSASL}" --mkpasswd --password password --mechanism SCRAM-SHA-1 --iteration-count 2 --salt c2FsdA== --verbose)
+OUT=`${VALGRIND} "${GSASL}" --mkpasswd --password password --mechanism SCRAM-SHA-1 --iteration-count 2 --salt c2FsdA== --verbose`
 EXP="{SCRAM-SHA-1}2,c2FsdA==,J4+ucUpxxJUZf/2dj0CKWg+lhvs=,5Alx1KUCWBgKd9mxAgTkpDBis54=,ea6c014dc72d6f8ccd1ed92ace1d41f0d8de8957"
 if test "$OUT" != "$EXP"; then
     echo expected $EXP got $OUT
@@ -81,7 +81,7 @@ fi
 #            be ad 49 d9 26 f7 21 d0
 #            65 a4 29 c1             (20 octets)
 
-OUT=$(${VALGRIND} "${GSASL}" --mkpasswd --password password --mechanism SCRAM-SHA-1 --iteration-count 4096 --salt c2FsdA== --verbose)
+OUT=`${VALGRIND} "${GSASL}" --mkpasswd --password password --mechanism SCRAM-SHA-1 --iteration-count 4096 --salt c2FsdA== --verbose`
 EXP="{SCRAM-SHA-1}4096,c2FsdA==,0qUypmwka5AUb9oe/OrTaR5uwR8=,BZ90E2UltiQTre5pA3UZCJJGU3w=,4b007901b765489abead49d926f721d065a429c1"
 if test "$OUT" != "$EXP"; then
     echo expected $EXP got $OUT
@@ -90,7 +90,7 @@ fi
 
 # RFC 7677
 
-OUT=$(${VALGRIND} "${GSASL}" --mkpasswd --password pencil --mechanism SCRAM-SHA-256 --iteration-count 4096 --salt W22ZaJ0SNY7soEsUEjb6gQ== --verbose)
+OUT=`${VALGRIND} "${GSASL}" --mkpasswd --password pencil --mechanism SCRAM-SHA-256 --iteration-count 4096 --salt W22ZaJ0SNY7soEsUEjb6gQ== --verbose`
 EXP="{SCRAM-SHA-256}4096,W22ZaJ0SNY7soEsUEjb6gQ==,WG5d8oPm3OtcPnkdi4Uo7BkeZkBFzpcXkuLmtbsT4qY=,wfPLwcE6nTWhTAmQ7tl2KeoiWGPlZqQxSrmfPwDl2dU=,c4a49510323ab4f952cac1fa99441939e78ea74d6be81ddf7096e87513dc615d"
 if test "$OUT" != "$EXP"; then
     echo expected $EXP got $OUT
