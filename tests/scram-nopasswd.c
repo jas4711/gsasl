@@ -241,8 +241,10 @@ doit (void)
 
     if (debug)
       {
-	printf ("GSASL_SCRAM_SALTED_PASSWORD (client): %s\n", csp);
-	printf ("GSASL_SCRAM_SALTED_PASSWORD (server): %s\n", ssp);
+	printf ("GSASL_SCRAM_SALTED_PASSWORD (client): %s\n",
+		csp ? csp : "NULL");
+	printf ("GSASL_SCRAM_SALTED_PASSWORD (server): %s\n",
+		ssp ? ssp : "NULL");
       }
     if (!csp || strcmp (csp, SALTED_PASSWORD) != 0)
       fail ("client scram salted password mismatch\n");
