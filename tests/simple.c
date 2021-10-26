@@ -291,7 +291,7 @@ doit (void)
 	    GSASL_VERSION_MINOR, GSASL_VERSION_PATCH);
 
   success ("Header version %s number %x derived %x\n", out,
-	   GSASL_VERSION_NUMBER, i);
+	   (unsigned) GSASL_VERSION_NUMBER, (unsigned) i);
 
   if (GSASL_VERSION_NUMBER != i)
     fail ("header version number mismatch\n");
