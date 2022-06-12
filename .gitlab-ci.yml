@@ -23,8 +23,8 @@ Debian:
     paths:
       - gsasl-*.tar.gz
 
-Centos7:
-  image: centos:7
+AlmaLinux8:
+  image: almalinux:8
   stage: build
   before_script:
   - yum update -y
@@ -139,8 +139,8 @@ Ubuntu-distcheck:
     paths:
       - gsasl-*.tar.gz
 
-CentOS8:
-  image: centos:8
+CentOS7:
+  image: centos:7
   stage: test
   needs: [Debian]
   before_script:
@@ -151,8 +151,8 @@ CentOS8:
   - ./configure --enable-gcc-warnings || (cat config.log; exit 1)
   - make check V=1 || (find . -name test-suite.log -exec cat {} +; exit 1)
 
-CentOS8-krb5:
-  image: centos:8
+AlmaLinux8-krb5:
+  image: almalinux:8
   stage: test
   needs: [Debian]
   before_script:
