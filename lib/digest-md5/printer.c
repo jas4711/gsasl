@@ -333,12 +333,11 @@ digest_md5_print_response (digest_md5_response * r)
 	return NULL;
       }
 
-  if (r->response)
-    if (comma_append (&out, "response", r->response, 0) < 0)
-      {
-	free (out);
-	return NULL;
-      }
+  if (comma_append (&out, "response", r->response, 0) < 0)
+    {
+      free (out);
+      return NULL;
+    }
 
   if (r->clientmaxbuf)
     {

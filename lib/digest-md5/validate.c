@@ -102,7 +102,7 @@ digest_md5_validate_response (digest_md5_response * r)
 int
 digest_md5_validate_finish (digest_md5_finish * f)
 {
-  if (!f)
+  if (!*f->rspauth)
     return -1;
 
   /* A string of 32 hex digits */
