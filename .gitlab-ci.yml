@@ -27,10 +27,10 @@ AlmaLinux8:
   image: almalinux:8
   stage: build
   before_script:
-  - yum update -y
-  - yum -y install epel-release
-  - yum install -y git make diffutils file hostname patch autoconf automake libtool gettext-devel texinfo help2man gengetopt gperf
-  script:
+  - dnf -y update
+  - dnf -y install epel-release
+  - dnf --enablerepo=powertools -y install git make diffutils file hostname patch autoconf automake libtool gettext-devel texinfo help2man gengetopt gperf
+script:
   - ./bootstrap --skip-po
   - ./configure --enable-gcc-warnings --disable-silent-rules
   - make check V=1 || (find . -name test-suite.log -exec cat {} +; exit 1)
