@@ -1,5 +1,5 @@
 /* validate.c --- Validate consistency of DIGEST-MD5 tokens.
- * Copyright (C) 2004-2021 Simon Josefsson
+ * Copyright (C) 2004-2022 Simon Josefsson
  *
  * This file is part of GNU SASL Library.
  *
@@ -102,7 +102,7 @@ digest_md5_validate_response (digest_md5_response * r)
 int
 digest_md5_validate_finish (digest_md5_finish * f)
 {
-  if (!f->rspauth)
+  if (!f)
     return -1;
 
   /* A string of 32 hex digits */
