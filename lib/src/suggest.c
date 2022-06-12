@@ -32,7 +32,7 @@ const char *_GSASL_VALID_MECHANISM_CHARACTERS =
   "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789-_";
 
 /**
- * gsasl_is_mechanism_name_valid:
+ * gsasl_mechanism_name_p:
  * @mech: input variable with mechanism name string.
  *
  * Check if the mechanism name string @mech follows syntactical rules.
@@ -48,7 +48,7 @@ const char *_GSASL_VALID_MECHANISM_CHARACTERS =
  * Since: 2.0.0
  **/
 int
-gsasl_is_mechanism_name_valid (const char *mech)
+gsasl_mechanism_name_p (const char *mech)
 {
   size_t l;
 

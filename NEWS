@@ -2,6 +2,11 @@ GNU SASL NEWS -- History of user-visible changes.               -*- outline -*-
 
 * Noteworthy changes in release ?.? (????-??-??) [?]
 
+** libgsasl: Rename gsasl_is_mechanism_name_valid to gsasl_mechanism_name_p.
+For better sorting of public APIs and consistency with other *_p
+function name usage.
+
+*** Various cleanups, build/bug fixes and portability improvements.
 
 * Noteworthy changes in release 1.11.2 (2021-10-25) [beta]
 

@@ -78,5 +78,5 @@ LIBGSASL_2.0
 {
   global:
     gsasl_property_free;
-    gsasl_is_mechanism_name_valid;
+    gsasl_mechanism_name_p;
 } LIBGSASL_1.10;

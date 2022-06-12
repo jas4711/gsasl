@@ -289,7 +289,7 @@ extern "C"
    *
    * SASL mechanisms are named by strings, from 1 to 20 characters in
    * length, consisting of upper-case letters, digits, hyphens, and/or
-   * underscores.  See also gsasl_is_mechanism_name_valid().
+   * underscores.  See also gsasl_mechanism_name_p().
    */
   typedef enum
   {
@@ -371,7 +371,7 @@ extern "C"
   extern _GSASL_API int gsasl_server_mechlist (Gsasl * ctx, char **out);
   extern _GSASL_API int gsasl_server_support_p (Gsasl * ctx,
 						const char *name);
-  extern _GSASL_API int gsasl_is_mechanism_name_valid (const char *mech);
+  extern _GSASL_API int gsasl_mechanism_name_p (const char *mech);
 
   /* Authentication functions: xstart.c, xstep.c, xfinish.c */
   extern _GSASL_API int gsasl_client_start (Gsasl * ctx, const char *mech,

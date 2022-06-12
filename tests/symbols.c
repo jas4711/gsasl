@@ -84,7 +84,7 @@ doit (void)
 
   /* LIBGSASL_2.0 */
   assert_symbol_exists ((const void *) gsasl_property_free);
-  assert_symbol_exists ((const void *) gsasl_is_mechanism_name_valid);
+  assert_symbol_exists ((const void *) gsasl_mechanism_name_p);
 
   success ("all symbols exists\n");
 }

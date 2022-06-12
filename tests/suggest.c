@@ -45,28 +45,28 @@ doit (void)
       return;
     }
 
-  if (gsasl_is_mechanism_name_valid (NULL))
+  if (gsasl_mechanism_name_p (NULL))
     fail ("FAIL: NULL is a valid mechanism name?!\n");
 
-  if (gsasl_is_mechanism_name_valid (""))
+  if (gsasl_mechanism_name_p (""))
     fail ("FAIL: empty string is a valid mechanism name?!\n");
 
-  if (!gsasl_is_mechanism_name_valid ("1"))
+  if (!gsasl_mechanism_name_p ("1"))
     fail ("FAIL: 1 is not a valid mechanism name?!\n");
 
-  if (!gsasl_is_mechanism_name_valid ("12345678901234567890"))
+  if (!gsasl_mechanism_name_p ("12345678901234567890"))
     fail ("FAIL: 20chars is not a valid mechanism name?!\n");
 
-  if (gsasl_is_mechanism_name_valid ("123456789012345678901"))
+  if (gsasl_mechanism_name_p ("123456789012345678901"))
     fail ("FAIL: 21chars is a valid mechanism name?!\n");
 
-  if (gsasl_is_mechanism_name_valid ("lower"))
+  if (gsasl_mechanism_name_p ("lower"))
     fail ("FAIL: lowercase string is a valid mechanism name?!\n");
 
-  if (!gsasl_is_mechanism_name_valid ("A0-_Z9"))
+  if (!gsasl_mechanism_name_p ("A0-_Z9"))
     fail ("FAIL: weird string is not a valid mechanism name?!\n");
 
-  if (!gsasl_is_mechanism_name_valid ("PLAIN"))
+  if (!gsasl_mechanism_name_p ("PLAIN"))
     fail ("FAIL: PLAIN is not a valid mechanism name?!\n");
 
   str = "FOO BAR FOO";
