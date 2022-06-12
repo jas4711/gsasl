@@ -1,5 +1,5 @@
 /* client.c --- SASL mechanism GSSAPI as defined in RFC 4752, client side.
- * Copyright (C) 2002-2021 Simon Josefsson
+ * Copyright (C) 2002-2022 Simon Josefsson
  *
  * This file is part of GNU SASL Library.
  *

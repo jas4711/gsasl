@@ -1,5 +1,5 @@
 /* gssapi.c --- Test the GSSAPI mechanism.
- * Copyright (C) 2002-2021 Simon Josefsson
+ * Copyright (C) 2002-2022 Simon Josefsson
  *
  * This file is part of GNU SASL.
  *

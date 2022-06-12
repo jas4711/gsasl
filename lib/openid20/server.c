@@ -1,5 +1,5 @@
 /* server.c --- OPENID20 mechanism, server side.
- * Copyright (C) 2011-2021 Simon Josefsson
+ * Copyright (C) 2011-2022 Simon Josefsson
  *
  * This file is part of GNU SASL Library.
  *

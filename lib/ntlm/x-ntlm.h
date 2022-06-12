@@ -1,5 +1,5 @@
 /* x-ntlm.h --- Prototypes for non-standard SASL mechanism NTLM.
- * Copyright (C) 2002-2021 Simon Josefsson
+ * Copyright (C) 2002-2022 Simon Josefsson
  *
  * This file is part of GNU SASL Library.
  *

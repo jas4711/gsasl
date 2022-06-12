@@ -1,5 +1,5 @@
 # List of files which contain translatable strings.
-# Copyright (c) 2002-2021 Simon Josefsson
+# Copyright (c) 2002-2022 Simon Josefsson
 lib/src/error.c
 src/gsasl.c
 src/imap.c

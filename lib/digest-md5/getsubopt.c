@@ -1,5 +1,5 @@
 /* getsubopt.c --- Parse comma separate list into words, DIGEST-MD5 style.
- * Copyright (C) 2002-2021 Simon Josefsson
+ * Copyright (C) 2002-2022 Simon Josefsson
  * Copyright (C) 1996, 1997, 1999 Free Software Foundation, Inc.
  * From the GNU C Library, under GNU LGPL version 2.1.
  * Contributed by Ulrich Drepper <drepper@cygnus.com>, 1996.

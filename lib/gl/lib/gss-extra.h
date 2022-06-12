@@ -1,5 +1,5 @@
 /* gss-extra.h --- Provide GSS-API symbols when missing from library.
- * Copyright (C) 2010-2021  Simon Josefsson
+ * Copyright (C) 2010-2022 Simon Josefsson
  *
  * This file is part of GNU SASL Library.
  *

@@ -1,5 +1,5 @@
 /* startcb.c --- Verify that mechanism start() do not invoke callbacks.
- * Copyright (C) 2020-2021 Simon Josefsson
+ * Copyright (C) 2020-2022 Simon Josefsson
  *
  * This file is part of GNU SASL.
  *

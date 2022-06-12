@@ -1,5 +1,5 @@
 /* tools.c --- Shared client/server SCRAM code
- * Copyright (C) 2009-2021 Simon Josefsson
+ * Copyright (C) 2009-2022 Simon Josefsson
  *
  * This file is part of GNU SASL Library.
  *

@@ -1,7 +1,7 @@
 # -*- mode: makefile -*-
 #
 # Makefile.am - template makefile for gtk-doc module
-# Copyright (C) 2002-2021 Simon Josefsson
+# Copyright (C) 2002-2022 Simon Josefsson
 # Copyright (C) 2007-2017  Stefan Sauer
 #
 # This program is free software: you can redistribute it and/or modify

@@ -1,5 +1,5 @@
 /* test-parser.c --- Self tests of DIGEST-MD5 parser & printer.
- * Copyright (C) 2004-2021 Simon Josefsson
+ * Copyright (C) 2004-2022 Simon Josefsson
  *
  * This file is part of GNU SASL Library.
  *
