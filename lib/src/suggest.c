@@ -107,7 +107,9 @@ gsasl_client_suggest_mechanism (Gsasl * ctx, const char *mechlist)
 	  for (j = (target_mech < ctx->n_client_mechs ? target_mech + 1 : 0);
 	       j < ctx->n_client_mechs; ++j)
 	    {
-	      if (strncmp (ctx->client_mechs[j].name, mechlist + i, len) == 0)
+	      if ((strlen (ctx->client_mechs[j].name) == len)
+		  && (strncmp (ctx->client_mechs[j].name, mechlist + i,
+			       len) == 0))
 		{
 		  Gsasl_session *sctx;
 

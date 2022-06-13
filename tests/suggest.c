@@ -79,6 +79,16 @@ doit (void)
 
   if (gsasl_client_support_p (ctx, "EXTERNAL"))
     {
+      str = "FOO BAR EXTERNA BAR FOO";
+      p = gsasl_client_suggest_mechanism (ctx, str);
+      if (debug)
+	printf ("gsasl_client_suggest_mechanism(%s) = %s\n", str, p);
+      if (p)
+	fail ("FAIL: EXTERNAL vs EXTERNA prefix matching?! %s\n", p);
+    }
+
+  if (gsasl_client_support_p (ctx, "EXTERNAL"))
+    {
       str = "FOO BAR EXTERNAL BAR FOO";
       p = gsasl_client_suggest_mechanism (ctx, str);
       if (debug)
