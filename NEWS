@@ -11,7 +11,9 @@ Reported by "tbc TobeContinued" <tbc.dengwenqi@gmail.com> in
 <https://lists.gnu.org/archive/html/help-gsasl/2022-01/msg00000.html>.
 
 ** libgsasl: Fix DIGEST-MD5 compiler warnings.
-Reported by Dirk Müller <dmueller@suse.de> in
+Reported by Martin Liška <mliska@suse.cz> in
+<https://lists.gnu.org/archive/html/help-gsasl/2022-01/msg00001.html>
+and Dirk Müller <dmueller@suse.de> in
 <https://lists.gnu.org/archive/html/help-gsasl/2022-01/msg00003.html>.
 
 ** libgsasl: Rename gsasl_is_mechanism_name_valid to gsasl_mechanism_name_p.
