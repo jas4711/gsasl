@@ -284,8 +284,7 @@ doit (void)
     fail ("header version mismatch library version\n");
 
   i = GSASL_VERSION_MAJOR * 256 * 256 +
-    GSASL_VERSION_MINOR * 256 +
-    GSASL_VERSION_PATCH;
+    GSASL_VERSION_MINOR * 256 + GSASL_VERSION_PATCH;
 
   asprintf (&out, "%d.%d.%d", GSASL_VERSION_MAJOR,
 	    GSASL_VERSION_MINOR, GSASL_VERSION_PATCH);
