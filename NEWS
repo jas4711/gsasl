@@ -1,6 +1,6 @@
 GNU SASL NEWS -- History of user-visible changes.               -*- outline -*-
 
-* Noteworthy changes in release ?.? (????-??-??) [?]
+* Noteworthy changes in release 1.11.3 (2022-06-13) [beta]
 
 ** libgsasl: Fix substring prefix bug in gsasl_client_suggest_mechanism.
 Reported by "Kevin J. McCarthy" <kevin@8t8.us> in
