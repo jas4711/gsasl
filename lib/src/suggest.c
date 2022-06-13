@@ -36,7 +36,8 @@ const char *_GSASL_VALID_MECHANISM_CHARACTERS =
  * @mech: input variable with mechanism name string.
  *
  * Check if the mechanism name string @mech follows syntactical rules.
- * It does not check that the name is registered with IANA.
+ * It does not check that the name is registered with IANA.  It does not
+ * check that the mechanism name is actually implemented and supported.
  *
  * SASL mechanisms are named by strings, from 1 to 20 characters in
  * length, consisting of upper-case letters, digits, hyphens, and/or
