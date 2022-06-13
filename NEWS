@@ -6,6 +6,10 @@ GNU SASL NEWS -- History of user-visible changes.               -*- outline -*-
 Reported by "Kevin J. McCarthy" <kevin@8t8.us> in
 <https://lists.gnu.org/archive/html/help-gsasl/2021-12/msg00005.html
 
+** libgsasl: Fix GSSAPI client encode/decode memory buffer length buf.
+Reported by "tbc TobeContinued" <tbc.dengwenqi@gmail.com> in
+<https://lists.gnu.org/archive/html/help-gsasl/2022-01/msg00000.html>.
+
 ** libgsasl: Rename gsasl_is_mechanism_name_valid to gsasl_mechanism_name_p.
 For better sorting of public APIs and consistency with other *_p
 function name usage.

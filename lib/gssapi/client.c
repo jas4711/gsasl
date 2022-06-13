@@ -299,7 +299,7 @@ _gsasl_gssapi_client_encode (Gsasl_session * sctx,
       if (GSS_ERROR (maj_stat))
 	return GSASL_GSSAPI_WRAP_ERROR;
       *output_len = output_message_buffer.length;
-      *output = malloc (input_len);
+      *output = malloc (output_message_buffer.length);
       if (!*output)
 	{
 	  maj_stat = gss_release_buffer (&min_stat, &output_message_buffer);
@@ -352,7 +352,7 @@ _gsasl_gssapi_client_decode (Gsasl_session * sctx,
       if (GSS_ERROR (maj_stat))
 	return GSASL_GSSAPI_UNWRAP_ERROR;
       *output_len = output_message_buffer.length;
-      *output = malloc (input_len);
+      *output = malloc (output_message_buffer.length);
       if (!*output)
 	{
 	  maj_stat = gss_release_buffer (&min_stat, &output_message_buffer);
