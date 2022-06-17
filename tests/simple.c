@@ -286,8 +286,10 @@ doit (void)
   i = GSASL_VERSION_MAJOR * 256 * 256 +
     GSASL_VERSION_MINOR * 256 + GSASL_VERSION_PATCH;
 
-  asprintf (&out, "%d.%d.%d", GSASL_VERSION_MAJOR,
-	    GSASL_VERSION_MINOR, GSASL_VERSION_PATCH);
+  j = asprintf (&out, "%d.%d.%d", GSASL_VERSION_MAJOR,
+		GSASL_VERSION_MINOR, GSASL_VERSION_PATCH);
+  if (j <= 0)
+    fail ("asprintf failure: %d", j);
 
   success ("Header version %s number %x derived %x\n", out,
 	   (unsigned) GSASL_VERSION_NUMBER, (unsigned) i);
