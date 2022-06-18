@@ -39,7 +39,7 @@ apt-get install dia libgnutls28-dev gengetopt gperf
 
 To download the version controlled sources:
 
-$ git clone https://git.savannah.gnu.org/git/gsasl.git
+$ git clone https://gitlab.com/gsasl/gsasl.git
 $ cd gsasl
 
 The next step is to bootstrap everything:
