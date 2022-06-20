@@ -1,6 +1,6 @@
 GNU SASL NEWS -- History of user-visible changes.               -*- outline -*-
 
-* Noteworthy changes in release ?.? (????-??-??) [?]
+* Noteworthy changes in release 2.0.0 (2022-06-20) [stable]
 
 ** Compared to last stable branch 1.10.x the 2.0.0 release
 ** drops all obsolete APIs, drops the abandoned KERBEROS_V5 mechanism,
