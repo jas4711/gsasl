@@ -2,6 +2,13 @@ GNU SASL NEWS -- History of user-visible changes.               -*- outline -*-
 
 * Noteworthy changes in release ?.? (????-??-??) [?]
 
+** Compared to last stable branch 1.10.x the 2.0.0 release
+** drops all obsolete APIs, drops the abandoned KERBEROS_V5 mechanism,
+** stops shipping a separate tarball for only the library, adds new APIs
+** gsasl_mechanism_name_p() and gsasl_property_free().
+Numerous other translation improvements, code cleanups, bug fixes,
+documentation additions, build improvements and portability
+enhancements were made as well.
 
 * Noteworthy changes in release 1.11.3 (2022-06-13) [beta]
 
