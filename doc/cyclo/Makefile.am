@@ -26,7 +26,7 @@ cyclo-$(PACKAGE).html:
 		| sort -nr \
 		| $(AWK) -f ../build-aux/pmccabe2html \
 			-v lang=html -v name="$(PACKAGE_NAME)" \
-			-v vcurl="https://git.savannah.gnu.org/gitweb/?p=$(PACKAGE).git;a=blob;f=lib/%FILENAME%;hb=HEAD" \
+			-v vcurl="https://gitlab.com/gsasl/gsasl/-/blob/master/lib/%FILENAME%" \
 			-v url="https://www.gnu.org/software/$(PACKAGE)/" \
                        -v css=../build-aux/pmccabe.css) > $@-tmp
 	mv $@-tmp $@
