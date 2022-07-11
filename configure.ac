@@ -239,7 +239,7 @@ fi
 
 # GSSAPI.
 AC_ARG_WITH(gssapi-impl,
-  AS_HELP_STRING([--with-gssapi-impl=no/gss/kfw/mit/heimdal/yes],
+  AS_HELP_STRING([--with-gssapi-impl=no/gss/gssglue/kfw/mit/heimdal/yes],
                  [select GSS-API implementation]),
   gssapi_impl=$withval, gssapi_impl=yes)
 if test "$gs2" = no && test "$gssapi" = no; then
@@ -260,6 +260,14 @@ gss_check_version (0);
   if test "$ac_cv_libgss" != yes; then
     gssapi_impl=no
     AC_MSG_WARN([GNU GSS not found, disabling GSSAPI.])
+  fi
+elif test "$gssapi_impl" = "gssglue"; then
+  AC_MSG_NOTICE([trying libgssglue])
+  AC_LIB_HAVE_LINKFLAGS(gssglue,, [#include <gssapi/gssapi.h>],
+                        [gss_release_buffer ((OM_uint32*)0, GSS_C_NO_BUFFER)])
+  if test "$ac_cv_libgssglue" != yes; then
+    gssapi_impl=no
+    AC_MSG_WARN([libgssglue not found, disabling GSSAPI.])
   fi
 elif test "$gssapi_impl" = "kfw"; then
   AC_MSG_NOTICE([trying MIT Kerberos for Windows GSS-API library])
@@ -518,7 +526,7 @@ AC_MSG_NOTICE([summary of main build options:
   Libidn:             $LTLIBIDN
   Libgcrypt:          $LIB_CRYPTO
   Libntlm:            $LTLIBNTLM
-  GSS-API:            $gssapi_impl ltlibgss: $LTLIBGSS ltlibgssapi32: $LTLIBGSSAPI32 gss_libs: $GSS_LIBS
+  GSS-API:            $gssapi_impl ltlibgss: $LTLIBGSS ltlibgssglue: $LTLIBGSSGLUE ltlibgssapi32: $LTLIBGSSAPI32 gss_libs: $GSS_LIBS
 
   ANONYMOUS:          $anonymous
   EXTERNAL:           $external
