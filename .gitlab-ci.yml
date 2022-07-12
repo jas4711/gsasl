@@ -233,6 +233,19 @@ Debian9-gss:
   - ./configure --with-gssapi-impl=gss --enable-gcc-warnings || (cat config.log; exit 1)
   - make check V=1 || (find . -name test-suite.log -exec cat {} +; exit 1)
 
+Debian11-gssglue:
+  image: debian:11-slim
+  stage: test
+  needs: [Debian]
+  before_script:
+  - apt-get update -q
+  - env DEBIAN_FRONTEND=noninteractive apt-get install -y -q make gcc libgssglue-dev
+  script:
+  - tar xfz gsasl-*.tar.gz
+  - cd `ls -d gsasl-* | grep -v tar.gz`
+  - ./configure --with-gssapi-impl=gssglue --enable-gcc-warnings || (cat config.log; exit 1)
+  - make check V=1 || (find . -name test-suite.log -exec cat {} +; exit 1)
+
 Debian11-armcross:
   image: debian:bullseye-slim
   stage: test
