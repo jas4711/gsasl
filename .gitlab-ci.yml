@@ -231,6 +231,8 @@ Debian9-gss:
   - tar xfz gsasl-*.tar.gz
   - cd `ls -d gsasl-* | grep -v tar.gz`
   - ./configure --with-gssapi-impl=gss --enable-gcc-warnings || (cat config.log; exit 1)
+  - grep 'ac_cv_libgss=yes' config.log
+  - grep 'USE_GS2 1' config.log
   - make check V=1 || (find . -name test-suite.log -exec cat {} +; exit 1)
 
 Debian11-gssglue:
@@ -244,6 +246,8 @@ Debian11-gssglue:
   - tar xfz gsasl-*.tar.gz
   - cd `ls -d gsasl-* | grep -v tar.gz`
   - ./configure --with-gssapi-impl=gssglue --enable-gcc-warnings || (cat config.log; exit 1)
+  - grep 'ac_cv_libgssglue=yes' config.log
+  - grep 'USE_GS2 1' config.log
   - make check V=1 || (find . -name test-suite.log -exec cat {} +; exit 1)
 
 Debian11-armcross:
