@@ -279,7 +279,7 @@ elif test "$gssapi_impl" = "kfw"; then
   fi
 elif test "$gssapi_impl" = "mit"; then
   AC_MSG_NOTICE([trying MIT])
-  AC_PATH_PROG(KRB5_CONFIG, krb5-config, no)
+  AC_PATH_PROGS(KRB5_CONFIG, [krb5-config.mit krb5-config], no)
   if test "$KRB5_CONFIG" != "no" ; then
     GSS_CFLAGS="`$KRB5_CONFIG --cflags`"
     GSS_LIBS="`$KRB5_CONFIG --libs gssapi`"
@@ -289,7 +289,7 @@ elif test "$gssapi_impl" = "mit"; then
   fi
 elif test "$gssapi_impl" = "heimdal"; then
   AC_MSG_NOTICE([trying Heimdal])
-  AC_PATH_PROG(KRB5_CONFIG, krb5-config, no)
+  AC_PATH_PROGS(KRB5_CONFIG, [krb5-config.heimdal krb5-config], no)
   if test "$KRB5_CONFIG" != "no" ; then
     GSS_CFLAGS="`$KRB5_CONFIG --cflags`"
     GSS_LIBS="`$KRB5_CONFIG --libs gssapi`"
