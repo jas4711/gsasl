@@ -20,9 +20,11 @@
 
 /* This is a minimal SMTP server with GNU SASL authentication support.
 
-   The only valid password is "sesam".  This server will complete
-   authentications using LOGIN, PLAIN, DIGEST-MD5, CRAM-MD5,
-   SCRAM-SHA-1 and SCRAM-SHA-256.
+   This server will complete authentications using LOGIN, PLAIN,
+   DIGEST-MD5, CRAM-MD5, SCRAM-SHA-1, SCRAM-SHA-256, GSSAPI and GS2.
+
+   The only valid password is "sesam".  For GSSAPI/GS2, the hostname
+   is hard coded as "smtp.gsasl.example" and the service type "smtp".
 
    It accepts an optional command line parameter specifying the
    service name (i.e., a numerical port number or /etc/services name).
@@ -50,10 +52,21 @@ callback (Gsasl * ctx, Gsasl_session * sctx, Gsasl_property prop)
       rc = gsasl_property_set (sctx, prop, "sesam");
       break;
 
+      /* These are for GSSAPI/GS2 only. */
+    case GSASL_SERVICE:
+      rc = gsasl_property_set (sctx, prop, "smtp");
+      break;
+    case GSASL_HOSTNAME:
+      rc = gsasl_property_set (sctx, prop, "smtp.gsasl.example");
+      break;
+    case GSASL_VALIDATE_GSSAPI:
+      return GSASL_OK;
+
     default:
       /* You may want to log (at debug verbosity level) that an
          unknown property was requested here, possibly after filtering
          known rejected property requests. */
+      printf ("unknown gsasl callback %u\n", prop);
       break;
     }
 
@@ -124,8 +137,11 @@ server_auth (FILE * fh, Gsasl_session * session, char *initial_challenge)
   {
     const char *authid = gsasl_property_fast (session, GSASL_AUTHID);
     const char *authzid = gsasl_property_fast (session, GSASL_AUTHZID);
-    print (fh, "235 OK [authid: %s authzid: %s]\n",
-	   authid ? authid : "N/A", authzid ? authzid : "N/A");
+    const char *gssname =
+      gsasl_property_fast (session, GSASL_GSSAPI_DISPLAY_NAME);
+    print (fh, "235 OK [authid: %s authzid: %s gssname: %s]\n",
+	   authid ? authid : "N/A", authzid ? authzid : "N/A",
+	   gssname ? gssname : "N/A");
   }
 
 done:
