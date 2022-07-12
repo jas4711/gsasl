@@ -73,12 +73,19 @@ callback (Gsasl * ctx, Gsasl_session * sctx, Gsasl_property prop)
   return rc;
 }
 
+#define print(fh, ...)							\
+  printf ("S: "), printf (__VA_ARGS__), fprintf (fh, __VA_ARGS__)
+
 static ssize_t
 gettrimline (char **line, size_t *n, FILE * fh)
 {
   ssize_t s = getline (line, n, fh);
 
-  if (s >= 2)
+  if (s < 0 && feof (fh))
+    print (fh, "221 localhost EOF\n");
+  else if (s < 0)
+    print (fh, "221 localhost getline failure: %s\n", strerror (errno));
+  else if (s >= 2)
     {
       if ((*line)[strlen (*line) - 1] == '\n')
 	(*line)[strlen (*line) - 1] = '\0';
@@ -90,9 +97,6 @@ gettrimline (char **line, size_t *n, FILE * fh)
 
   return s;
 }
-
-#define print(fh, ...)							\
-  printf ("S: "), printf (__VA_ARGS__), fprintf (fh, __VA_ARGS__)
 
 static void
 server_auth (FILE * fh, Gsasl_session * session, char *initial_challenge)
@@ -120,10 +124,7 @@ server_auth (FILE * fh, Gsasl_session * session, char *initial_challenge)
 	  gsasl_free (p);
 
 	  if (gettrimline (&line, &n, fh) < 0)
-	    {
-	      print (fh, "221 localhost getline failure\n");
-	      goto done;
-	    }
+	    goto done;
 	}
     }
   while (rc == GSASL_NEEDS_MORE);
@@ -217,9 +218,6 @@ smtp (FILE * fh, Gsasl * ctx)
       else
 	print (fh, "500 unrecognized command\n");
     }
-
-  if (errno)
-    print (fh, "221 localhost getline failure: %s\n", strerror (errno));
 
   free (line);
 }
