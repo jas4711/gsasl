@@ -1,4 +1,4 @@
-/* gss-extra.h --- Provide GSS-API symbols when missing from library.
+/* gss-extra.h --- Provide GSS-API headers and missing symbols definitions.
  * Copyright (C) 2010-2022 Simon Josefsson
  *
  * This file is part of GNU SASL Library.
@@ -26,6 +26,8 @@
 /* Get GSS-API functions. */
 # ifdef HAVE_LIBGSS
 #  include <gss.h>
+# elif HAVE_LIBGSSGLUE
+#  include <gssglue/gssapi/gssapi.h>
 # else
 #  if HAVE_GSSAPI_H
 #   include <gssapi.h>

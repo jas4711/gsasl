@@ -259,7 +259,7 @@ Debian10-gssglue:
   script:
   - tar xfz gsasl-*.tar.gz
   - cd `ls -d gsasl-* | grep -v tar.gz`
-  - ./configure --with-gssapi-impl=gssglue CPPFLAGS=-I/usr/include/gssglue --disable-gcc-warnings
+  - ./configure --with-gssapi-impl=gssglue --disable-gcc-warnings
   - grep 'ac_cv_libgssglue=yes' config.log
   - grep 'USE_GS2 1' config.log
   - make check V=1

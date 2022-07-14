@@ -19,7 +19,7 @@ AC_DEFUN([sj_GSS_EXTRA],
     AC_CHECK_FUNCS([gss_decapsulate_token])
     AC_CHECK_FUNCS([gss_oid_equal])
     AC_CHECK_FUNCS([gss_inquire_mech_for_saslname])
-    if test "$gssapi_impl" != "gss"; then
+    if test "$gssapi_impl" != "gss" && test "$gssapi_impl" != "gssglue"; then
       AC_CHECK_HEADERS([gssapi.h gssapi/gssapi.h gssapi/gssapi_ext.h])
       if test "$ac_cv_header_gssapi_h$ac_cv_header_gssapi_gssapi_h" = "nono"; then
         gssapi_impl=no
@@ -30,6 +30,9 @@ AC_DEFUN([sj_GSS_EXTRA],
 # include <gssapi.h>
 #elif HAVE_GSSAPI_GSSAPI_H
 # include <gssapi/gssapi.h>
+#endif
+#if HAVE_GSSAPI_GSSAPI_EXT_H
+# include <gssapi/gssapi_ext.h>
 #endif
 ]])
       fi
