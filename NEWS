@@ -2,6 +2,14 @@ GNU SASL NEWS -- History of user-visible changes.               -*- outline -*-
 
 * Noteworthy changes in release ?.? (????-??-??) [?]
 
+** Support for the libgssglue GSS-API library were added.
+We encourage you to build with libgssglue, as it allows administrators
+to chose between MIT Kerberos, Heimdal and GNU GSS during run-time.
+
+** The examples/smtp-server.c now supports GSSAPI/GS2-KRB5.
+The example is used during CI/CD testing of GNU SASL and thus it made
+sense to extend it.  Some bugs related to getline error conditions
+were also fixed.
 
 * Noteworthy changes in release 2.0.0 (2022-06-20) [stable]
 

@@ -327,6 +327,43 @@ fi
 AC_SUBST([GSS_CFLAGS])
 AC_SUBST([GSS_LIBS])
 
+# Test for GSS-API library features.
+if test "$gssapi_impl" != "no"; then
+  save_CPPFLAGS="$CPPFLAGS"
+  save_LIBS="$LIBS"
+  CPPFLAGS="$CPPFLAGS $GSS_CFLAGS"
+  LIBS="$LIBS $LIBGSS $GSS_LIBS"
+  AC_CHECK_FUNCS([gss_encapsulate_token])
+  AC_CHECK_FUNCS([gss_decapsulate_token])
+  AC_CHECK_FUNCS([gss_oid_equal])
+  AC_CHECK_FUNCS([gss_inquire_mech_for_saslname])
+  if test "$gssapi_impl" != "gss" && test "$gssapi_impl" != "gssglue"; then
+    AC_CHECK_HEADERS([gssapi.h gssapi/gssapi.h gssapi/gssapi_ext.h])
+    if test "$ac_cv_header_gssapi_h$ac_cv_header_gssapi_gssapi_h" = "nono"; then
+      gssapi_impl=no
+      AC_MSG_WARN([Cannot find gssapi.h or gssapi/gssapi.h, disabling GSSAPI])
+    fi
+  fi
+  AC_CHECK_DECLS([GSS_C_NT_HOSTBASED_SERVICE], [], [], [[
+# ifdef HAVE_LIBGSS
+#  include <gss.h>
+# elif HAVE_LIBGSSGLUE
+#  include <gssglue/gssapi/gssapi.h>
+# else
+#  if HAVE_GSSAPI_H
+#   include <gssapi.h>
+#  elif HAVE_GSSAPI_GSSAPI_H
+#   include <gssapi/gssapi.h>
+#  endif
+#  if HAVE_GSSAPI_GSSAPI_EXT_H
+#   include <gssapi/gssapi_ext.h>
+#  endif
+# endif
+]])
+  CPPFLAGS="$save_CPPFLAGS"
+  LIBS="$save_LIBS"
+fi
+
 # Check for libidn
 AC_ARG_WITH(stringprep,
   AS_HELP_STRING([--without-stringprep], [disable non-ASCII support]),
@@ -403,7 +440,7 @@ if test "$ac_cv_libgnutls" = yes; then
   LIBS="$save_LIBS"
 fi
 
-# For gnulib stuff in gl/ which may modify gssapi_impl, see gl/m4/gss-extra.m4.
+# For gnulib stuff in gl/ see also lib/gl/m4/gss-extra.m4 and lib/gl/lib/gss-extra.?.
 gl_INIT
 lgl_INIT
 AC_DEFINE([GNULIB_NO_VLA], 1, [Disable VLA usage in gettext.h.])

@@ -33,7 +33,8 @@
 /* Get malloc, free. */
 #include <stdlib.h>
 
-#ifndef HAVE_DECL_GSS_C_NT_HOSTBASED_SERVICE
+#if ! HAVE_DECL_GSS_C_NT_HOSTBASED_SERVICE
+
 /* MIT Kerberos for Windows version 3.2.2 lacks this. */
 static gss_OID_desc tmp = {
   10,
@@ -44,7 +45,7 @@ gss_OID GSS_C_NT_HOSTBASED_SERVICE = &tmp;
 
 #endif
 
-#ifndef HAVE_GSS_OID_EQUAL
+#if! HAVE_GSS_OID_EQUAL
 
 int
 gss_oid_equal (const gss_OID first_oid, const gss_OID second_oid)
@@ -57,7 +58,7 @@ gss_oid_equal (const gss_OID first_oid, const gss_OID second_oid)
 
 #endif
 
-#ifndef HAVE_GSS_INQUIRE_MECH_FOR_SASLNAME
+#if ! HAVE_GSS_INQUIRE_MECH_FOR_SASLNAME
 
 /* Provide a dummy replacement function for GSS-API libraries that
    lacks gss_inquire_mech_for_saslname.  This function only works for
@@ -98,7 +99,7 @@ gss_inquire_mech_for_saslname (OM_uint32 * minor_status,
  * Copyright (C) 2003, 2004, 2005, 2006, 2007, 2008, 2009, 2010  Simon Josefsson
  */
 
-#ifndef HAVE_GSS_ENCAPSULATE_TOKEN
+#if ! HAVE_GSS_ENCAPSULATE_TOKEN
 
 static void
 _gss_asn1_length_der (size_t len, unsigned char *ans, size_t *ans_len)
@@ -201,7 +202,7 @@ gss_encapsulate_token (const gss_buffer_t input_token,
 
 #endif /* HAVE_GSS_ENCAPSULATE_TOKEN */
 
-#ifndef HAVE_GSS_ENCAPSULATE_TOKEN
+#if ! HAVE_GSS_DECAPSULATE_TOKEN
 
 static size_t
 _gss_asn1_get_length_der (const char *der, size_t der_len, size_t *len)
@@ -335,4 +336,4 @@ gss_decapsulate_token (const gss_buffer_t input_token,
   return GSS_S_COMPLETE;
 }
 
-#endif
+#endif /* HAVE_GSS_DECAPSULATE_TOKEN */
