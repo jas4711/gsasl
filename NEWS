@@ -29,6 +29,11 @@ The example is used during CI/CD testing of GNU SASL and thus it made
 sense to extend it.  Some bugs related to getline error conditions
 were also fixed.
 
+** GSSAPI server: Fix out-of-bounds read.
+A malicious client can after it has authenticated with Kerberos send a
+specially crafted message that causes Libgsasl to read out of bounds
+and cause a crash in the server.
+
 * Noteworthy changes in release 2.0.0 (2022-06-20) [stable]
 
 ** Compared to last stable branch 1.10.x the 2.0.0 release
