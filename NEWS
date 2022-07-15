@@ -3,8 +3,10 @@ GNU SASL NEWS -- History of user-visible changes.               -*- outline -*-
 * Noteworthy changes in release ?.? (????-??-??) [?]
 
 ** Support for the libgssglue GSS-API library were added.
-We encourage you to build with libgssglue, as it allows administrators
-to chose between MIT Kerberos, Heimdal and GNU GSS during run-time.
+We encourage you to build with libgssglue, as that allows system
+administrators and end-users to chose between MIT Kerberos, Heimdal
+and GNU GSS during run-time.  Read about the background here:
+https://blog.josefsson.org/2022/07/14/towards-pluggable-gss-api-modules/
 
 ** GSSAPI client: don't use AUTHID as fallback for AUTHZID.
 The code historically used the AUTHID as authorization identity, but
