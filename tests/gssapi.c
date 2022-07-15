@@ -35,7 +35,7 @@
 #define GSSAPI_USER "jas"
 
 static const char *USERNAME[] = {
-  "foo", "BABABA", "jas", "hepp", "@"
+  "foo", "BABABA", "jas", "hepp", "@", NULL
 };
 
 size_t i;
@@ -47,6 +47,10 @@ callback (Gsasl * ctx, Gsasl_session * sctx, Gsasl_property prop)
 
   switch (prop)
     {
+    case GSASL_AUTHID:
+      fail ("AUTHID should never be invoked by GSS-API mechanism!\n");
+      break;
+
     case GSASL_AUTHZID:
       rc = gsasl_property_set (sctx, GSASL_AUTHZID, USERNAME[i]);
       break;
@@ -69,7 +73,8 @@ callback (Gsasl * ctx, Gsasl_session * sctx, Gsasl_property prop)
 	printf ("Authorization ID: %s\n", authzid);
 
 	if (strcmp (client_name, GSSAPI_USER) == 0 &&
-	    strcmp (authzid, USERNAME[i]) == 0)
+	    ((USERNAME[i] == NULL && authzid == NULL)
+	     || (USERNAME[i] != NULL && strcmp (authzid, USERNAME[i]) == 0)))
 	  rc = GSASL_OK;
 	else
 	  rc = GSASL_AUTHENTICATION_ERROR;
@@ -115,7 +120,7 @@ doit (void)
 
   gsasl_callback_set (ctx, callback);
 
-  for (i = 0; i < 5; i++)
+  for (i = 0; i < 6; i++)
     {
       bool server_first = (i % 2) == 0;
 
