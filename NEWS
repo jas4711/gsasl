@@ -15,6 +15,13 @@ identity.  The change was not released until version 1.8.1 on
 year 2012'.  While documented behaviour, this seems like just
 surprising behaviour and we now finally make the change.
 
+** GSSAPI server: don't set AUTHZID to empty string when absent.
+The GSS-API SASL protocol does not differentiate between an absent
+authorization identity and an authorization identity that is the empty
+string.  Previously libgsasl would set it to the empty string but now
+it is set to NULL.  The manual explains that this is a protocol
+limitation.
+
 ** The examples/smtp-server.c now supports GSSAPI/GS2-KRB5.
 The example is used during CI/CD testing of GNU SASL and thus it made
 sense to extend it.  Some bugs related to getline error conditions

@@ -2093,8 +2093,13 @@ authorize the user.  Note that authentication is performed by the
 GSS-API library and that @code{GSASL_AUTHID} is not used by the server
 mechanism, its role is played by @code{GSASL_GSSAPI_DISPLAY_NAME}.
 
-This implementation does not support security layers.  You are
-recommended to use TLS instead.
+The protocol does not distinguish between an absent authorization
+identity and the empty authorization identity.  Earlier versions of the
+library returned the empty string but currently it returns NULL, it is
+suggested to treat both the same for this mechanism.
+
+The server-part does not support security layers.  You are recommended
+to use TLS instead.
 
 The GSSAPI mechanism was specified as part of the initial core SASL
 framework, in RFC 2222, but later revised in RFC 4752 to only apply to

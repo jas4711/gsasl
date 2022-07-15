@@ -228,9 +228,12 @@ _gsasl_gssapi_server_step (Gsasl_session * sctx,
 	  return GSASL_GSSAPI_UNSUPPORTED_PROTECTION_ERROR;
 	}
 
-      gsasl_property_set_raw (sctx, GSASL_AUTHZID,
-			      (char *) bufdesc2.value + 4,
-			      bufdesc2.length - 4);
+      if (bufdesc2.length > 4)
+	gsasl_property_set_raw (sctx, GSASL_AUTHZID,
+				(char *) bufdesc2.value + 4,
+				bufdesc2.length - 4);
+      else
+	gsasl_property_set (sctx, GSASL_AUTHZID, NULL);
 
       maj_stat = gss_display_name (&min_stat, state->client,
 				   &client_name, &mech_type);
