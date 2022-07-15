@@ -41,7 +41,7 @@ AlmaLinux8:
   script:
   - ./bootstrap --skip-po
   - ./configure --enable-gcc-warnings --disable-silent-rules
-  - make check V=1
+  - make check V=1 VERBOSE=t
   - make install
 
 Ubuntu-coverage-cyclo:
@@ -55,7 +55,7 @@ Ubuntu-coverage-cyclo:
   - ./bootstrap
   - ./configure --enable-gcc-warnings --disable-silent-rules CFLAGS="-g --coverage"
   - lcov --directory . --zerocounters
-  - make check
+  - make check VERBOSE=t
   - make dist
   - mkdir coverage
   - lcov --directory . --output-file coverage/gsasl.info --capture
@@ -129,7 +129,7 @@ Ubuntu-14.04:
   - tar xfa gsasl-*.tar.gz
   - cd `ls -d gsasl-* | grep -v tar.gz`
   - ./configure --enable-gcc-warnings
-  - make WERROR_CFLAGS= check V=1
+  - make WERROR_CFLAGS= check V=1 VERBOSE=t
 
 Ubuntu-distcheck:
   extends: .test
@@ -143,7 +143,7 @@ Ubuntu-distcheck:
   - tar xfa gsasl-*.tar.gz
   - cd `ls -d gsasl-* | grep -v tar.gz`
   - ./configure --enable-gcc-warnings
-  - make distcheck V=1
+  - make distcheck V=1 VERBOSE=t
 
 CentOS7:
   extends: .test
@@ -156,7 +156,7 @@ CentOS7:
   - tar xfa gsasl-*.tar.gz
   - cd `ls -d gsasl-* | grep -v tar.gz`
   - ./configure --enable-gcc-warnings
-  - make check V=1
+  - make check V=1 VERBOSE=t
 
 AlmaLinux8-krb5:
   extends: .test
@@ -170,7 +170,7 @@ AlmaLinux8-krb5:
   - cd `ls -d gsasl-* | grep -v tar.gz`
   - ./configure --enable-gcc-warnings --with-gssapi-impl=mit
   - grep 'USE_GS2 1' config.log
-  - make check V=1
+  - make check V=1 VERBOSE=t
 
 Alpine:
   extends: .test
@@ -185,7 +185,7 @@ Alpine:
   - tar xfz gsasl-*.tar.gz
   - cd `ls -d gsasl-* | grep -v tar.gz`
   - ./configure --enable-gcc-warnings
-  - make check V=1
+  - make check V=1 VERBOSE=t
 
 Alpine-heimdal:
   extends: .test
@@ -201,7 +201,7 @@ Alpine-heimdal:
   - cd `ls -d gsasl-* | grep -v tar.gz`
   - ./configure --enable-gcc-warnings --with-gssapi-impl=heimdal
   - grep 'USE_GS2 1' config.log
-  - make check V=1
+  - make check V=1 VERBOSE=t
 
 ArchLinux:
   extends: .test
@@ -216,7 +216,7 @@ ArchLinux:
   - mkdir b
   - cd b
   - ../configure --enable-gcc-warnings
-  - make check V=1
+  - make check V=1 VERBOSE=t
 
 Debian8:
   extends: .test
@@ -230,7 +230,7 @@ Debian8:
   - tar xfz gsasl-*.tar.gz
   - cd `ls -d gsasl-* | grep -v tar.gz`
   - ./configure --enable-gcc-warnings
-  - make check V=1
+  - make check V=1 VERBOSE=t
 
 Debian9-gss:
   extends: .test
@@ -246,7 +246,7 @@ Debian9-gss:
   - ./configure --with-gssapi-impl=gss --enable-gcc-warnings
   - grep 'ac_cv_libgss=yes' config.log
   - grep 'USE_GS2 1' config.log
-  - make check V=1
+  - make check V=1 VERBOSE=t
 
 Debian10-gssglue:
   extends: .test
@@ -262,7 +262,7 @@ Debian10-gssglue:
   - ./configure --with-gssapi-impl=gssglue --disable-gcc-warnings
   - grep 'ac_cv_libgssglue=yes' config.log
   - grep 'USE_GS2 1' config.log
-  - make check V=1
+  - make check V=1 VERBOSE=t
 
 Debian11-armcross:
   extends: .test
@@ -284,7 +284,7 @@ Debian11-armcross:
   - arm-linux-gnueabi-readelf -h src/gsasl
   - file src/gsasl
   - LANG=C.UTF-8 qemu-arm src/gsasl --mkpasswd --mechanism SCRAM-SHA-1 -p foo
-  - make check
+  - make check VERBOSE=t
 
 Debian-gsasl4win:
   image: debian:bullseye
@@ -321,7 +321,7 @@ Mingw32:
   - mkdir b
   - cd b
   - ../configure --host=i686-w64-mingw32 CC='i686-w64-mingw32-gcc -static-libgcc' --enable-gcc-warnings
-  - make WERROR_CFLAGS= check V=1
+  - make WERROR_CFLAGS= check V=1 VERBOSE=t
 
 Mingw64:
   extends: .test
@@ -338,7 +338,7 @@ Mingw64:
   - mkdir b
   - cd b
   - ../configure --host=x86_64-w64-mingw32 --enable-gcc-warnings
-  - make WERROR_CFLAGS= check V=1
+  - make WERROR_CFLAGS= check V=1 VERBOSE=t
 
 Debian-interop:
   extends: .test
@@ -414,7 +414,7 @@ Debian11-gss-interop:
   needs: [Debian]
   before_script:
   - apt-get update -qq
-  - env DEBIAN_FRONTEND=noninteractive apt-get install -y -q make gcc file libntlm0-dev
+  - env DEBIAN_FRONTEND=noninteractive apt-get install -y -q make gcc file libntlm0-dev | tail -10
   - env DEBIAN_FRONTEND=noninteractive apt-get install -y -qq krb5-multidev libgssglue-dev heimdal-multidev libgss-dev valgrind | tail -10
   - env DEBIAN_FRONTEND=noninteractive apt-get install -y -q shishi msmtp swaks libauthen-sasl-perl libmailutils-dev dovecot-imapd dovecot-gssapi krb5-kdc krb5-admin-server net-tools expect | tail -10
   - rm /etc/dovecot/conf.d/10-auth.conf
@@ -449,19 +449,19 @@ Debian11-gss-interop:
   - make | tail -10
   - ./libtool --mode=execute valgrind --error-exitcode=1 --exit-on-first-error=yes examples/smtp-server 2000 &
   - while ! netstat -na|grep 0.0.0.0:2000; do sleep 1; done
-  - src/gsasl smtp.gsasl.example 2000 --smtp --mechanism GSSAPI -d | grep '235 OK \[authid. N/A authzid. root gssname. jas@GSASL.EXAMPLE\]' # gsasl bug?  $USER shouldn't leak to authzid
+  - src/gsasl smtp.gsasl.example 2000 --smtp --mechanism GSSAPI -d | grep '235 OK \[authid. N/A authzid. N/A gssname. jas@GSASL.EXAMPLE\]'
   - src/gsasl smtp.gsasl.example 2000 --smtp --mechanism GS2-KRB5 -d | grep '235 OK \[authid. N/A authzid. N/A gssname. jas@GSASL.EXAMPLE\]'
   - src/gsasl smtp.gsasl.example 2000 --smtp --mechanism GSSAPI -z rms -d | grep '235 OK \[authid. N/A authzid. rms gssname. jas@GSASL.EXAMPLE\]'
   - src/gsasl smtp.gsasl.example 2000 --smtp --mechanism GS2-KRB5 -z rms -d | grep '235 OK \[authid. N/A authzid. rms gssname. jas@GSASL.EXAMPLE\]'
-  - printf "verbose on\nconnect 127.0.0.1 2000\nehlo foo\nset username jas\nset service smtp\nset host smtp.gsasl.example\nauth GSSAPI\nquit\n" | mailutils smtp 2>&1 | grep '235 OK \[authid. N/A authzid. jas gssname. jas@GSASL.EXAMPLE\]'
-  - printf "verbose on\nconnect 127.0.0.1 2000\nehlo foo\nset username jas\nset service smtp\nset host smtp.gsasl.example\nauth GS2-KRB5\nquit\n" | mailutils smtp 2>&1 | grep '235 OK \[authid. N/A authzid. N/A gssname. jas@GSASL.EXAMPLE\]' # mailutils bug?  shouldn't authzid=jas here?
-  - printf "verbose on\nconnect 127.0.0.1 2000\nehlo foo\nset password unused\nset service smtp\nset host smtp.gsasl.example\nauth GSSAPI\nquit\n" | mailutils smtp 2>&1 | grep '235 OK \[authid. N/A authzid.  gssname. jas@GSASL.EXAMPLE\]' # mailutils bug? shouldn't authzid be N/A here?
+  - printf "verbose on\nconnect 127.0.0.1 2000\nehlo foo\nset username rms\nset service smtp\nset host smtp.gsasl.example\nauth GSSAPI\nquit\n" | mailutils smtp 2>&1 | grep '235 OK \[authid. N/A authzid. rms gssname. jas@GSASL.EXAMPLE\]' # 'authzid:rms -- system libgsasl has GSS-API client authzid bug
+  - printf "verbose on\nconnect 127.0.0.1 2000\nehlo foo\nset username rms\nset service smtp\nset host smtp.gsasl.example\nauth GS2-KRB5\nquit\n" | mailutils smtp 2>&1 | grep '235 OK \[authid. N/A authzid. N/A gssname. jas@GSASL.EXAMPLE\]'
+  - printf "verbose on\nconnect 127.0.0.1 2000\nehlo foo\nset password unused\nset service smtp\nset host smtp.gsasl.example\nauth GSSAPI\nquit\n" | mailutils smtp 2>&1 | grep '235 OK \[authid. N/A authzid. N/A gssname. jas@GSASL.EXAMPLE\]'
   - printf "verbose on\nconnect 127.0.0.1 2000\nehlo foo\nset password unused jas\nset service smtp\nset host smtp.gsasl.example\nauth GS2-KRB5\nquit\n" | mailutils smtp 2>&1 | grep '235 OK \[authid. N/A authzid. N/A gssname. jas@GSASL.EXAMPLE\]'
-  - printf "verbose on\nconnect 127.0.0.1 2000\nehlo foo\nset username jas\nset service smtp\nset host smtp.gsasl.example\nauth GSSAPI\nquit\n" | LD_PRELOAD=lib/src/.libs/libgsasl.so mailutils smtp 2>&1 | grep '235 OK \[authid. N/A authzid. jas gssname. jas@GSASL.EXAMPLE\]'
-  - printf "verbose on\nconnect 127.0.0.1 2000\nehlo foo\nset username jas\nset service smtp\nset host smtp.gsasl.example\nauth GS2-KRB5\nquit\n" | LD_PRELOAD=lib/src/.libs/libgsasl.so mailutils smtp 2>&1 | grep '235 OK \[authid. N/A authzid. N/A gssname. jas@GSASL.EXAMPLE\]' # mailutils bug?  shouldn't authzid=jas here?
-  - printf "verbose on\nconnect 127.0.0.1 2000\nehlo foo\nset password unused\nset service smtp\nset host smtp.gsasl.example\nauth GSSAPI\nquit\n" | LD_PRELOAD=lib/src/.libs/libgsasl.so mailutils smtp 2>&1 | grep '235 OK \[authid. N/A authzid.  gssname. jas@GSASL.EXAMPLE\]' # mailutils bug? shouldn't authzid be N/A here?
+  - printf "verbose on\nconnect 127.0.0.1 2000\nehlo foo\nset username rms\nset service smtp\nset host smtp.gsasl.example\nauth GSSAPI\nquit\n" | LD_PRELOAD=lib/src/.libs/libgsasl.so mailutils smtp 2>&1 | grep '235 OK \[authid. N/A authzid. N/A gssname. jas@GSASL.EXAMPLE\]'
+  - printf "verbose on\nconnect 127.0.0.1 2000\nehlo foo\nset username rms\nset service smtp\nset host smtp.gsasl.example\nauth GS2-KRB5\nquit\n" | LD_PRELOAD=lib/src/.libs/libgsasl.so mailutils smtp 2>&1 | grep '235 OK \[authid. N/A authzid. N/A gssname. jas@GSASL.EXAMPLE\]'
+  - printf "verbose on\nconnect 127.0.0.1 2000\nehlo foo\nset password unused\nset service smtp\nset host smtp.gsasl.example\nauth GSSAPI\nquit\n" | LD_PRELOAD=lib/src/.libs/libgsasl.so mailutils smtp 2>&1 | grep '235 OK \[authid. N/A authzid. N/A gssname. jas@GSASL.EXAMPLE\]'
   - printf "verbose on\nconnect 127.0.0.1 2000\nehlo foo\nset password unused jas\nset service smtp\nset host smtp.gsasl.example\nauth GS2-KRB5\nquit\n" | LD_PRELOAD=lib/src/.libs/libgsasl.so mailutils smtp 2>&1 | grep '235 OK \[authid. N/A authzid. N/A gssname. jas@GSASL.EXAMPLE\]'
-  - echo foo | msmtp --host=smtp.gsasl.example --port=2000 --auth=gssapi --debug -f user@example.com user@example.com --user=jas | grep '235 OK \[authid. N/A authzid. jas gssname. jas@GSASL.EXAMPLE\]'
+  - echo foo | msmtp --host=smtp.gsasl.example --port=2000 --auth=gssapi --debug -f user@example.com user@example.com --user=jas | grep '235 OK \[authid. N/A authzid. jas gssname. jas@GSASL.EXAMPLE\]' # system libgssapi GSSAPI authzid bug
   - echo foo | LD_PRELOAD=lib/src/.libs/libgsasl.so msmtp --host=smtp.gsasl.example --port=2000 --auth=gssapi --debug -f user@example.com user@example.com --user=jas | grep '235 OK \[authid. N/A authzid. jas gssname. jas@GSASL.EXAMPLE\]'
   - src/gsasl imap.gsasl.example --no-starttls --mechanism GSSAPI -a jas -d 2>&1 | tee /dev/stderr | grep 'Client authentication finished (server trusted)...'
   - mkdir ../gssglue
@@ -475,10 +475,11 @@ Debian11-gss-interop:
   - src/gsasl smtp.gsasl.example 2001 --smtp --mechanism GSSAPI -z rms -d | grep '235 OK \[authid. N/A authzid. rms gssname. jas@GSASL.EXAMPLE\]'
   - src/gsasl smtp.gsasl.example 2001 --smtp --mechanism GS2-KRB5 -d | grep '235 OK \[authid. N/A authzid. N/A gssname. jas@GSASL.EXAMPLE\]'
   - src/gsasl imap.gsasl.example --no-starttls --mechanism GSSAPI -a jas -d 2>&1 | tee /dev/stderr | grep 'Client authentication finished (server trusted)...'
-  - (src/gsasl imap.gsasl.example --no-starttls --mechanism GSSAPI -d 2>&1 || true) | tee /dev/stderr | grep 'gsasl. server error'
+  - (! env LD_PRELOAD=/usr/lib/x86_64-linux-gnu/libgsasl.so.7 src/gsasl imap.gsasl.example --no-starttls --mechanism GSSAPI -d 2>&1) | tee /dev/stderr | grep 'gsasl. server error' # system libgsasl GSS-API client authzid bug - sends 'root' as authzid
+  - src/gsasl imap.gsasl.example --no-starttls --mechanism GSSAPI -d 2>&1 | tee /dev/stderr | grep 'Client authentication finished (server trusted)...'
   - mv /etc/gssapi_mech.conf /etc/gssapi_mech.conf-
   - echo 'fnord' > /etc/gssapi_mech.conf
-  - (src/gsasl smtp.gsasl.example 2000 --smtp --mechanism GSSAPI -z rms -d 2>&1 || true) | tee /dev/stderr | grep fnord
+  - (! src/gsasl smtp.gsasl.example 2000 --smtp --mechanism GSSAPI -d 2>&1) | tee /dev/stderr | grep fnord
   - echo 'libgssapi.so.3 mechglue_internal_krb5_init' > /etc/gssapi_mech.conf # heimdal
   - src/gsasl smtp.gsasl.example 2001 --smtp --mechanism GSSAPI -z rms -d | grep '235 OK \[authid. N/A authzid. rms gssname. jas@GSASL.EXAMPLE\]'
   - src/gsasl smtp.gsasl.example 2001 --smtp --mechanism GS2-KRB5 -d | grep '235 OK \[authid. N/A authzid. N/A gssname. jas@GSASL.EXAMPLE\]'
@@ -503,44 +504,45 @@ Debian11-gss-interop:
   - src/gsasl smtp.gsasl.example 2010 --smtp --mechanism GSSAPI -z rms -d | grep '235 OK \[authid. N/A authzid. rms gssname. jas@GSASL.EXAMPLE\]'
   - src/gsasl smtp.gsasl.example 2010 --smtp --mechanism GS2-KRB5 -d | grep '235 OK \[authid. N/A authzid. N/A gssname. jas@GSASL.EXAMPLE\]'
   - src/gsasl imap.gsasl.example --no-starttls --mechanism GSSAPI -a jas -d 2>&1 | tee /dev/stderr | grep 'Client authentication finished (server trusted)...'
-  - (src/gsasl imap.gsasl.example --no-starttls --mechanism GSSAPI -d 2>&1 || true) | tee /dev/stderr | grep 'gsasl. server error'
+  - src/gsasl imap.gsasl.example --no-starttls --mechanism GSSAPI -d 2>&1 | tee /dev/stderr | grep 'Client authentication finished (server trusted)...'
+  - (! env LD_PRELOAD=/usr/lib/x86_64-linux-gnu/libgsasl.so.7 src/gsasl imap.gsasl.example --no-starttls --mechanism GSSAPI -d 2>&1) | tee /dev/stderr | grep 'gsasl. server error'
   - mkdir ../gss
   - cd ../gss
   - ../configure --with-gssapi-impl=gss | tail -45
-  - make | tail -10
+  - make check LOG_VALGRIND= VALGRIND= | tail -10 # tests/gssapi.c actually does something only with libgss
   - ./libtool --mode=execute valgrind --error-exitcode=1 --exit-on-first-error=yes examples/smtp-server 2003 &
   - while ! netstat -na|grep 0.0.0.0:2003; do sleep 1; done
   - expect -c 'spawn shishi jas; expect "*assword" ;send -- "bar\r"; expect ticket; exit'
   - shishi -l  # FIXME XXX use of SHISHI_USER=jas below is a Shishi bug or at least misfeature
-  - (env SHISHI_USER=jas src/gsasl imap.gsasl.example --no-starttls --mechanism GSSAPI -a jas -d 2>&1 || true) | tee /dev/stderr | grep 'gss_unwrap' # FIXME XXX no support for AES gss_wrap in GNU GSS
-  - (env SHISHI_USER=jas src/gsasl smtp.gsasl.example 2000 --smtp --mechanism GSSAPI -a jas -d 2>&1 || true) | grep 'gss_unwrap'
+  - (! env SHISHI_USER=jas src/gsasl imap.gsasl.example --no-starttls --mechanism GSSAPI -a jas -d 2>&1) | tee /dev/stderr | grep 'gss_unwrap' # FIXME XXX no support for AES gss_wrap in GNU GSS
+  - (! env SHISHI_USER=jas src/gsasl smtp.gsasl.example 2000 --smtp --mechanism GSSAPI -a jas -d 2>&1) | grep 'gss_unwrap'
   - env SHISHI_USER=jas src/gsasl smtp.gsasl.example 2000 --smtp --mechanism GS2-KRB5 -d | grep '235 OK \[authid. N/A authzid. N/A gssname. jas@GSASL.EXAMPLE\]' # GS2 doesn't use gss_wrap
   - env SHISHI_USER=jas src/gsasl smtp.gsasl.example 2000 --smtp --mechanism GS2-KRB5 -z rms -d | grep '235 OK \[authid. N/A authzid. rms gssname. jas@GSASL.EXAMPLE\]'
   - echo 'client-kdc-etypes=des3-cbc-sha1-kd' > ~/.shishi/shishi.conf # Try 3DES that GNU GSS support
   - shishi -l
-  - (env SHISHI_USER=jas src/gsasl imap.gsasl.example --no-starttls --mechanism GSSAPI -a jas -d 2>&1 || true) | tee /dev/stderr | grep 'BAD_ENCRYPTION_TYPE' # no 3DES key on KDC
-  - (env SHISHI_USER=jas src/gsasl smtp.gsasl.example 2000 --smtp --mechanism GSSAPI -a jas -d 2>&1 || true) | grep 'gss_unwrap' # uses cached AES key for service
+  - (! env SHISHI_USER=jas src/gsasl imap.gsasl.example --no-starttls --mechanism GSSAPI -a jas -d 2>&1) | tee /dev/stderr | grep 'BAD_ENCRYPTION_TYPE' # no 3DES key on KDC
+  - (! env SHISHI_USER=jas src/gsasl smtp.gsasl.example 2000 --smtp --mechanism GSSAPI -a jas -d 2>&1) | grep 'gss_unwrap' # uses cached AES key for service
   - shishi -d --server-name smtp/smtp.gsasl.example -v # remove AES key for smtp.gsasl.example
-  - (env SHISHI_USER=jas src/gsasl smtp.gsasl.example 2000 --smtp --mechanism GSSAPI -a jas -d 2>&1 || true) | grep 'gss_init_sec_context' # attempts to get 3des key but it doesn't exist
+  - (! env SHISHI_USER=jas src/gsasl smtp.gsasl.example 2000 --smtp --mechanism GSSAPI -a jas -d 2>&1) | grep 'gss_init_sec_context' # attempts to get 3des key but it doesn't exist
   - kadmin.local ktadd -e des3-cbc-sha1 smtp/smtp.gsasl.example
   - kadmin.local ktadd -e des3-cbc-sha1 -k /etc/dovecot/dovecot.keytab imap/imap.gsasl.example
   - env SHISHI_USER=jas src/gsasl imap.gsasl.example --no-starttls --mechanism GSSAPI -a jas -d 2>&1 | tee /dev/stderr | grep 'Client authentication finished (server trusted)...'
-  - env SHISHI_USER=jas src/gsasl smtp.gsasl.example 2000 --smtp --mechanism GSSAPI -d | grep '235 OK \[authid. N/A authzid. root gssname. jas@GSASL.EXAMPLE\]'
+  - env SHISHI_USER=jas src/gsasl smtp.gsasl.example 2000 --smtp --mechanism GSSAPI -d | grep '235 OK \[authid. N/A authzid. N/A gssname. jas@GSASL.EXAMPLE\]'
   - env SHISHI_USER=jas src/gsasl smtp.gsasl.example 2000 --smtp --mechanism GSSAPI -z rms -d | grep '235 OK \[authid. N/A authzid. rms gssname. jas@GSASL.EXAMPLE\]'
   - env SHISHI_USER=jas src/gsasl smtp.gsasl.example 2000 --smtp --mechanism GS2-KRB5 -d | grep '235 OK \[authid. N/A authzid. N/A gssname. jas@GSASL.EXAMPLE\]'
-  - env SHISHI_USER=jas src/gsasl smtp.gsasl.example 2001 --smtp --mechanism GSSAPI -d | grep '235 OK \[authid. N/A authzid. root gssname. jas@GSASL.EXAMPLE\]'
+  - env SHISHI_USER=jas src/gsasl smtp.gsasl.example 2001 --smtp --mechanism GSSAPI -d | grep '235 OK \[authid. N/A authzid. N/A gssname. jas@GSASL.EXAMPLE\]'
   - env SHISHI_USER=jas src/gsasl smtp.gsasl.example 2001 --smtp --mechanism GS2-KRB5 -d | grep '235 OK \[authid. N/A authzid. N/A gssname. jas@GSASL.EXAMPLE\]'
-  - env SHISHI_USER=jas src/gsasl smtp.gsasl.example 2002 --smtp --mechanism GSSAPI -d | grep '235 OK \[authid. N/A authzid. root gssname. jas@GSASL.EXAMPLE\]'
+  - env SHISHI_USER=jas src/gsasl smtp.gsasl.example 2002 --smtp --mechanism GSSAPI -d | grep '235 OK \[authid. N/A authzid. N/A gssname. jas@GSASL.EXAMPLE\]'
   - env SHISHI_USER=jas src/gsasl smtp.gsasl.example 2002 --smtp --mechanism GS2-KRB5 -d | grep '235 OK \[authid. N/A authzid. N/A gssname. jas@GSASL.EXAMPLE\]'
-  - env SHISHI_USER=jas src/gsasl smtp.gsasl.example 2010 --smtp --mechanism GSSAPI -d | grep '235 OK \[authid. N/A authzid. root gssname. jas@GSASL.EXAMPLE\]'
+  - env SHISHI_USER=jas src/gsasl smtp.gsasl.example 2010 --smtp --mechanism GSSAPI -d | grep '235 OK \[authid. N/A authzid. N/A gssname. jas@GSASL.EXAMPLE\]'
   - env SHISHI_USER=jas src/gsasl smtp.gsasl.example 2010 --smtp --mechanism GS2-KRB5 -d | grep '235 OK \[authid. N/A authzid. N/A gssname. jas@GSASL.EXAMPLE\]'
-  - (env SHISHI_USER=jas src/gsasl smtp.gsasl.example 2003 --smtp --mechanism GSSAPI -d 2>&1 || true) | grep 'gss_acquire_cred' # no system keys for shishi-based server
-  - (env SHISHI_USER=jas src/gsasl smtp.gsasl.example 2003 --smtp --mechanism GS2-KRB5 -d 2>&1 || true) | grep 'gss_acquire_cred'
+  - (! env SHISHI_USER=jas src/gsasl smtp.gsasl.example 2003 --smtp --mechanism GSSAPI -d 2>&1) | grep 'gss_acquire_cred' # no system keys for shishi-based server
+  - (! env SHISHI_USER=jas src/gsasl smtp.gsasl.example 2003 --smtp --mechanism GS2-KRB5 -d 2>&1) | grep 'gss_acquire_cred'
   - rm /etc/krb5.keytab
   - kadmin.local ktadd -e des3-cbc-sha1 smtp/smtp.gsasl.example
   - keytab2shishi --verbose
   - shishi -d --server-name smtp/smtp.gsasl.example -v # remove old 3DES key for smtp.gsasl.example
-  - env SHISHI_USER=jas src/gsasl smtp.gsasl.example 2003 --smtp --mechanism GSSAPI -d | grep '235 OK \[authid. N/A authzid. root gssname. jas\]' # GSS bug wrt displayname?
+  - env SHISHI_USER=jas src/gsasl smtp.gsasl.example 2003 --smtp --mechanism GSSAPI -d | grep '235 OK \[authid. N/A authzid. N/A gssname. jas\]' # GSS bug wrt displayname?
   - env SHISHI_USER=jas src/gsasl smtp.gsasl.example 2003 --smtp --mechanism GS2-KRB5 -d | grep '235 OK \[authid. N/A authzid. N/A gssname. jas\]'
   - env SHISHI_USER=jas src/gsasl smtp.gsasl.example 2003 --smtp --mechanism GSSAPI -z rms -d | grep '235 OK \[authid. N/A authzid. rms gssname. jas\]' # GSS bug wrt displayname?
   - env SHISHI_USER=jas src/gsasl smtp.gsasl.example 2003 --smtp --mechanism GS2-KRB5 -z rms -d | grep '235 OK \[authid. N/A authzid. rms gssname. jas\]'
@@ -548,18 +550,18 @@ Debian11-gss-interop:
   - echo 'libgss.so.3 mechglue_internal_krb5_init' > /etc/gssapi_mech.conf # gnu gss
   - env SHISHI_USER=jas ../gssglue/src/gsasl smtp.gsasl.example 2001 --smtp --mechanism GSSAPI -z rms -d | grep '235 OK \[authid. N/A authzid. rms gssname. jas@GSASL.EXAMPLE\]'
   - env SHISHI_USER=jas ../gssglue/src/gsasl smtp.gsasl.example 2001 --smtp --mechanism GS2-KRB5 -d | grep '235 OK \[authid. N/A authzid. N/A gssname. jas@GSASL.EXAMPLE\]'
-  - env SHISHI_USER=jas ../gssglue/src/gsasl smtp.gsasl.example 2001 --smtp --mechanism GSSAPI -d | grep '235 OK \[authid. N/A authzid. root gssname. jas@GSASL.EXAMPLE\]'
+  - env SHISHI_USER=jas ../gssglue/src/gsasl smtp.gsasl.example 2001 --smtp --mechanism GSSAPI -d | grep '235 OK \[authid. N/A authzid. N/A gssname. jas@GSASL.EXAMPLE\]'
   - mv ~/.shishi/tickets ~/.shishi/tickets-
-  - env SHISHI_USER=jas ../gssglue/src/gsasl smtp.gsasl.example 2001 --smtp --mechanism GSSAPI -d || true
+  - (! env SHISHI_USER=jas ../gssglue/src/gsasl smtp.gsasl.example 2001 --smtp --mechanism GSSAPI -d 2>&1) | grep 'gss_init_sec_context'
   - mv ~/.shishi/tickets- ~/.shishi/tickets
   - ../gssglue/libtool --mode=execute valgrind --error-exitcode=1 --exit-on-first-error=yes ../gssglue/examples/smtp-server 2011 & # gssglue with gnu gss once someone connect
   - while ! netstat -na|grep 0.0.0.0:2011; do sleep 1; done
   - env SHISHI_USER=jas src/gsasl smtp.gsasl.example 2011 --smtp --mechanism GSSAPI -z rms -d | grep '235 OK \[authid. N/A authzid. rms gssname. jas\]'
   - env SHISHI_USER=jas src/gsasl smtp.gsasl.example 2011 --smtp --mechanism GS2-KRB5 -d | grep '235 OK \[authid. N/A authzid. N/A gssname. jas\]'
   - mv /etc/shishi/shishi.keys /etc/shishi/shishi.keys-
-  - (env SHISHI_USER=jas src/gsasl smtp.gsasl.example 2011 --smtp --mechanism GSSAPI -a jas -d 2>&1 || true) | grep 'gss_acquire'
+  - (! env SHISHI_USER=jas src/gsasl smtp.gsasl.example 2011 --smtp --mechanism GSSAPI -a jas -d 2>&1) | grep 'gss_acquire'
   - mv /etc/shishi/shishi.keys- /etc/shishi/shishi.keys
   - shishi -d
-  - (env SHISHI_USER=jas src/gsasl smtp.gsasl.example 2011 --smtp --mechanism GSSAPI -a jas -d 2>&1 || true) | grep 'gss_init_sec'
+  - (! env SHISHI_USER=jas src/gsasl smtp.gsasl.example 2011 --smtp --mechanism GSSAPI -a jas -d 2>&1) | grep 'gss_init_sec'
   - mv /etc/gssapi_mech.conf- /etc/gssapi_mech.conf
   - sleep 10 # allow log outputs to catch up
