@@ -200,10 +200,6 @@ _gsasl_gssapi_client_step (Gsasl_session * sctx,
 
       p = gsasl_property_get (sctx, GSASL_AUTHZID);
       if (!p)
-	/* The following is for backwards compatibility: this
-	   mechanism only used GSASL_AUTHID before. */
-	p = gsasl_property_get (sctx, GSASL_AUTHID);
-      if (!p)
 	p = "";
 
       bufdesc.length = 4 + strlen (p);

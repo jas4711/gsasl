@@ -6,6 +6,15 @@ GNU SASL NEWS -- History of user-visible changes.               -*- outline -*-
 We encourage you to build with libgssglue, as it allows administrators
 to chose between MIT Kerberos, Heimdal and GNU GSS during run-time.
 
+** GSSAPI client: don't use AUTHID as fallback for AUTHZID.
+The code historically used the AUTHID as authorization identity, but
+in 2012 we changed it to first query for AUTHZID, and only if that is
+not available, fall back to using AUTHID as the authorization
+identity.  The change was not released until version 1.8.1 on
+2019-08-02, when it was properly documented to be removed 'after the
+year 2012'.  While documented behaviour, this seems like just
+surprising behaviour and we now finally make the change.
+
 ** The examples/smtp-server.c now supports GSSAPI/GS2-KRB5.
 The example is used during CI/CD testing of GNU SASL and thus it made
 sense to extend it.  Some bugs related to getline error conditions
