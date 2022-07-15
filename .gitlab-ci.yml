@@ -27,6 +27,7 @@ Debian:
   script:
   - ./bootstrap --skip-po
   - ./configure --enable-gcc-warnings --disable-silent-rules
+  - make syntax-check
   - make V=1
   - make dist
 
@@ -42,6 +43,7 @@ AlmaLinux8:
   - ./bootstrap --skip-po
   - ./configure --enable-gcc-warnings --disable-silent-rules
   - make check V=1 VERBOSE=t
+  - make syntax-check
   - make install
 
 Ubuntu-coverage-cyclo:
@@ -57,6 +59,7 @@ Ubuntu-coverage-cyclo:
   - lcov --directory . --zerocounters
   - make check VERBOSE=t
   - make dist
+  - make syntax-check
   - mkdir coverage
   - lcov --directory . --output-file coverage/gsasl.info --capture
   - lcov --remove coverage/gsasl.info '/usr/include/*' '*/gl/*' '*/gltests/*' '*/lib/gl/*' '*/lib/gltests/*' -o coverage/gsasl_filtered.info
