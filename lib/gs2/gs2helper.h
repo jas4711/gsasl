@@ -24,7 +24,7 @@
 # define GS2_HELPER_H
 
 /* For GSS-API types. */
-#include "gss-extra.h"
+# include "gss-extra.h"
 
 /* Get gsasl functions and types. */
 # include <gsasl.h>
