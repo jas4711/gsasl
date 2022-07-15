@@ -1,5 +1,8 @@
 GNU SASL NEWS -- History of user-visible changes.               -*- outline -*-
 
+* Noteworthy changes in release ?.? (????-??-??) [?]
+
+
 * Noteworthy changes in release 2.0.1 (2022-07-15) [stable]
 
 ** Support for the libgssglue GSS-API library were added.
