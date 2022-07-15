@@ -218,6 +218,9 @@ _gsasl_gssapi_server_step (Gsasl_session * sctx,
          FALSE, and responds with the generated output_message.  The
          client can then consider the server authenticated. */
 
+      if (bufdesc2.length < 4)
+	return GSASL_AUTHENTICATION_ERROR;
+
       if ((((char *) bufdesc2.value)[0] & GSASL_QOP_AUTH) == 0)
 	{
 	  /* Integrity or privacy unsupported */
