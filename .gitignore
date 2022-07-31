@@ -406,6 +406,8 @@
 /tests/saml20
 /tests/saml20.o
 /tests/scram
+/tests/scram-exporter
+/tests/scram-exporter.o
 /tests/scram-incremental
 /tests/scram-incremental.o
 /tests/scram-nopasswd

@@ -85,21 +85,6 @@ doit (void)
   /* Client first... */
 
   res = gsasl_step (client, s1, s1len, &s1, &s1len);
-  if (res != GSASL_NO_CB_TLS_UNIQUE)
-    {
-      fail ("gsasl_step-cfcb failed (%d):\n%s\n", res, gsasl_strerror (res));
-      return;
-    }
-
-  res = gsasl_property_set (client, GSASL_CB_TLS_UNIQUE, CBDATA);
-  if (res != GSASL_OK)
-    {
-      fail ("gsasl_property_set() failed (%d):\n%s\n",
-	    res, gsasl_strerror (res));
-      return;
-    }
-
-  res = gsasl_step (client, s1, s1len, &s1, &s1len);
   if (res != GSASL_NO_AUTHID)
     {
       fail ("gsasl_step-cfauthid failed (%d):\n%s\n", res,
@@ -108,6 +93,21 @@ doit (void)
     }
 
   res = gsasl_property_set (client, GSASL_AUTHID, USERNAME);
+  if (res != GSASL_OK)
+    {
+      fail ("gsasl_property_set() failed (%d):\n%s\n",
+	    res, gsasl_strerror (res));
+      return;
+    }
+
+  res = gsasl_step (client, s1, s1len, &s1, &s1len);
+  if (res != GSASL_NO_CB_TLS_EXPORTER)
+    {
+      fail ("gsasl_step-cfcb failed (%d):\n%s\n", res, gsasl_strerror (res));
+      return;
+    }
+
+  res = gsasl_property_set (client, GSASL_CB_TLS_UNIQUE, CBDATA);
   if (res != GSASL_OK)
     {
       fail ("gsasl_property_set() failed (%d):\n%s\n",

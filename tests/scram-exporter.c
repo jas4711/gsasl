@@ -1,4 +1,4 @@
-/* scram-nopasswd.c --- Test the SCRAM-SHA256 mechanism.
+/* scram-exporter.c --- Test SCRAM-SHA-256-PLUS with tls-exporter CB.
  * Copyright (C) 2009-2022 Simon Josefsson
  *
  * This file is part of GNU SASL.
@@ -18,8 +18,8 @@
  *
  */
 
-/* This self-test is about making sure SCRAM works without a supplied
-   password both in client and server mode. */
+/* This self-test is based on scram-incremental.c but uses
+   tls-exporter channel binding. */
 
 #ifdef HAVE_CONFIG_H
 # include "config.h"
@@ -33,66 +33,10 @@
 
 #include "utils.h"
 
-/*
-  $ src/gsasl --mkpasswd --password pencil --mechanism SCRAM-SHA-256 --iteration-count 4096 --salt 8tkvpwuPHUIvxZdV
-  SCRAM-SHA-256:4096:8tkvpwuPHUIvxZdV:kx5HW/tXBntkDU9vYAphILpp9GkCBpYXdb7G6n5B/y4=:CwOgbBjlXTbH2gXK5XKich7UnzHrMh5vre1ipvSW0jE=:9e1uUmKhrFexDKE2zfHs3aCuRANzfnf5EQG6MFXvmKM=
-  $
- */
-
 #define USERNAME "user"
-#define ITER "4096"
-#define SALT "8tkvpwuPHUIvxZdV"
-#define SALTED_PASSWORD "931e475bfb57067b640d4f6f600a6120" \
-  "ba69f4690206961775bec6ea7e41ff2e"
-#define SERVERKEY "CwOgbBjlXTbH2gXK5XKich7UnzHrMh5vre1ipvSW0jE="
-#define STOREDKEY "9e1uUmKhrFexDKE2zfHs3aCuRANzfnf5EQG6MFXvmKM="
+#define PASSWORD "pencil"
 
-static int
-callback (Gsasl * ctx, Gsasl_session * sctx, Gsasl_property prop)
-{
-  int rc = GSASL_NO_CALLBACK;
-
-  /* Get user info from user. */
-
-  switch (prop)
-    {
-    case GSASL_SCRAM_SALTED_PASSWORD:
-      rc = gsasl_property_set (sctx, prop, SALTED_PASSWORD);
-      break;
-
-    case GSASL_SCRAM_SERVERKEY:
-      rc = gsasl_property_set (sctx, prop, SERVERKEY);
-      break;
-
-    case GSASL_SCRAM_STOREDKEY:
-      rc = gsasl_property_set (sctx, prop, STOREDKEY);
-      break;
-
-    case GSASL_SCRAM_ITER:
-      rc = gsasl_property_set (sctx, prop, ITER);
-      break;
-
-    case GSASL_SCRAM_SALT:
-      rc = gsasl_property_set (sctx, prop, SALT);
-      break;
-
-    case GSASL_AUTHID:
-      rc = gsasl_property_set (sctx, prop, USERNAME);
-      break;
-
-    case GSASL_PASSWORD:
-    case GSASL_CB_TLS_UNIQUE:
-    case GSASL_CB_TLS_EXPORTER:
-    case GSASL_AUTHZID:
-      break;
-
-    default:
-      fail ("Unknown callback property %u\n", prop);
-      break;
-    }
-
-  return rc;
-}
+#define CBDATA "Zm5vcmQ="
 
 void
 doit (void)
@@ -110,24 +54,22 @@ doit (void)
       return;
     }
 
-  if (!gsasl_client_support_p (ctx, "SCRAM-SHA-256")
-      || !gsasl_server_support_p (ctx, "SCRAM-SHA-256"))
+  if (!gsasl_client_support_p (ctx, "SCRAM-SHA-256-PLUS")
+      || !gsasl_server_support_p (ctx, "SCRAM-SHA-256-PLUS"))
     {
       gsasl_done (ctx);
-      fail ("No support for SCRAM-SHA-256.\n");
+      fail ("No support for SCRAM-SHA-256-PLUS.\n");
       exit (77);
     }
 
-  gsasl_callback_set (ctx, callback);
-
-  res = gsasl_server_start (ctx, "SCRAM-SHA-256", &server);
+  res = gsasl_server_start (ctx, "SCRAM-SHA-256-PLUS", &server);
   if (res != GSASL_OK)
     {
       fail ("gsasl_server_start() failed (%d):\n%s\n",
 	    res, gsasl_strerror (res));
       return;
     }
-  res = gsasl_client_start (ctx, "SCRAM-SHA-256", &client);
+  res = gsasl_client_start (ctx, "SCRAM-SHA-256-PLUS", &client);
   if (res != GSASL_OK)
     {
       fail ("gsasl_client_start() failed (%d):\n%s\n",
@@ -141,9 +83,40 @@ doit (void)
   /* Client first... */
 
   res = gsasl_step (client, s1, s1len, &s1, &s1len);
+  if (res != GSASL_NO_AUTHID)
+    {
+      fail ("gsasl_step-cfauthid failed (%d):\n%s\n", res,
+	    gsasl_strerror (res));
+      return;
+    }
+
+  res = gsasl_property_set (client, GSASL_AUTHID, USERNAME);
+  if (res != GSASL_OK)
+    {
+      fail ("gsasl_property_set() failed (%d):\n%s\n",
+	    res, gsasl_strerror (res));
+      return;
+    }
+
+  res = gsasl_step (client, s1, s1len, &s1, &s1len);
+  if (res != GSASL_NO_CB_TLS_EXPORTER)
+    {
+      fail ("gsasl_step-cfcb failed (%d):\n%s\n", res, gsasl_strerror (res));
+      return;
+    }
+
+  res = gsasl_property_set (client, GSASL_CB_TLS_EXPORTER, CBDATA);
+  if (res != GSASL_OK)
+    {
+      fail ("gsasl_property_set() failed (%d):\n%s\n",
+	    res, gsasl_strerror (res));
+      return;
+    }
+
+  res = gsasl_step (client, s1, s1len, &s1, &s1len);
   if (res != GSASL_NEEDS_MORE)
     {
-      fail ("gsasl_step(1) failed (%d):\n%s\n", res, gsasl_strerror (res));
+      fail ("gsasl_step-cf failed (%d):\n%s\n", res, gsasl_strerror (res));
       return;
     }
 
@@ -153,41 +126,88 @@ doit (void)
   /* Server first... */
 
   res = gsasl_step (server, s1, s1len, &s2, &s2len);
+  if (res != GSASL_NO_CB_TLS_EXPORTER)
+    {
+      fail ("gsasl_step-sfcb failed (%d):\n%s\n", res, gsasl_strerror (res));
+      return;
+    }
+
+  res = gsasl_property_set (server, GSASL_CB_TLS_EXPORTER, "Zm5vcmQ=");
+  if (res != GSASL_OK)
+    {
+      fail ("gsasl_property_set() failed (%d):\n%s\n",
+	    res, gsasl_strerror (res));
+      return;
+    }
+
+  res = gsasl_step (server, s1, s1len, &s2, &s2len);
   gsasl_free (s1);
   if (res != GSASL_NEEDS_MORE)
     {
-      fail ("gsasl_step(2) failed (%d):\n%s\n", res, gsasl_strerror (res));
+      fail ("gsasl_step-sf failed (%d):\n%s\n", res, gsasl_strerror (res));
       return;
     }
 
   if (debug)
     printf ("S: %.*s [%c]\n", (int) s2len, s2, res == GSASL_OK ? 'O' : 'N');
 
-  /* Client final... */
+  /* Client last... */
+
+  res = gsasl_step (client, s2, s2len, &s1, &s1len);
+  if (res != GSASL_NO_PASSWORD)
+    {
+      fail ("gsasl_step-clpasswd failed (%d):\n%s\n",
+	    res, gsasl_strerror (res));
+      return;
+    }
+
+  res = gsasl_property_set (client, GSASL_PASSWORD, PASSWORD);
+  if (res != GSASL_OK)
+    {
+      fail ("gsasl_property_set() failed (%d):\n%s\n",
+	    res, gsasl_strerror (res));
+      return;
+    }
 
   res = gsasl_step (client, s2, s2len, &s1, &s1len);
   gsasl_free (s2);
   if (res != GSASL_NEEDS_MORE)
     {
-      fail ("gsasl_step(3) failed (%d):\n%s\n", res, gsasl_strerror (res));
+      fail ("gsasl_step-cl failed (%d):\n%s\n", res, gsasl_strerror (res));
       return;
     }
 
   if (debug)
     printf ("C: %.*s [%c]\n", (int) s1len, s1, res == GSASL_OK ? 'O' : 'N');
 
-  /* Server final... */
+  /* Server last... */
+
+  res = gsasl_step (server, s1, s1len, &s2, &s2len);
+  if (res != GSASL_NO_PASSWORD)
+    {
+      fail ("gsasl_step-slpasswd failed (%d):\n%s\n",
+	    res, gsasl_strerror (res));
+      return;
+    }
+
+  res = gsasl_property_set (server, GSASL_PASSWORD, PASSWORD);
+  if (res != GSASL_OK)
+    {
+      fail ("gsasl_property_set() failed (%d):\n%s\n",
+	    res, gsasl_strerror (res));
+      return;
+    }
 
   res = gsasl_step (server, s1, s1len, &s2, &s2len);
   gsasl_free (s1);
   if (res != GSASL_OK)
     {
-      fail ("gsasl_step(4) failed (%d):\n%s\n", res, gsasl_strerror (res));
+      fail ("gsasl_step-sl failed (%d):\n%s\n", res, gsasl_strerror (res));
       return;
     }
 
   if (debug)
-    printf ("S: %.*s [%c]\n", (int) s2len, s2, res == GSASL_OK ? 'O' : 'N');
+    printf ("S: %.*s [%c]\n\n", (int) s2len, s2, res == GSASL_OK ? 'O' : 'N');
 
   /* Let client parse server final... */
 
@@ -195,7 +215,7 @@ doit (void)
   gsasl_free (s2);
   if (res != GSASL_OK)
     {
-      fail ("gsasl_step(5) failed (%d):\n%s\n", res, gsasl_strerror (res));
+      fail ("gsasl_step-c failed (%d):\n%s\n", res, gsasl_strerror (res));
       return;
     }
 
@@ -227,8 +247,8 @@ doit (void)
     const char *ss = gsasl_property_fast (server, GSASL_SCRAM_SALT);
     if (debug)
       {
-	printf ("GSASL_SCRAM_ITER (client): %s\n", cs);
-	printf ("GSASL_SCRAM_ITER (server): %s\n", ss);
+	printf ("GSASL_SCRAM_SALT (client): %s\n", cs);
+	printf ("GSASL_SCRAM_SALT (server): %s\n", ss);
       }
     if (!cs || !ss || strcmp (cs, ss) != 0)
       fail ("scram salt mismatch\n");
@@ -242,15 +262,11 @@ doit (void)
 
     if (debug)
       {
-	printf ("GSASL_SCRAM_SALTED_PASSWORD (client): %s\n",
-		csp ? csp : "NULL");
-	printf ("GSASL_SCRAM_SALTED_PASSWORD (server): %s\n",
-		ssp ? ssp : "NULL");
+	printf ("GSASL_SCRAM_SALTED_PASSWORD (client): %s\n", csp);
+	printf ("GSASL_SCRAM_SALTED_PASSWORD (server): %s\n", ssp);
       }
-    if (!csp || strcmp (csp, SALTED_PASSWORD) != 0)
-      fail ("client scram salted password mismatch\n");
-    if (ssp)
-      fail ("server salted password set?\n");
+    if (!csp || !ssp || strcmp (csp, ssp) != 0)
+      fail ("scram salted password mismatch\n");
   }
 
   {
@@ -267,10 +283,6 @@ doit (void)
       fail ("missing ServerKey\n");
     if (!stk)
       fail ("missing StoredKey\n");
-    if (strcmp (sek, SERVERKEY) != 0)
-      fail ("invalid ServerKey\n");
-    if (strcmp (stk, STOREDKEY) != 0)
-      fail ("invalid StoredKey\n");
   }
 
   if (debug)

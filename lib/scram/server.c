@@ -64,8 +64,8 @@ struct scram_server_state
   char storedkey[GSASL_HASH_MAX_SIZE];
   char serverkey[GSASL_HASH_MAX_SIZE];
   char *authmessage;
-  char *cbtlsunique;
-  size_t cbtlsuniquelen;
+  char *cb;
+  size_t cblen;
   struct scram_client_first cf;
   struct scram_server_first sf;
   struct scram_client_final cl;
@@ -187,33 +187,48 @@ _gsasl_scram_server_step (Gsasl_session * sctx,
 	if (input_len == 0)
 	  return GSASL_NEEDS_MORE;
 
-	{
-	  const char *p;
-
-	  p = gsasl_property_get (sctx, GSASL_CB_TLS_UNIQUE);
-	  if (state->plus && !p)
-	    return GSASL_NO_CB_TLS_UNIQUE;
-	  if (p)
-	    {
-	      rc = gsasl_base64_from (p, strlen (p), &state->cbtlsunique,
-				      &state->cbtlsuniquelen);
-	      if (rc != GSASL_OK)
-		return rc;
-	    }
-	}
-
 	if (scram_parse_client_first (input, input_len, &state->cf) < 0)
 	  return GSASL_MECHANISM_PARSE_ERROR;
 
-	/* In PLUS server mode, we require use of channel bindings. */
-	if (state->plus && state->cf.cbflag != 'p')
-	  return GSASL_AUTHENTICATION_ERROR;
+	if (state->plus)
+	  {
+	    const char *p;
 
-	/* In non-PLUS mode, but where have channel bindings data (and
-	   thus advertised PLUS) we reject a client 'y' cbflag. */
-	if (!state->plus
-	    && state->cbtlsuniquelen > 0 && state->cf.cbflag == 'y')
-	  return GSASL_AUTHENTICATION_ERROR;
+	    /* In PLUS server mode, we require use of channel bindings. */
+	    if (state->cf.cbflag != 'p' || state->cf.cbname == NULL)
+	      return GSASL_AUTHENTICATION_ERROR;
+
+	    if (strcmp (state->cf.cbname, "tls-exporter") == 0)
+	      {
+		p = gsasl_property_get (sctx, GSASL_CB_TLS_EXPORTER);
+		if (!p)
+		  return GSASL_NO_CB_TLS_EXPORTER;
+	      }
+	    else if (strcmp (state->cf.cbname, "tls-unique") == 0)
+	      {
+		p = gsasl_property_get (sctx, GSASL_CB_TLS_UNIQUE);
+		if (!p)
+		  return GSASL_NO_CB_TLS_UNIQUE;
+	      }
+	    else
+	      return GSASL_AUTHENTICATION_ERROR;
+
+	    rc = gsasl_base64_from (p, strlen (p), &state->cb, &state->cblen);
+	    if (rc != GSASL_OK)
+	      return rc;
+	  }
+	else if (state->cf.cbflag == 'y')
+	  {
+	    const char *p = gsasl_property_get (sctx, GSASL_CB_TLS_EXPORTER);
+	    /* In non-PLUS mode we reject a client 'y' cbflag since we
+	       support channel bindings UNLESS we actually don't have
+	       any channel bindings (application told to libgsasl that
+	       it doesn't want PLUS). */
+	    if (!p)
+	      p = gsasl_property_get (sctx, GSASL_CB_TLS_UNIQUE);
+	    if (p != NULL)
+	      return GSASL_AUTHENTICATION_ERROR;
+	  }
 
 	/* Check that username doesn't fail SASLprep. */
 	{
@@ -353,11 +368,11 @@ _gsasl_scram_server_step (Gsasl_session * sctx,
 			  strlen (state->gs2header)) != 0)
 		return GSASL_AUTHENTICATION_ERROR;
 
-	      if (len - strlen (state->gs2header) != state->cbtlsuniquelen)
+	      if (len - strlen (state->gs2header) != state->cblen)
 		return GSASL_AUTHENTICATION_ERROR;
 
 	      if (memcmp (state->cbind + strlen (state->gs2header),
-			  state->cbtlsunique, state->cbtlsuniquelen) != 0)
+			  state->cb, state->cblen) != 0)
 		return GSASL_AUTHENTICATION_ERROR;
 	    }
 	  else
@@ -551,7 +566,7 @@ _gsasl_scram_server_finish (Gsasl_session * sctx _GL_UNUSED, void *mech_data)
   free (state->snonce);
   free (state->clientproof);
   free (state->authmessage);
-  free (state->cbtlsunique);
+  free (state->cb);
   scram_free_client_first (&state->cf);
   scram_free_server_first (&state->sf);
   scram_free_client_final (&state->cl);

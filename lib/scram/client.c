@@ -54,8 +54,6 @@ struct scram_client_state
   char *cfmb;			/* client first message bare */
   char *serversignature;
   char *authmessage;
-  char *cbtlsunique;
-  size_t cbtlsuniquelen;
   struct scram_client_first cf;
   struct scram_server_first sf;
   struct scram_client_final cl;
@@ -142,38 +140,13 @@ _gsasl_scram_client_step (Gsasl_session * sctx,
     {
     case 0:
       {
-	const char *p;
-
-	p = gsasl_property_get (sctx, GSASL_CB_TLS_UNIQUE);
-	if (state->plus && !p)
-	  return GSASL_NO_CB_TLS_UNIQUE;
-	if (p)
-	  {
-	    free (state->cbtlsunique);
-	    rc = gsasl_base64_from (p, strlen (p), &state->cbtlsunique,
-				    &state->cbtlsuniquelen);
-	    if (rc != GSASL_OK)
-	      return rc;
-	  }
-
-	if (state->plus)
-	  {
-	    state->cf.cbflag = 'p';
-	    free (state->cf.cbname);
-	    state->cf.cbname = strdup ("tls-unique");
-	  }
-	else
-	  {
-	    if (state->cbtlsuniquelen > 0)
-	      state->cf.cbflag = 'y';
-	    else
-	      state->cf.cbflag = 'n';
-	  }
+	const char *p, *b64cb;
 
 	p = gsasl_property_get (sctx, GSASL_AUTHID);
 	if (!p)
 	  return GSASL_NO_AUTHID;
 
+	free (state->cf.username);
 	rc = gsasl_saslprep (p, GSASL_ALLOW_UNASSIGNED,
 			     &state->cf.username, NULL);
 	if (rc != GSASL_OK)
@@ -182,6 +155,31 @@ _gsasl_scram_client_step (Gsasl_session * sctx,
 	p = gsasl_property_get (sctx, GSASL_AUTHZID);
 	if (p)
 	  state->cf.authzid = strdup (p);
+
+	b64cb = gsasl_property_get (sctx, GSASL_CB_TLS_EXPORTER);
+	if (b64cb)
+	  state->cf.cbname = strdup ("tls-exporter");
+	else
+	  {
+	    b64cb = gsasl_property_get (sctx, GSASL_CB_TLS_UNIQUE);
+	    if (b64cb)
+	      state->cf.cbname = strdup ("tls-unique");
+	  }
+
+	if (state->plus)
+	  {
+	    if (!b64cb)
+	      return GSASL_NO_CB_TLS_EXPORTER;
+
+	    state->cf.cbflag = 'p';
+	  }
+	else
+	  {
+	    if (b64cb)
+	      state->cf.cbflag = 'y';
+	    else
+	      state->cf.cbflag = 'n';
+	  }
 
 	rc = scram_print_client_first (&state->cf, output);
 	if (rc == -2)
@@ -207,21 +205,31 @@ _gsasl_scram_client_step (Gsasl_session * sctx,
 	  return GSASL_MALLOC_ERROR;
 
 	/* Prepare B64("cbind-input") for the next step. */
-	if (state->cf.cbflag == 'p')
+	if (state->plus && b64cb)
 	  {
-	    size_t len = (p - *output) + state->cbtlsuniquelen;
-	    char *cbind_input = malloc (len);
+	    size_t len;
+	    char *cbind_input;
+	    char *cb;
+	    size_t cblen;
+
+	    rc = gsasl_base64_from (b64cb, strlen (b64cb), &cb, &cblen);
+	    if (rc != GSASL_OK)
+	      return rc;
+
+	    len = (p - *output) + cblen;
+	    cbind_input = malloc (len);
 	    if (cbind_input == NULL)
 	      return GSASL_MALLOC_ERROR;
+
 	    memcpy (cbind_input, *output, p - *output);
-	    memcpy (cbind_input + (p - *output), state->cbtlsunique,
-		    state->cbtlsuniquelen);
+	    memcpy (cbind_input + (p - *output), cb, cblen);
+	    free (cb);
 	    rc = gsasl_base64_to (cbind_input, len, &state->cl.cbind, NULL);
 	    free (cbind_input);
 	  }
 	else
 	  rc = gsasl_base64_to (*output, p - *output, &state->cl.cbind, NULL);
-	if (rc != 0)
+	if (rc != GSASL_OK)
 	  return rc;
 
 	/* We are done. */
@@ -424,7 +432,6 @@ _gsasl_scram_client_finish (Gsasl_session * sctx _GL_UNUSED, void *mech_data)
   free (state->cfmb);
   free (state->serversignature);
   free (state->authmessage);
-  free (state->cbtlsunique);
   scram_free_client_first (&state->cf);
   scram_free_server_first (&state->sf);
   scram_free_client_final (&state->cl);

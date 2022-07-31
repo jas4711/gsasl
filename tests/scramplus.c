@@ -100,7 +100,13 @@ callback (Gsasl * ctx, Gsasl_session * sctx, Gsasl_property prop)
       break;
 
     case GSASL_CB_TLS_UNIQUE:
-      rc = gsasl_property_set (sctx, prop, "Zm5vcmQ=");
+      if (i & 0x01)
+	rc = gsasl_property_set (sctx, prop, "Zm5vcmQ=");
+      break;
+
+    case GSASL_CB_TLS_EXPORTER:
+      if (!(i & 0x01))
+	rc = gsasl_property_set (sctx, prop, "Zm5vcmQ=");
       break;
 
     default:

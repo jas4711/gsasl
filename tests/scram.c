@@ -100,6 +100,7 @@ callback (Gsasl * ctx, Gsasl_session * sctx, Gsasl_property prop)
       break;
 
     case GSASL_CB_TLS_UNIQUE:
+    case GSASL_CB_TLS_EXPORTER:
       break;
 
     default:
