@@ -112,6 +112,10 @@ map (Gsasl_session * sctx, Gsasl_property prop)
       p = &sctx->cb_tls_unique;
       break;
 
+    case GSASL_CB_TLS_EXPORTER:
+      p = &sctx->cb_tls_exporter;
+      break;
+
     case GSASL_SAML20_IDP_IDENTIFIER:
       p = &sctx->saml20_idp_identifier;
       break;

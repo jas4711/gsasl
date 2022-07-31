@@ -96,6 +96,7 @@ extern "C"
    * @GSASL_NO_SERVICE: Could not get required service name.
    * @GSASL_NO_HOSTNAME: Could not get required hostname.
    * @GSASL_NO_CB_TLS_UNIQUE: Could not get required tls-unique CB.
+   * @GSASL_NO_CB_TLS_EXPORTER: Could not get required tls-exporter CB.
    * @GSASL_NO_SAML20_IDP_IDENTIFIER: Could not get required SAML IdP.
    * @GSASL_NO_SAML20_REDIRECT_URL: Could not get required SAML
    *   redirect URL.
@@ -151,6 +152,7 @@ extern "C"
     GSASL_NO_SAML20_IDP_IDENTIFIER = 66,
     GSASL_NO_SAML20_REDIRECT_URL = 67,
     GSASL_NO_OPENID20_REDIRECT_URL = 68,
+    GSASL_NO_CB_TLS_EXPORTER = 69,
     /* Mechanism specific errors. */
     GSASL_GSSAPI_RELEASE_BUFFER_ERROR = 37,
     GSASL_GSSAPI_IMPORT_NAME_ERROR = 38,
@@ -197,6 +199,7 @@ extern "C"
    * @GSASL_SCRAM_STOREDKEY: Hex-encoded SCRAM StoredKey derived
    *   from users' passowrd.
    * @GSASL_CB_TLS_UNIQUE: Base64 encoded tls-unique channel binding.
+   * @GSASL_CB_TLS_EXPORTER: Base64 encoded tls-exporter channel binding.
    * @GSASL_SAML20_IDP_IDENTIFIER: SAML20 user IdP URL.
    * @GSASL_SAML20_REDIRECT_URL: SAML 2.0 URL to access in browser.
    * @GSASL_OPENID20_REDIRECT_URL: OpenID 2.0 URL to access in browser.
@@ -242,6 +245,7 @@ extern "C"
     GSASL_SAML20_REDIRECT_URL = 20,
     GSASL_OPENID20_REDIRECT_URL = 21,
     GSASL_OPENID20_OUTCOME_DATA = 22,
+    GSASL_CB_TLS_EXPORTER = 25,
     /* Client callbacks. */
     GSASL_SAML20_AUTHENTICATE_IN_BROWSER = 250,
     GSASL_OPENID20_AUTHENTICATE_IN_BROWSER = 251,

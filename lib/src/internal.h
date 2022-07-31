@@ -78,6 +78,7 @@ struct Gsasl_session
   char *scram_serverkey;
   char *scram_storedkey;
   char *cb_tls_unique;
+  char *cb_tls_exporter;
   char *saml20_idp_identifier;
   char *saml20_redirect_url;
   char *openid20_redirect_url;

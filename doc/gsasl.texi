@@ -1594,8 +1594,18 @@ bindings for a session.  To be secure, a TLS channel MUST have the
 session hash extension (RFC 7627) negotiated, or session resumption MUST
 NOT have been used.  The library cannot enforce this, so it is up to the
 application to only provide the @code{GSASL_CB_TLS_UNIQUE} property when
-the condition holds.
+the condition holds.  Note that TLS version 1.3 and later do not support
+this channel binding.
 
+@item @code{GSASL_CB_TLS_EXPORTER}
+
+@cindex channel binding
+@cindex tls-exporter
+This property holds base64 encoded @code{tls-exporter} channel binding
+data.  As a hint, if you use GnuTLS, the API
+@code{gnutls_session_channel_binding} can be used to extract channel
+bindings for a session.  This fixes some of the security problems with
+the @code{tls-unique} channel binding and supports modern TLS versions.
 
 @item @code{GSASL_SAML20_IDP_IDENTIFIER}
 

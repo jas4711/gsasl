@@ -66,6 +66,7 @@ gsasl_finish (Gsasl_session * sctx)
   free (sctx->scram_serverkey);
   free (sctx->scram_storedkey);
   free (sctx->cb_tls_unique);
+  free (sctx->cb_tls_exporter);
   free (sctx->saml20_idp_identifier);
   free (sctx->saml20_redirect_url);
   free (sctx->openid20_redirect_url);

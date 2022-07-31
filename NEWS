@@ -2,6 +2,14 @@ GNU SASL NEWS -- History of user-visible changes.               -*- outline -*-
 
 * Noteworthy changes in release ?.? (????-??-??) [?]
 
+** Support new "tls-exporter" channel binding.
+The "tls-exporter" channel binding is specified in RFC 9266
+<https://datatracker.ietf.org/doc/html/rfc9266>.  Now we can support
+TLS 1.3 with SCRAM-*-PLUS.
+
+The library add new callback property GSASL_CB_TLS_EXPORTER and error
+code GSASL_NO_CB_TLS_EXPORTER.  These are documented in the manual.
+
 ** SCRAM: Fix memory leaks on incremental application usage.
 See tests/scram-incremental.c for application behaviour that trigger
 the leaks.  We run valgrind --leak-check=full to catch future

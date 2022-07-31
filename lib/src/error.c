@@ -159,7 +159,9 @@ static struct
   ERR (GSASL_NO_SAML20_REDIRECT_URL,
        N_("Callback failed to provide SAML20 redirect URL.")),
   ERR (GSASL_NO_OPENID20_REDIRECT_URL,
-       N_("Callback failed to provide OPENID20 redirect URL."))
+       N_("Callback failed to provide OPENID20 redirect URL.")),
+  ERR (GSASL_NO_CB_TLS_EXPORTER,
+       N_("Authentication failed because a tls-exporter channel binding was not provided."))
 };
 /* *INDENT-ON* */
 

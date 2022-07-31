@@ -52,7 +52,20 @@ doit (void)
 
       i++;
     }
-  while (this != last && this != NULL);
+  while (i < GSASL_NO_CB_TLS_EXPORTER || (this != last && this != NULL));
+
+  {
+    const char *p = gsasl_strerror_name (GSASL_NO_CB_TLS_EXPORTER + 1);
+    if (p)
+      fail ("added new error code? %s\n", p);
+  }
+
+  {
+    const char *p = gsasl_strerror (GSASL_NO_CB_TLS_EXPORTER + 1);
+    const char *q = gsasl_strerror (4711);
+    if (strcmp (p, q) != 0)
+      fail ("added new error code? p %s q %s\n", p, q);
+  }
 
   if (strcmp (gsasl_strerror_name (GSASL_OK), ERRSTR (GSASL_OK)) != 0)
     fail ("names differ GSASL_OK != %s\n", gsasl_strerror_name (GSASL_OK));
