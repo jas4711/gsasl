@@ -67,6 +67,7 @@ extern int readln (char **out);
 # include "gsasl_cmd.h"
 extern struct gengetopt_args_info args_info;
 extern char *b64cbtlsunique;
+extern char *b64cbtlsexporter;
 
 /* This feature is available in gcc versions 2.5 and later.  */
 # if __GNUC__ < 2 || (__GNUC__ == 2 && __GNUC_MINOR__ < 5)

@@ -91,6 +91,17 @@ callback (Gsasl * ctx _GL_UNUSED, Gsasl_session * sctx, Gsasl_property prop)
 	rc = gsasl_property_set (sctx, prop, b64cbtlsunique);
       break;
 
+    case GSASL_CB_TLS_EXPORTER:
+      if (!args_info.no_cb_flag && b64cbtlsexporter == NULL
+	  && args_info.hostname_arg == NULL)
+	b64cbtlsexporter =
+	  readutf8line
+	  ("Enter base64 encoded tls-exporter channel binding: ");
+      rc = GSASL_OK;
+      if (!args_info.no_cb_flag && b64cbtlsexporter && *b64cbtlsexporter)
+	rc = gsasl_property_set (sctx, prop, b64cbtlsexporter);
+      break;
+
     case GSASL_PASSWORD:
       if (args_info.password_arg == NULL)
 	args_info.password_arg = readutf8pass ("Enter password: ");

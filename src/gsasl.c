@@ -33,6 +33,7 @@ bool using_tls = false;
 #endif
 
 char *b64cbtlsunique = NULL;
+char *b64cbtlsexporter = NULL;
 
 struct gengetopt_args_info args_info;
 int sockfd = 0;
@@ -866,14 +867,27 @@ main (int argc, char *argv[])
 	{
 	  gnutls_datum_t cb;
 
-	  res = gnutls_session_channel_binding (session,
-						GNUTLS_CB_TLS_UNIQUE, &cb);
+	  if (gnutls_protocol_get_version (session) < GNUTLS_TLS1_3)
+	    res = gnutls_session_channel_binding (session,
+						  GNUTLS_CB_TLS_UNIQUE, &cb);
+#  if HAVE_DECL_GNUTLS_CB_TLS_EXPORTER
+	  else
+	    res = gnutls_session_channel_binding (session,
+						  GNUTLS_CB_TLS_EXPORTER,
+						  &cb);
+#  else
+	  res = GNUTLS_E_CHANNEL_BINDING_NOT_AVAILABLE;
+#  endif
 	  if (res != GNUTLS_E_SUCCESS)
 	    error (EXIT_FAILURE, 0, _("getting channel binding failed: %s"),
 		   gnutls_strerror (res));
 
-	  res = gsasl_base64_to ((char *) cb.data, cb.size,
-				 &b64cbtlsunique, NULL);
+	  if (gnutls_protocol_get_version (session) < GNUTLS_TLS1_3)
+	    res = gsasl_base64_to ((char *) cb.data, cb.size,
+				   &b64cbtlsunique, NULL);
+	  else
+	    res = gsasl_base64_to ((char *) cb.data, cb.size,
+				   &b64cbtlsexporter, NULL);
 	  if (res != GSASL_OK)
 	    error (EXIT_FAILURE, 0, "%s", gsasl_strerror (res));
 	}

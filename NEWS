@@ -10,6 +10,10 @@ TLS 1.3 with SCRAM-*-PLUS.
 The library add new callback property GSASL_CB_TLS_EXPORTER and error
 code GSASL_NO_CB_TLS_EXPORTER.  These are documented in the manual.
 
+The 'gsasl' command-line tool set it if system GnuTLS has
+GNUTLS_CB_TLS_EXPORTER, which was introduced with GnuTLS 3.7.2
+released on 2021-05-29.
+
 ** SCRAM: Fix memory leaks on incremental application usage.
 See tests/scram-incremental.c for application behaviour that trigger
 the leaks.  We run valgrind --leak-check=full to catch future

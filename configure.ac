@@ -437,6 +437,7 @@ if test "$ac_cv_libgnutls" = yes; then
   save_LIBS="$LIBS"
   LIBS="$LIBS $LIBGNUTLS"
   AC_CHECK_FUNCS([gnutls_session_channel_binding])
+  AC_CHECK_DECLS([GNUTLS_CB_TLS_EXPORTER], [], [], [[#include <gnutls/gnutls.h>]])
   LIBS="$save_LIBS"
 fi
 
