@@ -2,8 +2,6 @@
 *.gcda
 *.gcno
 *.gcov
-*.lo
-*.o
 *~
 .deps/
 .libs/
@@ -117,6 +115,8 @@
 /examples/server-xmpp-saml20.o
 /examples/smtp-server
 /examples/smtp-server.o
+/gl/*.lo
+/gl/*.o
 /gl/.gitignore
 /gl/alloca.h
 /gl/arpa/inet.h
@@ -211,6 +211,8 @@
 /lib/external/mechinfo.o
 /lib/external/server.lo
 /lib/external/server.o
+/lib/gl/*.lo
+/lib/gl/*.o
 /lib/gl/.gitignore
 /lib/gl/alloca.h
 /lib/gl/byteswap.h
