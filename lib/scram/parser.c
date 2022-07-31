@@ -78,6 +78,8 @@ int
 scram_parse_client_first (const char *str, size_t len,
 			  struct scram_client_first *cf)
 {
+  scram_free_client_first (cf);
+
   /* Minimum client first string is 'n,,n=a,r=b'. */
   if (strnlen (str, len) < 10)
     return -1;
@@ -220,6 +222,8 @@ int
 scram_parse_server_first (const char *str, size_t len,
 			  struct scram_server_first *sf)
 {
+  scram_free_server_first (sf);
+
   /* Minimum server first string is 'r=ab,s=biws,i=1'. */
   if (strnlen (str, len) < 15)
     return -1;
@@ -329,6 +333,8 @@ int
 scram_parse_client_final (const char *str, size_t len,
 			  struct scram_client_final *cl)
 {
+  scram_free_client_final (cl);
+
   /* Minimum client final string is 'c=biws,r=ab,p=ab=='. */
   if (strnlen (str, len) < 18)
     return -1;
@@ -457,6 +463,8 @@ int
 scram_parse_server_final (const char *str, size_t len,
 			  struct scram_server_final *sl)
 {
+  scram_free_server_final (sl);
+
   /* Minimum client final string is 'v=ab=='. */
   if (strnlen (str, len) < 6)
     return -1;

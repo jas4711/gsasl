@@ -149,6 +149,7 @@ _gsasl_scram_client_step (Gsasl_session * sctx,
 	  return GSASL_NO_CB_TLS_UNIQUE;
 	if (p)
 	  {
+	    free (state->cbtlsunique);
 	    rc = gsasl_base64_from (p, strlen (p), &state->cbtlsunique,
 				    &state->cbtlsuniquelen);
 	    if (rc != GSASL_OK)
@@ -158,6 +159,7 @@ _gsasl_scram_client_step (Gsasl_session * sctx,
 	if (state->plus)
 	  {
 	    state->cf.cbflag = 'p';
+	    free (state->cf.cbname);
 	    state->cf.cbname = strdup ("tls-unique");
 	  }
 	else
@@ -238,6 +240,7 @@ _gsasl_scram_client_step (Gsasl_session * sctx,
 		    strlen (state->cf.client_nonce)) != 0)
 	  return GSASL_AUTHENTICATION_ERROR;
 
+	free (state->cl.nonce);
 	state->cl.nonce = strdup (state->sf.nonce);
 	if (!state->cl.nonce)
 	  return GSASL_MALLOC_ERROR;

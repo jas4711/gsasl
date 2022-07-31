@@ -2,6 +2,10 @@ GNU SASL NEWS -- History of user-visible changes.               -*- outline -*-
 
 * Noteworthy changes in release ?.? (????-??-??) [?]
 
+** SCRAM: Fix memory leaks on incremental application usage.
+See tests/scram-incremental.c for application behaviour that trigger
+the leaks.  We run valgrind --leak-check=full to catch future
+regressions.
 
 * Noteworthy changes in release 2.0.1 (2022-07-15) [stable]
 

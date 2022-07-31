@@ -338,6 +338,7 @@ _gsasl_scram_server_step (Gsasl_session * sctx,
 	{
 	  size_t len;
 
+	  free (state->cbind);
 	  rc = gsasl_base64_from (state->cl.cbind, strlen (state->cl.cbind),
 				  &state->cbind, &len);
 	  if (rc != 0)
@@ -374,6 +375,7 @@ _gsasl_scram_server_step (Gsasl_session * sctx,
 	{
 	  size_t len;
 
+	  free (state->clientproof);
 	  rc = gsasl_base64_from (state->cl.proof, strlen (state->cl.proof),
 				  &state->clientproof, &len);
 	  if (rc != 0)
