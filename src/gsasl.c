@@ -26,8 +26,8 @@
 #include "sockets.h"
 
 #ifdef HAVE_LIBGNUTLS
-# include <gnutls/gnutls.h>
-# include <gnutls/x509.h>
+#include <gnutls/gnutls.h>
+#include <gnutls/x509.h>
 gnutls_session_t session;
 bool using_tls = false;
 #endif
@@ -862,7 +862,7 @@ main (int argc, char *argv[])
 		   _("could not verify server certificate (rc=%u)"), status);
 	}
 
-# if HAVE_GNUTLS_SESSION_CHANNEL_BINDING
+#if HAVE_GNUTLS_SESSION_CHANNEL_BINDING
       if (!args_info.no_cb_flag)
 	{
 	  gnutls_datum_t cb;
@@ -870,14 +870,14 @@ main (int argc, char *argv[])
 	  if (gnutls_protocol_get_version (session) < GNUTLS_TLS1_3)
 	    res = gnutls_session_channel_binding (session,
 						  GNUTLS_CB_TLS_UNIQUE, &cb);
-#  if HAVE_DECL_GNUTLS_CB_TLS_EXPORTER
 	  else
+#if HAVE_DECL_GNUTLS_CB_TLS_EXPORTER
 	    res = gnutls_session_channel_binding (session,
 						  GNUTLS_CB_TLS_EXPORTER,
 						  &cb);
-#  else
-	  res = GNUTLS_E_CHANNEL_BINDING_NOT_AVAILABLE;
-#  endif
+#else
+	    res = GNUTLS_E_CHANNEL_BINDING_NOT_AVAILABLE;
+#endif
 	  if (res != GNUTLS_E_SUCCESS)
 	    error (EXIT_FAILURE, 0, _("getting channel binding failed: %s"),
 		   gnutls_strerror (res));
@@ -891,7 +891,7 @@ main (int argc, char *argv[])
 	  if (res != GSASL_OK)
 	    error (EXIT_FAILURE, 0, "%s", gsasl_strerror (res));
 	}
-# endif
+#endif
 
       using_tls = true;
     }
