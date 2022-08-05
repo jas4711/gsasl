@@ -27,6 +27,12 @@ See tests/scram-incremental.c for application behaviour that trigger
 the leaks.  We run valgrind --leak-check=full to catch future
 regressions.
 
+** Tests: New tests/gsasl-dovecot-gssapi.sh & tests/gsasl-mailutils-cram.sh.
+These perform integration checks between GNU SASL and Dovecot
+(GSS-API) and GNU MailUtils imapd (CRAM-MD5, DIGEST-MD5, SCRAM-SHA-*).
+They can be used externally from the GNU SASL build environment to
+perform system integration tests, see .gitlab-ci.yml for inspiration.
+
 ** API and ABI modifications.
 GSASL_CB_TLS_EXPORTER: Added.
 GSASL_NO_CB_TLS_EXPORTER: Added.

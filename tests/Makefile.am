@@ -31,6 +31,7 @@ noinst_LTLIBRARIES = libutils.la
 libutils_la_SOURCES = utils.h utils.c
 
 AM_TESTS_ENVIRONMENT = \
+	GSASL="$(LIBTOOL) --mode=execute $(LOG_VALGRIND) ../src/gsasl$(EXEEXT)" \
 	SHISHI_KEYS=$(srcdir)/gssapi.key \
 	SHISHI_TICKETS=$(srcdir)/gssapi.tkt \
 	SHISHI_CONFIG=$(srcdir)/shishi.conf \
@@ -41,7 +42,7 @@ AM_TESTS_ENVIRONMENT = \
 	EGREP="$(EGREP)" \
 	GNUGSS="$(HAVE_LIBGSS)" \
 	VALGRIND="$(VALGRIND)" \
-	export SHISHI_KEYS SHISHI_TICKETS SHISHI_CONFIG SHISHI_HOME SHISHI_USER THREADSAFETY_FILES MD5FILE EGREP GNUGSS VALGRIND;
+	export GSASL SHISHI_KEYS SHISHI_TICKETS SHISHI_CONFIG SHISHI_HOME SHISHI_USER THREADSAFETY_FILES MD5FILE EGREP GNUGSS VALGRIND;
 
 LOG_COMPILER=$(VALGRIND)
 
@@ -51,6 +52,6 @@ ctests = external cram-md5 digest-md5 md5file name errors suggest	\
 	startcb scram-incremental scram-exporter
 
 check_PROGRAMS = $(ctests)
-dist_check_SCRIPTS = threadsafety.sh gsasl-scram-pbkdf2.sh
+dist_check_SCRIPTS = threadsafety.sh gsasl-scram-pbkdf2.sh gsasl-mailutils-cram.sh gsasl-dovecot-gssapi.sh
 TEST_EXTENSIONS = .sh
 TESTS = $(dist_check_SCRIPTS) $(ctests)

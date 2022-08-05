@@ -30,6 +30,7 @@ Debian:
   - make syntax-check
   - make V=1
   - make dist
+  - git diff --exit-code # nothing should change version controlled files
 
 AlmaLinux8:
   extends: .test
@@ -45,6 +46,7 @@ AlmaLinux8:
   - make check V=1 VERBOSE=t
   - make syntax-check
   - make install
+  - git diff --exit-code # nothing should change version controlled files
 
 Ubuntu-coverage-cyclo:
   image: ubuntu:rolling
@@ -67,6 +69,7 @@ Ubuntu-coverage-cyclo:
   - mkdir cyclo
   - make -C doc/cyclo/ cyclo-gsasl.html
   - cp -v doc/cyclo/cyclo-gsasl.html cyclo/index.html
+  - git diff --exit-code # nothing should change version controlled files
   artifacts:
     when: on_success
     paths:
@@ -87,6 +90,7 @@ Fedora-clanganalyzer:
   - scan-build -o clang-analyzer make V=1
   - make web-manual
   - make dist
+  - git diff --exit-code # nothing should change version controlled files
   artifacts:
     when: on_success
     paths:
@@ -127,21 +131,58 @@ Ubuntu-14.04:
   needs: [Debian]
   before_script:
   - apt-get update -q
-  - env DEBIAN_FRONTEND=noninteractive apt-get install -y -q make gcc
+  - env DEBIAN_FRONTEND=noninteractive apt-get install -y -q make gcc valgrind
   script:
   - tar xfa gsasl-*.tar.gz
   - cd `ls -d gsasl-* | grep -v tar.gz`
   - ./configure --enable-gcc-warnings
   - make WERROR_CFLAGS= check V=1 VERBOSE=t
 
-Ubuntu-distcheck:
+Ubuntu-20.04:
   extends: .test
-  image: ubuntu:latest
+  image: ubuntu:20.04
   stage: test
   needs: [Debian]
   before_script:
   - apt-get update -q
-  - env DEBIAN_FRONTEND=noninteractive apt-get install -y -q make gcc gtk-doc-tools texinfo texlive texlive-plain-generic
+  - env DEBIAN_FRONTEND=noninteractive apt-get install -y -q make gcc libkrb5-dev valgrind iproute2 dovecot-imapd dovecot-gssapi krb5-kdc krb5-admin-server
+  script:
+  - tar xfa gsasl-*.tar.gz
+  - cd `ls -d gsasl-* | grep -v tar.gz`
+  - ./configure  --with-gssapi-impl=mit --enable-gcc-warnings
+  - make check V=1 VERBOSE=t
+  - grep '^PASS gsasl-dovecot-gssapi' tests/gsasl-dovecot-gssapi.log
+  - (! grep '^SKIP gsasl-dovecot-gssapi' tests/test-suite.log)
+  - GSASL=src/gsasl tests/gsasl-dovecot-gssapi.sh
+  - GSASL="./libtool --mode=execute valgrind --error-exitcode=1 --leak-check=full src/gsasl" tests/gsasl-dovecot-gssapi.sh
+
+Ubuntu-22.04:
+  extends: .test
+  image: ubuntu:22.04
+  stage: test
+  needs: [Debian]
+  before_script:
+  - apt-get update -q
+  - env DEBIAN_FRONTEND=noninteractive apt-get install -y -q make gcc valgrind iproute2 mailutils-imap4d
+  script:
+  - tar xfa gsasl-*.tar.gz
+  - cd `ls -d gsasl-* | grep -v tar.gz`
+  - ./configure --enable-gcc-warnings
+  - make check V=1 VERBOSE=t
+  - grep '^PASS gsasl-mailutils-cram' tests/gsasl-mailutils-cram.log
+  - (! grep '^SKIP gsasl-mailutils-cram' tests/test-suite.log)
+  - GSASL=src/gsasl tests/gsasl-mailutils-cram.sh
+  - GSASL="./libtool --mode=execute valgrind --error-exitcode=1 --leak-check=full src/gsasl" tests/gsasl-mailutils-cram.sh
+  - GSASL=src/gsasl IMAP4D="valgrind --error-exitcode=1 env LD_PRELOAD=lib/src/.libs/libgsasl.so /usr/sbin/imap4d" tests/gsasl-mailutils-cram.sh
+
+Ubuntu-distcheck:
+  extends: .test
+  image: ubuntu:devel
+  stage: test
+  needs: [Debian]
+  before_script:
+  - apt-get update -q
+  - env DEBIAN_FRONTEND=noninteractive apt-get install -y -q make gcc gtk-doc-tools texinfo texlive texlive-plain-generic valgrind
   script:
   - tar xfa gsasl-*.tar.gz
   - cd `ls -d gsasl-* | grep -v tar.gz`
@@ -167,7 +208,7 @@ AlmaLinux8-krb5:
   stage: test
   needs: [Debian]
   before_script:
-  - yum -y install make gcc diffutils krb5-devel
+  - yum -y install make gcc diffutils krb5-devel valgrind
   script:
   - tar xfa gsasl-*.tar.gz
   - cd `ls -d gsasl-* | grep -v tar.gz`
@@ -183,7 +224,7 @@ Alpine:
   before_script:
   - echo "ipv6" >> /etc/modules
   - apk update
-  - apk add build-base gettext gettext-dev
+  - apk add build-base gettext gettext-dev valgrind
   script:
   - tar xfz gsasl-*.tar.gz
   - cd `ls -d gsasl-* | grep -v tar.gz`
@@ -198,7 +239,7 @@ Alpine-heimdal:
   before_script:
   - echo "ipv6" >> /etc/modules
   - apk update
-  - apk add build-base gettext gettext-dev heimdal-dev
+  - apk add build-base gettext gettext-dev heimdal-dev valgrind
   script:
   - tar xfz gsasl-*.tar.gz
   - cd `ls -d gsasl-* | grep -v tar.gz`
@@ -212,13 +253,13 @@ ArchLinux:
   stage: test
   needs: [Debian]
   before_script:
-  - pacman -Syu --noconfirm make gcc diffutils file
+  - pacman -Syu --noconfirm make gcc diffutils file net-tools inetutils
   script:
   - tar xfz gsasl-*.tar.gz
   - cd `ls -d gsasl-* | grep -v tar.gz`
   - mkdir b
   - cd b
-  - ../configure --enable-gcc-warnings
+  - ../configure
   - make check V=1 VERBOSE=t
 
 Debian8:
@@ -290,6 +331,7 @@ Debian11-armcross:
   - make check VERBOSE=t
 
 Debian-gsasl4win:
+  extends: .test
   image: debian:bullseye
   stage: test
   needs: [Debian]
@@ -357,7 +399,7 @@ Debian-interop:
   - cd `ls -d gsasl-* | grep -v tar.gz`
   - mkdir b
   - cd b
-  - ../configure --enable-gcc-warnings
+  - ../configure
   - make V=1
   - examples/smtp-server &
   - rm /etc/dovecot/conf.d/10-auth.conf
