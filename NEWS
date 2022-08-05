@@ -1,6 +1,6 @@
 GNU SASL NEWS -- History of user-visible changes.               -*- outline -*-
 
-* Noteworthy changes in release ?.? (????-??-??) [?]
+* Noteworthy changes in release 2.1.0 (2022-08-05) [beta]
 
 ** Support new "tls-exporter" channel binding.
 The "tls-exporter" channel binding is specified in RFC 9266
