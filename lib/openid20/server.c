@@ -126,10 +126,12 @@ _gsasl_openid20_server_step (Gsasl_session * sctx,
 	res = gsasl_callback (NULL, sctx, GSASL_VALIDATE_OPENID20);
 	if (res != GSASL_OK)
 	  {
-	    *output = strdup ("openid.error=fail");
+	    const char *failstr = "openid.error=fail";
+
+	    *output_len = strlen (failstr);
+	    *output = strdup (failstr);
 	    if (!*output)
 	      return GSASL_MALLOC_ERROR;
-	    *output_len = strlen (*output);
 
 	    /* [RFC4422] Section 3.6 explicitly prohibits additional
 	       information in an unsuccessful authentication outcome.
