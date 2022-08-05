@@ -18,7 +18,7 @@
 manual_title = Simple Authentication and Security Layer
 gendocs_options_ = -I ../examples
 
-old_NEWS_hash = c050a7aa1cf409c386cfde115d93646d
+old_NEWS_hash = 4d694b6f076185fa2ca47424abd485f7
 
 bootstrap-tools = autoconf,automake,libtoolize,gnulib,makeinfo,help2man,gperf,gengetopt,gtkdocize,tar,gzip
 
