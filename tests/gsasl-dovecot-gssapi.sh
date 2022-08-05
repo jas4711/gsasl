@@ -35,6 +35,11 @@ if ! $GSASL --version 2> /dev/null | grep '^gsasl (GNU SASL'; then
     exit 1
 fi
 
+if ! $GSASL --client-mechanisms 2>&1 | grep ' GSSAPI '; then
+    echo SKIP: $0: No GSSAPI support detected...
+    exit 77
+fi
+
 if test "${GNUGSS:-no}" = yes; then
     echo SKIP: $0: Not ported to Shishi/GSS ccache yet...
     exit 77

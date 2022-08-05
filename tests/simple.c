@@ -291,8 +291,8 @@ doit (void)
   if (j <= 0)
     fail ("asprintf failure: %d", j);
 
-  success ("Header version %s number %x derived %x\n", out,
-	   (unsigned) GSASL_VERSION_NUMBER, (unsigned) i);
+  success ("Header version %s number %x derived %x out %s\n", out,
+	   (unsigned) GSASL_VERSION_NUMBER, (unsigned) i, out);
 
   if (GSASL_VERSION_NUMBER != i)
     fail ("header version number mismatch\n");

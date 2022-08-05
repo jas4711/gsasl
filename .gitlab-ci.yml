@@ -32,6 +32,32 @@ Debian:
   - make dist
   - git diff --exit-code # nothing should change version controlled files
 
+Ubuntu-22.04:
+  extends: .test
+  image: ubuntu:22.04
+  stage: build
+  before_script:
+  - apt-get update -qq
+  - env DEBIAN_FRONTEND=noninteractive apt-get install -y -qq git autoconf automake libtool autopoint gettext cvs make texinfo texlive-font-utils help2man gtk-doc-tools libglib2.0-dev libidn11-dev libntlm0-dev libgnutls28-dev libkrb5-dev gengetopt gperf indent
+  script:
+  - ./bootstrap --skip-po
+  - ./configure --enable-gcc-warnings --disable-silent-rules
+  - make syntax-check
+  - make
+  - make dist
+  - git diff --exit-code # nothing should change version controlled files
+  - env DEBIAN_FRONTEND=noninteractive apt-get install -y -q texlive texlive-plain-generic texlive-extra-utils gpg gpgv2
+  - gpg --batch --passphrase '' --quick-gen-key bug-gsasl@gnu.org
+  - git checkout $CI_COMMIT_BRANCH
+  - git config user.email "bug-gsasl@gnu.org"
+  - git config user.name "GNU SASL CICD Builder"
+  - git config user.signingkey bug-gsasl@gnu.org
+  - sed -i '5i ** WARNING This release was prepared automatically with no testing.\n' NEWS
+  - git commit -m "Warn about automatic release." NEWS
+  - make release-commit RELEASE='17.42.23 stable'
+  - make
+  - make release RELEASE='17.42.23 stable'
+
 AlmaLinux8:
   extends: .test
   image: almalinux:8
@@ -138,7 +164,7 @@ Ubuntu-14.04:
   - ./configure --enable-gcc-warnings
   - make WERROR_CFLAGS= check V=1 VERBOSE=t
 
-Ubuntu-20.04:
+Ubuntu-20.04-dovecot:
   extends: .test
   image: ubuntu:20.04
   stage: test
@@ -156,7 +182,7 @@ Ubuntu-20.04:
   - GSASL=src/gsasl tests/gsasl-dovecot-gssapi.sh
   - GSASL="./libtool --mode=execute valgrind --error-exitcode=1 --leak-check=full src/gsasl" tests/gsasl-dovecot-gssapi.sh
 
-Ubuntu-22.04:
+Ubuntu-22.04-imapd:
   extends: .test
   image: ubuntu:22.04
   stage: test
