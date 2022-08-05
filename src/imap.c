@@ -28,6 +28,8 @@ imap_greeting (void)
   if (!readln (&in))
     return 0;
 
+  free (in);
+
   return 1;
 }
 
@@ -45,8 +47,12 @@ imap_has_starttls (void)
 
   has_tls = strstr (in, "STARTTLS") != NULL;
 
+  free (in);
+
   if (!readln (&in))
     return 0;
+
+  free (in);
 
   return has_tls;
 }
@@ -92,6 +98,8 @@ imap_select_mechanism (char **mechlist)
 
       if (!readln (&in))
 	return 0;
+
+      free (in);
     }
 
   return 1;
@@ -164,6 +172,7 @@ imap_step_recv (char **data)
          before the final '. OK'). */
       while (*p == '*')
 	{
+	  free (p);
 	  if (!readln (data))
 	    return 0;
 	  p = *data;

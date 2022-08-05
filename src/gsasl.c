@@ -911,6 +911,7 @@ main (int argc, char *argv[])
 	return 1;
 
       mech = gsasl_client_suggest_mechanism (ctx, in);
+      free (in);
       if (mech == NULL)
 	{
 	  fprintf (stderr, _("Cannot find mechanism...\n"));
@@ -947,11 +948,13 @@ main (int argc, char *argv[])
 	  int res2;
 
 	  res = gsasl_step64 (xctx, in, &out);
+	  free (in);
 	  if (res != GSASL_NEEDS_MORE && res != GSASL_OK)
 	    break;
 
 	  if (!step_send (out))
 	    return 1;
+	  free (out);
 
 	no_client_first:
 	  if (!args_info.quiet_given &&
@@ -973,7 +976,10 @@ main (int argc, char *argv[])
 	  if (res2 == 3)
 	    error (EXIT_FAILURE, 0, _("server error"));
 	  if (res2 == 2)
-	    break;
+	    {
+	      free (in);
+	      break;
+	    }
 	}
       while (args_info.imap_flag || args_info.smtp_flag
 	     || res == GSASL_NEEDS_MORE);

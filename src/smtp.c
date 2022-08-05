@@ -71,7 +71,7 @@ smtp_starttls (void)
 int
 smtp_select_mechanism (char **mechlist)
 {
-  char *in;
+  char *in = NULL;
 
   if (args_info.server_flag)
     {
@@ -86,19 +86,24 @@ smtp_select_mechanism (char **mechlist)
       if (!writeln ("EHLO [127.0.0.1]"))
 	return 0;
 
+      *mechlist = NULL;
       do
 	{
+	  free (in);
 	  if (!readln (&in))
 	    return 0;
 
-#define GREETING1 "250-AUTH "
-#define GREETING2 "250 AUTH "
-	  if (strncmp (in, GREETING1, strlen (GREETING1)) == 0)
-	    *mechlist = in + strlen (GREETING1);
-	  else if (strncmp (in, GREETING2, strlen (GREETING2)) == 0)
-	    *mechlist = in + strlen (GREETING2);
+	  /* Greeting can be '250-AUTH ' or '250 AUTH '. */
+	  if (strlen (in) > 9
+	      && in[0] == '2'
+	      && in[1] == '5'
+	      && in[2] == '0'
+	      && (in[3] == '-' || in[3] == ' ')
+	      && in[4] == 'A'
+	      && in[5] == 'U' && in[6] == 'T' && in[7] == 'H' && in[8] == ' ')
+	    memmove (*mechlist = in, in + 9, strlen (in) - 9);
 	}
-      while (strncmp (in, "250 ", 4) != 0);
+      while (*mechlist == NULL);
     }
 
   return 1;
