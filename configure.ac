@@ -516,7 +516,6 @@ AC_CONFIG_FILES([
   doc/cyclo/Makefile
   doc/doxygen/Doxyfile
   doc/reference/Makefile
-  doc/reference/version.xml
   examples/Makefile
   examples/openid20/Makefile
   examples/saml20/Makefile
