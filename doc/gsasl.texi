@@ -248,22 +248,24 @@ library.
 @table @asis
 @item LibNTLM
 The NTLM mechanism requires the library LibNTLM,
-@url{http://www.nongnu.org/libntlm/}.
+@url{https://www.nongnu.org/libntlm/}.
 
 @item GSS-API
 The GSSAPI and GS2-KRB5 mechanisms requires a GSS-API library, see GNU
-GSS (@url{http://www.gnu.org/software/gss/}).  MIT Kerberos or Heimdal
-are also supported.
+GSS (@url{https://www.gnu.org/software/gss/}).  Libgssglue, MIT
+Kerberos, and Heimdal are also supported.  You are encouraged to try
+Libgssglue
+(@url{https://blog.josefsson.org/2022/07/14/towards-pluggable-gss-api-modules/}).
 
 @item LibIDN
 Processing of non-ASCII usernames and passwords requires the SASLprep
-implementation in LibIDN (@url{http://www.gnu.org/software/libidn/}).
+implementation in LibIDN (@url{https://www.gnu.org/software/libidn/}).
 This is needed for full conformance with the latest SASL protocol
 drafts, but is optional in the library for improved portability.
 
 @item Libgcrypt
 The GNU SASL library ships with its own cryptographic implementation,
-but it can use the one in libgcrypt (@url{http://www.gnupg.org/})
+but it can use the one in libgcrypt (@url{https://www.gnupg.org/})
 instead, if it is available.  This is typically useful for desktop
 machines which have libgcrypt installed.
 @end table
@@ -2210,7 +2212,7 @@ The mechanism makes use of the following properties: @code{GSASL_AUTHID}
 In the client, the mechanism is enabled by default.  The
 @code{GSASL_AUTHID} property is required and should contain the
 User-Supplied OpenID Identifier (for example
-@code{http://josefsson.org}).  If set, @code{GSASL_AUTHZID} will be used
+@code{https://josefsson.org}).  If set, @code{GSASL_AUTHZID} will be used
 by the client.  The client will be invoked with the
 @code{GSASL_OPENID20_AUTHENTICATE_IN_BROWSER} callback to perform the
 OpenID authentication in a web browser.  The callback can retrieve the
