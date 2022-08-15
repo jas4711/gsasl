@@ -15,18 +15,16 @@
 # You should have received a copy of the GNU General Public License
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-cyclo-$(PACKAGE).html:
-	(cd $(top_srcdir)/lib && \
-	$(PMCCABE) `find . -name \*.[ch] | sed 's,^./,,' \
-		| grep -v \
-			-e ^gl/ \
-			-e ^gltests/ \
-			-e test-parser.c \
-			-e test-errors.c` \
-		| sort -nr \
-		| $(AWK) -f ../build-aux/pmccabe2html \
+CYCLO_SRCS = `echo ${top_srcdir}/lib/*/*.[ch] | grep -v -e /lib/gl/ -e test-parser.c`
+
+cyclo-$(PACKAGE).html: ${top_srcdir}/lib/*/*.[ch]
+	$(AM_V_GEN)$(PMCCABE) $(CYCLO_SRCS) \
+		| LC_ALL=C sort -nr \
+		| LC_ALL=C $(AWK) -f ${top_srcdir}/build-aux/pmccabe2html \
 			-v lang=html -v name="$(PACKAGE_NAME)" \
-			-v vcurl="https://gitlab.com/gsasl/gsasl/-/blob/master/lib/%FILENAME%" \
+			-v vcurl="https://git.savannah.gnu.org/gitweb/?p=$(PACKAGE).git;a=blob;f=%FILENAME%;hb=HEAD" \
 			-v url="https://www.gnu.org/software/$(PACKAGE)/" \
-                       -v css=../build-aux/pmccabe.css) > $@-tmp
+			-v css=${top_srcdir}/build-aux/pmccabe.css \
+			-v cut_dir=${top_srcdir}/ \
+			> $@-tmp
 	mv $@-tmp $@
