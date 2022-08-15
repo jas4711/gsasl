@@ -428,6 +428,8 @@
 /tests/symbols.o
 /tests/utils.lo
 /tests/utils.o
+/tests/version
+/tests/version.o
 /windows/build-x64/
 /windows/build-x86-kfw322/
 /windows/build-x86/

@@ -45,10 +45,10 @@ AM_TESTS_ENVIRONMENT = \
 
 LOG_COMPILER=$(VALGRIND)
 
-ctests = external cram-md5 digest-md5 md5file name errors suggest	\
-	simple crypto scram scramplus symbols readnz gssapi gs2-krb5	\
-	saml20 openid20 scram-sha256 scram-simple scram-nopasswd	\
-	startcb scram-incremental scram-exporter
+ctests = version external cram-md5 digest-md5 md5file name errors	\
+	suggest simple crypto scram scramplus symbols readnz gssapi	\
+	gs2-krb5 saml20 openid20 scram-sha256 scram-simple		\
+	scram-nopasswd startcb scram-incremental scram-exporter
 
 check_PROGRAMS = $(ctests)
 dist_check_SCRIPTS = threadsafety.sh gsasl-scram-pbkdf2.sh gsasl-mailutils-cram.sh gsasl-dovecot-gssapi.sh
