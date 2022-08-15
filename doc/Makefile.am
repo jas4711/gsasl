@@ -109,28 +109,6 @@ gdoc_MANS += man/gsasl_step.3
 gdoc_MANS += man/gsasl_step64.3
 
 gdoc_TEXINFOS =
-gdoc_TEXINFOS += texi/base64.c.texi
-gdoc_TEXINFOS += texi/callback.c.texi
-gdoc_TEXINFOS += texi/crypto.c.texi
-gdoc_TEXINFOS += texi/done.c.texi
-gdoc_TEXINFOS += texi/doxygen.c.texi
-gdoc_TEXINFOS += texi/error.c.texi
-gdoc_TEXINFOS += texi/free.c.texi
-gdoc_TEXINFOS += texi/init.c.texi
-gdoc_TEXINFOS += texi/listmech.c.texi
-gdoc_TEXINFOS += texi/md5pwd.c.texi
-gdoc_TEXINFOS += texi/mechname.c.texi
-gdoc_TEXINFOS += texi/mechtools.c.texi
-gdoc_TEXINFOS += texi/property.c.texi
-gdoc_TEXINFOS += texi/register.c.texi
-gdoc_TEXINFOS += texi/saslprep.c.texi
-gdoc_TEXINFOS += texi/suggest.c.texi
-gdoc_TEXINFOS += texi/supportp.c.texi
-gdoc_TEXINFOS += texi/version.c.texi
-gdoc_TEXINFOS += texi/xcode.c.texi
-gdoc_TEXINFOS += texi/xfinish.c.texi
-gdoc_TEXINFOS += texi/xstart.c.texi
-gdoc_TEXINFOS += texi/xstep.c.texi
 gdoc_TEXINFOS += texi/gsasl_base64_to.texi
 gdoc_TEXINFOS += texi/gsasl_base64_from.texi
 gdoc_TEXINFOS += texi/gsasl_hex_to.texi
@@ -175,56 +153,50 @@ gdoc_TEXINFOS += texi/gsasl_server_start.texi
 gdoc_TEXINFOS += texi/gsasl_step.texi
 gdoc_TEXINFOS += texi/gsasl_step64.texi
 
-$(gdoc_MANS) $(gdoc_TEXINFOS):
-	make update-makefile
-	make Makefile
-	make doit
+BUILT_SOURCES = $(gdoc_MANS) $(gdoc_TEXINFOS)
 
 GDOC_SRC = $(top_srcdir)/lib/src/*.c
 
-update-makefile:
+.PHONY: compare-makefile
+
+compare-makefile:
+	$(AM_V_GEN) \
 	MANS=""; \
 	TEXINFOS=""; \
-	for i in $(GDOC_SRC); do \
-		BASE=`basename $$i`; \
-		TEXINFOS="$$TEXINFOS\ngdoc_TEXINFOS += texi/$$BASE.texi"; \
-	done; \
 	FUNCS=`$(srcdir)/gdoc -listfunc $(GDOC_SRC)`; \
 	for i in $$FUNCS; do \
 		MANS="$$MANS\ngdoc_MANS += man/$$i.3"; \
 		TEXINFOS="$$TEXINFOS\ngdoc_TEXINFOS += texi/$$i.texi"; \
-	done; \
-	grep -v -e '^gdoc_MANS += ' -e '^gdoc_TEXINFOS += ' Makefile.am | \
-		perl -p -e "s,^gdoc_MANS =,gdoc_MANS =$$MANS," | \
+	done && \
+	grep -v -e '^gdoc_MANS += ' -e '^gdoc_TEXINFOS += ' $(srcdir)/Makefile.am | \
+		perl -p -e "s,^gdoc_MANS =,gdoc_MANS =$$MANS,;" | \
 		perl -p -e "s,^gdoc_TEXINFOS =,gdoc_TEXINFOS =$$TEXINFOS,;" \
-		> Makefile.am.new && \
-	mv Makefile.am.new Makefile.am
+		> tmp-$@ && \
+	diff -u $(srcdir)/Makefile.am tmp-$@ && \
+	rm -f tmp-$@
 
-doit:
-	@$(mkdir_p) man texi; \
-	echo -n "Creating function documentation" && \
-	for i in `$(srcdir)/gdoc -listfunc $(GDOC_SRC)`; do \
+EXTRA_DIST += stamp-gdoc
+
+$(gdoc_MANS) $(gdoc_TEXINFOS): stamp-gdoc
+
+clean-local:
+	-rm -f stamp-gdoc
+
+stamp-gdoc: $(top_srcdir)/.version $(GDOC_SRC)
+	$(AM_V_at)$(MKDIR_P) man texi
+	$(AM_V_GEN)for i in `$(srcdir)/gdoc -listfunc $(GDOC_SRC)`; do \
 		$(srcdir)/gdoc -man \
-			-module $(PACKAGE) \
-			-sourceversion $(VERSION) \
 			-bugsto $(PACKAGE_BUGREPORT) \
+			-module $(PACKAGE) \
 			-pkg-name "$(PACKAGE_NAME)" \
+			-sourceversion $(VERSION) \
 			-includefuncprefix \
-			-seeinfo $(PACKAGE) -verbatimcopying \
+			-seeinfo $(PACKAGE) \
+			-verbatimcopying \
 			-copyright "2002-2022 Simon Josefsson" \
 			-function $$i \
 			$(GDOC_SRC) > man/$$i.3 && \
 		$(srcdir)/gdoc -texinfo -function $$i \
-			$(GDOC_SRC) > texi/$$i.texi && \
-		echo -n "."; \
-	done; \
-	echo ""; \
-	echo -n "Creating file documentation" && \
-	for i in $(GDOC_SRC); do \
-		BASE=`basename $$i`; \
-		$(srcdir)/gdoc -texinfo $$i > texi/$$BASE.texi && \
-		echo -n "."; \
-	done; \
-	echo ""
-
-.PHONY: update-makefile doit
+			$(GDOC_SRC) > texi/$$i.texi; \
+	done
+	$(AM_V_at)touch $@

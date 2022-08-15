@@ -2257,13 +2257,15 @@ The OPENID20 mechanism is specified in RFC 6616.
 @node Global Functions
 @chapter Global Functions
 
-@include texi/init.c.texi
-@include texi/done.c.texi
-@include texi/listmech.c.texi
-@include texi/supportp.c.texi
-@include texi/suggest.c.texi
-@include texi/register.c.texi
-
+@include texi/gsasl_init.texi
+@include texi/gsasl_done.texi
+@include texi/gsasl_client_mechlist.texi
+@include texi/gsasl_server_mechlist.texi
+@include texi/gsasl_client_support_p.texi
+@include texi/gsasl_server_support_p.texi
+@include texi/gsasl_client_suggest_mechanism.texi
+@include texi/gsasl_register.texi
+@include texi/gsasl_mechanism_name_p.texi
 
 @c **********************************************************
 @c ******************  Callback Functions  ******************
@@ -2286,7 +2288,12 @@ wouldn't be thread safe.  You store a pointer to some information
 @code{gsasl_callback_hook_set} and can later retrieve this data in
 your callback by calling @code{gsasl_callback_hook_get}.
 
-@include texi/callback.c.texi
+@include texi/gsasl_callback_set.texi
+@include texi/gsasl_callback.texi
+@include texi/gsasl_callback_hook_set.texi
+@include texi/gsasl_callback_hook_get.texi
+@include texi/gsasl_session_hook_set.texi
+@include texi/gsasl_session_hook_get.texi
 
 @c **********************************************************
 @c ******************  Property Functions  ******************
@@ -2295,7 +2302,11 @@ your callback by calling @code{gsasl_callback_hook_get}.
 @chapter Property Functions
 @cindex Properties
 
-@include texi/property.c.texi
+@include texi/gsasl_property_free.texi
+@include texi/gsasl_property_set.texi
+@include texi/gsasl_property_set_raw.texi
+@include texi/gsasl_property_fast.texi
+@include texi/gsasl_property_get.texi
 
 
 @c **********************************************************
@@ -2305,11 +2316,14 @@ your callback by calling @code{gsasl_callback_hook_get}.
 @chapter Session Functions
 @cindex SASL sessions
 
-@include texi/xstart.c.texi
-@include texi/xstep.c.texi
-@include texi/xfinish.c.texi
-@include texi/xcode.c.texi
-@include texi/mechname.c.texi
+@include texi/gsasl_client_start.texi
+@include texi/gsasl_server_start.texi
+@include texi/gsasl_step.texi
+@include texi/gsasl_step64.texi
+@include texi/gsasl_finish.texi
+@include texi/gsasl_encode.texi
+@include texi/gsasl_decode.texi
+@include texi/gsasl_mechanism_name.texi
 
 
 
@@ -2319,10 +2333,17 @@ your callback by calling @code{gsasl_callback_hook_get}.
 @node Utilities
 @chapter Utilities
 
-@include texi/saslprep.c.texi
-@include texi/base64.c.texi
-@include texi/md5pwd.c.texi
-@include texi/crypto.c.texi
+@include texi/gsasl_saslprep.texi
+@include texi/gsasl_base64_to.texi
+@include texi/gsasl_base64_from.texi
+@include texi/gsasl_hex_to.texi
+@include texi/gsasl_hex_from.texi
+@include texi/gsasl_simple_getpass.texi
+@include texi/gsasl_nonce.texi
+@include texi/gsasl_random.texi
+@include texi/gsasl_hash_length.texi
+@include texi/gsasl_scram_secrets_from_salted_password.texi
+@include texi/gsasl_scram_secrets_from_password.texi
 
 @c **********************************************************
 @c ****************  Memory Handling  ***********************
@@ -2330,7 +2351,7 @@ your callback by calling @code{gsasl_callback_hook_get}.
 @node Memory Handling
 @chapter Memory Handling
 
-@include texi/free.c.texi
+@include texi/gsasl_free.texi
 
 
 @c **********************************************************
@@ -2376,7 +2397,9 @@ values are:
 @node Error strings
 @section Error strings
 
-@include texi/error.c.texi
+@include texi/gsasl_strerror.texi
+@include texi/gsasl_strerror_name.texi
+
 
 @c **********************************************************
 @c ***********************  Examples  ***********************
