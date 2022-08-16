@@ -2,6 +2,14 @@ GNU SASL NEWS -- History of user-visible changes.               -*- outline -*-
 
 * Noteworthy changes in release ?.? (????-??-??) [?]
 
+** Tests: New tests/gsasl-mailutils-gs2krb5-gssapi.sh.
+It perform integration checks between GNU SASL and GNU MailUtils imapd
+(GSSAPI and GS2-KRB5).  They can be used externally from the GNU SASL
+build environment to perform system integration tests, see
+.gitlab-ci.yml for inspiration.
+
+** Various minor bug fixes and improvements.
+Fix two crashes in 'gsasl' introduced in 2.1.0.
 
 * Noteworthy changes in release 2.1.0 (2022-08-05) [beta]
 

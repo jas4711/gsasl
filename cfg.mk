@@ -30,8 +30,8 @@ update-copyright-env = \
 review-tag ?= $(shell git describe --abbrev=0)
 review-diff:
 	git diff $(review-tag).. \
-	| grep -v -e '^index' -e '^deleted file mode' -e '^diff --git' \
-	| filterdiff -p 1 -x 'gl/*' -x 'm4/*' -x 'gltests/*' -x 'lib/build-aux/*' -x 'lib/gl*' -x 'lib/m4/*' -x 'lib/gltests/*' -x 'po/*' -x 'lib/po/*' -x 'maint.mk' -x 'lib/maint.mk' -x '.gitignore' -x '.x-sc*' -x 'doc/specification/*' -x ChangeLog -x GNUmakefile -x ABOUT-NLS -x lib/ABOUT-NLS \
+	| grep -v -e '^index' -e '^deleted file mode' -e '^new file mode' \
+	| filterdiff -p 1 -x 'gl/*' -x 'm4/*' -x 'gltests/*' -x 'lib/gl*' -x 'lib/m4/*' -x 'po/*' -x 'maint.mk' -x '.gitignore' -x '.x-sc*' -x ChangeLog -x GNUmakefile -x ABOUT-NLS -x .prev-version -x .gitlab-ci.yml -x autogen.sh -x autopull.sh -x bootstrap -x bootstrap-funclib.sh \
 	| less
 
 # syntax-check
