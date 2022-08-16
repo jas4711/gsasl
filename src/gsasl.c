@@ -249,7 +249,7 @@ select_mechanism (char **mechlist)
     return smtp_select_mechanism (mechlist);
 
   if (args_info.mechanism_arg)
-    *mechlist = args_info.mechanism_arg;
+    *mechlist = xstrdup (args_info.mechanism_arg);
   else if (args_info.server_flag)
     {
       if (!args_info.quiet_given)
