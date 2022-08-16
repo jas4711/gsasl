@@ -49,3 +49,9 @@ exclude_file_name_regexp--sc_prohibit_magic_number_exit = ^doc/gsasl.texi|exampl
 exclude_file_name_regexp--sc_trailing_blank = ^gl/0001-Fix-export-symbols-and-export-symbols-regex-support-.patch|build-aux/git2cl|doc/gsasl-[2a-z]*.(eps|png|pdf|dia)|doc/doxygen/Doxyfile.*|gl/doc/gendocs_template.diff|gl/top/README-release.diff$$
 exclude_file_name_regexp--sc_space_tab = ^doc/gsasl-controlflow.pdf$$
 exclude_file_name_regexp--sc_unmarked_diagnostics = ^examples/.*|src/gsasl.c$$
+
+# maint.mk's public-submodule-commit breaks on shallow gnulib
+# https://lists.gnu.org/archive/html/bug-gnulib/2022-08/msg00040.html
+# so let's disable it - XXX FIXME let's revisit this later
+submodule-checks =
+gl_public_submodule_commit =
