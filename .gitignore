@@ -139,6 +139,7 @@
 /gl/netinet/
 /gl/poll.h
 /gl/signal.h
+/gl/stdckdint.h
 /gl/stdint.h
 /gl/stdio.h
 /gl/stdlib.h
@@ -221,6 +222,7 @@
 /lib/gl/inttypes.h
 /lib/gl/liblgl.la
 /lib/gl/limits.h
+/lib/gl/stdckdint.h
 /lib/gl/stdint.h
 /lib/gl/stdio.h
 /lib/gl/stdlib.h

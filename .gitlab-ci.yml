@@ -165,7 +165,25 @@ Ubuntu-14.04:
   - ./configure --enable-gcc-warnings
   - make WERROR_CFLAGS= check V=1 VERBOSE=t
 
-Ubuntu-20.04-dovecot:
+Debian11-dovecot-heimdal:
+  extends: .test
+  image: debian:11-slim
+  stage: test
+  needs: [Debian]
+  before_script:
+  - apt-get update -q
+  - env DEBIAN_FRONTEND=noninteractive apt-get install -y -q make gcc heimdal-dev valgrind iproute2 dovecot-imapd dovecot-gssapi krb5-kdc krb5-admin-server
+  script:
+  - tar xfa gsasl-*.tar.gz
+  - cd `ls -d gsasl-* | grep -v tar.gz`
+  - ./configure  --with-gssapi-impl=heimdal --enable-gcc-warnings
+  - make check V=1 VERBOSE=t VALGRINDFLAGS=--leak-check=no
+  - grep '^PASS gsasl-dovecot-gssapi' tests/gsasl-dovecot-gssapi.log
+  - (! grep '^SKIP gsasl-dovecot-gssapi' tests/test-suite.log)
+  - GSASL=src/gsasl tests/gsasl-dovecot-gssapi.sh
+  - GSASL="./libtool --mode=execute valgrind --leak-check=full src/gsasl" tests/gsasl-dovecot-gssapi.sh
+
+Ubuntu-20.04-dovecot-mit:
   extends: .test
   image: ubuntu:20.04
   stage: test
@@ -183,7 +201,31 @@ Ubuntu-20.04-dovecot:
   - GSASL=src/gsasl tests/gsasl-dovecot-gssapi.sh
   - GSASL="./libtool --mode=execute valgrind --error-exitcode=1 --leak-check=full src/gsasl" tests/gsasl-dovecot-gssapi.sh
 
-Ubuntu-22.04-mailutils:
+Debian11-mailutils-mit:
+  extends: .test
+  image: debian:11-slim
+  stage: test
+  needs: [Debian]
+  before_script:
+  - apt-get update -q
+  - env DEBIAN_FRONTEND=noninteractive apt-get install -y -q make gcc libkrb5-dev valgrind iproute2 mailutils-imap4d krb5-kdc krb5-admin-server
+  script:
+  - tar xfa gsasl-*.tar.gz
+  - cd `ls -d gsasl-* | grep -v tar.gz`
+  - ./configure --with-gssapi-impl=mit --enable-gcc-warnings
+  - make check V=1 VERBOSE=t
+  - grep '^PASS gsasl-mailutils-cram' tests/gsasl-mailutils-cram.log
+  - (! grep '^SKIP gsasl-mailutils-cram' tests/test-suite.log)
+  - GSASL=src/gsasl tests/gsasl-mailutils-cram.sh
+  - GSASL="./libtool --mode=execute valgrind --error-exitcode=1 --leak-check=full src/gsasl" tests/gsasl-mailutils-cram.sh
+  - GSASL=src/gsasl IMAP4D="valgrind --error-exitcode=1 env LD_PRELOAD=lib/src/.libs/libgsasl.so /usr/sbin/imap4d" tests/gsasl-mailutils-cram.sh
+  - grep '^PASS gsasl-mailutils-gs2krb5-gssapi' tests/gsasl-mailutils-gs2krb5-gssapi.log
+  - (! grep '^SKIP gsasl-mailutils-gs2krb5-gssapi' tests/test-suite.log)
+  - GSASL=src/gsasl tests/gsasl-mailutils-gs2krb5-gssapi.sh
+  - GSASL="./libtool --mode=execute valgrind --error-exitcode=1 --leak-check=full src/gsasl" tests/gsasl-mailutils-gs2krb5-gssapi.sh
+  - GSASL=src/gsasl IMAP4D="valgrind --error-exitcode=1 env LD_PRELOAD=lib/src/.libs/libgsasl.so /usr/sbin/imap4d" tests/gsasl-mailutils-gs2krb5-gssapi.sh
+
+Ubuntu-22.04-mailutils-gssglue:
   extends: .test
   image: ubuntu:22.04
   stage: test
@@ -204,7 +246,7 @@ Ubuntu-22.04-mailutils:
   - grep '^PASS gsasl-mailutils-gs2krb5-gssapi' tests/gsasl-mailutils-gs2krb5-gssapi.log
   - (! grep '^SKIP gsasl-mailutils-gs2krb5-gssapi' tests/test-suite.log)
   - GSASL=src/gsasl tests/gsasl-mailutils-gs2krb5-gssapi.sh
-  - GSASL="./libtool --mode=execute valgrind --error-exitcode=1 --leak-check=no src/gsasl" tests/gsasl-mailutils-gs2krb5-gssapi.sh
+  - GSASL="./libtool --mode=execute valgrind --leak-check=full src/gsasl" tests/gsasl-mailutils-gs2krb5-gssapi.sh
   - GSASL=src/gsasl IMAP4D="valgrind --error-exitcode=1 env LD_PRELOAD=lib/src/.libs/libgsasl.so /usr/sbin/imap4d" tests/gsasl-mailutils-gs2krb5-gssapi.sh
 
 Ubuntu-distcheck:
