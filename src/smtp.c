@@ -93,17 +93,21 @@ smtp_select_mechanism (char **mechlist)
 	  if (!readln (&in))
 	    return 0;
 
-	  /* Greeting can be '250-AUTH ' or '250 AUTH '. */
-	  if (strlen (in) > 9
-	      && in[0] == '2'
-	      && in[1] == '5'
-	      && in[2] == '0'
-	      && (in[3] == '-' || in[3] == ' ')
-	      && in[4] == 'A'
-	      && in[5] == 'U' && in[6] == 'T' && in[7] == 'H' && in[8] == ' ')
-	    memmove (*mechlist = in, in + 9, strlen (in) - 9);
+	  /* Greeting can be '250-AUTH ' or '250 AUTH ', we use the
+	     first occurance in case there is more than one. */
+	  if (*mechlist == NULL &&
+	      (strlen (in) > 9
+	       && in[0] == '2'
+	       && in[1] == '5'
+	       && in[2] == '0'
+	       && (in[3] == '-' || in[3] == ' ')
+	       && in[4] == 'A'
+	       && in[5] == 'U' && in[6] == 'T' && in[7] == 'H'
+	       && in[8] == ' '))
+	    *mechlist = xstrdup (in + 9);
 	}
-      while (*mechlist == NULL);
+      while (strncmp (in, "250 ", 4) != 0);
+      free (in);
     }
 
   return 1;
