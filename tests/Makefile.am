@@ -53,6 +53,6 @@ ctests = version external cram-md5 digest-md5 md5file name errors	\
 check_PROGRAMS = $(ctests)
 dist_check_SCRIPTS = threadsafety.sh gsasl-scram-pbkdf2.sh		\
 	gsasl-mailutils-cram.sh gsasl-mailutils-gs2krb5-gssapi.sh	\
-	gsasl-dovecot-gssapi.sh
+	gsasl-mailutils-tls.sh gsasl-dovecot-gssapi.sh
 TEST_EXTENSIONS = .sh
 TESTS = $(dist_check_SCRIPTS) $(ctests)

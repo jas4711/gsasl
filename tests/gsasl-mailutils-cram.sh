@@ -42,6 +42,11 @@ if ! $IMAP4D --version 2> /dev/null | grep '^imap4d (GNU Mailutils)'; then
     exit 77
 fi
 
+if ! $IMAP4D --show-config-options 2> /dev/null | grep '^WITH_GSASL'; then
+    echo SKIP: $0: No GNU SASL support in GNU Mailutils imap4d...
+    exit 77
+fi
+
 if ! command -v ss && ! command -v netstat; then
     echo SKIP: $0: Required tools 'ss' or 'netstat' missing...
     exit 77
@@ -76,25 +81,25 @@ while ! (ss -na || netstat -na) | grep 127.0.0.1:19835 | grep LISTEN; do
     sleep 1
 done
 
-! $GSASL -pbar -d -m CRAM-MD5 --verbose --imap 127.0.0.1 19835 > $WORKDIR/out-1 2>&1
+! $GSASL -pbar -d -m CRAM-MD5 --verbose --imap 127.0.0.1 19835 > $WORKDIR/out-cram-md5-fail 2>&1
 
-grep -q '^. NO AUTHENTICATE' $WORKDIR/out-1
+grep -q '^. NO AUTHENTICATE' $WORKDIR/out-cram-md5-fail
 
-$GSASL -pfoo -d -m CRAM-MD5 --verbose --imap 127.0.0.1 19835 > $WORKDIR/out-2 2>&1
+$GSASL -pfoo -d -m CRAM-MD5 --verbose --imap 127.0.0.1 19835 > $WORKDIR/out-cram-md5 2>&1
 
-grep -q '^. OK AUTHENTICATE' $WORKDIR/out-2
+grep -q '^. OK AUTHENTICATE' $WORKDIR/out-cram-md5
 
-$GSASL -pfoo -d -m DIGEST-MD5 --quality-of-protection=qop-auth --realm="" --verbose --imap 127.0.0.1 19835 > $WORKDIR/out-3 2>&1
+$GSASL -pfoo -d -m DIGEST-MD5 --quality-of-protection=qop-auth --realm="" --verbose --imap 127.0.0.1 19835 > $WORKDIR/out-digest-md5 2>&1
 
-grep -q '^. OK AUTHENTICATE' $WORKDIR/out-3
+grep -q '^. OK AUTHENTICATE' $WORKDIR/out-digest-md5
 
-$GSASL -pfoo -d -m SCRAM-SHA-1 --verbose --imap 127.0.0.1 19835 > $WORKDIR/out-4 2>&1
+$GSASL -pfoo -d -m SCRAM-SHA-1 --verbose --imap 127.0.0.1 19835 > $WORKDIR/out-scram-sha-1 2>&1
 
-grep -q '^. OK AUTHENTICATE' $WORKDIR/out-4
+grep -q '^. OK AUTHENTICATE' $WORKDIR/out-scram-sha-1
 
-$GSASL -pfoo -d -m SCRAM-SHA-256 --verbose --imap 127.0.0.1 19835 > $WORKDIR/out-5 2>&1
-
-grep -q '^. OK AUTHENTICATE' $WORKDIR/out-5
+($GSASL -pfoo -d -m SCRAM-SHA-256 --verbose --imap 127.0.0.1 19835 > $WORKDIR/out-scram-sha-256 2>&1 \
+     && grep -q '^. OK AUTHENTICATE' $WORKDIR/out-scram-sha-256) \
+    || grep '^. NO AUTHENTICATE Authentication mechanism not supported' $WORKDIR/out-scram-sha-256
 
 echo PASS: $0
 exit 0

@@ -867,35 +867,43 @@ main (int argc, char *argv[])
 	{
 	  gnutls_datum_t cb;
 
-	  if (gnutls_protocol_get_version (session) < GNUTLS_TLS1_3)
-	    res = gnutls_session_channel_binding (session,
-						  GNUTLS_CB_TLS_UNIQUE, &cb);
-	  else
 #  if HAVE_DECL_GNUTLS_CB_TLS_EXPORTER
-	    res = gnutls_session_channel_binding (session,
-						  GNUTLS_CB_TLS_EXPORTER,
-						  &cb);
-#  else
-	    res = GNUTLS_E_CHANNEL_BINDING_NOT_AVAILABLE;
-#  endif
-	  if (res != GNUTLS_E_SUCCESS)
-	    error (EXIT_FAILURE, 0, _("getting channel binding failed: %s"),
-		   gnutls_strerror (res));
-
-	  if (gnutls_protocol_get_version (session) < GNUTLS_TLS1_3)
-	    res = gsasl_base64_to ((char *) cb.data, cb.size,
-				   &b64cbtlsunique, NULL);
+	  if (gnutls_protocol_get_version (session) >= GNUTLS_TLS1_3)
+	    {
+	      res = gnutls_session_channel_binding (session,
+						    GNUTLS_CB_TLS_EXPORTER,
+						    &cb);
+	      if (res != GNUTLS_E_SUCCESS)
+		error (EXIT_FAILURE, 0,
+		       _("getting tls-exporter channel binding failed: %s"),
+		       gnutls_strerror (res));
+	      res = gsasl_base64_to ((char *) cb.data, cb.size,
+				     &b64cbtlsexporter, NULL);
+	      if (res != GSASL_OK)
+		error (EXIT_FAILURE, 0, "%s", gsasl_strerror (res));
+	    }
 	  else
-	    res = gsasl_base64_to ((char *) cb.data, cb.size,
-				   &b64cbtlsexporter, NULL);
-	  if (res != GSASL_OK)
-	    error (EXIT_FAILURE, 0, "%s", gsasl_strerror (res));
+#  endif
+	    {
+	      res = gnutls_session_channel_binding (session,
+						    GNUTLS_CB_TLS_UNIQUE,
+						    &cb);
+	      if (res != GNUTLS_E_SUCCESS)
+		error (EXIT_FAILURE, 0,
+		       _("getting channel binding failed: %s"),
+		       gnutls_strerror (res));
+
+	      res = gsasl_base64_to ((char *) cb.data, cb.size,
+				     &b64cbtlsunique, NULL);
+	      if (res != GSASL_OK)
+		error (EXIT_FAILURE, 0, "%s", gsasl_strerror (res));
+	    }
 	}
 # endif
 
       using_tls = true;
     }
-#endif
+#endif /* HAVE_LIBGNUTLS */
 
   if (args_info.client_flag || args_info.client_given
       || args_info.server_given)

@@ -2,6 +2,12 @@ GNU SASL NEWS -- History of user-visible changes.               -*- outline -*-
 
 * Noteworthy changes in release ?.? (????-??-??) [?]
 
+** Fix build error with too old GnuTLS.
+
+** Tests: New tests/gsasl-mailutils-tls.sh.
+It performs integration checks between GNU SASL and GNU MailUtils
+imapd with TLS enabled, thereby testing TLS support in the 'gsasl'
+command line tool.
 
 * Noteworthy changes in release 2.1.1 (2022-08-16) [beta]
 

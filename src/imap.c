@@ -68,6 +68,8 @@ imap_starttls (void)
   if (!readln (&in))
     return 0;
 
+  free (in);
+
   return 1;
 }
 

@@ -171,7 +171,15 @@ while ! (ss -na || netstat -na) | grep 0.0.0.0:17643 | grep LISTEN; do
     sleep 1
 done
 
-dovecot -c $WORKDIR/d/dovecot.conf
+dovecot -c $WORKDIR/d/dovecot.conf || \
+    {
+	if grep -q 'Fatal: service(imap) access' $WORKDIR/dovecot.log; then
+	    echo "Dovecot installed without imap support..."
+	    echo "Try 'apt-get install dovecot-imapd dovecot-gssapi'"
+	    exit 77
+	fi
+	exit 1
+    }
 
 ! $GSASL -m GSSAPI -d --no-starttls --imap `hostname -f` 17436 > $WORKDIR/out-err 2>&1
 
