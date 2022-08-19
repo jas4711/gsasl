@@ -54,7 +54,10 @@ _gsasl_cram_md5_server_start (Gsasl_session * sctx _GL_UNUSED,
 
   rc = cram_md5_challenge (challenge);
   if (rc)
-    return GSASL_CRYPTO_ERROR;
+    {
+      free (challenge);
+      return GSASL_CRYPTO_ERROR;
+    }
 
   *mech_data = challenge;
 
