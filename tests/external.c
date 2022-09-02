@@ -38,7 +38,7 @@ static const struct
   int serverrc;
 } tv[] = {
   /* *INDENT-OFF* */
-  { NULL, "", GSASL_OK, GSASL_OK, GSASL_OK },
+  { NULL, NULL, GSASL_OK, GSASL_OK, GSASL_OK },
   { "", "", GSASL_OK, GSASL_OK, GSASL_OK },
   { "foo", "foo", GSASL_OK, GSASL_OK, GSASL_OK },
   { "foo", "foo", GSASL_OK, GSASL_NO_CALLBACK, GSASL_NO_CALLBACK },
@@ -48,26 +48,27 @@ static const struct
   /* *INDENT-ON* */
 };
 
+int i;
+
 static int
 callback (Gsasl * ctx, Gsasl_session * sctx, Gsasl_property prop)
 {
-  static unsigned c = 0;
-  static unsigned s = 0;
+  unsigned j = 0;
   int rc = GSASL_NO_CALLBACK;
 
-  c = c % sizeof (tv) / sizeof (tv[0]);
-  s = s % sizeof (tv) / sizeof (tv[0]);
+  j = i % (sizeof (tv) / sizeof (tv[0]));
 
   /* Get user info from user. */
 
   switch (prop)
     {
     case GSASL_AUTHZID:
-      rc = gsasl_property_set (sctx, prop, tv[c++].sendauthzid);
+      if (tv[j].sendauthzid)
+	rc = gsasl_property_set (sctx, prop, tv[j].sendauthzid);
       break;
 
     case GSASL_VALIDATE_EXTERNAL:
-      rc = tv[s++].callbackrc;
+      rc = tv[j].callbackrc;
       break;
 
     default:
@@ -85,7 +86,6 @@ doit (void)
   Gsasl_session *server = NULL, *client = NULL;
   char *s1, *s2;
   size_t s1len, s2len;
-  int i;
   int res;
 
   res = gsasl_init (&ctx);
@@ -107,7 +107,7 @@ doit (void)
 
   for (i = 0; i < 2 * (sizeof (tv) / sizeof (tv[0])); i++)
     {
-      size_t n = i % sizeof (tv) / sizeof (tv[0]);
+      size_t n = i % (sizeof (tv) / sizeof (tv[0]));
 
       res = gsasl_server_start (ctx, "EXTERNAL", &server);
       if (res != GSASL_OK)
@@ -132,7 +132,7 @@ doit (void)
       if (debug)
 	{
 	  if (s1)
-	    printf ("S[%d]: `%.*s' (%lu)\n", i, (int) s1len, s1,
+	    printf ("S[%d] `%.*s' (%lu)\n", i, (int) s1len, s1,
 		    (unsigned long) s1len);
 	  else
 	    printf ("S[%d] NULL\n", i);
@@ -150,7 +150,7 @@ doit (void)
       if (debug)
 	{
 	  if (s2)
-	    printf ("C[%d]: `%.*s' (%lu)\n", i, (int) s2len, s2,
+	    printf ("C[%d] `%.*s' (%lu)\n", i, (int) s2len, s2,
 		    (unsigned long) s2len);
 	  else
 	    printf ("C[%d] NULL\n", i);
@@ -161,7 +161,8 @@ doit (void)
 	gsasl_free (s2);
       if (res != tv[n].serverrc)
 	{
-	  fail ("gsasl_step server2 (%d):\n%s\n", res, gsasl_strerror (res));
+	  fail ("gsasl_step server2 (%d!=%d):\n%s\n",
+		tv[n].serverrc, res, gsasl_strerror (res));
 	  return;
 	}
 
@@ -172,18 +173,34 @@ doit (void)
 	  return;
 	}
 
-      if (memcmp (s1, tv[n].recvauthzid, s1len) != 0)
-	{
-	  fail ("gsasl_step() failed, recv authzid mismatch: `%s' != `%s'\n",
-		s1, tv[n].recvauthzid);
-	  return;
-	}
-
       if (s1)
 	gsasl_free (s1);
 
+      if (res == GSASL_OK)
+	{
+	  const char *authzid = gsasl_property_get (server, GSASL_AUTHZID);
+
+	  if (debug)
+	    {
+	      if (authzid)
+		printf ("Z[%d] %s\n", i, authzid);
+	      else
+		printf ("Z[%d] NULL\n", i);
+	    }
+
+	  if (authzid == NULL && tv[n].recvauthzid != NULL)
+	    {
+	      fail ("got NULL authzid but expected: %s\n", tv[n].recvauthzid);
+	      return;
+	    }
+	}
+      else if (debug)
+	printf ("R[%d] %d\n", i, res);
+
       gsasl_finish (client);
       gsasl_finish (server);
+
+      puts ("");
     }
 
   gsasl_done (ctx);
