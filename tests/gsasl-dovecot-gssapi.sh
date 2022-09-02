@@ -73,7 +73,6 @@ cat<<EOF > $WORKDIR/k/kdc.conf
         key_stash_file = $WORKDIR/k/stash
         kdc_ports = 17643
         kdc_tcp_ports = 17643
-        master_key_type = des3-hmac-sha1
         default_principal_flags = +preauth
     }
 [logging]
