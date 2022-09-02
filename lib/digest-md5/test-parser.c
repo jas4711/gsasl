@@ -28,6 +28,7 @@
 #include <stdlib.h>
 #include <string.h>
 
+#include "free.h"
 #include "parser.h"
 #include "printer.h"
 #include "digesthmac.h"
@@ -60,6 +61,7 @@ main (void)
       abort ();
     printf ("printed `%s' PASS\n", tmp);
     free (tmp);
+    digest_md5_free_challenge (&c);
   }
 
   {
@@ -70,6 +72,7 @@ main (void)
     rc = digest_md5_parse_challenge (token, 0, &c);
     if (rc == 0)
       abort ();
+    digest_md5_free_challenge (&c);
     printf ("PASS\n");
   }
 
@@ -80,6 +83,7 @@ main (void)
     rc = digest_md5_parse_challenge (token, 0, &c);
     if (rc == 0)
       abort ();
+    digest_md5_free_challenge (&c);
     printf ("PASS\n");
   }
 
@@ -99,6 +103,7 @@ main (void)
       abort ();
     printf ("printed `%s' PASS\n", tmp);
     free (tmp);
+    digest_md5_free_challenge (&c);
   }
 
   {
@@ -126,6 +131,7 @@ main (void)
       abort ();
     printf ("printed `%s' PASS\n", tmp);
     free (tmp);
+    digest_md5_free_challenge (&c);
   }
 
   /* Response */
@@ -138,6 +144,7 @@ main (void)
     if (rc == 0)
       abort ();
     printf ("PASS\n");
+    digest_md5_free_response (&r);
   }
 
   {
@@ -156,6 +163,7 @@ main (void)
       abort ();
     printf ("printed `%s' PASS\n", tmp);
     free (tmp);
+    digest_md5_free_response (&r);
   }
 
   /* Auth-response, finish. */
@@ -170,6 +178,7 @@ main (void)
     printf ("`%s'? %s\n", f.rspauth,
 	    strcmp ("6a204da26b9888ee40bb3052ff056a67", f.rspauth) == 0
 	    ? "ok" : "FAILURE");
+    digest_md5_free_response (&r);
   }
 
   {
@@ -180,6 +189,7 @@ main (void)
     if (rc == 0)
       abort ();
     printf ("invalid? PASS\n");
+    digest_md5_free_finish (&f);
   }
 
   rc = gc_init ();
