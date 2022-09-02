@@ -222,7 +222,8 @@ token2output (_gsasl_gs2_client_state * state,
       *output = malloc (*output_len);
       if (!*output)
 	return GSASL_MALLOC_ERROR;
-      memcpy (*output, token->value, token->length);
+      if (token->value)
+	memcpy (*output, token->value, token->length);
     }
 
   return GSASL_OK;
@@ -286,6 +287,9 @@ _gsasl_gs2_client_step (Gsasl_session * sctx,
 				   &actual_mech_type,
 				   &state->token, &ret_flags, NULL);
   if (maj_stat != GSS_S_COMPLETE && maj_stat != GSS_S_CONTINUE_NEEDED)
+    return GSASL_GSSAPI_INIT_SEC_CONTEXT_ERROR;
+
+  if (state->token.length > 0 && state->token.value == NULL)
     return GSASL_GSSAPI_INIT_SEC_CONTEXT_ERROR;
 
   res = token2output (state, &state->token, output, output_len);

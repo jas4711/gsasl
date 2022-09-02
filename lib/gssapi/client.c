@@ -136,11 +136,15 @@ _gsasl_gssapi_client_step (Gsasl_session * sctx,
       if (maj_stat != GSS_S_COMPLETE && maj_stat != GSS_S_CONTINUE_NEEDED)
 	return GSASL_GSSAPI_INIT_SEC_CONTEXT_ERROR;
 
+      if (bufdesc2.length > 0 && bufdesc2.value == NULL)
+	return GSASL_GSSAPI_INIT_SEC_CONTEXT_ERROR;
+
       *output_len = bufdesc2.length;
       *output = malloc (*output_len);
       if (!*output)
 	return GSASL_MALLOC_ERROR;
-      memcpy (*output, bufdesc2.value, bufdesc2.length);
+      if (bufdesc2.value)
+	memcpy (*output, bufdesc2.value, bufdesc2.length);
 
       if (maj_stat == GSS_S_COMPLETE)
 	state->step = 2;
