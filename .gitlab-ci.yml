@@ -32,10 +32,37 @@ Debian:
   - make dist
   - git diff --exit-code # nothing should change version controlled files
 
-Ubuntu-22.04:
+# https://clang.llvm.org/docs/AddressSanitizer.html
+# https://github.com/google/sanitizers/wiki/AddressSanitizer
+# https://clang.llvm.org/docs/UndefinedBehaviorSanitizer.html
+# https://clang.llvm.org/docs/LeakSanitizer.html
+# https://github.com/google/sanitizers/wiki/AddressSanitizerLeakSanitizer
+# https://github.com/google/sanitizers/wiki/AddressSanitizerFlags
+F36-clang-ASan-UBSan-mit:
+  extends: .test
+  image: fedora:36
+  stage: build
+  before_script:
+  - dnf -y update
+  - dnf -y install git make diffutils file hostname patch autoconf automake libtool gettext-devel texinfo help2man gtk-doc gengetopt gperf wget gnutls-devel
+  - dnf -y install make clang diffutils krb5-devel gnutls-devel gnutls-utils krb5-server krb5-workstation iproute dovecot
+  - dnf -y install https://github.com/rpmsphere/noarch/raw/master/r/rpmsphere-release-$(rpm -E %fedora)-1.noarch.rpm
+  - dnf -y install mailutils-libs mailutils-imap4d
+  script:
+  - ./bootstrap --skip-po
+  - ./configure --with-gssapi-impl=mit --enable-gcc-warnings CC=clang CFLAGS="-g -O1 -fsanitize=undefined -fsanitize=address -fsanitize-address-use-after-scope -fno-sanitize-recover=undefined -fno-omit-frame-pointer -fno-optimize-sibling-calls"
+  - ASAN_OPTIONS=detect_stack_use_after_return=1:check_initialization_order=1:strict_init_order=1 make check VERBOSE=t V=1
+  - grep '^PASS gsasl-dovecot-gssapi' tests/gsasl-dovecot-gssapi.log
+  - grep '^PASS gsasl-mailutils-cram' tests/gsasl-mailutils-cram.log
+  - grep '^PASS gsasl-mailutils-tls' tests/gsasl-mailutils-tls.log
+  - grep '^PASS gsasl-mailutils-gs2krb5-gssapi' tests/gsasl-mailutils-gs2krb5-gssapi.log
+
+U2204-release:
   extends: .test
   image: ubuntu:22.04
   stage: build
+  except:
+    - tags # do-release-commit-and-tag: not on branch
   before_script:
   - apt-get update -qq
   - env DEBIAN_FRONTEND=noninteractive apt-get install -y -qq git autoconf automake libtool autopoint gettext cvs make texinfo texlive-font-utils help2man gtk-doc-tools libglib2.0-dev libidn11-dev libntlm0-dev libgnutls28-dev libkrb5-dev gengetopt gperf indent
@@ -75,27 +102,34 @@ AlmaLinux8:
   - make install
   - git diff --exit-code # nothing should change version controlled files
 
-Ubuntu-coverage-cyclo:
-  image: ubuntu:rolling
+D-coverage-cyclo:
+  image: debian:testing-slim # for lcov 1.16
   stage: build
   before_script:
   - apt-get update -qq
   - env DEBIAN_FRONTEND=noninteractive apt-get install -y -qq git autoconf automake libtool autopoint gettext make texinfo texlive texlive-plain-generic texlive-extra-utils texlive-font-utils help2man gtk-doc-tools libglib2.0-dev valgrind libidn11-dev libntlm0-dev libgnutls28-dev libkrb5-dev gengetopt gperf wget
+  - env DEBIAN_FRONTEND=noninteractive apt-get install -y -q iproute2 dovecot-imapd dovecot-gssapi krb5-kdc krb5-admin-server libgnutls28-dev gnutls-bin libmailutils9
   - env DEBIAN_FRONTEND=noninteractive apt-get install -y -qq lcov pmccabe
+  - env DEBIAN_FRONTEND=noninteractive apt-get download mailutils-imap4d
+  - dpkg -x mailutils-imap4d* /
+  - /usr/sbin/imap4d --version
   script:
   - ./bootstrap
-  - ./configure --enable-gcc-warnings --disable-silent-rules CFLAGS="-g --coverage"
-  - lcov --directory . --zerocounters
-  - make check VERBOSE=t
+  - ./configure --with-gssapi-impl=mit --enable-gcc-warnings
+  - make init-coverage
+  - make build-coverage VERBOSE=t
+  - grep '^PASS gsasl-dovecot-gssapi' tests/gsasl-dovecot-gssapi.log
+  - grep '^PASS gsasl-mailutils-cram' tests/gsasl-mailutils-cram.log
+  - grep '^PASS gsasl-mailutils-tls' tests/gsasl-mailutils-tls.log
+  - grep '^PASS gsasl-mailutils-gs2krb5-gssapi' tests/gsasl-mailutils-gs2krb5-gssapi.log
   - make dist
   - make syntax-check
-  - mkdir coverage
-  - lcov --directory . --output-file coverage/gsasl.info --capture
-  - lcov --remove coverage/gsasl.info '/usr/include/*' '*/gl/*' '*/gltests/*' '*/lib/gl/*' '*/lib/gltests/*' -o coverage/gsasl_filtered.info
-  - genhtml --output-directory coverage coverage/gsasl_filtered.info --highlight --frames --legend --title "GNU SASL"
-  - mkdir cyclo
+  - lcov --remove doc/coverage/gsasl.info '/usr/include/*' '*/gl/*' '*/gltests/*' '*/lib/gl/*' '*/lib/gltests/*' -o doc/coverage/gsasl-filtered.info
+  - make gen-coverage PACKAGE=gsasl-filtered
   - make -C doc/cyclo/ cyclo-gsasl.html
+  - mkdir cyclo coverage
   - cp -v doc/cyclo/cyclo-gsasl.html cyclo/index.html
+  - cp -rv doc/coverage coverage
   - git diff --exit-code # nothing should change version controlled files
   artifacts:
     when: on_success
@@ -128,7 +162,7 @@ Fedora-clanganalyzer:
 
 .pages:
   stage: deploy
-  needs: ["Ubuntu-coverage-cyclo", "Fedora-clanganalyzer"]
+  needs: ["D-coverage-cyclo", "Fedora-clanganalyzer"]
   script:
     - mkdir public
     - mv coverage/ cyclo/ public/
@@ -315,9 +349,9 @@ Ubuntu-22.04-mailutils-gssglue:
   - GSASL="./libtool --mode=execute valgrind --leak-check=full src/gsasl" tests/gsasl-mailutils-gs2krb5-gssapi.sh
   - GSASL=src/gsasl IMAP4D="valgrind --error-exitcode=1 env LD_PRELOAD=lib/src/.libs/libgsasl.so /usr/sbin/imap4d" tests/gsasl-mailutils-gs2krb5-gssapi.sh
 
-Ubuntu-distcheck:
+Trisquel10-distcheck:
   extends: .test
-  image: ubuntu:devel
+  image: kpengboy/trisquel:10.0
   stage: test
   needs: [Debian]
   before_script:
