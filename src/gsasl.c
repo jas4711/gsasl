@@ -470,8 +470,8 @@ main (int argc, char *argv[])
   char *connect_hostname = NULL;
   char *connect_service = NULL;
 #ifdef HAVE_LIBGNUTLS
-  gnutls_anon_client_credentials_t anoncred;
-  gnutls_certificate_credentials_t x509cred;
+  gnutls_anon_client_credentials_t anoncred = NULL;
+  gnutls_certificate_credentials_t x509cred = NULL;
 #endif
 
   set_program_name (argv[0]);
