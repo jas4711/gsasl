@@ -1,6 +1,6 @@
 GNU SASL NEWS -- History of user-visible changes.               -*- outline -*-
 
-* Noteworthy changes in release ?.? (????-??-??) [?]
+* Noteworthy changes in release 2.2.0 (2022-09-03) [stable]
 
 ** Fix build error with too old GnuTLS.
 
