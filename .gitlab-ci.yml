@@ -123,9 +123,9 @@ D-coverage-cyclo:
   - lcov --remove doc/coverage/gsasl.info '/usr/include/*' '*/gl/*' '*/gltests/*' '*/lib/gl/*' '*/lib/gltests/*' -o doc/coverage/gsasl-filtered.info
   - make gen-coverage PACKAGE=gsasl-filtered
   - make -C doc/cyclo/ cyclo-gsasl.html
-  - mkdir cyclo coverage
+  - mkdir cyclo
   - cp -v doc/cyclo/cyclo-gsasl.html cyclo/index.html
-  - cp -rv doc/coverage coverage
+  - cp -rv doc/coverage .
   - git diff --exit-code # nothing should change version controlled files
   artifacts:
     when: on_success

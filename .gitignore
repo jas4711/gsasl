@@ -139,6 +139,7 @@
 /gl/netinet/
 /gl/poll.h
 /gl/signal.h
+/gl/stdbool.h
 /gl/stdckdint.h
 /gl/stdint.h
 /gl/stdio.h
@@ -222,6 +223,7 @@
 /lib/gl/inttypes.h
 /lib/gl/liblgl.la
 /lib/gl/limits.h
+/lib/gl/stdbool.h
 /lib/gl/stdckdint.h
 /lib/gl/stdint.h
 /lib/gl/stdio.h
@@ -452,3 +454,4 @@
 /windows/tmp/
 Makefile
 Makefile.in
+TAGS
