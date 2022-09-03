@@ -9,6 +9,9 @@ It performs integration checks between GNU SASL and GNU MailUtils
 imapd with TLS enabled, thereby testing TLS support in the 'gsasl'
 command line tool.
 
+** Various minor bug fixes and improvements.
+Mainly to pacify improved CI/CD checking.
+
 * Noteworthy changes in release 2.1.1 (2022-08-16) [beta]
 
 ** Tests: New tests/gsasl-mailutils-gs2krb5-gssapi.sh.
