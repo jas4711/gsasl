@@ -19,17 +19,14 @@ stages:
 
 Debian:
   extends: .test
-  image: debian:bullseye-slim
+  image: $CI_REGISTRY/gsasl/build-images:Debian11
   stage: build
-  before_script:
-  - apt-get update -qq
-  - env DEBIAN_FRONTEND=noninteractive apt-get install -y -qq git autoconf automake libtool autopoint gettext cvs make texinfo texlive-font-utils help2man gengetopt gperf indent
   script:
-  - ./bootstrap --skip-po
-  - ./configure --enable-gcc-warnings --disable-silent-rules
-  - make syntax-check
-  - make V=1
-  - make dist
+  - time ./bootstrap --skip-po
+  - time ./configure --disable-static --enable-gcc-warnings --with-gssapi-impl=mit CFLAGS=-O0
+  - time make syntax-check
+  - time make V=1
+  - time make dist
   - git diff --exit-code # nothing should change version controlled files
 
 # https://clang.llvm.org/docs/AddressSanitizer.html
@@ -112,7 +109,6 @@ D-coverage-cyclo:
   - env DEBIAN_FRONTEND=noninteractive apt-get install -y -qq lcov pmccabe
   - env DEBIAN_FRONTEND=noninteractive apt-get download mailutils-imap4d
   - dpkg -x mailutils-imap4d* /
-  - /usr/sbin/imap4d --version
   script:
   - ./bootstrap
   - ./configure --with-gssapi-impl=mit --enable-gcc-warnings
@@ -199,152 +195,165 @@ Ubuntu-14.04:
   - ./configure --enable-gcc-warnings
   - make WERROR_CFLAGS= check V=1 VERBOSE=t
 
-Debian11-dovecot-heimdal:
+Debian11-heimdal:
   extends: .test
   image: debian:11-slim
   stage: test
   needs: [Debian]
   before_script:
   - apt-get update -q
-  - env DEBIAN_FRONTEND=noninteractive apt-get install -y -q make gcc heimdal-dev valgrind iproute2 dovecot-imapd dovecot-gssapi krb5-kdc krb5-admin-server
+  - env DEBIAN_FRONTEND=noninteractive apt-get install -y -q make gcc heimdal-dev valgrind iproute2 dovecot-imapd dovecot-gssapi krb5-kdc krb5-admin-server gnutls-bin libmailutils7
+  - env DEBIAN_FRONTEND=noninteractive apt-get download mailutils-imap4d
+  - dpkg -x mailutils-imap4d* /
   script:
   - tar xfa gsasl-*.tar.gz
   - cd `ls -d gsasl-* | grep -v tar.gz`
   - ./configure  --with-gssapi-impl=heimdal --enable-gcc-warnings
   - make check V=1 VERBOSE=t VALGRINDFLAGS=--leak-check=no
   - grep '^PASS gsasl-dovecot-gssapi' tests/gsasl-dovecot-gssapi.log
-  - (! grep '^SKIP gsasl-dovecot-gssapi' tests/test-suite.log)
+  - grep '^PASS gsasl-mailutils-cram' tests/gsasl-mailutils-cram.log
+  - grep '^PASS gsasl-mailutils-tls' tests/gsasl-mailutils-tls.log
+  - grep '^PASS gsasl-mailutils-gs2krb5-gssapi' tests/gsasl-mailutils-gs2krb5-gssapi.log
   - GSASL=src/gsasl tests/gsasl-dovecot-gssapi.sh
   - GSASL="./libtool --mode=execute valgrind --leak-check=full src/gsasl" tests/gsasl-dovecot-gssapi.sh
 
-Ubuntu-20.04-dovecot-mit:
+Ubuntu-20.04-mit:
   extends: .test
   image: ubuntu:20.04
   stage: test
   needs: [Debian]
   before_script:
   - apt-get update -q
-  - env DEBIAN_FRONTEND=noninteractive apt-get install -y -q make gcc libkrb5-dev valgrind iproute2 dovecot-imapd dovecot-gssapi krb5-kdc krb5-admin-server
+  - env DEBIAN_FRONTEND=noninteractive apt-get install -y -q make gcc libkrb5-dev valgrind iproute2 dovecot-imapd dovecot-gssapi krb5-kdc krb5-admin-server gnutls-bin libmailutils6
+  - env DEBIAN_FRONTEND=noninteractive apt-get download mailutils-imap4d
+  - dpkg --vextract mailutils-imap4d* .
+  - mv usr/sbin/imap4d /usr/sbin
   script:
   - tar xfa gsasl-*.tar.gz
   - cd `ls -d gsasl-* | grep -v tar.gz`
   - ./configure  --with-gssapi-impl=mit --enable-gcc-warnings
   - make check V=1 VERBOSE=t
   - grep '^PASS gsasl-dovecot-gssapi' tests/gsasl-dovecot-gssapi.log
-  - (! grep '^SKIP gsasl-dovecot-gssapi' tests/test-suite.log)
+  - grep '^PASS gsasl-mailutils-cram' tests/gsasl-mailutils-cram.log
+  - grep '^PASS gsasl-mailutils-tls' tests/gsasl-mailutils-tls.log
+  - grep '^PASS gsasl-mailutils-gs2krb5-gssapi' tests/gsasl-mailutils-gs2krb5-gssapi.log
   - GSASL=src/gsasl tests/gsasl-dovecot-gssapi.sh
   - GSASL="./libtool --mode=execute valgrind --error-exitcode=1 --leak-check=full src/gsasl" tests/gsasl-dovecot-gssapi.sh
 
-Debian11-mailutils-mit:
+Debian11-mit:
   extends: .test
   image: debian:11-slim
   stage: test
   needs: [Debian]
   before_script:
   - apt-get update -q
-  - env DEBIAN_FRONTEND=noninteractive apt-get install -y -q make gcc libkrb5-dev valgrind iproute2 mailutils-imap4d krb5-kdc krb5-admin-server libgnutls28-dev gnutls-bin
+  - env DEBIAN_FRONTEND=noninteractive apt-get install -y -q make gcc libkrb5-dev valgrind iproute2 dovecot-imapd dovecot-gssapi krb5-kdc krb5-admin-server libgnutls28-dev gnutls-bin libmailutils7
+  - env DEBIAN_FRONTEND=noninteractive apt-get download mailutils-imap4d
+  - dpkg --vextract mailutils-imap4d* .
+  - mv usr/sbin/imap4d /usr/sbin
   script:
   - tar xfa gsasl-*.tar.gz
   - cd `ls -d gsasl-* | grep -v tar.gz`
   - ./configure --with-gssapi-impl=mit --enable-gcc-warnings
   - make check V=1 VERBOSE=t
+  - grep '^PASS gsasl-dovecot-gssapi' tests/gsasl-dovecot-gssapi.log
   - grep '^PASS gsasl-mailutils-cram' tests/gsasl-mailutils-cram.log
-  - (! grep '^SKIP gsasl-mailutils-cram' tests/test-suite.log)
   - GSASL=src/gsasl tests/gsasl-mailutils-cram.sh
   - GSASL="./libtool --mode=execute valgrind --error-exitcode=1 --leak-check=full src/gsasl" tests/gsasl-mailutils-cram.sh
   - GSASL=src/gsasl IMAP4D="valgrind --error-exitcode=1 env LD_PRELOAD=lib/src/.libs/libgsasl.so /usr/sbin/imap4d" tests/gsasl-mailutils-cram.sh
   - grep '^PASS gsasl-mailutils-tls' tests/gsasl-mailutils-tls.log
-  - (! grep '^SKIP gsasl-mailutils-tls' tests/test-suite.log)
   - GSASL=src/gsasl tests/gsasl-mailutils-tls.sh
   - GSASL="./libtool --mode=execute valgrind --error-exitcode=1 --leak-check=full src/gsasl" tests/gsasl-mailutils-tls.sh
   - GSASL=src/gsasl IMAP4D="valgrind --error-exitcode=1 env LD_PRELOAD=lib/src/.libs/libgsasl.so /usr/sbin/imap4d" tests/gsasl-mailutils-tls.sh
   - grep '^PASS gsasl-mailutils-gs2krb5-gssapi' tests/gsasl-mailutils-gs2krb5-gssapi.log
-  - (! grep '^SKIP gsasl-mailutils-gs2krb5-gssapi' tests/test-suite.log)
   - GSASL=src/gsasl tests/gsasl-mailutils-gs2krb5-gssapi.sh
   - GSASL="./libtool --mode=execute valgrind --error-exitcode=1 --leak-check=full src/gsasl" tests/gsasl-mailutils-gs2krb5-gssapi.sh
   - GSASL=src/gsasl IMAP4D="valgrind --error-exitcode=1 env LD_PRELOAD=lib/src/.libs/libgsasl.so /usr/sbin/imap4d" tests/gsasl-mailutils-gs2krb5-gssapi.sh
 
-Debian-testing-mailutils-heimdal:
+Debian-testing-heimdal:
   extends: .test
   image: debian:testing-slim
   stage: test
   needs: [Debian]
   before_script:
   - apt-get update -q
-  - env DEBIAN_FRONTEND=noninteractive apt-get install -y -q make gcc heimdal-dev valgrind iproute2 mailutils-imap4d krb5-kdc krb5-admin-server libgnutls28-dev gnutls-bin
+  - env DEBIAN_FRONTEND=noninteractive apt-get install -y -q make gcc heimdal-dev valgrind iproute2 dovecot-imapd dovecot-gssapi krb5-kdc krb5-admin-server libgnutls28-dev gnutls-bin libmailutils9
+  - env DEBIAN_FRONTEND=noninteractive apt-get download mailutils-imap4d
+  - dpkg -x mailutils-imap4d* /
   script:
   - tar xfa gsasl-*.tar.gz
   - cd `ls -d gsasl-* | grep -v tar.gz`
   - ./configure --with-gssapi-impl=mit --enable-gcc-warnings gl_cv_warn_c__Wuse_after_free_3=no
   - make check V=1 VERBOSE=t VALGRINDFLAGS=--leak-check=no
+  - grep '^PASS gsasl-dovecot-gssapi' tests/gsasl-dovecot-gssapi.log
   - grep '^PASS gsasl-mailutils-cram' tests/gsasl-mailutils-cram.log
-  - (! grep '^SKIP gsasl-mailutils-cram' tests/test-suite.log)
   - GSASL=src/gsasl tests/gsasl-mailutils-cram.sh
   - GSASL="./libtool --mode=execute valgrind --error-exitcode=1 src/gsasl" tests/gsasl-mailutils-cram.sh
   - GSASL="./libtool --mode=execute valgrind --leak-check=full src/gsasl" tests/gsasl-mailutils-cram.sh
   - GSASL=src/gsasl IMAP4D="valgrind --error-exitcode=1 env LD_PRELOAD=lib/src/.libs/libgsasl.so /usr/sbin/imap4d" tests/gsasl-mailutils-cram.sh
   - grep '^PASS gsasl-mailutils-tls' tests/gsasl-mailutils-tls.log
-  - (! grep '^SKIP gsasl-mailutils-tls' tests/test-suite.log)
   - GSASL=src/gsasl tests/gsasl-mailutils-tls.sh
   - GSASL="./libtool --mode=execute valgrind --error-exitcode=1 src/gsasl" tests/gsasl-mailutils-tls.sh
   - GSASL="./libtool --mode=execute valgrind --leak-check=full src/gsasl" tests/gsasl-mailutils-tls.sh
   - GSASL=src/gsasl IMAP4D="valgrind --error-exitcode=1 env LD_PRELOAD=lib/src/.libs/libgsasl.so /usr/sbin/imap4d" tests/gsasl-mailutils-tls.sh
   - grep '^PASS gsasl-mailutils-gs2krb5-gssapi' tests/gsasl-mailutils-gs2krb5-gssapi.log
-  - (! grep '^SKIP gsasl-mailutils-gs2krb5-gssapi' tests/test-suite.log)
   - GSASL=src/gsasl tests/gsasl-mailutils-gs2krb5-gssapi.sh
   - GSASL="./libtool --mode=execute valgrind --error-exitcode=1 src/gsasl" tests/gsasl-mailutils-gs2krb5-gssapi.sh
   - GSASL="./libtool --mode=execute valgrind --leak-check=full src/gsasl" tests/gsasl-mailutils-gs2krb5-gssapi.sh
   - GSASL=src/gsasl IMAP4D="valgrind --error-exitcode=1 env LD_PRELOAD=lib/src/.libs/libgsasl.so /usr/sbin/imap4d" tests/gsasl-mailutils-gs2krb5-gssapi.sh
 
-Ubuntu-20.04-mailutils-gssglue:
+Ubuntu-20.04-gssglue:
   extends: .test
   image: ubuntu:20.04 # FIXME XXX 22.04: gsasl-mailutils-tls: imap4d: process 21651 terminated on signal 11
   stage: test
   needs: [Debian]
   before_script:
   - apt-get update -q
-  - env DEBIAN_FRONTEND=noninteractive apt-get install -y -q make gcc libgssglue-dev valgrind iproute2 mailutils-imap4d krb5-kdc krb5-admin-server libgnutls28-dev gnutls-bin
+  - env DEBIAN_FRONTEND=noninteractive apt-get install -y -q make gcc libgssglue-dev valgrind iproute2 dovecot-imapd dovecot-gssapi krb5-kdc krb5-admin-server libgnutls28-dev gnutls-bin libmailutils6
+  - env DEBIAN_FRONTEND=noninteractive apt-get download mailutils-imap4d
+  - dpkg --vextract mailutils-imap4d* .
+  - mv usr/sbin/imap4d /usr/sbin
   script:
   - tar xfa gsasl-*.tar.gz
   - cd `ls -d gsasl-* | grep -v tar.gz`
   - ./configure --with-gssapi-impl=gssglue --enable-gcc-warnings
   - make check V=1 VERBOSE=t WERROR_CFLAGS="-Werror -Wno-error=discarded-qualifiers" VALGRINDFLAGS="--error-exitcode=0 --leak-check=no"
+  - grep '^PASS gsasl-dovecot-gssapi' tests/gsasl-dovecot-gssapi.log
   - grep '^PASS gsasl-mailutils-cram' tests/gsasl-mailutils-cram.log
-  - (! grep '^SKIP gsasl-mailutils-cram' tests/test-suite.log)
   - GSASL=src/gsasl tests/gsasl-mailutils-cram.sh
   - GSASL="./libtool --mode=execute valgrind --error-exitcode=1 --leak-check=full src/gsasl" tests/gsasl-mailutils-cram.sh
   - GSASL=src/gsasl IMAP4D="valgrind --error-exitcode=1 env LD_PRELOAD=lib/src/.libs/libgsasl.so /usr/sbin/imap4d" tests/gsasl-mailutils-cram.sh
   - grep '^PASS gsasl-mailutils-tls' tests/gsasl-mailutils-tls.log
-  - (! grep '^SKIP gsasl-mailutils-tls' tests/test-suite.log)
   - GSASL=src/gsasl tests/gsasl-mailutils-tls.sh
   - GSASL="./libtool --mode=execute valgrind src/gsasl" tests/gsasl-mailutils-tls.sh
   - GSASL=src/gsasl IMAP4D="valgrind --error-exitcode=1 env LD_PRELOAD=lib/src/.libs/libgsasl.so /usr/sbin/imap4d" tests/gsasl-mailutils-tls.sh
   - grep '^PASS gsasl-mailutils-gs2krb5-gssapi' tests/gsasl-mailutils-gs2krb5-gssapi.log
-  - (! grep '^SKIP gsasl-mailutils-gs2krb5-gssapi' tests/test-suite.log)
   - GSASL=src/gsasl tests/gsasl-mailutils-gs2krb5-gssapi.sh
   - GSASL="./libtool --mode=execute valgrind --leak-check=full src/gsasl" tests/gsasl-mailutils-gs2krb5-gssapi.sh
   - GSASL=src/gsasl IMAP4D="valgrind --error-exitcode=1 env LD_PRELOAD=lib/src/.libs/libgsasl.so /usr/sbin/imap4d" tests/gsasl-mailutils-gs2krb5-gssapi.sh
 
-Ubuntu-22.04-mailutils-gssglue:
+Ubuntu-22.04-gssglue:
   extends: .test
   image: ubuntu:22.04
   stage: test
   needs: [Debian]
   before_script:
   - apt-get update -q
-  - env DEBIAN_FRONTEND=noninteractive apt-get install -y -q make gcc libgssglue-dev valgrind iproute2 mailutils-imap4d krb5-kdc krb5-admin-server libgnutls28-dev
+  - env DEBIAN_FRONTEND=noninteractive apt-get install -y -q make gcc libgssglue-dev valgrind iproute2 dovecot-imapd dovecot-gssapi krb5-kdc krb5-admin-server libgnutls28-dev libmailutils8
+  - env DEBIAN_FRONTEND=noninteractive apt-get download mailutils-imap4d
+  - dpkg --vextract mailutils-imap4d* .
+  - mv usr/sbin/imap4d /usr/sbin
   script:
   - tar xfa gsasl-*.tar.gz
   - cd `ls -d gsasl-* | grep -v tar.gz`
   - ./configure --with-gssapi-impl=gssglue --enable-gcc-warnings
   - make check V=1 VERBOSE=t WERROR_CFLAGS="-Werror -Wno-error=discarded-qualifiers" VALGRINDFLAGS=--leak-check=no
+  - grep '^PASS gsasl-dovecot-gssapi' tests/gsasl-dovecot-gssapi.log
   - grep '^PASS gsasl-mailutils-cram' tests/gsasl-mailutils-cram.log
-  - (! grep '^SKIP gsasl-mailutils-cram' tests/test-suite.log)
   - GSASL=src/gsasl tests/gsasl-mailutils-cram.sh
   - GSASL="./libtool --mode=execute valgrind --error-exitcode=1 --leak-check=full src/gsasl" tests/gsasl-mailutils-cram.sh
   - GSASL=src/gsasl IMAP4D="valgrind --error-exitcode=1 env LD_PRELOAD=lib/src/.libs/libgsasl.so /usr/sbin/imap4d" tests/gsasl-mailutils-cram.sh
   - grep '^PASS gsasl-mailutils-gs2krb5-gssapi' tests/gsasl-mailutils-gs2krb5-gssapi.log
-  - (! grep '^SKIP gsasl-mailutils-gs2krb5-gssapi' tests/test-suite.log)
   - GSASL=src/gsasl tests/gsasl-mailutils-gs2krb5-gssapi.sh
   - GSASL="./libtool --mode=execute valgrind --leak-check=full src/gsasl" tests/gsasl-mailutils-gs2krb5-gssapi.sh
   - GSASL=src/gsasl IMAP4D="valgrind --error-exitcode=1 env LD_PRELOAD=lib/src/.libs/libgsasl.so /usr/sbin/imap4d" tests/gsasl-mailutils-gs2krb5-gssapi.sh
@@ -468,6 +477,8 @@ Debian9-gss:
   - grep 'ac_cv_libgss=yes' config.log
   - grep 'USE_GS2 1' config.log
   - make check V=1 VERBOSE=t
+  - grep '^PASS gssapi' tests/gssapi.log
+  - grep '^PASS gs2-krb5' tests/gs2-krb5.log
 
 Debian10-gssglue:
   extends: .test
