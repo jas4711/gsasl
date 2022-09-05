@@ -56,6 +56,12 @@ Coverity:
     paths:
       - cov-int/*.txt
 
+# https://docs.gitlab.com/ee/user/application_security/sast/#customizing-the-sast-settings
+sast:
+  stage: build
+include:
+- template: Security/SAST.gitlab-ci.yml
+
 # https://clang.llvm.org/docs/AddressSanitizer.html
 # https://github.com/google/sanitizers/wiki/AddressSanitizer
 # https://clang.llvm.org/docs/UndefinedBehaviorSanitizer.html
