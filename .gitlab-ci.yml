@@ -38,7 +38,9 @@ Coverity:
     refs:
       - master
       - coverity
+  allow_failure: true
   script:
+  - test -n "$COVERITY_SCAN_TOKEN" && test -n "$COVERITY_SCAN_PROJECT_NAME"
   - curl -o /tmp/cov-analysis-linux64.tgz https://scan.coverity.com/download/linux64
     --form project=$COVERITY_SCAN_PROJECT_NAME --form token=$COVERITY_SCAN_TOKEN
   - sha1sum /tmp/cov-analysis-linux64.tgz
