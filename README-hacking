@@ -37,6 +37,9 @@ apt-get install texinfo texlive texlive-plain-generic texlive-extra-utils texliv
 apt-get install help2man gtk-doc-tools valgrind
 apt-get install dia libgnutls28-dev gengetopt gperf
 
+Apple Mac:
+brew install autoconf automake wget libtool gengetopt help2man
+
 To download the version controlled sources:
 
 $ git clone https://gitlab.com/gsasl/gsasl.git
